@@ -73,9 +73,11 @@ export default function SettingsPage() {
             const savedUser = localStorage.getItem('user');
             if (savedUser) {
                 const user = JSON.parse(savedUser);
-                user.firstName = formData.firstName;
-                user.lastName = formData.lastName;
-                localStorage.setItem('user', JSON.stringify(user));
+                if (user.profile) {
+                    user.profile.firstName = formData.firstName;
+                    user.profile.lastName = formData.lastName;
+                    localStorage.setItem('user', JSON.stringify(user));
+                }
             }
             setTimeout(() => setSuccess(false), 3000);
         } catch (err) {

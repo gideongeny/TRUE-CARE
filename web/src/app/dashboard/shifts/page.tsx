@@ -77,7 +77,7 @@ export default function ShiftsPage() {
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-3">
                                                 <div className="w-9 h-9 rounded-lg bg-blue-600/10 border border-blue-500/20 flex items-center justify-center text-blue-400 font-bold text-xs">
-                                                    {shift.caregiver?.profile?.firstName[0]}{shift.caregiver?.profile?.lastName[0]}
+                                                    {shift.caregiver?.profile?.firstName?.charAt(0) || 'C'}{shift.caregiver?.profile?.lastName?.charAt(0) || ''}
                                                 </div>
                                                 <p className="font-semibold text-white whitespace-nowrap">{shift.caregiver?.profile?.firstName} {shift.caregiver?.profile?.lastName}</p>
                                             </div>

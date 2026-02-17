@@ -103,7 +103,7 @@ export default function OverviewPage() {
                         transition={{ duration: 0.8 }}
                     >
                         <h1 className="text-5xl md:text-6xl font-light tracking-tight text-white mb-4">
-                            Hello, <span className="font-bold">{user?.firstName || 'Back'}</span>
+                            Hello, <span className="font-bold">{user?.profile?.firstName || 'Back'}</span>
                         </h1>
                         <p className="text-zinc-500 text-sm font-medium tracking-wide">
                             Here's what's happening with your platform today.

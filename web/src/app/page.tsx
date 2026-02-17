@@ -49,7 +49,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-black selection:bg-white/20 selection:text-white">
       {/* Sophisticated Background */}
-      <div className="absolute inset-0 w-full h-full">
+      <div className="absolute inset-0 w-full h-full pointer-events-none">
         <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-white/[0.03] rounded-full blur-[120px] mix-blend-screen animate-pulse duration-[10000ms]" />
         <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-white/[0.02] rounded-full blur-[100px] mix-blend-screen animate-pulse duration-[15000ms]" />
         <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay" />
@@ -84,8 +84,8 @@ export default function LoginPage() {
                   Email Address
                 </label>
                 <div className="relative">
-                  <div className={`absolute inset-0 rounded-2xl transition-all duration-300 ${focusedField === 'email' ? 'bg-white/[0.05]' : 'bg-transparent'}`} />
-                  <Mail className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors duration-300 ${focusedField === 'email' ? 'text-white' : 'text-zinc-600'}`} />
+                  <div className={`absolute inset-0 rounded-2xl transition-all duration-300 pointer-events-none ${focusedField === 'email' ? 'bg-white/[0.05]' : 'bg-transparent'}`} />
+                  <Mail className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors duration-300 pointer-events-none ${focusedField === 'email' ? 'text-white' : 'text-zinc-600'}`} />
                   <input
                     type="email"
                     placeholder="admin@truecare.com"
@@ -109,8 +109,8 @@ export default function LoginPage() {
                   Password
                 </label>
                 <div className="relative">
-                  <div className={`absolute inset-0 rounded-2xl transition-all duration-300 ${focusedField === 'password' ? 'bg-white/[0.05]' : 'bg-transparent'}`} />
-                  <Lock className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors duration-300 ${focusedField === 'password' ? 'text-white' : 'text-zinc-600'}`} />
+                  <div className={`absolute inset-0 rounded-2xl transition-all duration-300 pointer-events-none ${focusedField === 'password' ? 'bg-white/[0.05]' : 'bg-transparent'}`} />
+                  <Lock className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors duration-300 pointer-events-none ${focusedField === 'password' ? 'text-white' : 'text-zinc-600'}`} />
                   <input
                     type="password"
                     placeholder="••••••••"

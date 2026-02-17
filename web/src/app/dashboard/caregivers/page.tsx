@@ -98,7 +98,7 @@ export default function CaregiversPage() {
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-3">
                                                 <div className="w-10 h-10 rounded-lg bg-blue-600/10 border border-blue-500/20 flex items-center justify-center text-blue-400 font-bold">
-                                                    {caregiver.profile?.firstName[0]}{caregiver.profile?.lastName[0]}
+                                                    {caregiver.profile?.firstName?.charAt(0) || 'C'}{caregiver.profile?.lastName?.charAt(0) || ''}
                                                 </div>
                                                 <div>
                                                     <p className="font-semibold text-white">{caregiver.profile?.firstName} {caregiver.profile?.lastName}</p>
