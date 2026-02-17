@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+:root {
+  --background: #000000;
+  --foreground: #ffffff;
+  --primary: #1a1a1a;
+  --primary-glow: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.02);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-hover: rgba(255, 255, 255, 0.05);
+  --accent: #ffffff;
+  --card-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+  --sidebar-width: 280px;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
+  overflow-x: hidden;
+  background-attachment: fixed;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.02) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.02) 0%, transparent 40%);
+}
+
+@utility glass-card {
+  @apply bg-[#0a0a0b]/60 backdrop-blur-3xl border border-white/[0.05] rounded-[32px] shadow-2xl;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    @apply border-white/20 bg-white/[0.02];
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.8);
+  }
+}
+
+@utility btn-primary {
+  @apply bg-white hover:bg-gray-200 text-black font-black py-4 px-10 rounded-2xl transition-all shadow-xl shadow-white/10 active:scale-95 text-xs uppercase tracking-[0.2em];
+}
+
+@utility input-field {
+  @apply bg-black/40 border border-white/5 rounded-2xl px-6 py-4 text-white outline-none focus:border-white/20 focus:bg-white/[0.02] transition-all duration-500 text-sm font-medium;
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #222;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}
