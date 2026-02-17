@@ -10,6 +10,17 @@ data class LoginResponse(
     val user: User
 )
 
+data class RegisterRequest(
+    val firstName: String,
+    val lastName: String,
+    val email: String,
+    val password: String,
+    val role: String,
+    val phone: String? = null
+)
+
+data class RegisterResponse(val token: String, val user: User)
+
 data class User(
     val id: String,
     val email: String,

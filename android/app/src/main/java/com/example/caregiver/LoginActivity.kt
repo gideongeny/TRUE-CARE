@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.caregiver.api.ApiClient
@@ -40,6 +41,12 @@ class LoginActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        // Sign up link
+        val tvSignUpLink = findViewById<TextView>(R.id.tvSignUpLink)
+        tvSignUpLink.setOnClickListener {
+            startActivity(Intent(this, RegisterActivity::class.java))
         }
     }
 

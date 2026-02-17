@@ -5,11 +5,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
-<<<<<<< HEAD
-    private val BASE_URL = Config.BASE_URL
-=======
-    private const val BASE_URL = "http://10.0.2.2:4000/api/" // Updated to port 4000 for True Care API
->>>>>>> 19273b9096fa76d374989ee9afb141420f514580
+    // OPTION 1: Local Development (Android Emulator)
+    // private const val BASE_URL = "http://10.0.2.2:3001/api/"
+    
+    // OPTION 2: Production (Live Server)
+    private const val BASE_URL = "https://true-care-k8c6.onrender.com/api/"
     
     private var token: String? = null
 

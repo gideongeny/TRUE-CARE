@@ -59,10 +59,7 @@ class PatientDashboardActivity : AppCompatActivity() {
     }
 
     private fun showNewRequestDialog() {
-        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_new_request, null)
-        // Note: I need to create dialog_new_request.xml as well, or just build it programmatically to save time.
-        // Let's build it programmatically for simplicity in this artifact.
-        
+        // Build dialog programmatically
         val context = this
         val layout = android.widget.LinearLayout(context)
         layout.orientation = android.widget.LinearLayout.VERTICAL

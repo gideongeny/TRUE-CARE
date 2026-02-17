@@ -5,28 +5,20 @@ plugins {
 
 android {
     namespace 'com.example.caregiver'
-<<<<<<< HEAD
     compileSdk 35
-=======
-    compileSdk 34
->>>>>>> 19273b9096fa76d374989ee9afb141420f514580
 
     defaultConfig {
         applicationId "com.example.caregiver"
         minSdk 24
-<<<<<<< HEAD
         targetSdk 35
-=======
-        targetSdk 34
->>>>>>> 19273b9096fa76d374989ee9afb141420f514580
         versionCode 1
         versionName "1.0"
     }
 
     buildTypes {
         release {
-<<<<<<< HEAD
-            // Simplified for initial build
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -42,10 +34,6 @@ android {
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
-=======
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
->>>>>>> 19273b9096fa76d374989ee9afb141420f514580
         }
     }
 }
