@@ -32,6 +32,10 @@ class PatientDashboardActivity : AppCompatActivity() {
         rvRequests = findViewById(R.id.rvRequests)
         btnNewRequest = findViewById(R.id.btnNewRequest)
         
+        findViewById<View>(R.id.btnSettings).setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
+        }
+
         rvRequests.layoutManager = LinearLayoutManager(this)
         adapter = RequestAdapter()
         rvRequests.adapter = adapter
@@ -124,7 +128,7 @@ class RequestAdapter : RecyclerView.Adapter<RequestAdapter.RequestViewHolder>() 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RequestViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(android.R.layout.simple_list_item_2, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_request, parent, false)
         return RequestViewHolder(view)
     }
 
@@ -136,12 +140,23 @@ class RequestAdapter : RecyclerView.Adapter<RequestAdapter.RequestViewHolder>() 
     override fun getItemCount(): Int = requests.size
 
     class RequestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val text1: TextView = itemView.findViewById(android.R.id.text1)
-        private val text2: TextView = itemView.findViewById(android.R.id.text2)
+        private val tvCareType: TextView = itemView.findViewById(R.id.tvCareType)
+        private val tvStatus: TextView = itemView.findViewById(R.id.tvStatus)
+        private val tvLocation: TextView = itemView.findViewById(R.id.tvLocation)
+        private val tvDuration: TextView = itemView.findViewById(R.id.tvDuration)
 
         fun bind(request: ServiceRequest) {
-            text1.text = "${request.careType} - ${request.duration}"
-            text2.text = "Status: ${request.status} | Loc: ${request.location}"
+            tvCareType.text = request.careType
+            tvStatus.text = request.status.uppercase()
+            tvLocation.text = request.location
+            tvDuration.text = request.duration
+            
+            // Optional: Dynamic status coloring
+            when(request.status.uppercase()) {
+                "PENDING" -> tvStatus.setTextColor(android.graphics.Color.parseColor("#B45309"))
+                "APPROVED" -> tvStatus.setTextColor(android.graphics.Color.parseColor("#059669"))
+                else -> tvStatus.setTextColor(android.graphics.Color.parseColor("#2563EB"))
+            }
         }
     }
 }

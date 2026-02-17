@@ -26,11 +26,13 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var btnBiometric: Button
     private lateinit var progressBar: ProgressBar
     private lateinit var biometricHelper: BiometricHelper
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        sessionManager = SessionManager(this)
         etEmail = findViewById(R.id.etEmail)
         etPassword = findViewById(R.id.etPassword)
         btnLogin = findViewById(R.id.btnLogin)
@@ -39,16 +41,18 @@ class LoginActivity : AppCompatActivity() {
         
         biometricHelper = BiometricHelper(this)
 
-        if (biometricHelper.isBiometricAvailable()) {
+        if (biometricHelper.isBiometricAvailable() && sessionManager.isBiometricEnabled()) {
             btnBiometric.visibility = View.VISIBLE
             btnBiometric.setOnClickListener {
                 biometricHelper.showBiometricPrompt(
                     onSuccess = {
-                        // In a real app, you'd store encrypted credentials
-                        // and use them here. For demo, we'll use stored email/pass if any
-                        // or just show a message that it's authenticated.
-                        Toast.makeText(this, "Biometric Authentication Successful", Toast.LENGTH_SHORT).show()
-                        // Proceed to dashboard if we had saved credentials
+                        val email = sessionManager.getEmail()
+                        val pass = sessionManager.getPassword()
+                        if (email != null && pass != null) {
+                            login(email, pass)
+                        } else {
+                            Toast.makeText(this, "Please log in with password once to enable biometrics", Toast.LENGTH_SHORT).show()
+                        }
                     },
                     onError = { code, message ->
                         Toast.makeText(this, "Authentication error: $message", Toast.LENGTH_SHORT).show()
@@ -96,7 +100,10 @@ class LoginActivity : AppCompatActivity() {
                         val loginResponse = response.body()!!
                         ApiClient.setToken(loginResponse.token)
                         
-                        // Save user info to SharedPreferences if needed
+                        // Save session
+                        sessionManager.saveToken(loginResponse.token)
+                        sessionManager.saveRole(loginResponse.user.role)
+                        sessionManager.saveUserCredentials(email, password)
 
                         val intent = if (loginResponse.user.role == "CAREGIVER") {
                            Intent(this@LoginActivity, CaregiverDashboardActivity::class.java)

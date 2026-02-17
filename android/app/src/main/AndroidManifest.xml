@@ -34,6 +34,7 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".CaregiverDashboardActivity" />
         <activity android:name=".PatientDashboardActivity" />
+        <activity android:name=".SettingsActivity" />
     </application>
 
 </manifest>

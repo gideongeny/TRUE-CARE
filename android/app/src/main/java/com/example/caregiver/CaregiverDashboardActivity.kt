@@ -27,6 +27,10 @@ class CaregiverDashboardActivity : AppCompatActivity() {
         rvShifts = findViewById(R.id.rvShifts)
         rvShifts.layoutManager = LinearLayoutManager(this)
         
+        findViewById<View>(R.id.btnSettings).setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
+        }
+
         adapter = ShiftAdapter()
         rvShifts.adapter = adapter
 
