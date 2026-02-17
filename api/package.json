@@ -1,0 +1,58 @@
+{
+    "name": "caregiver-api",
+    "version": "1.0.0",
+    "main": "dist/index.js",
+    "scripts": {
+        "start": "node dist/index.js",
+        "dev": "ts-node src/index.ts",
+        "seed": "ts-node src/seed.ts",
+        "build": "tsc",
+        "postinstall": "prisma generate"
+    },
+    "dependencies": {
+<<<<<<< HEAD
+        "@prisma/client": "^5.10.2",
+        "bcryptjs": "^2.4.3",
+        "cors": "^2.8.5",
+        "dotenv": "^16.3.1",
+        "express": "^4.18.2",
+        "express-rate-limit": "^8.2.1",
+        "helmet": "^7.1.0",
+        "jsonwebtoken": "^9.0.2",
+        "morgan": "^1.10.0"
+    },
+    "devDependencies": {
+        "@types/bcryptjs": "^2.4.6",
+        "@types/cors": "^2.8.15",
+        "@types/express": "^4.17.21",
+        "@types/jsonwebtoken": "^9.0.5",
+        "@types/morgan": "^1.9.9",
+        "@types/node": "^20.11.19",
+        "prisma": "^5.10.2",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.3.3"
+    }
+}
+=======
+        "express": "^4.18.2",
+        "cors": "^2.8.5",
+        "helmet": "^7.1.0",
+        "morgan": "^1.10.0",
+        "dotenv": "^16.3.1",
+        "bcryptjs": "^2.4.3",
+        "jsonwebtoken": "^9.0.2",
+        "@prisma/client": "^5.10.2"
+    },
+    "devDependencies": {
+        "typescript": "^5.3.3",
+        "ts-node": "^10.9.2",
+        "@types/node": "^20.11.19",
+        "@types/express": "^4.17.21",
+        "@types/cors": "^2.8.15",
+        "@types/morgan": "^1.9.9",
+        "@types/bcryptjs": "^2.4.6",
+        "@types/jsonwebtoken": "^9.0.5",
+        "prisma": "^5.10.2"
+    }
+}
+>>>>>>> 19273b9096fa76d374989ee9afb141420f514580

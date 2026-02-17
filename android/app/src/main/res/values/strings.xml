@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">True Care</string>
+    <string name="tagline">Always With You</string>
+    <string name="login_title">Welcome to True Care</string>
+    <string name="login_subtitle">Compassionate care starts here</string>
+</resources>

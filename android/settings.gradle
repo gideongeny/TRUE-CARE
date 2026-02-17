@@ -1,0 +1,19 @@
+<<<<<<< HEAD
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+=======
+>>>>>>> 19273b9096fa76d374989ee9afb141420f514580
+rootProject.name = "CaregiverManagementSystem"
+include ':app'
