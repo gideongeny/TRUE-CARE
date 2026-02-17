@@ -25,6 +25,7 @@ export const register = async (req: Request, res: Response) => {
                     create: {
                         firstName,
                         lastName,
+                        phone: req.body.phone,
                     },
                 },
             },

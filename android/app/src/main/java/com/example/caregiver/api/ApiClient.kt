@@ -9,7 +9,7 @@ object ApiClient {
     // private const val BASE_URL = "http://10.0.2.2:3001/api/"
     
     // OPTION 2: Production (Live Server)
-    private const val BASE_URL = "https://true-care-k8c6.onrender.com/api/"
+    private const val BASE_URL = "https://true-care-k8d6.onrender.com/api/"
     
     private var token: String? = null
 
@@ -18,6 +18,9 @@ object ApiClient {
     }
 
     private val httpClient = OkHttpClient.Builder()
+        .connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+        .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+        .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
         .addInterceptor { chain ->
             val original = chain.request()
             val requestBuilder = original.newBuilder()

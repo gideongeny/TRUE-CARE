@@ -7,6 +7,6 @@
     </base-config>
     <!-- Allow HTTPS connections to Render API -->
     <domain-config cleartextTrafficPermitted="false">
-        <domain includeSubdomains="true">true-care-k8c6.onrender.com</domain>
+        <domain includeSubdomains="true">true-care-k8d6.onrender.com</domain>
     </domain-config>
 </network-security-config>
