@@ -16,6 +16,7 @@ import {
     RotateCcw
 } from 'lucide-react';
 import api from '@/lib/api';
+import { useToast } from '@/components/ui/ToastProvider';
 
 const SettingSection = ({ title, description, icon: Icon, children }: any) => (
     <div className="glass-card p-10 border-white/5">
@@ -35,13 +36,17 @@ const SettingSection = ({ title, description, icon: Icon, children }: any) => (
 export default function SettingsPage() {
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
+    const { showToast } = useToast();
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
         phone: '',
         address: '',
-        bio: ''
+        bio: '',
+        twoFactorEnabled: false
     });
+    const [tfaSetup, setTfaSetup] = useState<any>(null);
+    const [tfaCode, setTfaCode] = useState('');
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -53,7 +58,8 @@ export default function SettingsPage() {
                         lastName: res.data.profile.lastName || '',
                         phone: res.data.profile.phone || '',
                         address: res.data.profile.address || '',
-                        bio: res.data.profile.bio || ''
+                        bio: res.data.profile.bio || '',
+                        twoFactorEnabled: res.data.twoFactorEnabled || false
                     });
                 }
             } catch (err) {
@@ -69,6 +75,7 @@ export default function SettingsPage() {
         try {
             await api.put('/users/profile', formData);
             setSuccess(true);
+            showToast('Profile updated successfully', 'success');
             // Update local storage user if needed
             const savedUser = localStorage.getItem('user');
             if (savedUser) {
@@ -82,7 +89,7 @@ export default function SettingsPage() {
             setTimeout(() => setSuccess(false), 3000);
         } catch (err) {
             console.error("Failed to update profile:", err);
-            alert("Failed to update profile. Please try again.");
+            showToast("Failed to update profile. Please try again.", 'error');
         } finally {
             setLoading(false);
         }
@@ -145,14 +152,76 @@ export default function SettingsPage() {
                         icon={Lock}
                     >
                         <div className="space-y-6">
-                            <div className="flex items-center justify-between p-6 bg-white/[0.02] rounded-3xl border border-white/5">
-                                <div>
-                                    <p className="font-bold text-white tracking-tight">Two-Factor Authentication</p>
-                                    <p className="text-xs text-gray-500 mt-1 font-medium">Add an extra layer of security to your account.</p>
+                            <div className="flex flex-col gap-6 p-6 bg-white/[0.02] rounded-3xl border border-white/5">
+                                <div className="flex items-center justify-between">
+                                    <div>
+                                        <p className="font-bold text-white tracking-tight">Two-Factor Authentication</p>
+                                        <p className="text-xs text-gray-500 mt-1 font-medium">Add an extra layer of security to your account.</p>
+                                    </div>
+                                    <button
+                                        onClick={async () => {
+                                            if (formData.twoFactorEnabled) {
+                                                await api.post('/auth/2fa/disable');
+                                                setFormData({ ...formData, twoFactorEnabled: false });
+                                                showToast('2FA Disabled', 'info');
+                                            } else {
+                                                const res = await api.get('/auth/2fa/setup');
+                                                setTfaSetup(res.data);
+                                            }
+                                        }}
+                                        className={`w-14 h-7 rounded-full relative transition-all duration-300 ${formData.twoFactorEnabled ? 'bg-emerald-500' : 'bg-zinc-800 border border-white/10'}`}
+                                    >
+                                        <motion.div
+                                            animate={{ x: formData.twoFactorEnabled ? 30 : 4 }}
+                                            className="absolute top-1 w-5 h-5 bg-white rounded-full shadow-lg"
+                                        />
+                                    </button>
                                 </div>
-                                <div className="w-14 h-7 bg-blue-600/20 border border-blue-500/30 rounded-full relative cursor-pointer group">
-                                    <div className="absolute right-1 top-1 w-5 h-5 bg-blue-500 rounded-full shadow-[0_0_15px_rgba(59,130,246,0.6)] group-hover:scale-110 transition-transform" />
-                                </div>
+
+                                {tfaSetup && (
+                                    <motion.div
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: 'auto' }}
+                                        className="pt-6 border-t border-white/5 space-y-6"
+                                    >
+                                        <div className="flex flex-col items-center gap-4">
+                                            <p className="text-sm text-gray-400 text-center italic">Scan this QR in your authenticator app</p>
+                                            <div className="p-4 bg-white rounded-2xl">
+                                                <img src={tfaSetup.qrCodeUrl} alt="2FA QR Code" className="w-40 h-40" />
+                                            </div>
+                                            <div className="bg-white/5 p-3 rounded-xl border border-white/10 w-full text-center">
+                                                <code className="text-blue-400 font-mono text-sm">{tfaSetup.secret}</code>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-center gap-3">
+                                            <input
+                                                type="text"
+                                                placeholder="Verification Code"
+                                                className="input-field w-full text-center tracking-[0.3em] font-bold"
+                                                maxLength={6}
+                                                value={tfaCode}
+                                                onChange={(e) => setTfaCode(e.target.value)}
+                                            />
+                                            <button
+                                                onClick={async () => {
+                                                    try {
+                                                        await api.post('/auth/2fa/verify', { secret: tfaSetup.secret, token: tfaCode });
+                                                        setFormData({ ...formData, twoFactorEnabled: true });
+                                                        setTfaSetup(null);
+                                                        setTfaCode('');
+                                                        showToast('2FA Enabled Successfully', 'success');
+                                                    } catch (err) {
+                                                        showToast('Invalid Code', 'error');
+                                                    }
+                                                }}
+                                                className="px-6 py-4 bg-white text-black font-bold rounded-2xl text-xs uppercase tracking-widest whitespace-nowrap"
+                                            >
+                                                Verify
+                                            </button>
+                                        </div>
+                                    </motion.div>
+                                )}
                             </div>
                             <div className="flex items-center justify-between p-6 bg-white/[0.02] rounded-3xl border border-white/5">
                                 <div>

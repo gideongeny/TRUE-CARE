@@ -50,4 +50,7 @@ dependencies {
     
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
+
+    // Biometrics
+    implementation 'androidx.biometric:biometric:1.2.0-alpha05'
 }

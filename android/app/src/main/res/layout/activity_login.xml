@@ -136,7 +136,22 @@
                     app:backgroundTint="@color/black"
                     app:cornerRadius="12dp"
                     app:elevation="4dp"
-                    android:layout_marginBottom="16dp" />
+                    android:layout_marginBottom="12dp" />
+
+                <!-- Biometric Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnBiometric"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:text="Biometric Login"
+                    app:icon="@android:drawable/ic_lock_idle_lock"
+                    app:iconTint="@color/black"
+                    android:textColor="@color/black"
+                    app:strokeColor="@color/gray_300"
+                    app:cornerRadius="12dp"
+                    android:layout_marginBottom="16dp"
+                    android:visibility="gone" />
 
                 <!-- Progress Indicator -->
                 <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -165,15 +180,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Footer Text -->
         <TextView
-            android:id="@+id/tvFooter"
+            android:id="@+id/tvPrivacyPolicy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Professional Healthcare Management"
-            android:textSize="12sp"
-            android:textColor="@color/gray_400"
-            android:layout_marginTop="16dp"
+            android:text="By signing up, you agree to our Privacy Policy"
+            android:textColor="@color/gray_500"
+            android:textSize="11sp"
+            android:layout_marginTop="12dp"
             android:layout_marginBottom="24dp"
             app:layout_constraintTop_toBottomOf="@id/tvSignUpLink"
             app:layout_constraintStart_toStartOf="parent"

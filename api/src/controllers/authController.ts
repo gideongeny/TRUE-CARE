@@ -43,9 +43,26 @@ export const register = async (req: Request, res: Response) => {
     }
 };
 
+import { authenticator } from 'otplib';
+
 export const login = async (req: Request, res: Response) => {
     try {
-        const { email, password } = req.body;
+        const { email, password, userId, token: tfaToken, is2FAAction } = req.body;
+
+        if (is2FAAction) {
+            const user = await prisma.user.findUnique({ where: { id: userId }, include: { profile: true } });
+            if (!user || !user.twoFactorSecret) {
+                return res.status(400).json({ message: 'Invalid 2FA request' });
+            }
+
+            const isValid = authenticator.verify({ token: tfaToken, secret: user.twoFactorSecret });
+            if (!isValid) {
+                return res.status(400).json({ message: 'Invalid verification code' });
+            }
+
+            const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, { expiresIn: '1d' });
+            return res.json({ token, user });
+        }
 
         const user = await prisma.user.findUnique({ where: { email }, include: { profile: true } });
         if (!user) {
@@ -55,6 +72,10 @@ export const login = async (req: Request, res: Response) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({ message: 'Invalid credentials' });
+        }
+
+        if (user.twoFactorEnabled) {
+            return res.json({ require2FA: true, userId: user.id });
         }
 
         const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, { expiresIn: '1d' });

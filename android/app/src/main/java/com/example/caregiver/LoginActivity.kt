@@ -11,17 +11,21 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.caregiver.api.ApiClient
 import com.example.caregiver.models.LoginRequest
+import com.example.caregiver.utils.BiometricHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import android.net.Uri
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var etEmail: EditText
     private lateinit var etPassword: EditText
     private lateinit var btnLogin: Button
+    private lateinit var btnBiometric: Button
     private lateinit var progressBar: ProgressBar
+    private lateinit var biometricHelper: BiometricHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +34,28 @@ class LoginActivity : AppCompatActivity() {
         etEmail = findViewById(R.id.etEmail)
         etPassword = findViewById(R.id.etPassword)
         btnLogin = findViewById(R.id.btnLogin)
+        btnBiometric = findViewById(R.id.btnBiometric)
         progressBar = findViewById(R.id.progressBar)
+        
+        biometricHelper = BiometricHelper(this)
+
+        if (biometricHelper.isBiometricAvailable()) {
+            btnBiometric.visibility = View.VISIBLE
+            btnBiometric.setOnClickListener {
+                biometricHelper.showBiometricPrompt(
+                    onSuccess = {
+                        // In a real app, you'd store encrypted credentials
+                        // and use them here. For demo, we'll use stored email/pass if any
+                        // or just show a message that it's authenticated.
+                        Toast.makeText(this, "Biometric Authentication Successful", Toast.LENGTH_SHORT).show()
+                        // Proceed to dashboard if we had saved credentials
+                    },
+                    onError = { code, message ->
+                        Toast.makeText(this, "Authentication error: $message", Toast.LENGTH_SHORT).show()
+                    }
+                )
+            }
+        }
 
         btnLogin.setOnClickListener {
             val email = etEmail.text.toString()
@@ -41,6 +66,12 @@ class LoginActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        // Privacy Policy
+        findViewById<TextView>(R.id.tvPrivacyPolicy).setOnClickListener {
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://true-care-phi.vercel.app/privacy-policy"))
+            startActivity(browserIntent)
         }
 
         // Sign up link

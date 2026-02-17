@@ -14,11 +14,13 @@ import {
     ArrowUpRight
 } from 'lucide-react';
 import api from '@/lib/api';
+import { useToast } from '@/components/ui/ToastProvider';
 
 export default function CaregiversPage() {
     const [caregivers, setCaregivers] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const { showToast } = useToast();
 
     useEffect(() => {
         fetchCaregivers();
@@ -44,11 +46,11 @@ export default function CaregiversPage() {
     const verifyCaregiver = async (id: string) => {
         try {
             await api.put(`/users/${id}/verify`, { isVerified: true });
-            alert('Caregiver verified successfully');
+            showToast('Caregiver verified successfully', 'success');
             fetchCaregivers();
         } catch (err) {
             console.error('Failed to verify', err);
-            alert('Failed to verify caregiver');
+            showToast('Failed to verify caregiver', 'error');
         }
     };
 

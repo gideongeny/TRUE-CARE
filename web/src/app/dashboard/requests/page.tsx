@@ -13,10 +13,12 @@ import {
     Activity
 } from 'lucide-react';
 import api from '@/lib/api';
+import { useToast } from '@/components/ui/ToastProvider';
 
 export default function RequestsPage() {
     const [requests, setRequests] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const { showToast } = useToast();
 
     useEffect(() => {
         fetchRequests();
@@ -41,11 +43,11 @@ export default function RequestsPage() {
     const updateStatus = async (id: string, status: string) => {
         try {
             await api.put(`/requests/${id}/status`, { status });
-            alert(`Request ${id} marked as ${status}`);
+            showToast(`Request successfully ${status.toLowerCase()}`, 'success');
             fetchRequests();
         } catch (err) {
             console.error('Failed to update status', err);
-            alert('Failed to update request status');
+            showToast('Failed to update request status', 'error');
         }
     };
 
