@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// PostgreSQL supports enums, but keeping Strings for consistent migration from SQLite
+// Role: ADMIN, CAREGIVER, PATIENT
+// ShiftStatus: SCHEDULED, COMPLETED, CANCELLED, IN_PROGRESS
+// RequestStatus: PENDING, APPROVED, REJECTED
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  role      String   @default("PATIENT")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  profile   Profile?
+  
+  // Relations
+  caregiverShifts Shift[] @relation("CaregiverShifts")
+  patientShifts   Shift[] @relation("PatientShifts")
+  
+  serviceRequests ServiceRequest[]
+}
+
+model Profile {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  firstName String
+  lastName  String
+  phone     String?
+  address   String?
+  bio       String?
+  
+  // Caregiver specific
+  isVerified Boolean @default(false)
+  skills     String? // Comma separated or JSON
+  hourlyRate Decimal?
+  
+  // Documents
+  cvUrl          String?
+  certificateUrl String?
+  idCardUrl      String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Shift {
+  id          String      @id @default(uuid())
+  caregiverId String
+  caregiver   User        @relation("CaregiverShifts", fields: [caregiverId], references: [id])
+  patientId   String
+  patient     User        @relation("PatientShifts", fields: [patientId], references: [id])
+  
+  startTime   DateTime
+  endTime     DateTime
+  status      String      @default("SCHEDULED")
+  notes       String?
+  
+  clockInTime  DateTime?
+  clockOutTime DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ServiceRequest {
+  id        String        @id @default(uuid())
+  patientId String
+  patient   User          @relation(fields: [patientId], references: [id])
+  
+  careType     String
+  duration     String
+  location     String
+  status       String        @default("PENDING")
+  description  String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

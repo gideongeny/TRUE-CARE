@@ -70,8 +70,6 @@ export const updateProfile = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-<<<<<<< HEAD
-
 export const getUsers = async (req: Request, res: Response) => {
     try {
         const users = await prisma.user.findMany({
@@ -100,5 +98,3 @@ export const verifyUser = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-=======
->>>>>>> 19273b9096fa76d374989ee9afb141420f514580

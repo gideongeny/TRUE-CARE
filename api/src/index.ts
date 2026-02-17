@@ -11,11 +11,10 @@ import userRoutes from './routes/userRoutes';
 import shiftRoutes from './routes/shiftRoutes';
 import requestRoutes from './routes/requestRoutes';
 
-<<<<<<< HEAD
-import rateLimit from 'express-rate-limit';
+import rateLimit from 'express-rate-limit'; // Security best practice
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001; // Changed to 3001 to avoid conflict with Next.js
 
 // Security Middleware
 app.use(helmet());
@@ -32,23 +31,13 @@ const limiter = rateLimit({
 
 app.use('/api/', limiter);
 
-=======
-const app = express();
-const port = process.env.PORT || 3000;
-
-app.use(express.json());
-app.use(cors());
-app.use(helmet());
-app.use(morgan('dev'));
-
->>>>>>> 19273b9096fa76d374989ee9afb141420f514580
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/shifts', shiftRoutes);
 app.use('/api/requests', requestRoutes);
 
 app.get('/', (req: Request, res: Response) => {
-    res.json({ message: 'Caregiver Management System API is running' });
+    res.json({ message: 'TRUE CARE API is running' });
 });
 
 app.listen(port, () => {
