@@ -45,12 +45,12 @@ data class Shift(
 )
 
 data class ServiceRequest(
-    val id: String,
-    val patientId: String?,
+    val id: String = "",
+    val patientId: String? = null,
     val careType: String,
     val duration: String,
     val location: String,
-    val status: String,
-    val description: String?,
-    val createdAt: String
+    val status: String = "PENDING",
+    val description: String? = null,
+    val createdAt: String = ""
 )

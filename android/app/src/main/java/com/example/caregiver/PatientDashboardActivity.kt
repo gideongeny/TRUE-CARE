@@ -106,7 +106,11 @@ class PatientDashboardActivity : AppCompatActivity() {
     private fun createRequest(careType: String, duration: String, location: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val request = ServiceRequest("", careType, duration, location, "PENDING", null, "")
+                val request = ServiceRequest(
+                    careType = careType,
+                    duration = duration,
+                    location = location
+                )
                 val response = ApiClient.apiService.createRequest(request)
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
