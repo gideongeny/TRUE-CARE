@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.caregiver.api.ApiClient
 import com.example.caregiver.models.ServiceRequest
+import android.content.Intent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -57,7 +58,12 @@ class PatientDashboardActivity : AppCompatActivity() {
                     }
                 }
             } catch (e: Exception) {
-                // Handle error
+                withContext(Dispatchers.Main) {
+                    // Fail silently but show a small retry tip if the list is empty
+                    if (adapter.itemCount == 0) {
+                        Toast.makeText(this@PatientDashboardActivity, "Connecting to server...", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
     }
@@ -104,10 +110,11 @@ class PatientDashboardActivity : AppCompatActivity() {
                 val response = ApiClient.apiService.createRequest(request)
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
-                        Toast.makeText(this@PatientDashboardActivity, "Request created", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@PatientDashboardActivity, "Request created! 🎉", Toast.LENGTH_SHORT).show()
                         fetchRequests()
                     } else {
-                        Toast.makeText(this@PatientDashboardActivity, "Failed to create request", Toast.LENGTH_SHORT).show()
+                        val errorMsg = response.errorBody()?.string() ?: "Unknown error"
+                        Toast.makeText(this@PatientDashboardActivity, "Failed: $errorMsg", Toast.LENGTH_LONG).show()
                     }
                 }
             } catch (e: Exception) {

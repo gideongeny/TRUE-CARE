@@ -46,6 +46,7 @@ data class Shift(
 
 data class ServiceRequest(
     val id: String,
+    val patientId: String?,
     val careType: String,
     val duration: String,
     val location: String,

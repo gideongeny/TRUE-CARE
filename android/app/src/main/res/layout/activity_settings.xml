@@ -110,7 +110,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Compliance & Legal"
+                android:text="Compliance &amp; Legal"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 android:textColor="#64748B"

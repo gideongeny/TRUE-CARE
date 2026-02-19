@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.caregiver.api.ApiClient
 import com.example.caregiver.models.LoginRequest
 import com.example.caregiver.utils.BiometricHelper
+import com.example.caregiver.utils.SessionManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
