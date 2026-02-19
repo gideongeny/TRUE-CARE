@@ -1,10 +1,8 @@
+import 'dotenv/config';
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';

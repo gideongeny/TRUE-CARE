@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'secret';
+const getJwtSecret = () => process.env.JWT_SECRET || 'secret';
 
 /*
   Extend Express Request interface to include user property
@@ -23,7 +23,7 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
     }
 
     try {
-        const decoded = jwt.verify(token, JWT_SECRET) as { userId: string; role: string };
+        const decoded = jwt.verify(token, getJwtSecret()) as { userId: string; role: string };
         req.user = decoded;
         next();
     } catch (error) {
