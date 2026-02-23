@@ -7,6 +7,7 @@ import { User, Bell, Search, Menu, Settings } from 'lucide-react';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<any>(null);
+    const [currentTime, setCurrentTime] = useState(new Date());
     const [isSidebarOpen, setSidebarOpen] = useState(false);
 
     useEffect(() => {
@@ -16,6 +17,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         }
         const savedUser = localStorage.getItem('user');
         if (savedUser) setUser(JSON.parse(savedUser));
+
+        const timer = setInterval(() => setCurrentTime(new Date()), 60000);
+        return () => clearInterval(timer);
     }, []);
 
     if (!user) return (
@@ -39,13 +43,30 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         >
                             <Menu className="w-5 h-5 text-slate-600" />
                         </button>
-                        <div className="relative hidden md:flex items-center group">
+                        <div className="relative hidden xl:flex items-center group">
                             <Search className="absolute left-4 w-4 h-4 text-slate-400 group-focus-within:text-blue-600 transition-colors" />
                             <input
                                 type="text"
                                 placeholder="Search command..."
-                                className="bg-slate-50 border border-slate-200 rounded-lg pl-11 pr-4 py-2 w-80 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all text-sm font-medium"
+                                className="bg-slate-50 border border-slate-200 rounded-lg pl-11 pr-4 py-2 w-64 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all text-sm font-medium"
                             />
+                        </div>
+
+                        {/* Real-time Temporal Awareness */}
+                        <div className="hidden md:flex items-center gap-4 bg-slate-50 border border-slate-200 px-4 py-1.5 rounded-lg shadow-sm">
+                            <div className="flex flex-col">
+                                <span className="text-[10px] font-black uppercase tracking-widest text-blue-600 leading-none mb-1">System Time</span>
+                                <span className="text-sm font-black text-slate-900 tabular-nums">
+                                    {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                </span>
+                            </div>
+                            <div className="w-[1px] h-6 bg-slate-200" />
+                            <div className="flex flex-col">
+                                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 leading-none mb-1">Session Date</span>
+                                <span className="text-xs font-bold text-slate-600">
+                                    {currentTime.toLocaleDateString('default', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
+                                </span>
+                            </div>
                         </div>
                     </div>
 

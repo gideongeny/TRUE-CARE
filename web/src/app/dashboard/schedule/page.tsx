@@ -28,7 +28,13 @@ export default function SchedulePage() {
                         </button>
                         <div className="px-4 py-2 bg-white border border-slate-200 rounded-lg flex items-center gap-3 text-sm font-bold text-slate-700 shadow-sm">
                             <CalendarIcon className="w-4 h-4 text-blue-600" />
-                            March 18 - March 24, 2024
+                            {(() => {
+                                const now = new Date();
+                                const first = now.getDate() - (now.getDay() === 0 ? 6 : now.getDay() - 1);
+                                const firstDay = new Date(now.setDate(first));
+                                const lastDay = new Date(now.setDate(first + 6));
+                                return `${firstDay.toLocaleDateString('default', { month: 'short', day: 'numeric' })} - ${lastDay.toLocaleDateString('default', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+                            })()}
                         </div>
                         <button className="p-2 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-blue-600 transition-colors shadow-sm">
                             <ArrowRight className="w-4 h-4" />
