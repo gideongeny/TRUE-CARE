@@ -56,12 +56,10 @@ export default function Sidebar() {
     return (
         <aside className="w-[var(--sidebar-width)] h-screen bg-[var(--sidebar)] border-r border-[var(--sidebar-border)] flex flex-col shrink-0 sticky top-0 z-40">
             <div className="h-20 flex items-center shrink-0 px-6 border-b border-[var(--sidebar-border)]">
-                <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-600/20">
-                        <span className="text-white font-black text-xs">TC</span>
-                    </div>
+                <Link href="/dashboard" className="flex items-center gap-3">
+                    <img src="/logo.png" alt="TrueCare Logo" className="h-10 w-auto object-contain" />
                     <span className="font-extrabold text-slate-900 tracking-tight text-lg">TRUE CARE</span>
-                </div>
+                </Link>
             </div>
 
             <nav className="flex-1 overflow-y-auto py-6 px-4 space-y-1 scrollbar-hide">
