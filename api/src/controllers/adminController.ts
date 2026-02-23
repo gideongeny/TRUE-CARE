@@ -83,3 +83,47 @@ export const getShiftAnalytics = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+export const getActivityLog = async (req: Request, res: Response) => {
+    try {
+        const [recentRequests, recentShifts] = await Promise.all([
+            prisma.serviceRequest.findMany({
+                take: 5,
+                orderBy: { createdAt: 'desc' },
+                include: { patient: { include: { profile: true } } }
+            }),
+            prisma.shift.findMany({
+                take: 5,
+                orderBy: { updatedAt: 'desc' },
+                include: {
+                    caregiver: { include: { profile: true } },
+                    patient: { include: { profile: true } }
+                }
+            })
+        ]);
+
+        const events = [
+            ...recentRequests.map(r => ({
+                id: r.id,
+                type: 'REQUEST',
+                title: 'New Service Request',
+                description: `${r.patient.profile?.firstName} requested ${r.careType}`,
+                time: r.createdAt,
+                status: r.status
+            })),
+            ...recentShifts.map(s => ({
+                id: s.id,
+                type: 'SHIFT',
+                title: s.status === 'IN_PROGRESS' ? 'Shift Started' : s.status === 'COMPLETED' ? 'Shift Completed' : 'Shift Claimed',
+                description: `${s.caregiver?.profile?.firstName || 'Caregiver'} for ${s.patient.profile?.firstName}`,
+                time: s.updatedAt,
+                status: s.status
+            }))
+        ].sort((a, b) => b.time.getTime() - a.time.getTime()).slice(0, 10);
+
+        res.json(events);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};

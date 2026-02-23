@@ -25,13 +25,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     );
 
     return (
-        <div className="h-screen w-screen bg-slate-50 text-slate-900 flex overflow-hidden font-sans">
+        <div className="min-h-screen w-full bg-slate-50 text-slate-900 flex font-sans overflow-x-hidden">
             <Sidebar />
 
-            <div className="flex-1 flex flex-col min-w-0 overflow-y-auto relative z-10 w-full ml-[var(--sidebar-width)]">
-                <div className="w-full">
+            <div className="flex-1 flex flex-col min-w-0 min-h-screen pl-[var(--sidebar-width)]">
+                <div className="w-full flex-1 flex flex-col">
                     {/* Top Header */}
-                    <header className="h-20 flex items-center justify-between bg-white border-b border-slate-200 px-8 sticky top-0 z-30">
+                    <header className="h-20 flex items-center justify-between bg-white border-b border-slate-200 px-8 sticky top-0 z-30 shrink-0">
                         <div className="flex items-center gap-6">
                             <button
                                 className="lg:hidden p-2 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors"
@@ -73,7 +73,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     </header>
 
                     {/* Main Content Area */}
-                    <main className="p-8">
+                    <main className="flex-1 p-8">
                         {children}
                     </main>
                 </div>

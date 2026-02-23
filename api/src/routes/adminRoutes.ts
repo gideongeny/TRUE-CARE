@@ -1,5 +1,4 @@
-import { Router } from 'express';
-import { getGlobalStats, getCaregiverPerformance, getShiftAnalytics } from '../controllers/adminController';
+import { getGlobalStats, getCaregiverPerformance, getShiftAnalytics, getActivityLog } from '../controllers/adminController';
 import { authenticate, authorize } from '../middleware/auth';
 
 const router = Router();
@@ -10,5 +9,6 @@ router.use(authenticate, authorize(['ADMIN']));
 router.get('/stats', getGlobalStats);
 router.get('/caregivers/:id/performance', getCaregiverPerformance);
 router.get('/analytics/shifts', getShiftAnalytics);
+router.get('/logs', getActivityLog);
 
 export default router;

@@ -27,17 +27,20 @@ import {
 export default function AdminOverview() {
     const [stats, setStats] = useState<any>(null);
     const [chartData, setChartData] = useState<any>([]);
+    const [logs, setLogs] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchDashboardData = async () => {
             try {
-                const [statsRes, analyticsRes] = await Promise.all([
+                const [statsRes, analyticsRes, logsRes] = await Promise.all([
                     api.get('/admin/stats'),
-                    api.get('/admin/analytics/shifts')
+                    api.get('/admin/analytics/shifts'),
+                    api.get('/admin/logs')
                 ]);
 
                 setStats(statsRes.data);
+                setLogs(logsRes.data);
 
                 // Format analytics data for Recharts
                 const formattedChartData = Object.entries(analyticsRes.data).map(([date, count]) => ({
@@ -153,33 +156,32 @@ export default function AdminOverview() {
                         <div className="w-2 h-2 bg-rose-500 rounded-full animate-ping" />
                     </div>
                     <div className="flex-1 space-y-4">
-                        <div className="flex gap-4 p-3 rounded-lg hover:bg-slate-50 transition-colors cursor-pointer group">
-                            <div className="w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center shrink-0">
-                                <Clock className="w-5 h-5 text-amber-600" />
+                        {logs.length > 0 ? logs.map((log) => (
+                            <div key={log.id} className="flex gap-4 p-3 rounded-lg hover:bg-slate-50 transition-colors cursor-pointer group">
+                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${log.type === 'REQUEST' ? 'bg-amber-50' : log.status === 'IN_PROGRESS' ? 'bg-indigo-50' : 'bg-emerald-50'
+                                    }`}>
+                                    {log.type === 'REQUEST' ? (
+                                        <Clock className="w-5 h-5 text-amber-600" />
+                                    ) : log.status === 'IN_PROGRESS' ? (
+                                        <Activity className="w-5 h-5 text-indigo-600" />
+                                    ) : (
+                                        <ShieldCheck className="w-5 h-5 text-emerald-600" />
+                                    )}
+                                </div>
+                                <div>
+                                    <p className="text-sm font-bold text-slate-800 leading-tight mb-1 group-hover:text-blue-600">{log.title}</p>
+                                    <p className="text-xs text-slate-500">{log.description}</p>
+                                    <p className="text-[10px] text-slate-400 font-medium mt-1">
+                                        {new Date(log.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                    </p>
+                                </div>
                             </div>
-                            <div>
-                                <p className="text-sm font-bold text-slate-800 leading-tight mb-1 group-hover:text-blue-600">Late Clock-in Detected</p>
-                                <p className="text-xs text-slate-500">Caregiver: Rose J. is 15 mins late for shift #442.</p>
+                        )) : (
+                            <div className="py-10 text-center opacity-30">
+                                <Activity className="w-8 h-8 mx-auto mb-2" />
+                                <p className="text-xs font-bold uppercase tracking-widest">No activity log found</p>
                             </div>
-                        </div>
-                        <div className="flex gap-4 p-3 rounded-lg hover:bg-slate-50 transition-colors cursor-pointer group">
-                            <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center shrink-0">
-                                <TrendingUp className="w-5 h-5 text-blue-600" />
-                            </div>
-                            <div>
-                                <p className="text-sm font-bold text-slate-800 leading-tight mb-1 group-hover:text-blue-600">New Demand Pulse</p>
-                                <p className="text-xs text-slate-500">Service requests increased by 20% in the last 24h.</p>
-                            </div>
-                        </div>
-                        <div className="flex gap-4 p-3 rounded-lg hover:bg-slate-50 transition-colors cursor-pointer group">
-                            <div className="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center shrink-0">
-                                <Users className="w-5 h-5 text-emerald-600" />
-                            </div>
-                            <div>
-                                <p className="text-sm font-bold text-slate-800 leading-tight mb-1 group-hover:text-blue-600">Verification Pending</p>
-                                <p className="text-xs text-slate-500">3 new caregivers waiting for background checks.</p>
-                            </div>
-                        </div>
+                        )}
                     </div>
                     <button className="mt-6 w-full py-2 bg-slate-50 hover:bg-slate-100 text-slate-600 text-xs font-bold rounded-lg transition-colors border border-slate-200 uppercase tracking-widest">
                         View War Room Log
