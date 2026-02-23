@@ -1,4 +1,3 @@
-```javascript
 'use client';
 
 import React, { useEffect, useState } from 'react';
@@ -14,23 +13,6 @@ import {
     Phone
 } from 'lucide-react';
 import Link from 'next/link';
-
-/*
-- [x] **Dashboard Refinement & 404 Fixes**
-  - [x] Fix layout cutoffs in `DashboardLayout.tsx`.
-  - [x] Implement functional `Settings` page.
-  - [x] Implement functional `Analytics` page.
-  - [x] Implement functional `Care Requests` page.
-  - [x] Implement functional `Reports` and `Verification` pages.
-  - [x] Connect "The Pulse" to real-time backend activity logs.
-  - [x] Sync all fixes to GitHub.
-- [/] **100% Dynamic Data Overhaul**
-  - [ ] Implement `getAdvancedStats` in `adminController.ts`.
-  - [ ] Connect `AdminOverview` trends to backend data.
-  - [ ] Re-wire `AnalyticsPage` charts and stats to live API.
-  - [ ] Verify results with real system activity.
-  - [ ] Dynamic Analytics Task
-*/
 
 export default function CaregiversListPage() {
     const [caregivers, setCaregivers] = useState<any[]>([]);
@@ -114,7 +96,7 @@ export default function CaregiversListPage() {
                                     <td className="px-8 py-5">
                                         <div className={`
 inline - flex items - center gap - 1.5 px - 2.5 py - 1 rounded - lg text - [10px] font - black uppercase tracking - tight
-                                            ${ cg.profile?.isVerified ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600' }
+                                            ${cg.profile?.isVerified ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'}
 `}>
                                             <ShieldCheck className="w-3 h-3" />
                                             {cg.profile?.isVerified ? 'Verified' : 'Pending'}
@@ -130,7 +112,7 @@ inline - flex items - center gap - 1.5 px - 2.5 py - 1 rounded - lg text - [10px
                                     </td>
                                     <td className="px-8 py-5 text-right">
                                         <Link
-                                            href={`/ dashboard / caregivers / ${ cg.id } `}
+                                            href={`/ dashboard / caregivers / ${cg.id} `}
                                             className="px-4 py-2 bg-slate-100 hover:bg-slate-900 hover:text-white text-slate-600 text-[10px] font-black uppercase tracking-widest rounded-lg transition-all"
                                         >
                                             Track Metrics
