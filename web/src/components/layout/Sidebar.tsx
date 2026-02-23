@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -10,77 +10,88 @@ import {
     Settings,
     LogOut,
     ClipboardList,
-    ChevronRight
+    TrendingUp,
+    FileText,
+    ShieldCheck,
+    Briefcase
 } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { logout } from '@/lib/api';
-import Logo from '../ui/Logo';
 
-const menuItems = [
-    { icon: LayoutDashboard, label: 'Overview', href: '/dashboard' },
-    { icon: Calendar, label: 'Shifts', href: '/dashboard/shifts' },
-    { icon: ClipboardList, label: 'Requests', href: '/dashboard/requests' },
-    { icon: Users, label: 'Caregivers', href: '/dashboard/caregivers' },
-    { icon: Users, label: 'Patients', href: '/dashboard/patients' },
-    { icon: Settings, label: 'Settings', href: '/dashboard/settings' },
+type MenuItem = {
+    icon: any;
+    label: string;
+    href: string;
+    roles: string[];
+};
+
+const menuItems: MenuItem[] = [
+    { icon: LayoutDashboard, label: 'Dashboard', href: '/dashboard', roles: ['ADMIN', 'CAREGIVER', 'PATIENT'] },
+    { icon: TrendingUp, label: 'Analytics', href: '/dashboard/analytics', roles: ['ADMIN'] },
+    { icon: ClipboardList, label: 'Care Requests', href: '/dashboard/requests', roles: ['ADMIN', 'PATIENT'] },
+    { icon: Briefcase, label: 'Marketplace', href: '/dashboard/marketplace', roles: ['CAREGIVER'] },
+    { icon: Calendar, label: 'My Schedule', href: '/dashboard/schedule', roles: ['CAREGIVER', 'ADMIN'] },
+    { icon: Users, label: 'Caregivers', href: '/dashboard/caregivers', roles: ['ADMIN'] },
+    { icon: ShieldCheck, label: 'Verification', href: '/dashboard/verification', roles: ['ADMIN'] },
+    { icon: FileText, label: 'Reports', href: '/dashboard/reports', roles: ['ADMIN'] },
+    { icon: Settings, label: 'Settings', href: '/dashboard/settings', roles: ['ADMIN', 'CAREGIVER', 'PATIENT'] },
 ];
 
 export default function Sidebar() {
     const pathname = usePathname();
+    const [userRole, setUserRole] = useState<string>('PATIENT');
+
+    useEffect(() => {
+        const user = localStorage.getItem('user');
+        if (user) {
+            try {
+                setUserRole(JSON.parse(user).role);
+            } catch (e) {
+                console.error('Failed to parse user role');
+            }
+        }
+    }, []);
+
+    const filteredMenu = menuItems.filter(item => item.roles.includes(userRole));
 
     return (
-        <motion.div
-            initial={{ x: -20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            className="w-[280px] h-screen p-6 hidden lg:flex flex-col relative z-50"
-        >
-            <div className="flex-1 flex flex-col bg-zinc-900/40 backdrop-blur-xl border border-white/[0.05] rounded-[32px] p-6 shadow-2xl overflow-hidden relative">
-                {/* Ambient Glow */}
-                <div className="absolute top-0 left-0 w-full h-32 bg-blue-500/10 blur-[60px] pointer-events-none" />
-
-                <div className="mb-10 pl-2 relative z-10">
-                    <Logo className="w-20" />
-                </div>
-
-                <nav className="flex-1 space-y-2 relative z-10">
-                    {menuItems.map((item) => {
-                        const isActive = pathname === item.href;
-                        return (
-                            <Link key={item.href} href={item.href}>
-                                <div className="relative group">
-                                    {isActive && (
-                                        <motion.div
-                                            layoutId="activeTab"
-                                            className="absolute inset-0 bg-white rounded-xl shadow-[0_0_20px_rgba(255,255,255,0.3)]"
-                                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                                        />
-                                    )}
-                                    <div className={`relative px-4 py-3.5 flex items-center justify-between rounded-xl transition-all duration-200 ${isActive ? 'text-black' : 'text-zinc-500 hover:text-white hover:bg-white/[0.05]'
-                                        }`}>
-                                        <div className="flex items-center gap-3">
-                                            <item.icon className={`w-5 h-5 ${isActive ? 'stroke-[2.5px]' : 'stroke-2'}`} />
-                                            <span className={`text-sm font-bold tracking-wide ${isActive ? 'font-extrabold' : ''}`}>
-                                                {item.label}
-                                            </span>
-                                        </div>
-                                        {isActive && <ChevronRight className="w-4 h-4 text-black/50" />}
-                                    </div>
-                                </div>
-                            </Link>
-                        );
-                    })}
-                </nav>
-
-                <div className="pt-6 border-t border-white/[0.05] relative z-10">
-                    <button
-                        onClick={logout}
-                        className="flex items-center gap-3 px-4 py-3.5 w-full rounded-xl text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200 group"
-                    >
-                        <LogOut className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-                        <span className="font-bold text-sm tracking-wide">Sign Out</span>
-                    </button>
+        <aside className="w-[var(--sidebar-width)] h-screen bg-[var(--sidebar)] border-r border-[var(--sidebar-border)] flex flex-col fixed left-0 top-0 z-40">
+            <div className="h-20 flex items-center px-6 border-b border-[var(--sidebar-border)]">
+                <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                        <span className="text-white font-black text-xs">TC</span>
+                    </div>
+                    <span className="font-extrabold text-slate-900 tracking-tight text-lg">TRUE CARE</span>
                 </div>
             </div>
-        </motion.div>
+
+            <nav className="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+                {filteredMenu.map((item) => {
+                    const isActive = pathname === item.href;
+                    return (
+                        <Link key={item.href} href={item.href}>
+                            <div className={`
+                                flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors
+                                ${isActive
+                                    ? 'bg-blue-50 text-blue-700'
+                                    : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}
+                            `}>
+                                <item.icon className={`w-4 h-4 ${isActive ? 'text-blue-600' : 'text-slate-400'}`} />
+                                {item.label}
+                            </div>
+                        </Link>
+                    );
+                })}
+            </nav>
+
+            <div className="p-4 border-t border-[var(--sidebar-border)]">
+                <button
+                    onClick={logout}
+                    className="flex items-center gap-3 px-3 py-2.5 w-full rounded-lg text-slate-600 hover:bg-red-50 hover:text-red-700 transition-colors text-sm font-medium group"
+                >
+                    <LogOut className="w-4 h-4 text-slate-400 group-hover:text-red-600" />
+                    Sign Out
+                </button>
+            </div>
+        </aside>
     );
 }

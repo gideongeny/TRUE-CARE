@@ -6,6 +6,7 @@ import morgan from 'morgan';
 
 import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
+import adminRoutes from './routes/adminRoutes';
 import shiftRoutes from './routes/shiftRoutes';
 import requestRoutes from './routes/requestRoutes';
 
@@ -31,6 +32,7 @@ app.use('/api/', limiter);
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/api/shifts', shiftRoutes);
 app.use('/api/requests', requestRoutes);
 

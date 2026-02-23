@@ -3,8 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
 import { isAuthenticated } from '@/lib/api';
-import { User, Bell, Search, Menu, Settings, ChevronDown } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { User, Bell, Search, Menu, Settings } from 'lucide-react';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<any>(null);
@@ -20,79 +19,63 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     }, []);
 
     if (!user) return (
-        <div className="min-h-screen bg-black flex items-center justify-center">
-            <div className="w-8 h-8 border-4 border-white/10 border-t-white rounded-full animate-spin" />
+        <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+            <div className="w-8 h-8 border-4 border-blue-600/10 border-t-blue-600 rounded-full animate-spin" />
         </div>
     );
 
     return (
-        <div className="h-screen w-screen bg-black text-white flex overflow-hidden font-sans selection:bg-white/20 selection:text-white">
-            {/* Ambient Background */}
-            <div className="fixed inset-0 pointer-events-none">
-                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/5 rounded-full blur-[120px] mix-blend-screen animate-pulse duration-[10000ms]" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-600/5 rounded-full blur-[100px] mix-blend-screen animate-pulse duration-[15000ms]" />
-                <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay" />
-            </div>
-
+        <div className="h-screen w-screen bg-slate-50 text-slate-900 flex overflow-hidden font-sans">
             <Sidebar />
 
-            <div className="flex-1 flex flex-col min-w-0 overflow-y-auto relative z-10 w-full">
-                <div className="p-6 md:p-8 lg:p-10 w-full max-w-[1600px] mx-auto">
+            <div className="flex-1 flex flex-col min-w-0 overflow-y-auto relative z-10 w-full ml-[var(--sidebar-width)]">
+                <div className="w-full">
                     {/* Top Header */}
-                    <header className="flex items-center justify-between mb-12">
+                    <header className="h-20 flex items-center justify-between bg-white border-b border-slate-200 px-8 sticky top-0 z-30">
                         <div className="flex items-center gap-6">
                             <button
-                                className="lg:hidden p-3 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-colors"
+                                className="lg:hidden p-2 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors"
                                 onClick={() => setSidebarOpen(!isSidebarOpen)}
                             >
-                                <Menu className="w-5 h-5" />
+                                <Menu className="w-5 h-5 text-slate-600" />
                             </button>
                             <div className="relative hidden md:flex items-center group">
-                                <Search className="absolute left-4 w-4 h-4 text-zinc-500 group-focus-within:text-white transition-colors" />
+                                <Search className="absolute left-4 w-4 h-4 text-slate-400 group-focus-within:text-blue-600 transition-colors" />
                                 <input
                                     type="text"
-                                    placeholder="Search anything..."
-                                    className="bg-zinc-900/50 border border-white/[0.05] rounded-2xl pl-12 pr-6 py-4 w-96 outline-none focus:border-white/10 focus:bg-zinc-900 transition-all text-sm font-medium placeholder-zinc-700"
+                                    placeholder="Search command..."
+                                    className="bg-slate-50 border border-slate-200 rounded-lg pl-11 pr-4 py-2 w-80 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all text-sm font-medium"
                                 />
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-6 md:gap-8">
-                            <div className="flex items-center gap-4">
-                                <button className="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-white/5 transition-all text-zinc-500 hover:text-white">
-                                    <Bell className="w-5 h-5" />
-                                </button>
-                                <button className="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-white/5 transition-all text-zinc-500 hover:text-white">
-                                    <Settings className="w-5 h-5" />
-                                </button>
-                            </div>
+                        <div className="flex items-center gap-4">
+                            <button className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-slate-50 transition-all text-slate-400 hover:text-blue-600 border border-transparent hover:border-slate-200">
+                                <Bell className="w-5 h-5" />
+                            </button>
 
-                            <div className="h-8 w-[1px] bg-white/[0.1] hidden sm:block" />
+                            <div className="h-8 w-[1px] bg-slate-200 mx-2" />
 
-                            <button className="flex items-center gap-4 pl-2 group">
+                            <button className="flex items-center gap-3 pl-2 group">
                                 <div className="text-right hidden lg:block">
-                                    <p className="text-sm font-bold text-white group-hover:text-blue-200 transition-colors">
+                                    <p className="text-sm font-semibold text-slate-900 leading-none">
                                         {user.firstName} {user.lastName}
                                     </p>
-                                    <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider mt-0.5">
-                                        {user.role} Account
+                                    <p className="text-[11px] text-slate-500 font-medium mt-1 uppercase tracking-tight">
+                                        {user.role}
                                     </p>
                                 </div>
-                                <div className="w-11 h-11 rounded-full bg-gradient-to-br from-zinc-800 to-zinc-900 border border-white/10 flex items-center justify-center group-hover:border-white/30 transition-all shadow-lg overflow-hidden relative">
-                                    <User className="w-5 h-5 text-zinc-400 group-hover:text-white transition-colors relative z-10" />
+                                <div className="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-600/20">
+                                    <User className="w-5 h-5 text-white" />
                                 </div>
                             </button>
                         </div>
                     </header>
 
                     {/* Main Content Area */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="pb-12"
-                    >
+                    <main className="p-8">
                         {children}
-                    </motion.div>
+                    </main>
                 </div>
             </div>
         </div>

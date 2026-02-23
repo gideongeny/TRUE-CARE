@@ -64,6 +64,19 @@ export const updateRequestStatus = async (req: Request, res: Response) => {
             data: { status }
         });
 
+        // If approved, create an open shift in the marketplace
+        if (status === 'APPROVED') {
+            await prisma.shift.create({
+                data: {
+                    patientId: request.patientId,
+                    caregiverId: null, // Open to all
+                    startTime: new Date(), // Default or parsed from request context
+                    endTime: new Date(Date.now() + 3600000), // Default 1 hour
+                    notes: `Source: ${request.careType}. Description: ${request.description || 'None'}`
+                }
+            });
+        }
+
         res.json(request);
     } catch (error) {
         console.error(error);

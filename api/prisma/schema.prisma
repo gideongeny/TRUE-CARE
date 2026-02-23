@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -55,8 +55,8 @@ model Profile {
 
 model Shift {
   id          String      @id @default(uuid())
-  caregiverId String
-  caregiver   User        @relation("CaregiverShifts", fields: [caregiverId], references: [id])
+  caregiverId String?
+  caregiver   User?       @relation("CaregiverShifts", fields: [caregiverId], references: [id])
   patientId   String
   patient     User        @relation("PatientShifts", fields: [patientId], references: [id])
   
@@ -65,8 +65,9 @@ model Shift {
   status      String      @default("SCHEDULED")
   notes       String?
   
-  clockInTime  DateTime?
-  clockOutTime DateTime?
+  clockInTime    DateTime?
+  clockOutTime   DateTime?
+  actualDuration Float?     // In hours
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
