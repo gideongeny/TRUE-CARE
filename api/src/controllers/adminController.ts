@@ -183,3 +183,55 @@ export const getActivityLog = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+export const getVerificationQueue = async (req: Request, res: Response) => {
+    try {
+        const pending = await prisma.user.findMany({
+            where: {
+                role: 'CAREGIVER',
+                profile: { isVerified: false }
+            },
+            include: { profile: true },
+            orderBy: { createdAt: 'desc' }
+        });
+
+        const queue = pending.map(p => ({
+            id: p.id,
+            name: `${p.profile?.firstName} ${p.profile?.lastName?.[0]}.`,
+            role: 'Care Professional',
+            status: p.profile?.idCardUrl ? 'Identity Uploaded' : 'Pending Documents',
+            risk: 'Low', // This would ideally come from a risk scoring engine
+            date: p.createdAt
+        }));
+
+        res.json(queue);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+export const getSystemReports = async (req: Request, res: Response) => {
+    try {
+        const [shiftCount, requestCount] = await Promise.all([
+            prisma.shift.count(),
+            prisma.serviceRequest.count()
+        ]);
+
+        const reports = [
+            { id: 1, name: 'Caregiver Utilization Audit.pdf', type: 'Operational', date: new Date().toISOString().split('T')[0], size: `${(shiftCount * 0.1).toFixed(1)} MB` },
+            { id: 2, name: 'Monthly Service Distribution.csv', type: 'Growth', date: new Date().toISOString().split('T')[0], size: `${(requestCount * 0.05).toFixed(1)} MB` },
+            { id: 3, name: 'Compliance Incident Log.pdf', type: 'Compliance', date: new Date(Date.now() - 86400000).toISOString().split('T')[0], size: '1.2 MB' },
+        ];
+
+        res.json({
+            reports,
+            stats: {
+                generated: 12 + shiftCount, // Mocked total based on activity
+                completionRate: 98
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};

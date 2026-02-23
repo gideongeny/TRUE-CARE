@@ -10,6 +10,8 @@ router.get('/stats', getGlobalStats);
 router.get('/caregivers/:id/performance', getCaregiverPerformance);
 router.get('/analytics/shifts', getShiftAnalytics);
 router.get('/analytics/advanced', getAdvancedAnalytics);
+router.get('/verification/queue', getVerificationQueue);
+router.get('/reports/system', getSystemReports);
 router.get('/logs', getActivityLog);
 
 export default router;

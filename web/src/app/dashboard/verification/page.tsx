@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import DashboardLayout from '@/components/layout/DashboardLayout';
+import api from '@/lib/api';
 import {
     ShieldCheck,
     UserCheck,
@@ -13,12 +14,24 @@ import {
 } from 'lucide-react';
 
 export default function VerificationPage() {
-    const queue = [
-        { id: 1, name: 'Alexander G.', role: 'Senior Nurse', status: 'Pending Background', risk: 'Low', date: '2h ago' },
-        { id: 2, name: 'Sarah Miller', role: 'Companion Care', status: 'Identity Verified', risk: 'Low', date: '5h ago' },
-        { id: 3, name: 'Robert Chen', role: 'Physical Therapist', status: 'Credentials Check', risk: 'Medium', date: '1d ago' },
-        { id: 4, name: 'Emily Davis', role: 'Home Health Aide', status: 'Review Required', risk: 'High', date: '2d ago' },
-    ];
+    const [queue, setQueue] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchQueue = async () => {
+            try {
+                const res = await api.get('/admin/verification/queue');
+                setQueue(res.data);
+            } catch (error) {
+                console.error('Failed to fetch verification queue', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchQueue();
+    }, []);
+
+    if (loading) return <div className="p-20 text-center font-bold text-slate-400">Loading Screening Queue...</div>;
 
     return (
         <DashboardLayout>
@@ -42,7 +55,7 @@ export default function VerificationPage() {
                             <Lock className="w-5 h-5 text-blue-600" />
                             <span className="text-[10px] font-black uppercase text-blue-600 tracking-widest">Pending Checks</span>
                         </div>
-                        <h3 className="text-3xl font-black text-slate-900">14</h3>
+                        <h3 className="text-3xl font-black text-slate-900">{queue.length}</h3>
                         <p className="text-[11px] text-slate-500 mt-1">Active background screenings.</p>
                     </div>
                 </div>
@@ -80,7 +93,9 @@ export default function VerificationPage() {
                                     </div>
                                     <div className="text-right">
                                         <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Entry</p>
-                                        <p className="text-[11px] font-medium text-slate-500">{item.date}</p>
+                                        <p className="text-[11px] font-medium text-slate-500">
+                                            {typeof item.date === 'string' && item.date.includes('ago') ? item.date : new Date(item.date).toLocaleDateString()}
+                                        </p>
                                     </div>
                                     <button className="p-2 hover:bg-white hover:border-slate-200 border border-transparent rounded-lg transition-all">
                                         <ChevronRight className="w-5 h-5 text-slate-400" />

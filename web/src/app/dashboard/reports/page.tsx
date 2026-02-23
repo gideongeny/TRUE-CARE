@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import DashboardLayout from '@/components/layout/DashboardLayout';
+import api from '@/lib/api';
 import {
     FileText,
     Download,
@@ -13,12 +14,26 @@ import {
 } from 'lucide-react';
 
 export default function ReportsPage() {
-    const reports = [
-        { id: 1, name: 'Q1 Caregiver Utilization.pdf', type: 'Operational', date: '2024-03-20', size: '2.4 MB' },
-        { id: 2, name: 'March Financial Summary.csv', type: 'Financial', date: '2024-03-15', size: '1.1 MB' },
-        { id: 3, name: 'Patient Incident History.pdf', type: 'Compliance', date: '2024-03-10', size: '4.5 MB' },
-        { id: 4, name: 'Regional Demand Heatmap.png', type: 'Growth', date: '2024-03-05', size: '0.8 MB' },
-    ];
+    const [reports, setReports] = useState<any[]>([]);
+    const [stats, setStats] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchReports = async () => {
+            try {
+                const res = await api.get('/admin/reports/system');
+                setReports(res.data.reports);
+                setStats(res.data.stats);
+            } catch (error) {
+                console.error('Failed to fetch reports', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchReports();
+    }, []);
+
+    if (loading) return <div className="p-20 text-center font-bold text-slate-400">Archiving System Documentation...</div>;
 
     return (
         <DashboardLayout>
@@ -37,11 +52,11 @@ export default function ReportsPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <div className="stats-card">
                         <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Reports Generated</p>
-                        <h3 className="text-2xl font-black text-slate-900 underline decoration-blue-500/30">124</h3>
+                        <h3 className="text-2xl font-black text-slate-900 underline decoration-blue-500/30">{stats?.generated || 0}</h3>
                     </div>
                     <div className="stats-card">
                         <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest mb-1">Avg Completion</p>
-                        <h3 className="text-2xl font-black text-slate-900 underline decoration-emerald-500/30">98%</h3>
+                        <h3 className="text-2xl font-black text-slate-900 underline decoration-emerald-500/30">{stats?.completionRate || 0}%</h3>
                     </div>
                 </div>
 
