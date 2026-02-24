@@ -119,8 +119,9 @@ export default function CaregiverDetailPage() {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* Professional Bio & Credentials */}
-                    <div className="bg-white border border-slate-200 rounded-[40px] p-8 shadow-sm">
+                    {/* Personnel Intelligence & Clinical Bio */}
+                    <div className="lg:col-span-1 space-y-8">
+                        {/* Professional Bio & Credentials */}
                         <h3 className="font-black text-slate-900 uppercase tracking-widest text-xs mb-8">Clinical Authority & Bio</h3>
                         <div className="space-y-6">
                             <div className="p-6 bg-slate-50 rounded-[32px] border border-slate-100">
