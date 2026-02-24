@@ -8,7 +8,8 @@ import {
     Clock,
     CheckCircle,
     Navigation,
-    Info
+    Info,
+    Activity
 } from 'lucide-react';
 import api from '@/lib/api';
 import { motion, AnimatePresence } from 'framer-motion';
