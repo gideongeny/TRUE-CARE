@@ -11,42 +11,53 @@ import {
     ShieldCheck,
     AlertCircle,
     ArrowUpRight,
-    ArrowDownRight
+    ArrowDownRight,
+    Search,
+    UserPlus,
+    Stethoscope,
+    MoreVertical
 } from 'lucide-react';
 import api from '@/lib/api';
 import {
-    BarChart,
-    Bar,
+    AreaChart,
+    Area,
     XAxis,
     YAxis,
     CartesianGrid,
     Tooltip,
-    ResponsiveContainer,
-    AreaChart,
-    Area
+    ResponsiveContainer
 } from 'recharts';
 
 export default function AdminOverview() {
     const [stats, setStats] = useState<any>(null);
     const [chartData, setChartData] = useState<any>([]);
     const [logs, setLogs] = useState<any[]>([]);
+    const [patients, setPatients] = useState<any[]>([]);
+    const [caregivers, setCaregivers] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [selectedPatient, setSelectedPatient] = useState<any>(null);
+    const [isAssigning, setIsAssigning] = useState(false);
 
     useEffect(() => {
         const fetchDashboardData = async () => {
             try {
-                const [statsRes, analyticsRes, logsRes] = await Promise.all([
+                const [statsRes, analyticsRes, logsRes, usersRes] = await Promise.all([
                     api.get('/admin/stats'),
                     api.get('/admin/analytics/shifts'),
-                    api.get('/admin/logs')
+                    api.get('/admin/logs'),
+                    api.get('/admin/users')
                 ]);
 
                 setStats(statsRes.data);
                 setLogs(logsRes.data);
 
+                // Filter users
+                setPatients(usersRes.data.filter((u: any) => u.role === 'PATIENT'));
+                setCaregivers(usersRes.data.filter((u: any) => u.role === 'CAREGIVER'));
+
                 // Format analytics data for Recharts
                 const formattedChartData = Object.entries(analyticsRes.data).map(([date, count]) => ({
-                    date: date.split('-').slice(1).join('/'), // Focus on MM/DD
+                    date: date.split('-').slice(1).join('/'),
                     shifts: count
                 })).sort((a, b) => a.date.localeCompare(b.date));
 
@@ -61,13 +72,23 @@ export default function AdminOverview() {
         fetchDashboardData();
     }, []);
 
-    if (loading) return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[1, 2, 3, 4].map(i => (
-                <div key={i} className="h-32 bg-slate-100 animate-pulse rounded-xl" />
-            ))}
-        </div>
-    );
+    const handleAssign = async (caregiverId: string) => {
+        try {
+            await api.post('/shifts', {
+                caregiverId,
+                patientId: selectedPatient.id,
+                startTime: new Date(),
+                endTime: new Date(Date.now() + 8 * 60 * 60 * 1000), // 8 hour shift
+                notes: 'Tactical deployment via Admin Command Center'
+            });
+            setIsAssigning(false);
+            setSelectedPatient(null);
+            // Refresh logic
+            window.location.reload();
+        } catch (error) {
+            console.error('Failed to assign caregiver', error);
+        }
+    };
 
     const cards = [
         { label: 'Total Patients', value: stats?.patientCount || 0, icon: Users, trend: stats?.patientTrend >= 0 ? `+${stats?.patientTrend}%` : `${stats?.patientTrend}%`, up: stats?.patientTrend >= 0, color: 'text-blue-600', bg: 'bg-blue-50' },
@@ -76,9 +97,11 @@ export default function AdminOverview() {
         { label: 'Active Shifts', value: stats?.activeShifts || 0, icon: Activity, trend: stats?.operationalLoad, up: true, color: 'text-indigo-600', bg: 'bg-indigo-50' },
     ];
 
+    if (loading) return <div className="p-20 text-center font-black text-slate-400 uppercase tracking-widest">Waking Up Neural Engine...</div>;
+
     return (
-        <div className="space-y-8">
-            {/* Header with quick stats */}
+        <div className="space-y-10">
+            {/* Top Stats */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {cards.map((card, i) => (
                     <motion.div
@@ -86,13 +109,13 @@ export default function AdminOverview() {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.1 }}
-                        className="stats-card"
+                        className="stats-card group hover:shadow-2xl transition-all"
                     >
                         <div className="flex items-center justify-between mb-4">
-                            <div className={`p-2.5 rounded-xl ${card.bg} border-2 border-white shadow-inner`}>
+                            <div className={`p-2.5 rounded-xl ${card.bg} border-2 border-white shadow-inner group-hover:scale-110 transition-transform`}>
                                 <card.icon className={`w-5 h-5 ${card.color}`} />
                             </div>
-                            <div className={`flex items-center text-[11px] font-black px-2.5 py-1 rounded-full ${card.up ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'} border-2 border-white shadow-sm`}>
+                            <div className={`flex items-center text-[10px] font-black px-2.5 py-1 rounded-full ${card.up ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'} border-2 border-white shadow-sm`}>
                                 {card.up ? <ArrowUpRight className="w-3 h-3 mr-0.5" /> : <ArrowDownRight className="w-3 h-3 mr-0.5" />}
                                 {card.trend}
                             </div>
@@ -105,98 +128,114 @@ export default function AdminOverview() {
                 ))}
             </div>
 
-            {/* Main Analytics Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Shift Volume Chart */}
-                <div className="lg:col-span-2 bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
-                    <div className="flex items-center justify-between mb-8">
-                        <div>
-                            <h4 className="text-slate-900 font-bold text-lg">Shift Volume</h4>
-                            <p className="text-slate-500 text-sm">Last 7 days performance metrics</p>
+            {/* Clinical Command & Patient Registry */}
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                {/* Clinical Intelligence Image 2 Integration */}
+                <div className="xl:col-span-2 space-y-8">
+                    {/* Hero Illustration */}
+                    <div className="relative h-[280px] w-full rounded-[40px] overflow-hidden group">
+                        <div className="absolute inset-0 bg-blue-900" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-transparent" />
+                        <div className="relative z-10 p-12 h-full flex flex-col justify-center">
+                            <h4 className="text-white text-3xl font-black tracking-tight leading-tight max-w-md uppercase">
+                                Clinical Deployment <br />Command Operations
+                            </h4>
+                            <p className="text-blue-100/80 text-xs font-bold mt-4 max-w-xs uppercase tracking-widest leading-relaxed">
+                                Orchestrating {stats?.activeShifts || 0} active deployments across the care network.
+                            </p>
                         </div>
-                        <select className="bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold px-3 py-2 outline-none focus:ring-2 focus:ring-blue-100">
-                            <option>Last 7 Days</option>
-                            <option>Last 30 Days</option>
-                        </select>
                     </div>
-                    <div className="h-[300px] w-full">
-                        <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={chartData}>
-                                <defs>
-                                    <linearGradient id="colorShifts" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#2563eb" stopOpacity={0.1} />
-                                        <stop offset="95%" stopColor="#2563eb" stopOpacity={0} />
-                                    </linearGradient>
-                                </defs>
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                                <XAxis
-                                    dataKey="date"
-                                    axisLine={false}
-                                    tickLine={false}
-                                    tick={{ fontSize: 12, fill: '#64748b', fontWeight: 500 }}
-                                    dy={10}
-                                />
-                                <YAxis
-                                    axisLine={false}
-                                    tickLine={false}
-                                    tick={{ fontSize: 12, fill: '#64748b', fontWeight: 500 }}
-                                />
-                                <Tooltip
-                                    contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
-                                />
-                                <Area
-                                    type="monotone"
-                                    dataKey="shifts"
-                                    stroke="#2563eb"
-                                    strokeWidth={4}
-                                    fillOpacity={1}
-                                    fill="url(#colorShifts)"
-                                    animationDuration={2000}
-                                />
-                            </AreaChart>
-                        </ResponsiveContainer>
+
+                    {/* Patients Table */}
+                    <div className="bg-white border border-slate-200 rounded-[40px] overflow-hidden shadow-sm">
+                        <div className="p-10 border-b border-slate-100 flex items-center justify-between bg-slate-50/30">
+                            <h4 className="font-black text-slate-900 uppercase tracking-[0.3em] text-xs">Verified Patient Registry</h4>
+                        </div>
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-left border-collapse">
+                                <tbody className="divide-y divide-slate-50">
+                                    {patients.map((patient) => (
+                                        <tr key={patient.id} className="group hover:bg-slate-50/50 transition-colors">
+                                            <td className="px-8 py-6">
+                                                <div className="flex items-center gap-4">
+                                                    <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-black">
+                                                        {patient.profile?.firstName[0]}{patient.profile?.lastName[0]}
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-sm font-black text-slate-900">{patient.profile?.firstName} {patient.profile?.lastName}</p>
+                                                        <p className="text-[10px] font-bold text-slate-400 uppercase">ID: {patient.id.slice(0, 8)}</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="px-8 py-6">
+                                                <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{patient.profile?.ailment || 'Observation'}</span>
+                                            </td>
+                                            <td className="px-8 py-6">
+                                                <button
+                                                    onClick={() => { setSelectedPatient(patient); setIsAssigning(true); }}
+                                                    className="px-4 py-2 bg-slate-900 text-white text-[9px] font-black uppercase rounded-lg hover:bg-blue-600 transition-all"
+                                                >
+                                                    Smart Assign
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
-                {/* Real-time Ticker / Alerts */}
-                <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm flex flex-col">
-                    <div className="flex items-center justify-between mb-6">
-                        <h4 className="text-slate-900 font-bold text-lg">The Pulse</h4>
-                        <div className="w-2 h-2 bg-rose-500 rounded-full animate-ping" />
-                    </div>
-                    <div className="flex-1 space-y-4">
-                        {logs.length > 0 ? logs.map((log) => (
-                            <div key={log.id} className="flex gap-4 p-3 rounded-lg hover:bg-slate-50 transition-colors cursor-pointer group">
-                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${log.type === 'REQUEST' ? 'bg-amber-50' : log.status === 'IN_PROGRESS' ? 'bg-indigo-50' : 'bg-emerald-50'
-                                    }`}>
-                                    {log.type === 'REQUEST' ? (
-                                        <Clock className="w-5 h-5 text-amber-600" />
-                                    ) : log.status === 'IN_PROGRESS' ? (
-                                        <Activity className="w-5 h-5 text-indigo-600" />
-                                    ) : (
-                                        <ShieldCheck className="w-5 h-5 text-emerald-600" />
-                                    )}
+                {/* Performance Feed */}
+                <div className="space-y-8">
+                    <div className="bg-white border border-slate-200 rounded-[40px] p-8">
+                        <h4 className="font-black text-slate-900 uppercase tracking-widest text-xs mb-8">Active Deployment Feed</h4>
+                        <div className="space-y-6">
+                            {logs.slice(0, 5).map((log) => (
+                                <div key={log.id} className="flex gap-4">
+                                    <div className="w-2 h-2 bg-blue-600 rounded-full mt-1 shrink-0" />
+                                    <div>
+                                        <p className="text-[11px] font-black text-slate-900 uppercase leading-tight">{log.title}</p>
+                                        <p className="text-[9px] font-bold text-slate-400 mt-1 uppercase tracking-widest">{log.description}</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p className="text-sm font-bold text-slate-800 leading-tight mb-1 group-hover:text-blue-600">{log.title}</p>
-                                    <p className="text-xs text-slate-500">{log.description}</p>
-                                    <p className="text-[10px] text-slate-400 font-medium mt-1">
-                                        {new Date(log.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                    </p>
-                                </div>
-                            </div>
-                        )) : (
-                            <div className="py-10 text-center opacity-30">
-                                <Activity className="w-8 h-8 mx-auto mb-2" />
-                                <p className="text-xs font-bold uppercase tracking-widest">No activity log found</p>
-                            </div>
-                        )}
+                            ))}
+                        </div>
                     </div>
-                    <button className="mt-6 w-full py-2 bg-slate-50 hover:bg-slate-100 text-slate-600 text-xs font-bold rounded-lg transition-colors border border-slate-200 uppercase tracking-widest">
-                        View War Room Log
-                    </button>
                 </div>
             </div>
+
+            {/* Assignment Modal */}
+            {isAssigning && (
+                <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-[100] flex items-center justify-center p-6">
+                    <div className="bg-white rounded-[40px] shadow-2xl w-full max-w-lg overflow-hidden">
+                        <div className="p-8 border-b border-slate-100 flex items-center justify-between">
+                            <h3 className="font-black text-slate-900 uppercase tracking-widest text-sm">Assign Caregiver: {selectedPatient?.profile?.lastName}</h3>
+                            <button onClick={() => setIsAssigning(false)} className="text-slate-400 hover:text-slate-900 font-black">CLOSE</button>
+                        </div>
+                        <div className="p-8 space-y-4 max-h-[400px] overflow-y-auto">
+                            {caregivers.map(cg => (
+                                <div
+                                    key={cg.id}
+                                    onClick={() => handleAssign(cg.id)}
+                                    className="p-4 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-between cursor-pointer hover:bg-blue-50 hover:border-blue-200 transition-all group"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-black text-xs">
+                                            {cg.profile?.firstName[0]}{cg.profile?.lastName[0]}
+                                        </div>
+                                        <div>
+                                            <p className="text-xs font-black text-slate-900 uppercase">{cg.profile?.firstName} {cg.profile?.lastName}</p>
+                                            <p className="text-[9px] font-bold text-slate-400 uppercase">Verified Personnel</p>
+                                        </div>
+                                    </div>
+                                    <div className="w-2 h-2 bg-emerald-500 rounded-full opacity-0 group-hover:opacity-100 transition-all" />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

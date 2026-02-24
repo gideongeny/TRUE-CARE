@@ -79,37 +79,59 @@ export default function CaregiverMarketplace() {
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.95 }}
-                                className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all group"
+                                className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all group relative overflow-hidden"
                             >
-                                <div className="flex items-start justify-between mb-4">
-                                    <div className="p-3 bg-blue-50 rounded-xl group-hover:bg-blue-600 transition-colors">
-                                        <ShoppingBag className="w-5 h-5 text-blue-600 group-hover:text-white transition-colors" />
-                                    </div>
-                                    <div className="text-right">
-                                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-none mb-1">Duration</p>
-                                        <p className="text-sm font-black text-slate-900">4 Hours</p>
+                                <div className="absolute top-0 right-0 p-4">
+                                    <div className="bg-blue-50 text-blue-600 px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest border border-blue-100">
+                                        Open Request
                                     </div>
                                 </div>
 
-                                <div className="space-y-3 mb-6">
-                                    <h3 className="font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
-                                        Personal Care - {shift.patient?.profile?.lastName || 'Open Request'}
-                                    </h3>
-                                    <div className="flex items-center gap-2 text-slate-500">
-                                        <Calendar className="w-4 h-4" />
-                                        <span className="text-xs font-medium">
-                                            {new Date(shift.startTime).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
-                                        </span>
+                                <div className="flex items-start gap-4 mb-6">
+                                    <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center border border-slate-100 group-hover:bg-blue-600 transition-colors">
+                                        <ShoppingBag className="w-6 h-6 text-blue-600 group-hover:text-white transition-colors" />
                                     </div>
-                                    <div className="flex items-center gap-2 text-slate-500">
-                                        <Clock className="w-4 h-4" />
-                                        <span className="text-xs font-medium">
-                                            {new Date(shift.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                        </span>
+                                    <div>
+                                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Service Type</p>
+                                        <h3 className="font-black text-slate-900 text-lg leading-tight uppercase tracking-tight">
+                                            {shift.patient?.profile?.lastName || 'General Care'}
+                                        </h3>
                                     </div>
-                                    <div className="flex items-center gap-2 text-slate-500">
-                                        <MapPin className="w-4 h-4" />
-                                        <span className="text-xs font-medium truncate">Long Island, NY</span>
+                                </div>
+
+                                <div className="space-y-4 mb-8">
+                                    <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                                        <p className="text-[9px] font-black text-blue-600 uppercase tracking-[0.2em] mb-2">Patient Intelligence</p>
+                                        <div className="space-y-2">
+                                            <div className="flex items-start gap-2">
+                                                <Activity className="w-3.5 h-3.5 text-slate-400 mt-0.5" />
+                                                <p className="text-xs font-black text-slate-900 uppercase tracking-tight">
+                                                    {shift.patient?.profile?.ailment || 'No ailment specified'}
+                                                </p>
+                                            </div>
+                                            <p className="text-[11px] text-slate-500 font-bold leading-relaxed italic">
+                                                "{shift.patient?.profile?.bio || 'Waiting for medical history update...'}"
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="flex items-center gap-2.5 text-slate-600">
+                                            <div className="p-2 bg-white border border-slate-100 rounded-lg shadow-sm">
+                                                <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                                            </div>
+                                            <span className="text-[11px] font-black uppercase tracking-widest">
+                                                {new Date(shift.startTime).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center gap-2.5 text-slate-600">
+                                            <div className="p-2 bg-white border border-slate-100 rounded-lg shadow-sm">
+                                                <Clock className="w-3.5 h-3.5 text-slate-400" />
+                                            </div>
+                                            <span className="text-[11px] font-black uppercase tracking-widest">
+                                                {new Date(shift.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -117,13 +139,13 @@ export default function CaregiverMarketplace() {
                                     onClick={() => handleClaim(shift.id)}
                                     disabled={claiming === shift.id}
                                     className={`
-                                        w-full py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all
+                                        w-full py-4 rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] transition-all
                                         ${claiming === shift.id
                                             ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
-                                            : 'bg-slate-900 text-white hover:bg-blue-600 shadow-lg shadow-slate-200'}
+                                            : 'bg-slate-900 text-white hover:bg-blue-600 shadow-xl shadow-slate-900/10 hover:shadow-blue-600/30'}
                                     `}
                                 >
-                                    {claiming === shift.id ? 'Securing...' : 'Claim Shift'}
+                                    {claiming === shift.id ? 'Securing Data...' : 'Claim This Shift'}
                                 </button>
                             </motion.div>
                         ))}

@@ -72,7 +72,8 @@ export default function PatientsPage() {
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: idx * 0.05, duration: 0.5 }}
                             key={patient.id}
-                            className="glass-card p-8 flex flex-col group cursor-pointer border-white/[0.03] !rounded-[32px]"
+                            className="glass-card p-8 flex flex-col group cursor-pointer border-white/[0.03] !rounded-[32px] hover:shadow-2xl transition-all"
+                            onClick={() => window.location.href = `/dashboard/patients/${patient.id}`}
                         >
                             <div className="flex justify-between items-start mb-8">
                                 <div className="w-16 h-16 bg-gradient-to-br from-purple-500/20 to-purple-900/40 border border-purple-500/20 rounded-2xl flex items-center justify-center text-purple-400 shadow-lg shadow-purple-900/10 transition-transform group-hover:scale-110 duration-300">

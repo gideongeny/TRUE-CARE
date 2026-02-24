@@ -39,15 +39,24 @@ model Profile {
   address   String?
   bio       String?
   
+  // Medical Info (For Patients)
+  ailment       String?
+  medicalHistory String?
+
   // Caregiver specific
-  isVerified Boolean @default(false)
-  skills     String? // Comma separated or JSON
-  hourlyRate Decimal?
+  isVerified      Boolean @default(false)
+  cvVerified      Boolean @default(false)
+  idVerified      Boolean @default(false)
+  skills          String? // Comma separated or JSON
+  hourlyRate      Decimal?
   
   // Documents
   cvUrl          String?
   certificateUrl String?
   idCardUrl      String?
+
+  // Financial Info
+  paymentStatus String @default("PENDING") // PENDING, PAID, OVERDUE
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -62,6 +71,7 @@ model Shift {
   
   startTime   DateTime
   endTime     DateTime
+  shiftType   String      @default("24HR") // DAY, NIGHT, 24HR
   status      String      @default("SCHEDULED")
   notes       String?
   
@@ -69,8 +79,19 @@ model Shift {
   clockOutTime   DateTime?
   actualDuration Float?     // In hours
 
+  report         Report?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Report {
+  id        String   @id @default(uuid())
+  shiftId   String   @unique
+  shift     Shift    @relation(fields: [shiftId], references: [id])
+  content   String
+  vitals    String?  // JSON string for BP, heart rate, temp etc
+  createdAt DateTime @default(now())
 }
 
 model ServiceRequest {
@@ -78,11 +99,12 @@ model ServiceRequest {
   patientId String
   patient   User          @relation(fields: [patientId], references: [id])
   
-  careType     String
-  duration     String
-  location     String
-  status       String        @default("PENDING")
-  description  String?
+  careType       String
+  patientAilment String?
+  duration       String
+  location       String
+  status         String        @default("PENDING")
+  description    String?
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

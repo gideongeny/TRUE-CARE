@@ -70,10 +70,10 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
             `}
             aria-label="Sidebar"
         >
-            <div className="h-20 flex items-center shrink-0 px-8 border-b border-slate-100 bg-white/50 backdrop-blur-sm">
-                <Link href="/dashboard" className="flex items-center gap-3" onClick={onClose}>
-                    <img src="/logo.png" alt="TrueCare" className="h-7 w-auto" />
-                    <span className="font-black text-slate-900 tracking-tighter text-lg">TRUE CARE</span>
+            <div className="h-24 flex items-center shrink-0 px-8 border-b border-slate-100 bg-white/50 backdrop-blur-sm">
+                <Link href="/dashboard" className="flex items-center gap-4" onClick={onClose}>
+                    <img src="/logo.png" alt="TrueCare" className="h-10 w-auto" />
+                    <span className="font-black text-slate-900 tracking-tighter text-xl">TRUE CARE</span>
                 </Link>
             </div>
 
@@ -105,6 +105,22 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
                     );
                 })}
             </nav>
+
+            {/* Illustration Card */}
+            <div className="px-6 mb-4">
+                <div className="bg-blue-50/50 border border-blue-100 rounded-[24px] p-4 overflow-hidden relative group">
+                    <img
+                        src="/medical-illustration.svg"
+                        alt="Medical Care"
+                        className="w-full h-auto object-contain opacity-80 group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-blue-50/80 to-transparent" />
+                    <div className="relative z-10 mt-2">
+                        <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest opacity-80">Premium Support</p>
+                        <p className="text-[11px] font-bold text-slate-900 mt-1">Dedicated Care Excellence</p>
+                    </div>
+                </div>
+            </div>
 
             <div className="p-6 border-t border-slate-100 bg-white/50 backdrop-blur-sm">
                 <button

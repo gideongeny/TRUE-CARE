@@ -147,3 +147,23 @@ export const clockOut = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+export const createReport = async (req: Request, res: Response) => {
+    try {
+        const { id: shiftId } = req.params;
+        const { content, vitals } = req.body;
+
+        const shift = await prisma.shift.findUnique({ where: { id: shiftId } });
+        if (!shift) return res.status(404).json({ message: "Shift not found" });
+
+        const report = await prisma.report.upsert({
+            where: { shiftId },
+            update: { content, vitals },
+            create: { shiftId, content, vitals },
+        });
+
+        res.status(201).json(report);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
