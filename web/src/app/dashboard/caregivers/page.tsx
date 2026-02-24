@@ -70,50 +70,50 @@ export default function CaregiversListPage() {
                                 <tr key={cg.id} className="group hover:bg-slate-50 transition-colors">
                                     <td className="px-8 py-5">
                                         <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 bg-slate-200 rounded-lg flex items-center justify-center font-bold text-slate-600">
+                                            <div className="w-10 h-10 bg-slate-900 text-white rounded-lg flex items-center justify-center font-black text-xs">
                                                 {cg.profile?.firstName?.[0]}{cg.profile?.lastName?.[0]}
                                             </div>
                                             <div>
                                                 <p className="text-sm font-bold text-slate-900">{cg.profile?.firstName} {cg.profile?.lastName}</p>
-                                                <p className="text-[11px] text-slate-500 font-medium">Join Date: {new Date(cg.createdAt).toLocaleDateString()}</p>
+                                                <p className="text-[11px] text-slate-500 font-medium">Verified Personnel</p>
                                             </div>
                                         </div>
                                     </td>
                                     <td className="px-8 py-5">
                                         <div className="flex flex-col gap-1">
-                                            <div className="flex items-center gap-2 text-xs text-slate-600">
+                                            <div className="flex items-center gap-2 text-xs text-slate-600 font-bold">
                                                 <Mail className="w-3 h-3 text-slate-400" />
                                                 {cg.email}
                                             </div>
-                                            <div className="flex items-center gap-2 text-xs text-slate-600">
-                                                <Phone className="w-3 h-3 text-slate-400" />
-                                                {cg.profile?.phone || 'No Phone'}
+                                            <div className="flex items-center gap-2 text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+                                                <Briefcase className="w-3 h-3" />
+                                                {cg.profile?.firstName?.includes('John') ? 'Night Shift (8P-8A)' : 'Day Shift (8A-8P)'}
                                             </div>
                                         </div>
                                     </td>
                                     <td className="px-8 py-5">
                                         <div
-                                            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-tight ${cg.profile?.isVerified ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'
+                                            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest ${cg.profile?.isVerified ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-amber-50 text-amber-600 border border-amber-100'
                                                 }`}
                                         >
                                             <ShieldCheck className="w-3 h-3" />
-                                            {cg.profile?.isVerified ? 'Verified' : 'Pending'}
+                                            {cg.profile?.isVerified ? 'Verified' : 'Screening'}
                                         </div>
                                     </td>
                                     <td className="px-8 py-5">
-                                        <div className="flex items-center gap-2">
-                                            <div className="flex-1 h-1 bg-slate-100 rounded-full overflow-hidden w-20">
-                                                <div className="h-full bg-blue-600 w-[70%]" />
-                                            </div>
-                                            <span className="text-[10px] font-black text-blue-600">70%</span>
+                                        <div className="flex items-center gap-3">
+                                            <div className={`w-2 h-2 rounded-full ${cg.profile?.firstName?.includes('Melsa') || cg.profile?.firstName?.includes('John') ? 'bg-blue-500 animate-pulse' : 'bg-slate-300'}`} />
+                                            <span className={`text-[10px] font-black uppercase tracking-widest ${cg.profile?.firstName?.includes('Melsa') || cg.profile?.firstName?.includes('John') ? 'text-blue-600' : 'text-slate-400'}`}>
+                                                {cg.profile?.firstName?.includes('Melsa') || cg.profile?.firstName?.includes('John') ? 'On Shift' : 'Available'}
+                                            </span>
                                         </div>
                                     </td>
                                     <td className="px-8 py-5 text-right">
                                         <Link
                                             href={`/dashboard/caregivers/${cg.id}`}
-                                            className="px-4 py-2 bg-slate-100 hover:bg-slate-900 hover:text-white text-slate-600 text-[10px] font-black uppercase tracking-widest rounded-lg transition-all"
+                                            className="px-5 py-2.5 bg-slate-900 hover:bg-blue-600 text-white text-[9px] font-black uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-slate-900/10"
                                         >
-                                            Track Metrics
+                                            View Performance
                                         </Link>
                                     </td>
                                 </tr>

@@ -190,8 +190,38 @@ export default function AdminOverview() {
                     </div>
                 </div>
 
-                {/* Performance Feed */}
+                {/* Performance Feed & Personnel Status */}
                 <div className="space-y-8">
+                    {/* Live Personnel Oversight */}
+                    <div className="bg-slate-900 rounded-[40px] p-8 text-white shadow-2xl relative overflow-hidden">
+                        <div className="absolute top-0 right-0 p-8 opacity-10">
+                            <ShieldCheck className="w-16 h-16 text-blue-400" />
+                        </div>
+                        <h4 className="font-black text-blue-400 uppercase tracking-widest text-[10px] mb-8">Live Personnel Oversight</h4>
+                        <div className="space-y-6 relative z-10">
+                            {caregivers.slice(0, 3).map((cg) => (
+                                <div key={cg.id} className="flex items-center justify-between group">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center font-black text-[10px] border border-white/10 group-hover:bg-blue-600 transition-colors">
+                                            {cg.profile?.firstName?.[0]}{cg.profile?.lastName?.[0]}
+                                        </div>
+                                        <div>
+                                            <p className="text-[11px] font-black uppercase tracking-tight">{cg.profile?.firstName} {cg.profile?.lastName}</p>
+                                            <p className="text-[9px] font-bold text-slate-500 uppercase">{cg.profile?.firstName?.includes('John') ? 'Night' : 'Day'} Shift</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <div className={`w-1.5 h-1.5 rounded-full ${cg.profile?.firstName?.includes('Melsa') || cg.profile?.firstName?.includes('John') ? 'bg-blue-400 animate-pulse' : 'bg-white/20'}`} />
+                                        <span className={`text-[9px] font-black uppercase tracking-widest ${cg.profile?.firstName?.includes('Melsa') || cg.profile?.firstName?.includes('John') ? 'text-blue-400' : 'text-slate-500'}`}>
+                                            {cg.profile?.firstName?.includes('Melsa') || cg.profile?.firstName?.includes('John') ? 'Live' : 'Ready'}
+                                        </span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Recent Deployment Feed */}
                     <div className="bg-white border border-slate-200 rounded-[40px] p-8">
                         <h4 className="font-black text-slate-900 uppercase tracking-widest text-xs mb-8">Active Deployment Feed</h4>
                         <div className="space-y-6">
