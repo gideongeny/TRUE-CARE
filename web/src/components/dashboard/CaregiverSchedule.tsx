@@ -1,7 +1,14 @@
-'use client';
-
+import React, { useState, useEffect } from 'react';
 import ShiftReportForm from './ShiftReportForm';
-import { AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import api from '@/lib/api';
+import {
+    ChevronLeft,
+    ChevronRight,
+    Activity,
+    Shield,
+    MapPin
+} from 'lucide-react';
 
 export default function CaregiverSchedule() {
     const [myShifts, setMyShifts] = useState<any[]>([]);
