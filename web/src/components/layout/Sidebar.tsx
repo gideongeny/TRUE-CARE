@@ -15,7 +15,8 @@ import {
     TrendingUp,
     FileText,
     ShieldCheck,
-    Briefcase
+    Briefcase,
+    Shield
 } from 'lucide-react';
 import { logout } from '@/lib/api';
 
