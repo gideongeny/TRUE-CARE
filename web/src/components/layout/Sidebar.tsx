@@ -106,18 +106,27 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
                 })}
             </nav>
 
-            {/* Illustration Card */}
-            <div className="px-6 mb-4">
-                <div className="bg-blue-50/50 border border-blue-100 rounded-[24px] p-4 overflow-hidden relative group">
-                    <img
-                        src="/medical-illustration.svg"
-                        alt="Medical Care"
-                        className="w-full h-auto object-contain opacity-80 group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-blue-50/80 to-transparent" />
-                    <div className="relative z-10 mt-2">
-                        <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest opacity-80">Premium Support</p>
-                        <p className="text-[11px] font-bold text-slate-900 mt-1">Dedicated Care Excellence</p>
+            {/* Premium Clinical Card */}
+            <div className="px-6 mb-4 mt-auto">
+                <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-[32px] p-6 overflow-hidden relative group shadow-xl shadow-blue-600/20">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl group-hover:scale-110 transition-transform duration-700" />
+                    <div className="relative z-10">
+                        <div className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center mb-4 border border-white/30">
+                            <Shield className="w-5 h-5 text-white" />
+                        </div>
+                        <p className="text-[10px] font-black text-white/60 uppercase tracking-widest opacity-80">Medical Care</p>
+                        <p className="text-[13px] font-black text-white mt-1 leading-tight">Patient Safety & <br />Clinical Oversight</p>
+
+                        <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
+                            <div className="flex -space-x-2">
+                                {[1, 2, 3].map(i => (
+                                    <div key={i} className="w-6 h-6 rounded-full border-2 border-blue-600 bg-slate-200 overflow-hidden">
+                                        <img src={`/Raquel.png`} alt="Caregiver" className="w-full h-full object-cover" />
+                                    </div>
+                                ))}
+                            </div>
+                            <span className="text-[10px] font-black text-white px-2 py-0.5 bg-white/20 rounded-md">LIVE</span>
+                        </div>
                     </div>
                 </div>
             </div>
