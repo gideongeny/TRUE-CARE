@@ -1,11 +1,14 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { usePathname } from 'next/navigation';
 import Sidebar from './Sidebar';
 import { isAuthenticated } from '@/lib/api';
 import { User, Bell, Search, Menu } from 'lucide-react';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+    const pathname = usePathname();
     const [user, setUser] = useState<any>(null);
     const [currentTime, setCurrentTime] = useState(new Date());
     const [isSidebarOpen, setSidebarOpen] = useState(false);
