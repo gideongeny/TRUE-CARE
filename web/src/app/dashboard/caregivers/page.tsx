@@ -7,7 +7,8 @@ import {
     Search,
     ShieldCheck,
     Mail,
-    Phone
+    Phone,
+    Briefcase
 } from 'lucide-react';
 import Link from 'next/link';
 
