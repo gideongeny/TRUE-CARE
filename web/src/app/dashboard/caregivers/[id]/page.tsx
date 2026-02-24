@@ -1,3 +1,28 @@
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import DashboardLayout from '@/components/layout/DashboardLayout';
+import { motion } from 'framer-motion';
+import {
+    Activity,
+    Calendar,
+    ChevronLeft,
+    Clock,
+    FileText,
+    MapPin,
+    Shield,
+    Star,
+    Award,
+    CheckCircle2,
+    Users,
+    Mail,
+    Phone,
+    Briefcase,
+    Thermometer,
+    Heart
+} from 'lucide-react';
+import api from '@/lib/api';
 import {
     AreaChart,
     Area,
