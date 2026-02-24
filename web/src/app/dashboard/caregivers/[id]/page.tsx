@@ -194,7 +194,7 @@ export default function CaregiverDetailPage() {
                                         <ResponsiveContainer width="100%" height="100%">
                                             <BarChart data={displayPerformance}>
                                                 <Bar dataKey="efficiency" radius={[4, 4, 4, 4]}>
-                                                    {displayPerformance.map((entry, index) => (
+                                                    {displayPerformance.map((entry: any, index: number) => (
                                                         <Cell key={`cell-${index}`} fill={index % 2 === 0 ? '#2563eb' : '#6366f1'} />
                                                     ))}
                                                 </Bar>
