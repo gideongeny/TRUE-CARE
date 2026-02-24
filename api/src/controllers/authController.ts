@@ -78,7 +78,7 @@ export const login = async (req: Request, res: Response) => {
             return res.json({ require2FA: true, userId: user.id });
         }
 
-        const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, { expiresIn: '1d' });
+        const token = jwt.sign({ userId: user.id, role: user.role }, getJwtSecret(), { expiresIn: '1d' });
 
         res.json({ token, user });
     } catch (error) {

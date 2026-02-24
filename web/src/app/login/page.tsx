@@ -119,7 +119,7 @@ export default function LoginPage() {
                                             <Mail className={`absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors ${focusedField === 'email' ? 'text-blue-600' : 'text-slate-400'}`} />
                                             <input
                                                 type="email"
-                                                placeholder="admin@truecare.io"
+                                                placeholder="admin@truecare.com"
                                                 className="w-full bg-slate-50/50 border border-slate-200 rounded-2xl py-4 pl-12 pr-4 text-slate-900 placeholder-slate-300 outline-none focus:border-blue-500/30 focus:ring-4 focus:ring-blue-500/5 transition-all font-bold text-sm"
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)}
@@ -136,7 +136,7 @@ export default function LoginPage() {
                                             <Lock className={`absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors ${focusedField === 'password' ? 'text-blue-600' : 'text-slate-400'}`} />
                                             <input
                                                 type="password"
-                                                placeholder="••••••••"
+                                                placeholder="adminpassword123"
                                                 className="w-full bg-slate-50/50 border border-slate-200 rounded-2xl py-4 pl-12 pr-4 text-slate-900 placeholder-slate-300 outline-none focus:border-blue-500/30 focus:ring-4 focus:ring-blue-500/5 transition-all font-bold text-sm"
                                                 value={password}
                                                 onChange={(e) => setPassword(e.target.value)}
