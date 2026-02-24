@@ -19,7 +19,12 @@ export default function CaregiversListPage() {
         const fetchCaregivers = async () => {
             try {
                 const listRes = await api.get('/users');
-                setCaregivers(listRes.data.filter((u: any) => u.role === 'CAREGIVER'));
+                const coreTeamNames = ['John Githinji', 'Melsa Wanjiru', 'Francis Kangethe'];
+                const filtered = listRes.data.filter((u: any) =>
+                    u.role === 'CAREGIVER' &&
+                    coreTeamNames.some(name => `${u.profile?.firstName} ${u.profile?.lastName}`.toLowerCase().includes(name.toLowerCase()))
+                );
+                setCaregivers(filtered);
             } catch (error) {
                 console.error('Failed to fetch caregivers', error);
             } finally {

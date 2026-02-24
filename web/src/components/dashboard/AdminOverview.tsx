@@ -52,8 +52,12 @@ export default function AdminOverview() {
                 setLogs(logsRes.data);
 
                 // Filter users
+                const coreTeamNames = ['John Githinji', 'Melsa Wanjiru', 'Francis Kangethe'];
                 setPatients(usersRes.data.filter((u: any) => u.role === 'PATIENT'));
-                setCaregivers(usersRes.data.filter((u: any) => u.role === 'CAREGIVER'));
+                setCaregivers(usersRes.data.filter((u: any) =>
+                    u.role === 'CAREGIVER' &&
+                    coreTeamNames.some(name => `${u.profile?.firstName} ${u.profile?.lastName}`.toLowerCase().includes(name.toLowerCase()))
+                ));
 
                 // Format analytics data for Recharts
                 const formattedChartData = Object.entries(analyticsRes.data).map(([date, count]) => ({
@@ -91,8 +95,8 @@ export default function AdminOverview() {
     };
 
     const cards = [
-        { label: 'Total Patients', value: stats?.patientCount || 0, icon: Users, trend: stats?.patientTrend >= 0 ? `+${stats?.patientTrend}%` : `${stats?.patientTrend}%`, up: stats?.patientTrend >= 0, color: 'text-blue-600', bg: 'bg-blue-50' },
-        { label: 'Verified Caregivers', value: stats?.caregiverCount || 0, icon: ShieldCheck, trend: stats?.caregiverTrend >= 0 ? `+${stats?.caregiverTrend}%` : `${stats?.caregiverTrend}%`, up: stats?.caregiverTrend >= 0, color: 'text-emerald-600', bg: 'bg-emerald-50' },
+        { label: 'Total Patients', value: stats?.patientCount || 0, icon: Users, trend: (stats?.patientTrend || 0) >= 0 ? `+${stats?.patientTrend || 0}%` : `${stats?.patientTrend || 0}%`, up: (stats?.patientTrend || 0) >= 0, color: 'text-blue-600', bg: 'bg-blue-50' },
+        { label: 'Verified Caregivers', value: stats?.caregiverCount || 0, icon: ShieldCheck, trend: (stats?.caregiverTrend || 0) >= 0 ? `+${stats?.caregiverTrend || 0}%` : `${stats?.caregiverTrend || 0}%`, up: (stats?.caregiverTrend || 0) >= 0, color: 'text-emerald-600', bg: 'bg-emerald-50' },
         { label: 'Pending Requests', value: stats?.pendingRequests || 0, icon: AlertCircle, trend: 'LIVE', up: true, color: 'text-amber-600', bg: 'bg-amber-50' },
         { label: 'Active Shifts', value: stats?.activeShifts || 0, icon: Activity, trend: stats?.operationalLoad, up: true, color: 'text-indigo-600', bg: 'bg-indigo-50' },
     ];
