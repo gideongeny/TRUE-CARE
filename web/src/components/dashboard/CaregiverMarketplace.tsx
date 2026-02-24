@@ -134,7 +134,7 @@ export default function CaregiverMarketplace() {
                             <Info className="w-8 h-8 text-slate-300" />
                         </div>
                         <h3 className="text-slate-900 font-bold">No shifts right now</h3>
-                        <p className="text-slate-500 text-sm mt-1">We'll notify you when new requests arrive.</p>
+                        <p className="text-slate-500 text-sm mt-1">We&apos;ll notify you when new requests arrive.</p>
                     </div>
                 )}
             </AnimatePresence>

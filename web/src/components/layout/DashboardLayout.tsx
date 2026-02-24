@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
 import { isAuthenticated } from '@/lib/api';
-import { User, Bell, Search, Menu, Settings } from 'lucide-react';
+import { User, Bell, Search, Menu } from 'lucide-react';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<any>(null);
@@ -31,7 +31,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     return (
         <div className="flex h-screen w-full bg-slate-50 text-slate-900 font-sans overflow-hidden">
             {/* Sidebar is now a direct flex child */}
-            <Sidebar />
+            {/* Mobile overlay */}
+            <div
+                className={`fixed inset-0 bg-black/40 backdrop-blur-[2px] z-40 transition-opacity lg:hidden ${isSidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                    }`}
+                onClick={() => setSidebarOpen(false)}
+                aria-hidden="true"
+            />
+
+            <Sidebar isOpen={isSidebarOpen} onClose={() => setSidebarOpen(false)} />
 
             <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto scroll-smooth">
                 {/* Top Header */}
@@ -40,6 +48,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         <button
                             className="lg:hidden p-2 bg-slate-50 border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors"
                             onClick={() => setSidebarOpen(!isSidebarOpen)}
+                            aria-label={isSidebarOpen ? 'Close navigation menu' : 'Open navigation menu'}
+                            aria-expanded={isSidebarOpen}
                         >
                             <Menu className="w-5 h-5 text-slate-600" />
                         </button>
@@ -94,9 +104,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 </header>
 
                 {/* Main Content Area - Scrollable */}
-                <main className="flex-1 p-8 min-h-0">
+                <main className="flex-1 p-8 min-h-0 bg-slate-50/50">
                     <div className="max-w-[1600px] mx-auto">
-                        {children}
+                        <motion.div
+                            key={pathname}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                        >
+                            {children}
+                        </motion.div>
                     </div>
                 </main>
             </div>

@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { motion } from 'framer-motion';
+import Logo from '@/components/ui/Logo';
 import {
     LayoutDashboard,
     Users,
@@ -36,7 +38,12 @@ const menuItems: MenuItem[] = [
     { icon: Settings, label: 'Settings', href: '/dashboard/settings', roles: ['ADMIN', 'CAREGIVER', 'PATIENT'] },
 ];
 
-export default function Sidebar() {
+type SidebarProps = {
+    isOpen?: boolean;
+    onClose?: () => void;
+};
+
+export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
     const pathname = usePathname();
     const [userRole, setUserRole] = useState<string>('PATIENT');
 
@@ -54,39 +61,57 @@ export default function Sidebar() {
     const filteredMenu = menuItems.filter(item => item.roles.includes(userRole));
 
     return (
-        <aside className="w-[var(--sidebar-width)] h-screen bg-[var(--sidebar)] border-r border-[var(--sidebar-border)] flex flex-col shrink-0 sticky top-0 z-40">
-            <div className="h-20 flex items-center shrink-0 px-6 border-b border-[var(--sidebar-border)]">
-                <Link href="/dashboard" className="flex items-center gap-3">
-                    <img src="/logo.png" alt="TrueCare Logo" className="h-10 w-auto object-contain" />
-                    <span className="font-extrabold text-slate-900 tracking-tight text-lg">TRUE CARE</span>
+        <aside
+            className={`
+                w-[var(--sidebar-width)] h-screen mesh-gradient border-r border-slate-100 flex flex-col shrink-0 z-50
+                fixed inset-y-0 left-0 transition-transform duration-300 ease-out shadow-2xl shadow-slate-900/5
+                ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+                lg:translate-x-0 lg:static lg:inset-auto
+            `}
+            aria-label="Sidebar"
+        >
+            <div className="h-20 flex items-center shrink-0 px-8 border-b border-slate-100 bg-white/50 backdrop-blur-sm">
+                <Link href="/dashboard" className="flex items-center gap-3" onClick={onClose}>
+                    <img src="/logo.png" alt="TrueCare" className="h-7 w-auto" />
+                    <span className="font-black text-slate-900 tracking-tighter text-lg">TRUE CARE</span>
                 </Link>
             </div>
 
-            <nav className="flex-1 overflow-y-auto py-6 px-4 space-y-1 scrollbar-hide">
-                {filteredMenu.map((item) => {
+            <nav className="flex-1 overflow-y-auto py-8 px-5 space-y-1.5 scrollbar-hide">
+                {filteredMenu.map((item, i) => {
                     const isActive = pathname === item.href;
                     return (
-                        <Link key={item.href} href={item.href}>
-                            <div className={`
-                                flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200
-                                ${isActive
-                                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20'
-                                    : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}
-                            `}>
-                                <item.icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-slate-600'}`} />
-                                {item.label}
-                            </div>
-                        </Link>
+                        <motion.div
+                            key={item.href}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: i * 0.05 }}
+                        >
+                            <Link
+                                href={item.href}
+                                onClick={onClose}
+                                className={`
+                                    group flex items-center gap-3.5 px-4 py-3 rounded-xl text-[13px] font-black transition-all duration-300
+                                    ${isActive
+                                        ? 'bg-blue-600 text-white shadow-xl shadow-blue-600/30 translate-x-1'
+                                        : 'text-slate-500 hover:bg-white hover:text-slate-900 hover:shadow-sm'}
+                                `}
+                                aria-current={isActive ? 'page' : undefined}
+                            >
+                                <item.icon className={`w-4 h-4 transition-transform duration-300 group-hover:scale-110 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-blue-600'}`} />
+                                <span className="uppercase tracking-widest">{item.label}</span>
+                            </Link>
+                        </motion.div>
                     );
                 })}
             </nav>
 
-            <div className="p-4 border-t border-[var(--sidebar-border)] shrink-0">
+            <div className="p-6 border-t border-slate-100 bg-white/50 backdrop-blur-sm">
                 <button
                     onClick={logout}
-                    className="flex items-center gap-3 px-3 py-2.5 w-full rounded-lg text-slate-600 hover:bg-rose-50 hover:text-rose-700 transition-all text-sm font-medium group"
+                    className="flex items-center gap-3.5 px-4 py-3 w-full rounded-xl text-slate-500 hover:bg-rose-50 hover:text-rose-700 transition-all text-xs font-black uppercase tracking-widest border border-transparent hover:border-rose-100 group"
                 >
-                    <LogOut className="w-4 h-4 text-slate-400 group-hover:text-rose-600" />
+                    <LogOut className="w-4 h-4 text-slate-400 group-hover:text-rose-600 transition-transform group-hover:translate-x-1" />
                     Sign Out
                 </button>
             </div>

@@ -20,8 +20,8 @@ export const isAuthenticated = () => {
     if (!token || !user) return false;
 
     try {
-        const userData = JSON.parse(user);
-        return userData.role === 'ADMIN';
+        JSON.parse(user);
+        return true;
     } catch (e) {
         return false;
     }

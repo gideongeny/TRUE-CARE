@@ -1,12 +1,14 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import {
     Users,
     Calendar,
     Activity,
     Clock,
     TrendingUp,
+    ShieldCheck,
     AlertCircle,
     ArrowUpRight,
     ArrowDownRight
@@ -79,21 +81,27 @@ export default function AdminOverview() {
             {/* Header with quick stats */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {cards.map((card, i) => (
-                    <div key={i} className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+                    <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: i * 0.1 }}
+                        className="stats-card"
+                    >
                         <div className="flex items-center justify-between mb-4">
-                            <div className={`p-2 rounded-lg ${card.bg}`}>
+                            <div className={`p-2.5 rounded-xl ${card.bg} border-2 border-white shadow-inner`}>
                                 <card.icon className={`w-5 h-5 ${card.color}`} />
                             </div>
-                            <div className={`flex items-center text-[11px] font-bold px-2 py-1 rounded-full ${card.up ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
+                            <div className={`flex items-center text-[11px] font-black px-2.5 py-1 rounded-full ${card.up ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'} border-2 border-white shadow-sm`}>
                                 {card.up ? <ArrowUpRight className="w-3 h-3 mr-0.5" /> : <ArrowDownRight className="w-3 h-3 mr-0.5" />}
                                 {card.trend}
                             </div>
                         </div>
                         <div>
-                            <p className="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-1">{card.label}</p>
-                            <h3 className="text-2xl font-black text-slate-900">{card.value}</h3>
+                            <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1">{card.label}</p>
+                            <h3 className="text-3xl font-black text-slate-900 tracking-tight">{card.value}</h3>
                         </div>
-                    </div>
+                    </motion.div>
                 ))}
             </div>
 
@@ -140,9 +148,10 @@ export default function AdminOverview() {
                                     type="monotone"
                                     dataKey="shifts"
                                     stroke="#2563eb"
-                                    strokeWidth={3}
+                                    strokeWidth={4}
                                     fillOpacity={1}
                                     fill="url(#colorShifts)"
+                                    animationDuration={2000}
                                 />
                             </AreaChart>
                         </ResponsiveContainer>
@@ -191,5 +200,3 @@ export default function AdminOverview() {
         </div>
     );
 }
-
-import { ShieldCheck } from 'lucide-react';

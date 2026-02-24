@@ -1,271 +1,194 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Lock, Mail, ArrowRight, Loader2 } from 'lucide-react';
-import api from '../lib/api';
-import Logo from '../components/ui/Logo';
+import React from 'react';
+import { motion } from 'framer-motion';
+import {
+    Shield,
+    Activity,
+    Calendar,
+    ArrowRight,
+    Clock,
+    Zap,
+    CheckCircle2,
+    Lock
+} from 'lucide-react';
+import Link from 'next/link';
 
-export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [focusedField, setFocusedField] = useState<string | null>(null);
+export default function LandingPage() {
+    const features = [
+        {
+            title: "Autonomous Integrity",
+            desc: "Self-healing verification queues with 99.8% node reliability.",
+            icon: Shield,
+            color: "text-blue-600",
+            bg: "bg-blue-50"
+        },
+        {
+            title: "Predictive Analytics",
+            desc: "Real-time system vitals and growth trajectories powered by live data.",
+            icon: Activity,
+            color: "text-emerald-600",
+            bg: "bg-emerald-50"
+        },
+        {
+            title: "Precision Scheduling",
+            desc: "Dynamic temporal synchronization for seamless deployment intervals.",
+            icon: Calendar,
+            color: "text-indigo-600",
+            bg: "bg-indigo-50"
+        }
+    ];
 
-  const [step, setStep] = useState<'login' | '2fa'>('login');
-  const [twoFactorCode, setTwoFactorCode] = useState('');
-  const [tempUserId, setTempUserId] = useState<string | null>(null);
+    return (
+        <div className="min-h-screen mesh-gradient selection:bg-blue-600/10">
+            {/* Minimalist Navigation */}
+            <nav className="h-24 flex items-center justify-between px-8 md:px-16 relative z-50">
+                <div className="flex items-center gap-3">
+                    <img src="/logo.png" alt="TrueCare Logo" className="h-8 w-auto" />
+                    <span className="font-black text-slate-900 tracking-tighter text-xl">TRUE CARE</span>
+                </div>
+                <div className="flex items-center gap-8">
+                    <Link href="/login" className="text-xs font-black uppercase tracking-widest text-slate-500 hover:text-slate-900 transition-colors">
+                        Network Access
+                    </Link>
+                    <Link href="/login" className="btn-primary">
+                        Initialize
+                    </Link>
+                </div>
+            </nav>
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
+            {/* Hero Section */}
+            <main className="max-w-7xl mx-auto px-8 py-20 md:py-32">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                    <motion.div
+                        className="space-y-8"
+                        initial={{ opacity: 0, x: -30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                        <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-100 rounded-full">
+                            <Zap className="w-3 h-3 text-blue-600" />
+                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600">Enterprise Protocol v2.4</span>
+                        </div>
 
-    try {
-      const response = await api.post('/auth/login', {
-        email,
-        password
-      });
+                        <h1 className="text-6xl md:text-8xl font-black text-slate-900 tracking-tighter leading-[0.9]">
+                            Home Care <br />
+                            <span className="text-blue-600 text-glow italic">Redefined.</span>
+                        </h1>
 
-      if (response.data.require2FA) {
-        setTempUserId(response.data.userId);
-        setStep('2fa');
-        setLoading(false);
-        return;
-      }
+                        <p className="text-lg text-slate-500 font-medium max-w-lg leading-relaxed">
+                            The world&apos;s most advanced caregiver management ecosystem. Secure, real-time, and built for unprecedented operational efficiency.
+                        </p>
 
-      const { token, user } = response.data;
+                        <div className="flex items-center gap-6 pt-4">
+                            <Link href="/login" className="btn-primary flex items-center gap-3 py-4 text-sm scale-110">
+                                Enter Command Center
+                                <ArrowRight className="w-4 h-4" />
+                            </Link>
+                            <div className="flex -space-x-2">
+                                {[1, 2, 3, 4].map(i => (
+                                    <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-slate-200" />
+                                ))}
+                                <div className="w-10 h-10 rounded-full border-2 border-white bg-blue-600 flex items-center justify-center text-[10px] font-black text-white">
+                                    +5k
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
 
-      if (user.role !== 'ADMIN') {
-        setError('Access denied. Administrator privileges required.');
-        setLoading(false);
-        return;
-      }
+                    {/* Animated Dashboard Teaser */}
+                    <motion.div
+                        className="relative"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+                    >
+                        <div className="glass-card rounded-[40px] p-8 aspect-square relative overflow-hidden group">
+                            <div className="absolute inset-0 bg-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity" />
 
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
+                            {/* Mock Vitals */}
+                            <div className="space-y-6 relative h-full flex flex-col justify-between">
+                                <div className="flex items-center justify-between">
+                                    <h4 className="font-black text-slate-900 uppercase tracking-widest text-[10px]">System Pulse</h4>
+                                    <div className="flex gap-1">
+                                        {[1, 2, 3].map(i => <div key={i} className="w-1 h-3 bg-blue-600 rounded-full animate-pulse" style={{ animationDelay: `${i * 0.2}s` }} />)}
+                                    </div>
+                                </div>
 
-      setTimeout(() => {
-        window.location.href = '/dashboard';
-      }, 500);
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="bg-white/50 border border-white p-4 rounded-2xl shadow-sm">
+                                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-2">Network Load</p>
+                                        <p className="text-2xl font-black text-slate-900">92.4%</p>
+                                    </div>
+                                    <div className="bg-slate-900 border border-slate-900 p-4 rounded-2xl shadow-xl">
+                                        <p className="text-[10px] font-black text-white/40 uppercase tracking-widest leading-none mb-2">Active Nodes</p>
+                                        <p className="text-2xl font-black text-white">1,208</p>
+                                    </div>
+                                </div>
 
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Invalid credentials. Please try again.');
-      setLoading(false);
-    }
-  };
+                                <div className="flex-1 flex items-end">
+                                    <div className="w-full bg-white/60 backdrop-blur rounded-2xl p-4 border border-white">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                                                <Clock className="w-4 h-4 text-white" />
+                                            </div>
+                                            <div>
+                                                <p className="text-[10px] font-black text-slate-900 tracking-tight">Deployment Window</p>
+                                                <p className="text-[11px] font-bold text-slate-500">Scheduled for 09:30 AM</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-  const handleVerify2FA = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
+                        {/* Floating Badges */}
+                        <div className="absolute -top-10 -right-10 glass-card p-4 rounded-2xl shadow-2xl animate-bounce duration-[3000ms]">
+                            <div className="flex items-center gap-3">
+                                <CheckCircle2 className="w-5 h-5 text-emerald-500" />
+                                <span className="text-xs font-black text-slate-900">SOC2 COMPLIANT</span>
+                            </div>
+                        </div>
+                    </motion.div>
+                </div>
+            </main>
 
-    try {
-      // In a real implementation, you'd have a specific 2fa verification login endpoint
-      // For this demo, let's assume we can pass the userId and code to a verify endpoint
-      const response = await api.post('/auth/login', {
-        userId: tempUserId,
-        token: twoFactorCode,
-        is2FAAction: true // Small flag for backend to distinguish
-      });
+            {/* Features Grid */}
+            <section className="max-w-7xl mx-auto px-8 py-32 border-t border-slate-200">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                    {features.map((f, i) => (
+                        <motion.div
+                            key={i}
+                            className="space-y-4"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: i * 0.1 }}
+                        >
+                            <div className={`w-12 h-12 ${f.bg} rounded-2xl flex items-center justify-center`}>
+                                <f.icon className={`w-6 h-6 ${f.color}`} />
+                            </div>
+                            <h3 className="text-xl font-black text-slate-900 tracking-tight">{f.title}</h3>
+                            <p className="text-sm font-medium text-slate-500 leading-relaxed italic">{f.desc}</p>
+                        </motion.div>
+                    ))}
+                </div>
+            </section>
 
-      const { token, user } = response.data;
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
-      window.location.href = '/dashboard';
-    } catch (err: any) {
-      setError('Invalid verification code.');
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-black selection:bg-white/20 selection:text-white">
-      {/* Sophisticated Background */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-white/[0.03] rounded-full blur-[120px] mix-blend-screen animate-pulse duration-[10000ms]" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-white/[0.02] rounded-full blur-[100px] mix-blend-screen animate-pulse duration-[15000ms]" />
-        <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay" />
-      </div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-[420px] relative z-10 px-6"
-      >
-        <div className="flex flex-col items-center mb-12">
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.1, duration: 0.8 }}
-          >
-            <Logo className="w-28 h-28 flex-col gap-6" />
-          </motion.div>
-        </div>
-
-        <div className="backdrop-blur-xl bg-white/[0.03] border border-white/[0.08] p-8 md:p-10 rounded-[32px] shadow-2xl ring-1 ring-white/[0.05]">
-          <AnimatePresence mode="wait">
-            {step === 'login' ? (
-              <motion.form
-                key="login-form"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 20 }}
-                onSubmit={handleSubmit}
-                className="space-y-6"
-              >
-                <div className="space-y-5">
-                  <motion.div
-                    className="group relative"
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.2 }}
-                  >
-                    <label className={`block text-xs font-bold uppercase tracking-[0.2em] mb-2 transition-colors duration-300 ${focusedField === 'email' ? 'text-white' : 'text-zinc-500'}`}>
-                      Email Address
-                    </label>
-                    <div className="relative">
-                      <div className={`absolute inset-0 rounded-2xl transition-all duration-300 pointer-events-none ${focusedField === 'email' ? 'bg-white/[0.05]' : 'bg-transparent'}`} />
-                      <Mail className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors duration-300 pointer-events-none ${focusedField === 'email' ? 'text-white' : 'text-zinc-600'}`} />
-                      <input
-                        type="email"
-                        placeholder="admin@truecare.com"
-                        className="w-full bg-black/20 border border-white/[0.08] rounded-2xl py-4 pl-12 pr-4 text-white placeholder-zinc-700 outline-none focus:border-white/20 transition-all duration-300 font-medium"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        onFocus={() => setFocusedField('email')}
-                        onBlur={() => setFocusedField(null)}
-                        required
-                      />
+            {/* Footer */}
+            <footer className="py-20 bg-slate-50 border-t border-slate-200">
+                <div className="max-w-7xl mx-auto px-8 flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div className="flex items-center gap-3">
+                        <img src="/logo.png" alt="TrueCare Logo" className="h-6 w-auto grayscale" />
+                        <span className="font-black text-slate-400 tracking-tighter text-sm uppercase">Secure Infrastructure</span>
                     </div>
-                  </motion.div>
-
-                  <motion.div
-                    className="group relative"
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.3 }}
-                  >
-                    <label className={`block text-xs font-bold uppercase tracking-[0.2em] mb-2 transition-colors duration-300 ${focusedField === 'password' ? 'text-white' : 'text-zinc-500'}`}>
-                      Password
-                    </label>
-                    <div className="relative">
-                      <div className={`absolute inset-0 rounded-2xl transition-all duration-300 pointer-events-none ${focusedField === 'password' ? 'bg-white/[0.05]' : 'bg-transparent'}`} />
-                      <Lock className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors duration-300 pointer-events-none ${focusedField === 'password' ? 'text-white' : 'text-zinc-600'}`} />
-                      <input
-                        type="password"
-                        placeholder="••••••••"
-                        className="w-full bg-black/20 border border-white/[0.08] rounded-2xl py-4 pl-12 pr-4 text-white placeholder-zinc-700 outline-none focus:border-white/20 transition-all duration-300 font-medium"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        onFocus={() => setFocusedField('password')}
-                        onBlur={() => setFocusedField(null)}
-                        required
-                      />
+                    <div className="flex gap-10">
+                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Privacy Protocol</span>
+                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Terminal Docs</span>
+                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">&copy; 2026 TC.AI</span>
                     </div>
-                  </motion.div>
                 </div>
-
-                <motion.button
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  type="submit"
-                  disabled={loading}
-                  className="w-full bg-white hover:bg-zinc-200 text-black font-black py-4 rounded-2xl shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] transition-all duration-300 flex items-center justify-center gap-3 uppercase tracking-[0.15em] text-xs relative overflow-hidden group"
-                >
-                  {loading ? (
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                  ) : (
-                    <>
-                      <span className="relative z-10">Access Dashboard</span>
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform relative z-10" />
-                    </>
-                  )}
-                </motion.button>
-              </motion.form>
-            ) : (
-              <motion.form
-                key="2fa-form"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                onSubmit={handleVerify2FA}
-                className="space-y-8"
-              >
-                <div className="text-center space-y-2">
-                  <h3 className="text-2xl font-bold text-white tracking-tight italic">Verify Identity</h3>
-                  <p className="text-zinc-500 text-sm italic">Enter the 6-digit code from your app</p>
-                </div>
-
-                <div className="relative group">
-                  <div className={`absolute inset-0 rounded-2xl transition-all duration-300 pointer-events-none ${focusedField === '2fa' ? 'bg-white/[0.05]' : 'bg-transparent'}`} />
-                  <input
-                    type="text"
-                    maxLength={6}
-                    placeholder="000000"
-                    className="w-full bg-black/40 border border-white/[0.08] rounded-2xl py-6 text-center text-3xl font-black tracking-[0.5em] text-white placeholder-zinc-800 outline-none focus:border-white/20 transition-all duration-300"
-                    value={twoFactorCode}
-                    onChange={(e) => setTwoFactorCode(e.target.value.replace(/\D/g, ''))}
-                    onFocus={() => setFocusedField('2fa')}
-                    onBlur={() => setFocusedField(null)}
-                    required
-                    autoFocus
-                  />
-                </div>
-
-                <div className="space-y-4">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    type="submit"
-                    disabled={loading}
-                    className="w-full bg-white hover:bg-zinc-200 text-black font-black py-4 rounded-2xl shadow-[0_0_20px_rgba(255,255,255,0.1)] transition-all duration-300 uppercase tracking-widest text-xs"
-                  >
-                    {loading ? <Loader2 className="w-5 h-5 animate-spin mx-auto" /> : 'Confirm Verification'}
-                  </motion.button>
-                  <button
-                    type="button"
-                    onClick={() => setStep('login')}
-                    className="w-full text-zinc-500 hover:text-white text-xs font-bold uppercase tracking-widest transition-colors py-2"
-                  >
-                    Back to Login
-                  </button>
-                </div>
-              </motion.form>
-            )}
-          </AnimatePresence>
-
-          <AnimatePresence>
-            {error && (
-              <motion.div
-                initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                animate={{ opacity: 1, height: 'auto', marginTop: 24 }}
-                exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                className="bg-red-500/10 border border-red-500/20 px-4 py-3 rounded-xl flex items-center gap-3 overflow-hidden"
-              >
-                <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-                <p className="text-red-200 text-sm font-medium">{error}</p>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="mt-8 text-center"
-          >
-            <p className="text-zinc-600 text-xs font-medium tracking-wide">
-              PROTECTED SYSTEM &bull; AUTHORIZED ACCESS ONLY
-            </p>
-          </motion.div>
+            </footer>
         </div>
-      </motion.div>
-    </div>
-  );
+    );
 }
