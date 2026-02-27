@@ -154,7 +154,7 @@ export default function RequestsPage() {
                                             <td className="px-10 py-6">
                                                 <div className="flex items-center gap-5">
                                                     <div className="w-12 h-12 bg-slate-900 border border-slate-800 rounded-2xl flex items-center justify-center text-blue-500 font-black text-lg shadow-inner group-hover:scale-105 transition-transform">
-                                                        {req.patient?.profile?.firstName[0]}{req.patient?.profile?.lastName[0]}
+                                                        {req.patient?.profile?.firstName?.[0] ?? '?'}{req.patient?.profile?.lastName?.[0] ?? ''}
                                                     </div>
                                                     <div>
                                                         <p className="text-sm font-black text-white uppercase tracking-tight group-hover:text-blue-400 transition-colors">{req.patient?.profile?.firstName} {req.patient?.profile?.lastName}</p>

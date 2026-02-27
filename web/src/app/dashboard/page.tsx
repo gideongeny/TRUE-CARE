@@ -45,7 +45,7 @@ export default function DashboardPage() {
                             <Activity className="w-4 h-4 text-slate-700" />
                             {user.role === 'ADMIN'
                                 ? "Global operational status: OPTIMAL"
-                                : `Subject: ${user.firstName} ${user.lastName} &bull; Deployment Status: ACTIVE`}
+                                : `Subject: ${user?.firstName ?? ''} ${user?.lastName ?? ''} • Deployment Status: ACTIVE`}
                         </p>
                     </motion.div>
 
@@ -66,7 +66,7 @@ export default function DashboardPage() {
                             <div className="h-10 w-px bg-slate-900 mx-2" />
                             <div className="flex items-center gap-4 px-6 py-3 bg-slate-900 border border-slate-800 rounded-2xl">
                                 <div className="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center font-black text-white text-xs">
-                                    {user.firstName[0]}
+                                    {user?.firstName?.[0] ?? '?'}
                                 </div>
                                 <div className="text-left hidden md:block">
                                     <p className="text-[10px] font-black text-white uppercase tracking-tight">{user.firstName}</p>

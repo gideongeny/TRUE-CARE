@@ -149,7 +149,7 @@ export default function PatientDetailPage() {
                                 {patient.shifts && patient.shifts.length > 0 ? patient.shifts.slice(0, 3).map((s: any) => (
                                     <div key={s.id} className="p-4 bg-white/5 border border-white/10 rounded-2xl flex items-center gap-4 group cursor-pointer hover:bg-white/10 transition-all">
                                         <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center font-black text-xs">
-                                            {s.caregiver?.profile?.firstName[0]}{s.caregiver?.profile?.lastName[0]}
+                                            {s.caregiver?.profile?.firstName?.[0] ?? '?'}{s.caregiver?.profile?.lastName?.[0] ?? ''}
                                         </div>
                                         <div>
                                             <p className="text-[11px] font-black group-hover:text-blue-400 transition-colors uppercase">{s.caregiver?.profile?.firstName} {s.caregiver?.profile?.lastName}</p>

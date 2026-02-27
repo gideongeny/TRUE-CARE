@@ -163,7 +163,7 @@ export default function AdminOverview() {
                                             <td className="px-8 py-6">
                                                 <div className="flex items-center gap-4">
                                                     <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-black">
-                                                        {patient.profile?.firstName[0]}{patient.profile?.lastName[0]}
+                                                        {patient.profile?.firstName?.[0] ?? '?'}{patient.profile?.lastName?.[0] ?? ''}
                                                     </div>
                                                     <div>
                                                         <p className="text-sm font-black text-slate-900">{patient.profile?.firstName} {patient.profile?.lastName}</p>
@@ -256,7 +256,7 @@ export default function AdminOverview() {
                                 >
                                     <div className="flex items-center gap-3">
                                         <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-black text-xs">
-                                            {cg.profile?.firstName[0]}{cg.profile?.lastName[0]}
+                                            {cg.profile?.firstName?.[0] ?? '?'}{cg.profile?.lastName?.[0] ?? ''}
                                         </div>
                                         <div>
                                             <p className="text-xs font-black text-slate-900 uppercase">{cg.profile?.firstName} {cg.profile?.lastName}</p>
