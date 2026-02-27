@@ -2,7 +2,7 @@
 Initialized jansi services in: C:\Users\mukht\.gradle\native
 Received JVM installation metadata from 'C:\Program Files\Eclipse Adoptium\jdk-21.0.9.10-hotspot': {JAVA_HOME=C:\Program Files\Eclipse Adoptium\jdk-21.0.9.10-hotspot, JAVA_VERSION=21.0.9, JAVA_VENDOR=Eclipse Adoptium, RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=21.0.9+10-LTS, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=21.0.9+10-LTS, VM_VENDOR=Eclipse Adoptium, OS_ARCH=amd64}
 The client will now receive all logging from the daemon (pid: 26980). The daemon log file: C:\Users\mukht\.gradle\daemon\8.5\daemon-26980.out.log
-Starting 18th build in daemon [uptime: 1 hrs 2 mins 56.937 secs, performance: 100%, GC rate: 0.00/s, heap usage: 0% of 4 GiB, non-heap usage: 15% of 1 GiB]
+Starting 17th build in daemon [uptime: 1 hrs 1 mins 7.851 secs, performance: 100%, GC rate: 0.00/s, heap usage: 0% of 4 GiB, non-heap usage: 15% of 1 GiB]
 Using 12 worker leases.
 Now considering [C:\Users\mukht\Desktop\VS projects\TRUE-CARE-main\android] as hierarchies to watch
 Watching the file system is configured to be enabled if available
@@ -27,215 +27,209 @@ Tasks to be executed: [task ':app:preBuild', task ':app:preDebugBuild', task ':a
 Tasks that were excluded: []
 Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmEcosystemPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMECOSYSTEMPLUGIN
 Analytics other plugin to proto: Unknown plugin type org.gradle.api.plugins.JvmToolchainsPlugin$Inject expected enum ORG_GRADLE_API_PLUGINS_JVMTOOLCHAINSPLUGIN
-Resolve mutations for :app:preBuild (Thread[#1633,Execution worker,5,main]) started.
-:app:preBuild (Thread[#1633,Execution worker,5,main]) started.
+Resolve mutations for :app:preBuild (Thread[#1559,Execution worker,5,main]) started.
+:app:preBuild (Thread[#1559,Execution worker,5,main]) started.
 
 > Task :app:preBuild UP-TO-DATE
 Skipping task ':app:preBuild' as it has no actions.
-Resolve mutations for :app:preDebugBuild (Thread[#1633,Execution worker,5,main]) started.
-:app:preDebugBuild (Thread[#1633,Execution worker,5,main]) started.
+Resolve mutations for :app:preDebugBuild (Thread[#1558,included builds,5,main]) started.
+:app:preDebugBuild (Thread[#1566,Execution worker Thread 8,5,main]) started.
 
 > Task :app:preDebugBuild UP-TO-DATE
 Skipping task ':app:preDebugBuild' as it has no actions.
-Resolve mutations for :app:mergeDebugNativeDebugMetadata (Thread[#1633,Execution worker,5,main]) started.
-:app:mergeDebugNativeDebugMetadata (Thread[#1633,Execution worker,5,main]) started.
+Resolve mutations for :app:mergeDebugNativeDebugMetadata (Thread[#1566,Execution worker Thread 8,5,main]) started.
+:app:mergeDebugNativeDebugMetadata (Thread[#1566,Execution worker Thread 8,5,main]) started.
 
 > Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
 Skipping task ':app:mergeDebugNativeDebugMetadata' as it has no source files and no previous output files.
-Resolve mutations for :app:checkKotlinGradlePluginConfigurationErrors (Thread[#1633,Execution worker,5,main]) started.
-:app:checkKotlinGradlePluginConfigurationErrors (Thread[#1633,Execution worker,5,main]) started.
+Resolve mutations for :app:checkKotlinGradlePluginConfigurationErrors (Thread[#1566,Execution worker Thread 8,5,main]) started.
+:app:checkKotlinGradlePluginConfigurationErrors (Thread[#1567,Execution worker Thread 9,5,main]) started.
 
 > Task :app:checkKotlinGradlePluginConfigurationErrors
 Caching disabled for task ':app:checkKotlinGradlePluginConfigurationErrors' because:
   This task renders reported diagnostics; caching this task will hide diagnostics and obscure issues in the build
 Task ':app:checkKotlinGradlePluginConfigurationErrors' is not up-to-date because:
   Task has not declared any outputs despite executing actions.
-Resolve mutations for :app:checkDebugAarMetadata (Thread[#1633,Execution worker,5,main]) started.
-:app:checkDebugAarMetadata (Thread[#1633,Execution worker,5,main]) started.
+Resolve mutations for :app:checkDebugAarMetadata (Thread[#1567,Execution worker Thread 9,5,main]) started.
+:app:checkDebugAarMetadata (Thread[#1567,Execution worker Thread 9,5,main]) started.
 
 > Task :app:checkDebugAarMetadata UP-TO-DATE
-Transforming material-1.11.0.aar (com.google.android.material:material:1.11.0) with JetifyTransform
-Transforming material-1.11.0.aar (com.google.android.material:material:1.11.0) with ExtractAarTransform
-Transforming material-1.11.0.aar (com.google.android.material:material:1.11.0) with AarTransform
-Transforming constraintlayout-2.1.4.aar (androidx.constraintlayout:constraintlayout:2.1.4) with JetifyTransform
-Transforming browser-1.7.0.aar (androidx.browser:browser:1.7.0) with JetifyTransform
-Transforming constraintlayout-2.1.4.aar (androidx.constraintlayout:constraintlayout:2.1.4) with ExtractAarTransform
-Transforming browser-1.7.0.aar (androidx.browser:browser:1.7.0) with ExtractAarTransform
-Transforming constraintlayout-2.1.4.aar (androidx.constraintlayout:constraintlayout:2.1.4) with AarTransform
-Transforming fragment-1.3.6.aar (androidx.fragment:fragment:1.3.6) with JetifyTransform
-Transforming browser-1.7.0.aar (androidx.browser:browser:1.7.0) with AarTransform
-Transforming fragment-1.3.6.aar (androidx.fragment:fragment:1.3.6) with ExtractAarTransform
-Transforming fragment-1.3.6.aar (androidx.fragment:fragment:1.3.6) with AarTransform
 Transforming viewpager2-1.0.0.aar (androidx.viewpager2:viewpager2:1.0.0) with JetifyTransform
+Transforming fragment-1.3.6.aar (androidx.fragment:fragment:1.3.6) with JetifyTransform
+Transforming browser-1.7.0.aar (androidx.browser:browser:1.7.0) with JetifyTransform
+Transforming constraintlayout-2.1.4.aar (androidx.constraintlayout:constraintlayout:2.1.4) with JetifyTransform
+Transforming material-1.11.0.aar (com.google.android.material:material:1.11.0) with JetifyTransform
+Transforming viewpager2-1.0.0.aar (androidx.viewpager2:viewpager2:1.0.0) with ExtractAarTransform
+Transforming fragment-1.3.6.aar (androidx.fragment:fragment:1.3.6) with ExtractAarTransform
+Transforming viewpager2-1.0.0.aar (androidx.viewpager2:viewpager2:1.0.0) with AarTransform
+Transforming browser-1.7.0.aar (androidx.browser:browser:1.7.0) with ExtractAarTransform
+Transforming material-1.11.0.aar (com.google.android.material:material:1.11.0) with ExtractAarTransform
+Transforming fragment-1.3.6.aar (androidx.fragment:fragment:1.3.6) with JetifyTransform
+Transforming activity-1.8.0.aar (androidx.activity:activity:1.8.0) with JetifyTransform
+Transforming constraintlayout-2.1.4.aar (androidx.constraintlayout:constraintlayout:2.1.4) with ExtractAarTransform
+Transforming fragment-1.3.6.aar (androidx.fragment:fragment:1.3.6) with ExtractAarTransform
+Transforming constraintlayout-2.1.4.aar (androidx.constraintlayout:constraintlayout:2.1.4) with AarTransform
+Transforming fragment-1.3.6.aar (androidx.fragment:fragment:1.3.6) with AarTransform
+Transforming emoji2-views-helper-1.2.0.aar (androidx.emoji2:emoji2-views-helper:1.2.0) with JetifyTransform
+Transforming emoji2-views-helper-1.2.0.aar (androidx.emoji2:emoji2-views-helper:1.2.0) with ExtractAarTransform
+Transforming appcompat-resources-1.6.1.aar (androidx.appcompat:appcompat-resources:1.6.1) with JetifyTransform
+Transforming activity-1.8.0.aar (androidx.activity:activity:1.8.0) with ExtractAarTransform
+Transforming material-1.11.0.aar (com.google.android.material:material:1.11.0) with AarTransform
+Transforming activity-1.8.0.aar (androidx.activity:activity:1.8.0) with AarTransform
+Transforming browser-1.7.0.aar (androidx.browser:browser:1.7.0) with AarTransform
+Transforming dynamicanimation-1.0.0.aar (androidx.dynamicanimation:dynamicanimation:1.0.0) with JetifyTransform
+Transforming emoji2-1.2.0.aar (androidx.emoji2:emoji2:1.2.0) with JetifyTransform
+Transforming fragment-1.3.6.aar (androidx.fragment:fragment:1.3.6) with AarTransform
+Transforming emoji2-1.2.0.aar (androidx.emoji2:emoji2:1.2.0) with ExtractAarTransform
+Transforming dynamicanimation-1.0.0.aar (androidx.dynamicanimation:dynamicanimation:1.0.0) with ExtractAarTransform
+Transforming emoji2-1.2.0.aar (androidx.emoji2:emoji2:1.2.0) with AarTransform
+Transforming appcompat-resources-1.6.1.aar (androidx.appcompat:appcompat-resources:1.6.1) with ExtractAarTransform
+Transforming coordinatorlayout-1.1.0.aar (androidx.coordinatorlayout:coordinatorlayout:1.1.0) with JetifyTransform
+Transforming appcompat-resources-1.6.1.aar (androidx.appcompat:appcompat-resources:1.6.1) with AarTransform
+Transforming coordinatorlayout-1.1.0.aar (androidx.coordinatorlayout:coordinatorlayout:1.1.0) with ExtractAarTransform
+Transforming vectordrawable-animated-1.1.0.aar (androidx.vectordrawable:vectordrawable-animated:1.1.0) with JetifyTransform
+Transforming emoji2-views-helper-1.2.0.aar (androidx.emoji2:emoji2-views-helper:1.2.0) with AarTransform
+Transforming vectordrawable-animated-1.1.0.aar (androidx.vectordrawable:vectordrawable-animated:1.1.0) with ExtractAarTransform
+Transforming coordinatorlayout-1.1.0.aar (androidx.coordinatorlayout:coordinatorlayout:1.1.0) with AarTransform
+Transforming vectordrawable-animated-1.1.0.aar (androidx.vectordrawable:vectordrawable-animated:1.1.0) with AarTransform
+Transforming loader-1.0.0.aar (androidx.loader:loader:1.0.0) with JetifyTransform
+Transforming dynamicanimation-1.0.0.aar (androidx.dynamicanimation:dynamicanimation:1.0.0) with AarTransform
+Transforming loader-1.0.0.aar (androidx.loader:loader:1.0.0) with ExtractAarTransform
+Transforming loader-1.0.0.aar (androidx.loader:loader:1.0.0) with AarTransform
+Transforming transition-1.2.0.aar (androidx.transition:transition:1.2.0) with JetifyTransform
+Transforming transition-1.2.0.aar (androidx.transition:transition:1.2.0) with ExtractAarTransform
+Transforming transition-1.2.0.aar (androidx.transition:transition:1.2.0) with AarTransform
+Transforming appcompat-1.6.1.aar (androidx.appcompat:appcompat:1.6.1) with JetifyTransform
+Transforming loader-1.0.0.aar (androidx.loader:loader:1.0.0) with JetifyTransform
+Transforming appcompat-1.6.1.aar (androidx.appcompat:appcompat:1.6.1) with ExtractAarTransform
+Transforming loader-1.0.0.aar (androidx.loader:loader:1.0.0) with ExtractAarTransform
+Transforming loader-1.0.0.aar (androidx.loader:loader:1.0.0) with AarTransform
+Transforming appcompat-1.6.1.aar (androidx.appcompat:appcompat:1.6.1) with AarTransform
+Transforming vectordrawable-1.1.0.aar (androidx.vectordrawable:vectordrawable:1.1.0) with JetifyTransform
+Transforming vectordrawable-1.1.0.aar (androidx.vectordrawable:vectordrawable:1.1.0) with ExtractAarTransform
+Transforming vectordrawable-1.1.0.aar (androidx.vectordrawable:vectordrawable:1.1.0) with AarTransform
+Transforming vectordrawable-1.1.0.aar (androidx.vectordrawable:vectordrawable:1.1.0) with JetifyTransform
+Transforming legacy-support-core-utils-1.0.0.aar (androidx.legacy:legacy-support-core-utils:1.0.0) with JetifyTransform
+Transforming legacy-support-core-utils-1.0.0.aar (androidx.legacy:legacy-support-core-utils:1.0.0) with ExtractAarTransform
+Transforming legacy-support-core-utils-1.0.0.aar (androidx.legacy:legacy-support-core-utils:1.0.0) with AarTransform
+Transforming vectordrawable-1.1.0.aar (androidx.vectordrawable:vectordrawable:1.1.0) with ExtractAarTransform
+Transforming vectordrawable-1.1.0.aar (androidx.vectordrawable:vectordrawable:1.1.0) with AarTransform
 Transforming drawerlayout-1.1.1.aar (androidx.drawerlayout:drawerlayout:1.1.1) with JetifyTransform
 Transforming drawerlayout-1.1.1.aar (androidx.drawerlayout:drawerlayout:1.1.1) with ExtractAarTransform
 Transforming drawerlayout-1.1.1.aar (androidx.drawerlayout:drawerlayout:1.1.1) with AarTransform
-Transforming viewpager2-1.0.0.aar (androidx.viewpager2:viewpager2:1.0.0) with ExtractAarTransform
-Transforming appcompat-1.6.1.aar (androidx.appcompat:appcompat:1.6.1) with JetifyTransform
-Transforming viewpager2-1.0.0.aar (androidx.viewpager2:viewpager2:1.0.0) with AarTransform
-Transforming appcompat-1.6.1.aar (androidx.appcompat:appcompat:1.6.1) with ExtractAarTransform
-Transforming emoji2-1.2.0.aar (androidx.emoji2:emoji2:1.2.0) with JetifyTransform
-Transforming appcompat-1.6.1.aar (androidx.appcompat:appcompat:1.6.1) with AarTransform
-Transforming emoji2-1.2.0.aar (androidx.emoji2:emoji2:1.2.0) with ExtractAarTransform
-Transforming emoji2-1.2.0.aar (androidx.emoji2:emoji2:1.2.0) with AarTransform
-Transforming vectordrawable-animated-1.1.0.aar (androidx.vectordrawable:vectordrawable-animated:1.1.0) with JetifyTransform
-Transforming vectordrawable-animated-1.1.0.aar (androidx.vectordrawable:vectordrawable-animated:1.1.0) with ExtractAarTransform
-Transforming vectordrawable-animated-1.1.0.aar (androidx.vectordrawable:vectordrawable-animated:1.1.0) with AarTransform
-Transforming vectordrawable-1.1.0.aar (androidx.vectordrawable:vectordrawable:1.1.0) with JetifyTransform
-Transforming vectordrawable-1.1.0.aar (androidx.vectordrawable:vectordrawable:1.1.0) with ExtractAarTransform
-Transforming vectordrawable-1.1.0.aar (androidx.vectordrawable:vectordrawable:1.1.0) with AarTransform
-Transforming legacy-support-core-utils-1.0.0.aar (androidx.legacy:legacy-support-core-utils:1.0.0) with JetifyTransform
-Transforming vectordrawable-1.1.0.aar (androidx.vectordrawable:vectordrawable:1.1.0) with JetifyTransform
-Transforming legacy-support-core-utils-1.0.0.aar (androidx.legacy:legacy-support-core-utils:1.0.0) with ExtractAarTransform
-Transforming vectordrawable-1.1.0.aar (androidx.vectordrawable:vectordrawable:1.1.0) with ExtractAarTransform
-Transforming vectordrawable-1.1.0.aar (androidx.vectordrawable:vectordrawable:1.1.0) with AarTransform
-Transforming activity-1.8.0.aar (androidx.activity:activity:1.8.0) with JetifyTransform
-Transforming legacy-support-core-utils-1.0.0.aar (androidx.legacy:legacy-support-core-utils:1.0.0) with AarTransform
-Transforming activity-1.8.0.aar (androidx.activity:activity:1.8.0) with ExtractAarTransform
-Transforming activity-1.8.0.aar (androidx.activity:activity:1.8.0) with AarTransform
-Transforming loader-1.0.0.aar (androidx.loader:loader:1.0.0) with JetifyTransform
-Transforming loader-1.0.0.aar (androidx.loader:loader:1.0.0) with JetifyTransform
-Transforming loader-1.0.0.aar (androidx.loader:loader:1.0.0) with ExtractAarTransform
-Transforming dynamicanimation-1.0.0.aar (androidx.dynamicanimation:dynamicanimation:1.0.0) with JetifyTransform
-Transforming loader-1.0.0.aar (androidx.loader:loader:1.0.0) with ExtractAarTransform
-Transforming dynamicanimation-1.0.0.aar (androidx.dynamicanimation:dynamicanimation:1.0.0) with ExtractAarTransform
-Transforming loader-1.0.0.aar (androidx.loader:loader:1.0.0) with AarTransform
+Transforming customview-1.1.0.aar (androidx.customview:customview:1.1.0) with JetifyTransform
+Transforming customview-1.1.0.aar (androidx.customview:customview:1.1.0) with JetifyTransform
+Transforming customview-1.1.0.aar (androidx.customview:customview:1.1.0) with ExtractAarTransform
+Transforming customview-1.1.0.aar (androidx.customview:customview:1.1.0) with JetifyTransform
+Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with JetifyTransform
+Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with JetifyTransform
+Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with ExtractAarTransform
 Transforming recyclerview-1.1.0.aar (androidx.recyclerview:recyclerview:1.1.0) with JetifyTransform
-Transforming recyclerview-1.1.0.aar (androidx.recyclerview:recyclerview:1.1.0) with JetifyTransform
-Transforming dynamicanimation-1.0.0.aar (androidx.dynamicanimation:dynamicanimation:1.0.0) with AarTransform
-Transforming loader-1.0.0.aar (androidx.loader:loader:1.0.0) with AarTransform
-Transforming transition-1.2.0.aar (androidx.transition:transition:1.2.0) with JetifyTransform
+Transforming customview-1.1.0.aar (androidx.customview:customview:1.1.0) with JetifyTransform
 Transforming recyclerview-1.1.0.aar (androidx.recyclerview:recyclerview:1.1.0) with ExtractAarTransform
-Transforming recyclerview-1.1.0.aar (androidx.recyclerview:recyclerview:1.1.0) with ExtractAarTransform
-Transforming recyclerview-1.1.0.aar (androidx.recyclerview:recyclerview:1.1.0) with AarTransform
-Transforming recyclerview-1.1.0.aar (androidx.recyclerview:recyclerview:1.1.0) with AarTransform
-Transforming emoji2-views-helper-1.2.0.aar (androidx.emoji2:emoji2-views-helper:1.2.0) with JetifyTransform
-Transforming transition-1.2.0.aar (androidx.transition:transition:1.2.0) with ExtractAarTransform
-Transforming emoji2-views-helper-1.2.0.aar (androidx.emoji2:emoji2-views-helper:1.2.0) with ExtractAarTransform
-Transforming transition-1.2.0.aar (androidx.transition:transition:1.2.0) with AarTransform
-Transforming emoji2-views-helper-1.2.0.aar (androidx.emoji2:emoji2-views-helper:1.2.0) with AarTransform
-Transforming fragment-1.3.6.aar (androidx.fragment:fragment:1.3.6) with JetifyTransform
-Transforming fragment-1.3.6.aar (androidx.fragment:fragment:1.3.6) with ExtractAarTransform
-Transforming fragment-1.3.6.aar (androidx.fragment:fragment:1.3.6) with AarTransform
-Transforming coordinatorlayout-1.1.0.aar (androidx.coordinatorlayout:coordinatorlayout:1.1.0) with JetifyTransform
-Transforming coordinatorlayout-1.1.0.aar (androidx.coordinatorlayout:coordinatorlayout:1.1.0) with ExtractAarTransform
-Transforming coordinatorlayout-1.1.0.aar (androidx.coordinatorlayout:coordinatorlayout:1.1.0) with AarTransform
-Transforming biometric-1.2.0-alpha05.aar (androidx.biometric:biometric:1.2.0-alpha05) with JetifyTransform
-Transforming biometric-1.2.0-alpha05.aar (androidx.biometric:biometric:1.2.0-alpha05) with ExtractAarTransform
-Transforming biometric-1.2.0-alpha05.aar (androidx.biometric:biometric:1.2.0-alpha05) with AarTransform
-Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with JetifyTransform
-Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with JetifyTransform
-Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with ExtractAarTransform
-Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with ExtractAarTransform
-Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with AarTransform
-Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with AarTransform
-Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with JetifyTransform
-Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with JetifyTransform
-Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with JetifyTransform
-Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with ExtractAarTransform
-Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with ExtractAarTransform
-Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with ExtractAarTransform
-Transforming viewpager-1.0.0.aar (androidx.viewpager:viewpager:1.0.0) with JetifyTransform
-Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with AarTransform
-Transforming customview-1.1.0.aar (androidx.customview:customview:1.1.0) with JetifyTransform
-Transforming customview-1.1.0.aar (androidx.customview:customview:1.1.0) with JetifyTransform
 Transforming customview-1.1.0.aar (androidx.customview:customview:1.1.0) with ExtractAarTransform
-Transforming customview-1.1.0.aar (androidx.customview:customview:1.1.0) with ExtractAarTransform
-Transforming customview-1.1.0.aar (androidx.customview:customview:1.1.0) with AarTransform
-Transforming customview-1.1.0.aar (androidx.customview:customview:1.1.0) with AarTransform
 Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with AarTransform
-Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with AarTransform
-Transforming appcompat-resources-1.6.1.aar (androidx.appcompat:appcompat-resources:1.6.1) with JetifyTransform
-Transforming savedstate-1.2.1.aar (androidx.savedstate:savedstate:1.2.1) with JetifyTransform
-Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with JetifyTransform
-Transforming customview-1.1.0.aar (androidx.customview:customview:1.1.0) with JetifyTransform
-Transforming customview-1.1.0.aar (androidx.customview:customview:1.1.0) with JetifyTransform
-Transforming customview-1.1.0.aar (androidx.customview:customview:1.1.0) with ExtractAarTransform
-Transforming customview-1.1.0.aar (androidx.customview:customview:1.1.0) with ExtractAarTransform
-Transforming viewpager-1.0.0.aar (androidx.viewpager:viewpager:1.0.0) with ExtractAarTransform
 Transforming customview-1.1.0.aar (androidx.customview:customview:1.1.0) with AarTransform
-Transforming lifecycle-runtime-2.6.1.aar (androidx.lifecycle:lifecycle-runtime:2.6.1) with JetifyTransform
-Transforming customview-1.1.0.aar (androidx.customview:customview:1.1.0) with AarTransform
-Transforming lifecycle-runtime-2.6.1.aar (androidx.lifecycle:lifecycle-runtime:2.6.1) with ExtractAarTransform
-Transforming lifecycle-process-2.6.1.aar (androidx.lifecycle:lifecycle-process:2.6.1) with JetifyTransform
-Transforming lifecycle-runtime-2.6.1.aar (androidx.lifecycle:lifecycle-runtime:2.6.1) with AarTransform
-Transforming lifecycle-process-2.6.1.aar (androidx.lifecycle:lifecycle-process:2.6.1) with ExtractAarTransform
 Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with ExtractAarTransform
-Transforming savedstate-1.2.1.aar (androidx.savedstate:savedstate:1.2.1) with ExtractAarTransform
-Transforming core-ktx-1.12.0.aar (androidx.core:core-ktx:1.12.0) with JetifyTransform
-Transforming savedstate-1.2.1.aar (androidx.savedstate:savedstate:1.2.1) with AarTransform
-Transforming core-ktx-1.12.0.aar (androidx.core:core-ktx:1.12.0) with ExtractAarTransform
-Transforming appcompat-resources-1.6.1.aar (androidx.appcompat:appcompat-resources:1.6.1) with ExtractAarTransform
-Transforming core-ktx-1.12.0.aar (androidx.core:core-ktx:1.12.0) with AarTransform
-Transforming appcompat-resources-1.6.1.aar (androidx.appcompat:appcompat-resources:1.6.1) with AarTransform
 Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with AarTransform
-Transforming lifecycle-process-2.6.1.aar (androidx.lifecycle:lifecycle-process:2.6.1) with AarTransform
-Transforming lifecycle-livedata-core-2.6.1.aar (androidx.lifecycle:lifecycle-livedata-core:2.6.1) with JetifyTransform
-Transforming viewpager-1.0.0.aar (androidx.viewpager:viewpager:1.0.0) with AarTransform
-Transforming lifecycle-livedata-core-2.6.1.aar (androidx.lifecycle:lifecycle-livedata-core:2.6.1) with ExtractAarTransform
-Transforming lifecycle-viewmodel-2.6.1.aar (androidx.lifecycle:lifecycle-viewmodel:2.6.1) with JetifyTransform
-Transforming lifecycle-viewmodel-2.6.1.aar (androidx.lifecycle:lifecycle-viewmodel:2.6.1) with JetifyTransform
-Transforming lifecycle-livedata-core-2.6.1.aar (androidx.lifecycle:lifecycle-livedata-core:2.6.1) with AarTransform
-Transforming lifecycle-viewmodel-2.6.1.aar (androidx.lifecycle:lifecycle-viewmodel:2.6.1) with ExtractAarTransform
-Transforming lifecycle-viewmodel-2.6.1.aar (androidx.lifecycle:lifecycle-viewmodel:2.6.1) with ExtractAarTransform
-Transforming lifecycle-viewmodel-2.6.1.aar (androidx.lifecycle:lifecycle-viewmodel:2.6.1) with AarTransform
-Transforming lifecycle-viewmodel-2.6.1.aar (androidx.lifecycle:lifecycle-viewmodel:2.6.1) with AarTransform
-Transforming interpolator-1.0.0.aar (androidx.interpolator:interpolator:1.0.0) with JetifyTransform
-Transforming interpolator-1.0.0.aar (androidx.interpolator:interpolator:1.0.0) with JetifyTransform
-Transforming interpolator-1.0.0.aar (androidx.interpolator:interpolator:1.0.0) with ExtractAarTransform
-Transforming interpolator-1.0.0.aar (androidx.interpolator:interpolator:1.0.0) with ExtractAarTransform
+Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with JetifyTransform
+Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with ExtractAarTransform
+Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with AarTransform
 Transforming lifecycle-livedata-2.6.1.aar (androidx.lifecycle:lifecycle-livedata:2.6.1) with JetifyTransform
-Transforming interpolator-1.0.0.aar (androidx.interpolator:interpolator:1.0.0) with AarTransform
 Transforming lifecycle-livedata-2.6.1.aar (androidx.lifecycle:lifecycle-livedata:2.6.1) with ExtractAarTransform
 Transforming lifecycle-livedata-2.6.1.aar (androidx.lifecycle:lifecycle-livedata:2.6.1) with AarTransform
-Transforming interpolator-1.0.0.aar (androidx.interpolator:interpolator:1.0.0) with AarTransform
-Transforming core-runtime-2.2.0.aar (androidx.arch.core:core-runtime:2.2.0) with JetifyTransform
-Transforming core-runtime-2.2.0.aar (androidx.arch.core:core-runtime:2.2.0) with ExtractAarTransform
-Transforming localbroadcastmanager-1.0.0.aar (androidx.localbroadcastmanager:localbroadcastmanager:1.0.0) with JetifyTransform
-Transforming core-runtime-2.2.0.aar (androidx.arch.core:core-runtime:2.2.0) with AarTransform
-Transforming localbroadcastmanager-1.0.0.aar (androidx.localbroadcastmanager:localbroadcastmanager:1.0.0) with ExtractAarTransform
-Transforming localbroadcastmanager-1.0.0.aar (androidx.localbroadcastmanager:localbroadcastmanager:1.0.0) with AarTransform
-Transforming annotation-experimental-1.3.0.aar (androidx.annotation:annotation-experimental:1.3.0) with JetifyTransform
-Transforming annotation-experimental-1.3.0.aar (androidx.annotation:annotation-experimental:1.3.0) with ExtractAarTransform
-Transforming annotation-experimental-1.3.0.aar (androidx.annotation:annotation-experimental:1.3.0) with AarTransform
-Transforming tracing-1.0.0.aar (androidx.tracing:tracing:1.0.0) with JetifyTransform
-Transforming tracing-1.0.0.aar (androidx.tracing:tracing:1.0.0) with ExtractAarTransform
-Transforming tracing-1.0.0.aar (androidx.tracing:tracing:1.0.0) with AarTransform
-Transforming print-1.0.0.aar (androidx.print:print:1.0.0) with JetifyTransform
-Transforming documentfile-1.0.0.aar (androidx.documentfile:documentfile:1.0.0) with JetifyTransform
-Transforming documentfile-1.0.0.aar (androidx.documentfile:documentfile:1.0.0) with ExtractAarTransform
+Transforming customview-1.1.0.aar (androidx.customview:customview:1.1.0) with ExtractAarTransform
+Transforming customview-1.1.0.aar (androidx.customview:customview:1.1.0) with ExtractAarTransform
+Transforming recyclerview-1.1.0.aar (androidx.recyclerview:recyclerview:1.1.0) with JetifyTransform
+Transforming lifecycle-viewmodel-2.6.1.aar (androidx.lifecycle:lifecycle-viewmodel:2.6.1) with JetifyTransform
+Transforming recyclerview-1.1.0.aar (androidx.recyclerview:recyclerview:1.1.0) with ExtractAarTransform
+Transforming recyclerview-1.1.0.aar (androidx.recyclerview:recyclerview:1.1.0) with AarTransform
+Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with JetifyTransform
+Transforming lifecycle-viewmodel-2.6.1.aar (androidx.lifecycle:lifecycle-viewmodel:2.6.1) with JetifyTransform
+Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with ExtractAarTransform
+Transforming biometric-1.2.0-alpha05.aar (androidx.biometric:biometric:1.2.0-alpha05) with JetifyTransform
+Transforming core-1.12.0.aar (androidx.core:core:1.12.0) with AarTransform
+Transforming biometric-1.2.0-alpha05.aar (androidx.biometric:biometric:1.2.0-alpha05) with ExtractAarTransform
+Transforming biometric-1.2.0-alpha05.aar (androidx.biometric:biometric:1.2.0-alpha05) with AarTransform
+Transforming customview-1.1.0.aar (androidx.customview:customview:1.1.0) with AarTransform
+Transforming viewpager-1.0.0.aar (androidx.viewpager:viewpager:1.0.0) with JetifyTransform
+Transforming viewpager-1.0.0.aar (androidx.viewpager:viewpager:1.0.0) with ExtractAarTransform
+Transforming viewpager-1.0.0.aar (androidx.viewpager:viewpager:1.0.0) with AarTransform
+Transforming lifecycle-viewmodel-2.6.1.aar (androidx.lifecycle:lifecycle-viewmodel:2.6.1) with ExtractAarTransform
+Transforming lifecycle-viewmodel-2.6.1.aar (androidx.lifecycle:lifecycle-viewmodel:2.6.1) with AarTransform
+Transforming lifecycle-viewmodel-2.6.1.aar (androidx.lifecycle:lifecycle-viewmodel:2.6.1) with ExtractAarTransform
+Transforming lifecycle-viewmodel-2.6.1.aar (androidx.lifecycle:lifecycle-viewmodel:2.6.1) with AarTransform
+Transforming customview-1.1.0.aar (androidx.customview:customview:1.1.0) with AarTransform
 Transforming lifecycle-viewmodel-savedstate-2.6.1.aar (androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1) with JetifyTransform
 Transforming lifecycle-viewmodel-savedstate-2.6.1.aar (androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1) with ExtractAarTransform
 Transforming lifecycle-viewmodel-savedstate-2.6.1.aar (androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1) with AarTransform
-Transforming print-1.0.0.aar (androidx.print:print:1.0.0) with ExtractAarTransform
-Transforming print-1.0.0.aar (androidx.print:print:1.0.0) with AarTransform
-Transforming documentfile-1.0.0.aar (androidx.documentfile:documentfile:1.0.0) with AarTransform
-Transforming cardview-1.0.0.aar (androidx.cardview:cardview:1.0.0) with JetifyTransform
-Transforming cardview-1.0.0.aar (androidx.cardview:cardview:1.0.0) with ExtractAarTransform
-Transforming cardview-1.0.0.aar (androidx.cardview:cardview:1.0.0) with AarTransform
-Transforming cursoradapter-1.0.0.aar (androidx.cursoradapter:cursoradapter:1.0.0) with JetifyTransform
-Transforming cursoradapter-1.0.0.aar (androidx.cursoradapter:cursoradapter:1.0.0) with ExtractAarTransform
-Transforming cursoradapter-1.0.0.aar (androidx.cursoradapter:cursoradapter:1.0.0) with AarTransform
-Transforming versionedparcelable-1.1.1.aar (androidx.versionedparcelable:versionedparcelable:1.1.1) with JetifyTransform
-Transforming versionedparcelable-1.1.1.aar (androidx.versionedparcelable:versionedparcelable:1.1.1) with ExtractAarTransform
-Transforming versionedparcelable-1.1.1.aar (androidx.versionedparcelable:versionedparcelable:1.1.1) with AarTransform
-Transforming profileinstaller-1.3.0.aar (androidx.profileinstaller:profileinstaller:1.3.0) with JetifyTransform
-Transforming profileinstaller-1.3.0.aar (androidx.profileinstaller:profileinstaller:1.3.0) with ExtractAarTransform
-Transforming profileinstaller-1.3.0.aar (androidx.profileinstaller:profileinstaller:1.3.0) with AarTransform
+Transforming customview-1.1.0.aar (androidx.customview:customview:1.1.0) with AarTransform
+Transforming interpolator-1.0.0.aar (androidx.interpolator:interpolator:1.0.0) with JetifyTransform
+Transforming interpolator-1.0.0.aar (androidx.interpolator:interpolator:1.0.0) with ExtractAarTransform
+Transforming interpolator-1.0.0.aar (androidx.interpolator:interpolator:1.0.0) with AarTransform
+Transforming lifecycle-livedata-core-2.6.1.aar (androidx.lifecycle:lifecycle-livedata-core:2.6.1) with JetifyTransform
+Transforming interpolator-1.0.0.aar (androidx.interpolator:interpolator:1.0.0) with JetifyTransform
+Transforming lifecycle-process-2.6.1.aar (androidx.lifecycle:lifecycle-process:2.6.1) with JetifyTransform
+Transforming lifecycle-process-2.6.1.aar (androidx.lifecycle:lifecycle-process:2.6.1) with ExtractAarTransform
+Transforming lifecycle-process-2.6.1.aar (androidx.lifecycle:lifecycle-process:2.6.1) with AarTransform
 Transforming startup-runtime-1.1.1.aar (androidx.startup:startup-runtime:1.1.1) with JetifyTransform
 Transforming startup-runtime-1.1.1.aar (androidx.startup:startup-runtime:1.1.1) with ExtractAarTransform
 Transforming startup-runtime-1.1.1.aar (androidx.startup:startup-runtime:1.1.1) with AarTransform
+Transforming savedstate-1.2.1.aar (androidx.savedstate:savedstate:1.2.1) with JetifyTransform
+Transforming savedstate-1.2.1.aar (androidx.savedstate:savedstate:1.2.1) with ExtractAarTransform
+Transforming savedstate-1.2.1.aar (androidx.savedstate:savedstate:1.2.1) with AarTransform
+Transforming profileinstaller-1.3.0.aar (androidx.profileinstaller:profileinstaller:1.3.0) with JetifyTransform
+Transforming profileinstaller-1.3.0.aar (androidx.profileinstaller:profileinstaller:1.3.0) with ExtractAarTransform
+Transforming profileinstaller-1.3.0.aar (androidx.profileinstaller:profileinstaller:1.3.0) with AarTransform
+Transforming interpolator-1.0.0.aar (androidx.interpolator:interpolator:1.0.0) with ExtractAarTransform
+Transforming interpolator-1.0.0.aar (androidx.interpolator:interpolator:1.0.0) with AarTransform
+Transforming versionedparcelable-1.1.1.aar (androidx.versionedparcelable:versionedparcelable:1.1.1) with JetifyTransform
+Transforming versionedparcelable-1.1.1.aar (androidx.versionedparcelable:versionedparcelable:1.1.1) with ExtractAarTransform
+Transforming versionedparcelable-1.1.1.aar (androidx.versionedparcelable:versionedparcelable:1.1.1) with AarTransform
+Transforming localbroadcastmanager-1.0.0.aar (androidx.localbroadcastmanager:localbroadcastmanager:1.0.0) with JetifyTransform
+Transforming localbroadcastmanager-1.0.0.aar (androidx.localbroadcastmanager:localbroadcastmanager:1.0.0) with ExtractAarTransform
+Transforming localbroadcastmanager-1.0.0.aar (androidx.localbroadcastmanager:localbroadcastmanager:1.0.0) with AarTransform
+Transforming recyclerview-1.1.0.aar (androidx.recyclerview:recyclerview:1.1.0) with AarTransform
+Transforming cardview-1.0.0.aar (androidx.cardview:cardview:1.0.0) with JetifyTransform
+Transforming cardview-1.0.0.aar (androidx.cardview:cardview:1.0.0) with ExtractAarTransform
+Transforming tracing-1.0.0.aar (androidx.tracing:tracing:1.0.0) with JetifyTransform
+Transforming lifecycle-livedata-core-2.6.1.aar (androidx.lifecycle:lifecycle-livedata-core:2.6.1) with ExtractAarTransform
+Transforming lifecycle-livedata-core-2.6.1.aar (androidx.lifecycle:lifecycle-livedata-core:2.6.1) with AarTransform
+Transforming tracing-1.0.0.aar (androidx.tracing:tracing:1.0.0) with ExtractAarTransform
+Transforming tracing-1.0.0.aar (androidx.tracing:tracing:1.0.0) with AarTransform
+Transforming lifecycle-runtime-2.6.1.aar (androidx.lifecycle:lifecycle-runtime:2.6.1) with JetifyTransform
+Transforming cardview-1.0.0.aar (androidx.cardview:cardview:1.0.0) with AarTransform
+Transforming lifecycle-runtime-2.6.1.aar (androidx.lifecycle:lifecycle-runtime:2.6.1) with ExtractAarTransform
+Transforming core-ktx-1.12.0.aar (androidx.core:core-ktx:1.12.0) with JetifyTransform
+Transforming core-ktx-1.12.0.aar (androidx.core:core-ktx:1.12.0) with ExtractAarTransform
+Transforming core-runtime-2.2.0.aar (androidx.arch.core:core-runtime:2.2.0) with JetifyTransform
+Transforming core-runtime-2.2.0.aar (androidx.arch.core:core-runtime:2.2.0) with ExtractAarTransform
+Transforming core-runtime-2.2.0.aar (androidx.arch.core:core-runtime:2.2.0) with AarTransform
+Transforming lifecycle-runtime-2.6.1.aar (androidx.lifecycle:lifecycle-runtime:2.6.1) with AarTransform
+Transforming core-ktx-1.12.0.aar (androidx.core:core-ktx:1.12.0) with AarTransform
+Transforming documentfile-1.0.0.aar (androidx.documentfile:documentfile:1.0.0) with JetifyTransform
+Transforming documentfile-1.0.0.aar (androidx.documentfile:documentfile:1.0.0) with ExtractAarTransform
+Transforming documentfile-1.0.0.aar (androidx.documentfile:documentfile:1.0.0) with AarTransform
+Transforming cursoradapter-1.0.0.aar (androidx.cursoradapter:cursoradapter:1.0.0) with JetifyTransform
+Transforming cursoradapter-1.0.0.aar (androidx.cursoradapter:cursoradapter:1.0.0) with ExtractAarTransform
+Transforming cursoradapter-1.0.0.aar (androidx.cursoradapter:cursoradapter:1.0.0) with AarTransform
+Transforming print-1.0.0.aar (androidx.print:print:1.0.0) with JetifyTransform
+Transforming print-1.0.0.aar (androidx.print:print:1.0.0) with ExtractAarTransform
+Transforming annotation-experimental-1.3.0.aar (androidx.annotation:annotation-experimental:1.3.0) with JetifyTransform
+Transforming print-1.0.0.aar (androidx.print:print:1.0.0) with AarTransform
+Transforming annotation-experimental-1.3.0.aar (androidx.annotation:annotation-experimental:1.3.0) with ExtractAarTransform
+Transforming annotation-experimental-1.3.0.aar (androidx.annotation:annotation-experimental:1.3.0) with AarTransform
 Caching disabled for task ':app:checkDebugAarMetadata' because:
   Caching has been disabled for the task
 Skipping task ':app:checkDebugAarMetadata' as it is up-to-date.
-Resolve mutations for :app:generateDebugResValues (Thread[#1633,Execution worker,5,main]) started.
-:app:generateDebugResValues (Thread[#1633,Execution worker,5,main]) started.
+Resolve mutations for :app:generateDebugResValues (Thread[#1567,Execution worker Thread 9,5,main]) started.
+:app:generateDebugResValues (Thread[#1567,Execution worker Thread 9,5,main]) started.
 
 > Task :app:generateDebugResValues UP-TO-DATE
 Build cache key for task ':app:generateDebugResValues' is 6c95180278e4ccd17eb334830c26620d
 Skipping task ':app:generateDebugResValues' as it is up-to-date.
-Resolve mutations for :app:mapDebugSourceSetPaths (Thread[#1633,Execution worker,5,main]) started.
-:app:mapDebugSourceSetPaths (Thread[#1633,Execution worker,5,main]) started.
+Resolve mutations for :app:mapDebugSourceSetPaths (Thread[#1567,Execution worker Thread 9,5,main]) started.
+:app:mapDebugSourceSetPaths (Thread[#1567,Execution worker Thread 9,5,main]) started.
 
 > Task :app:mapDebugSourceSetPaths UP-TO-DATE
 Transforming material-1.11.0.aar (com.google.android.material:material:1.11.0) with JetifyTransform
@@ -391,46 +385,46 @@ Transforming print-1.0.0.aar (androidx.print:print:1.0.0) with AarTransform
 Caching disabled for task ':app:mapDebugSourceSetPaths' because:
   Caching has been disabled for the task
 Skipping task ':app:mapDebugSourceSetPaths' as it is up-to-date.
-Resolve mutations for :app:generateDebugResources (Thread[#1633,Execution worker,5,main]) started.
-:app:generateDebugResources (Thread[#1633,Execution worker,5,main]) started.
+Resolve mutations for :app:generateDebugResources (Thread[#1567,Execution worker Thread 9,5,main]) started.
+:app:generateDebugResources (Thread[#1567,Execution worker Thread 9,5,main]) started.
 
 > Task :app:generateDebugResources UP-TO-DATE
 Skipping task ':app:generateDebugResources' as it has no actions.
-Resolve mutations for :app:mergeDebugResources (Thread[#1633,Execution worker,5,main]) started.
-:app:mergeDebugResources (Thread[#1633,Execution worker,5,main]) started.
+Resolve mutations for :app:mergeDebugResources (Thread[#1567,Execution worker Thread 9,5,main]) started.
+:app:mergeDebugResources (Thread[#1567,Execution worker Thread 9,5,main]) started.
 
 > Task :app:mergeDebugResources UP-TO-DATE
 Build cache key for task ':app:mergeDebugResources' is 5b822f3fed79a7ee0acbb7c5d6af9db8
 Skipping task ':app:mergeDebugResources' as it is up-to-date.
-Resolve mutations for :app:packageDebugResources (Thread[#1642,Execution worker Thread 10,5,main]) started.
-:app:packageDebugResources (Thread[#1642,Execution worker Thread 10,5,main]) started.
+Resolve mutations for :app:packageDebugResources (Thread[#1567,Execution worker Thread 9,5,main]) started.
+:app:packageDebugResources (Thread[#1567,Execution worker Thread 9,5,main]) started.
 
 > Task :app:packageDebugResources UP-TO-DATE
 Build cache key for task ':app:packageDebugResources' is df41eb175d02bd0000aca9c7ec0b5650
 Skipping task ':app:packageDebugResources' as it is up-to-date.
-Resolve mutations for :app:parseDebugLocalResources (Thread[#1642,Execution worker Thread 10,5,main]) started.
-:app:parseDebugLocalResources (Thread[#1642,Execution worker Thread 10,5,main]) started.
+Resolve mutations for :app:parseDebugLocalResources (Thread[#1567,Execution worker Thread 9,5,main]) started.
+:app:parseDebugLocalResources (Thread[#1567,Execution worker Thread 9,5,main]) started.
 
 > Task :app:parseDebugLocalResources UP-TO-DATE
 Transforming android.jar with PlatformAttrTransform
 Transforming android.jar with PlatformAttrTransform
 Build cache key for task ':app:parseDebugLocalResources' is a83cd2b9cb41b22d157e31ab93ac24e7
 Skipping task ':app:parseDebugLocalResources' as it is up-to-date.
-Resolve mutations for :app:createDebugCompatibleScreenManifests (Thread[#1642,Execution worker Thread 10,5,main]) started.
-:app:createDebugCompatibleScreenManifests (Thread[#1642,Execution worker Thread 10,5,main]) started.
+Resolve mutations for :app:createDebugCompatibleScreenManifests (Thread[#1567,Execution worker Thread 9,5,main]) started.
+:app:createDebugCompatibleScreenManifests (Thread[#1565,Execution worker Thread 7,5,main]) started.
 
 > Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
 Caching disabled for task ':app:createDebugCompatibleScreenManifests' because:
   Caching has been disabled for the task
 Skipping task ':app:createDebugCompatibleScreenManifests' as it is up-to-date.
-Resolve mutations for :app:extractDeepLinksDebug (Thread[#1642,Execution worker Thread 10,5,main]) started.
-:app:extractDeepLinksDebug (Thread[#1642,Execution worker Thread 10,5,main]) started.
+Resolve mutations for :app:extractDeepLinksDebug (Thread[#1565,Execution worker Thread 7,5,main]) started.
+:app:extractDeepLinksDebug (Thread[#1565,Execution worker Thread 7,5,main]) started.
 
 > Task :app:extractDeepLinksDebug UP-TO-DATE
 Build cache key for task ':app:extractDeepLinksDebug' is f6592d0e668d4c95ae5cecf0c29c1c4b
 Skipping task ':app:extractDeepLinksDebug' as it is up-to-date.
-Resolve mutations for :app:processDebugMainManifest (Thread[#1642,Execution worker Thread 10,5,main]) started.
-:app:processDebugMainManifest (Thread[#1642,Execution worker Thread 10,5,main]) started.
+Resolve mutations for :app:processDebugMainManifest (Thread[#1565,Execution worker Thread 7,5,main]) started.
+:app:processDebugMainManifest (Thread[#1565,Execution worker Thread 7,5,main]) started.
 
 > Task :app:processDebugMainManifest UP-TO-DATE
 Transforming material-1.11.0.aar (com.google.android.material:material:1.11.0) with JetifyTransform
@@ -735,21 +729,21 @@ Transforming print-1.0.0.aar (androidx.print:print:1.0.0) with ExtractAarTransfo
 Transforming print-1.0.0.aar (androidx.print:print:1.0.0) with AarTransform
 Build cache key for task ':app:processDebugMainManifest' is a9d614fc55de05f15b8ed9114e95ffd1
 Skipping task ':app:processDebugMainManifest' as it is up-to-date.
-Resolve mutations for :app:processDebugManifest (Thread[#1642,Execution worker Thread 10,5,main]) started.
-:app:processDebugManifest (Thread[#1642,Execution worker Thread 10,5,main]) started.
+Resolve mutations for :app:processDebugManifest (Thread[#1565,Execution worker Thread 7,5,main]) started.
+:app:processDebugManifest (Thread[#1565,Execution worker Thread 7,5,main]) started.
 
 > Task :app:processDebugManifest UP-TO-DATE
 Build cache key for task ':app:processDebugManifest' is 9f1f05a757717401edc6b7e7761377d3
 Skipping task ':app:processDebugManifest' as it is up-to-date.
-Resolve mutations for :app:processDebugManifestForPackage (Thread[#1642,Execution worker Thread 10,5,main]) started.
-:app:processDebugManifestForPackage (Thread[#1642,Execution worker Thread 10,5,main]) started.
+Resolve mutations for :app:processDebugManifestForPackage (Thread[#1565,Execution worker Thread 7,5,main]) started.
+:app:processDebugManifestForPackage (Thread[#1565,Execution worker Thread 7,5,main]) started.
 
 > Task :app:processDebugManifestForPackage UP-TO-DATE
 Custom actions are attached to task ':app:processDebugManifestForPackage'.
 Build cache key for task ':app:processDebugManifestForPackage' is c55ada8c6feb4b31d0f830a96bb43403
 Skipping task ':app:processDebugManifestForPackage' as it is up-to-date.
-Resolve mutations for :app:processDebugResources (Thread[#1642,Execution worker Thread 10,5,main]) started.
-:app:processDebugResources (Thread[#1642,Execution worker Thread 10,5,main]) started.
+Resolve mutations for :app:processDebugResources (Thread[#1565,Execution worker Thread 7,5,main]) started.
+:app:processDebugResources (Thread[#1565,Execution worker Thread 7,5,main]) started.
 
 > Task :app:processDebugResources UP-TO-DATE
 Transforming aapt2-8.2.2-10154469-windows.jar (com.android.tools.build:aapt2:8.2.2-10154469) with Aapt2Extractor
@@ -1055,32 +1049,32 @@ Transforming print-1.0.0.aar (androidx.print:print:1.0.0) with ExtractAarTransfo
 Transforming print-1.0.0.aar (androidx.print:print:1.0.0) with LibrarySymbolTableTransform
 Build cache key for task ':app:processDebugResources' is 22739f57fff552082a57efec2ece0b10
 Skipping task ':app:processDebugResources' as it is up-to-date.
-Resolve mutations for :app:compileDebugKotlin (Thread[#1642,Execution worker Thread 10,5,main]) started.
-:app:compileDebugKotlin (Thread[#1642,Execution worker Thread 10,5,main]) started.
-Resolve mutations for :app:javaPreCompileDebug (Thread[#1633,Execution worker,5,main]) started.
-:app:javaPreCompileDebug (Thread[#1640,Execution worker Thread 8,5,main]) started.
+Resolve mutations for :app:compileDebugKotlin (Thread[#1565,Execution worker Thread 7,5,main]) started.
+:app:compileDebugKotlin (Thread[#1565,Execution worker Thread 7,5,main]) started.
+Resolve mutations for :app:javaPreCompileDebug (Thread[#1567,Execution worker Thread 9,5,main]) started.
+:app:javaPreCompileDebug (Thread[#1567,Execution worker Thread 9,5,main]) started.
 
 > Task :app:javaPreCompileDebug UP-TO-DATE
 Build cache key for task ':app:javaPreCompileDebug' is 88fb626873d4197a1205a94eacc8a68a
 Skipping task ':app:javaPreCompileDebug' as it is up-to-date.
-Resolve mutations for :app:mergeDebugShaders (Thread[#1640,Execution worker Thread 8,5,main]) started.
-:app:mergeDebugShaders (Thread[#1640,Execution worker Thread 8,5,main]) started.
+Resolve mutations for :app:mergeDebugShaders (Thread[#1567,Execution worker Thread 9,5,main]) started.
+:app:mergeDebugShaders (Thread[#1567,Execution worker Thread 9,5,main]) started.
 
 > Task :app:mergeDebugShaders UP-TO-DATE
 Build cache key for task ':app:mergeDebugShaders' is c667fa0147f55f7b823f0ace63de39a6
 Skipping task ':app:mergeDebugShaders' as it is up-to-date.
-Resolve mutations for :app:compileDebugShaders (Thread[#1640,Execution worker Thread 8,5,main]) started.
-:app:compileDebugShaders (Thread[#1640,Execution worker Thread 8,5,main]) started.
+Resolve mutations for :app:compileDebugShaders (Thread[#1567,Execution worker Thread 9,5,main]) started.
+:app:compileDebugShaders (Thread[#1567,Execution worker Thread 9,5,main]) started.
 
 > Task :app:compileDebugShaders NO-SOURCE
 Skipping task ':app:compileDebugShaders' as it has no source files and no previous output files.
-Resolve mutations for :app:generateDebugAssets (Thread[#1640,Execution worker Thread 8,5,main]) started.
-:app:generateDebugAssets (Thread[#1640,Execution worker Thread 8,5,main]) started.
+Resolve mutations for :app:generateDebugAssets (Thread[#1567,Execution worker Thread 9,5,main]) started.
+:app:generateDebugAssets (Thread[#1567,Execution worker Thread 9,5,main]) started.
 
 > Task :app:generateDebugAssets UP-TO-DATE
 Skipping task ':app:generateDebugAssets' as it has no actions.
-Resolve mutations for :app:mergeDebugAssets (Thread[#1640,Execution worker Thread 8,5,main]) started.
-:app:mergeDebugAssets (Thread[#1640,Execution worker Thread 8,5,main]) started.
+Resolve mutations for :app:mergeDebugAssets (Thread[#1567,Execution worker Thread 9,5,main]) started.
+:app:mergeDebugAssets (Thread[#1567,Execution worker Thread 9,5,main]) started.
 
 > Task :app:mergeDebugAssets UP-TO-DATE
 Transforming material-1.11.0.aar (com.google.android.material:material:1.11.0) with JetifyTransform
@@ -1235,20 +1229,20 @@ Transforming print-1.0.0.aar (androidx.print:print:1.0.0) with ExtractAarTransfo
 Transforming print-1.0.0.aar (androidx.print:print:1.0.0) with AarTransform
 Build cache key for task ':app:mergeDebugAssets' is c667fa0147f55f7b823f0ace63de39a6
 Skipping task ':app:mergeDebugAssets' as it is up-to-date.
-Resolve mutations for :app:compressDebugAssets (Thread[#1640,Execution worker Thread 8,5,main]) started.
-:app:compressDebugAssets (Thread[#1640,Execution worker Thread 8,5,main]) started.
+Resolve mutations for :app:compressDebugAssets (Thread[#1567,Execution worker Thread 9,5,main]) started.
+:app:compressDebugAssets (Thread[#1567,Execution worker Thread 9,5,main]) started.
 
 > Task :app:compressDebugAssets UP-TO-DATE
 Build cache key for task ':app:compressDebugAssets' is bcbb7d07c2323edb2a4eaab1cdd59a2d
 Skipping task ':app:compressDebugAssets' as it is up-to-date.
-Resolve mutations for :app:desugarDebugFileDependencies (Thread[#1640,Execution worker Thread 8,5,main]) started.
-:app:desugarDebugFileDependencies (Thread[#1640,Execution worker Thread 8,5,main]) started.
+Resolve mutations for :app:desugarDebugFileDependencies (Thread[#1567,Execution worker Thread 9,5,main]) started.
+:app:desugarDebugFileDependencies (Thread[#1567,Execution worker Thread 9,5,main]) started.
 
 > Task :app:desugarDebugFileDependencies UP-TO-DATE
 Build cache key for task ':app:desugarDebugFileDependencies' is 6bd33f320549799e98902b57672de360
 Skipping task ':app:desugarDebugFileDependencies' as it is up-to-date.
-Resolve mutations for :app:checkDebugDuplicateClasses (Thread[#1640,Execution worker Thread 8,5,main]) started.
-:app:checkDebugDuplicateClasses (Thread[#1640,Execution worker Thread 8,5,main]) started.
+Resolve mutations for :app:checkDebugDuplicateClasses (Thread[#1567,Execution worker Thread 9,5,main]) started.
+:app:checkDebugDuplicateClasses (Thread[#1567,Execution worker Thread 9,5,main]) started.
 
 > Task :app:checkDebugDuplicateClasses UP-TO-DATE
 Transforming material-1.11.0.aar (com.google.android.material:material:1.11.0) with JetifyTransform
@@ -1364,11 +1358,8 @@ Transforming lifecycle-viewmodel-savedstate-2.6.1.aar (androidx.lifecycle:lifecy
 Transforming lifecycle-viewmodel-savedstate-2.6.1.aar (androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1) with EnumerateClassesTransform
 Transforming core-ktx-1.12.0.aar (androidx.core:core-ktx:1.12.0) with JetifyTransform
 Transforming core-ktx-1.12.0.aar (androidx.core:core-ktx:1.12.0) with AarToClassTransform
-Transforming lifecycle-common-java8-2.6.1.jar (androidx.lifecycle:lifecycle-common-java8:2.6.1) with JetifyTransform
-Transforming lifecycle-common-java8-2.6.1.jar (androidx.lifecycle:lifecycle-common-java8:2.6.1) with IdentityTransform
 Transforming core-ktx-1.12.0.aar (androidx.core:core-ktx:1.12.0) with EnumerateClassesTransform
 Transforming annotation-experimental-1.3.0.aar (androidx.annotation:annotation-experimental:1.3.0) with JetifyTransform
-Transforming lifecycle-common-java8-2.6.1.jar (androidx.lifecycle:lifecycle-common-java8:2.6.1) with EnumerateClassesTransform
 Transforming annotation-experimental-1.3.0.aar (androidx.annotation:annotation-experimental:1.3.0) with AarToClassTransform
 Transforming annotation-experimental-1.3.0.aar (androidx.annotation:annotation-experimental:1.3.0) with EnumerateClassesTransform
 Transforming kotlinx-coroutines-core-jvm-1.7.3.jar (org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3) with JetifyTransform
@@ -1388,6 +1379,9 @@ Transforming resourceinspection-annotation-1.0.1.jar (androidx.resourceinspectio
 Transforming resourceinspection-annotation-1.0.1.jar (androidx.resourceinspection:resourceinspection-annotation:1.0.1) with EnumerateClassesTransform
 Transforming cardview-1.0.0.aar (androidx.cardview:cardview:1.0.0) with JetifyTransform
 Transforming cardview-1.0.0.aar (androidx.cardview:cardview:1.0.0) with AarToClassTransform
+Transforming lifecycle-common-java8-2.6.1.jar (androidx.lifecycle:lifecycle-common-java8:2.6.1) with JetifyTransform
+Transforming lifecycle-common-java8-2.6.1.jar (androidx.lifecycle:lifecycle-common-java8:2.6.1) with IdentityTransform
+Transforming lifecycle-common-java8-2.6.1.jar (androidx.lifecycle:lifecycle-common-java8:2.6.1) with EnumerateClassesTransform
 Transforming cardview-1.0.0.aar (androidx.cardview:cardview:1.0.0) with EnumerateClassesTransform
 Transforming versionedparcelable-1.1.1.aar (androidx.versionedparcelable:versionedparcelable:1.1.1) with JetifyTransform
 Transforming versionedparcelable-1.1.1.aar (androidx.versionedparcelable:versionedparcelable:1.1.1) with AarToClassTransform
@@ -1416,16 +1410,16 @@ Transforming core-runtime-2.2.0.aar (androidx.arch.core:core-runtime:2.2.0) with
 Transforming core-common-2.2.0.jar (androidx.arch.core:core-common:2.2.0) with JetifyTransform
 Transforming core-common-2.2.0.jar (androidx.arch.core:core-common:2.2.0) with IdentityTransform
 Transforming core-common-2.2.0.jar (androidx.arch.core:core-common:2.2.0) with EnumerateClassesTransform
+Transforming concurrent-futures-1.1.0.jar (androidx.concurrent:concurrent-futures:1.1.0) with JetifyTransform
+Transforming concurrent-futures-1.1.0.jar (androidx.concurrent:concurrent-futures:1.1.0) with IdentityTransform
+Transforming concurrent-futures-1.1.0.jar (androidx.concurrent:concurrent-futures:1.1.0) with EnumerateClassesTransform
 Transforming documentfile-1.0.0.aar (androidx.documentfile:documentfile:1.0.0) with JetifyTransform
 Transforming documentfile-1.0.0.aar (androidx.documentfile:documentfile:1.0.0) with AarToClassTransform
 Transforming documentfile-1.0.0.aar (androidx.documentfile:documentfile:1.0.0) with EnumerateClassesTransform
 Transforming localbroadcastmanager-1.0.0.aar (androidx.localbroadcastmanager:localbroadcastmanager:1.0.0) with JetifyTransform
 Transforming localbroadcastmanager-1.0.0.aar (androidx.localbroadcastmanager:localbroadcastmanager:1.0.0) with AarToClassTransform
 Transforming localbroadcastmanager-1.0.0.aar (androidx.localbroadcastmanager:localbroadcastmanager:1.0.0) with EnumerateClassesTransform
-Transforming concurrent-futures-1.1.0.jar (androidx.concurrent:concurrent-futures:1.1.0) with JetifyTransform
-Transforming concurrent-futures-1.1.0.jar (androidx.concurrent:concurrent-futures:1.1.0) with IdentityTransform
 Transforming print-1.0.0.aar (androidx.print:print:1.0.0) with JetifyTransform
-Transforming concurrent-futures-1.1.0.jar (androidx.concurrent:concurrent-futures:1.1.0) with EnumerateClassesTransform
 Transforming print-1.0.0.aar (androidx.print:print:1.0.0) with AarToClassTransform
 Transforming print-1.0.0.aar (androidx.print:print:1.0.0) with EnumerateClassesTransform
 Transforming annotation-jvm-1.6.0.jar (androidx.annotation:annotation-jvm:1.6.0) with JetifyTransform
@@ -1446,29 +1440,29 @@ Transforming retrofit-2.9.0.jar (com.squareup.retrofit2:retrofit:2.9.0) with Enu
 Transforming annotations-23.0.0.jar (org.jetbrains:annotations:23.0.0) with JetifyTransform
 Transforming annotations-23.0.0.jar (org.jetbrains:annotations:23.0.0) with IdentityTransform
 Transforming annotations-23.0.0.jar (org.jetbrains:annotations:23.0.0) with EnumerateClassesTransform
+Transforming error_prone_annotations-2.15.0.jar (com.google.errorprone:error_prone_annotations:2.15.0) with JetifyTransform
+Transforming error_prone_annotations-2.15.0.jar (com.google.errorprone:error_prone_annotations:2.15.0) with IdentityTransform
+Transforming error_prone_annotations-2.15.0.jar (com.google.errorprone:error_prone_annotations:2.15.0) with EnumerateClassesTransform
 Transforming listenablefuture-1.0.jar (com.google.guava:listenablefuture:1.0) with JetifyTransform
 Transforming listenablefuture-1.0.jar (com.google.guava:listenablefuture:1.0) with IdentityTransform
 Transforming listenablefuture-1.0.jar (com.google.guava:listenablefuture:1.0) with EnumerateClassesTransform
 Transforming okhttp-3.14.9.jar (com.squareup.okhttp3:okhttp:3.14.9) with JetifyTransform
-Transforming constraintlayout-core-1.0.4.jar (androidx.constraintlayout:constraintlayout-core:1.0.4) with JetifyTransform
 Transforming okhttp-3.14.9.jar (com.squareup.okhttp3:okhttp:3.14.9) with IdentityTransform
-Transforming constraintlayout-core-1.0.4.jar (androidx.constraintlayout:constraintlayout-core:1.0.4) with IdentityTransform
 Transforming okhttp-3.14.9.jar (com.squareup.okhttp3:okhttp:3.14.9) with EnumerateClassesTransform
-Transforming constraintlayout-core-1.0.4.jar (androidx.constraintlayout:constraintlayout-core:1.0.4) with EnumerateClassesTransform
-Transforming error_prone_annotations-2.15.0.jar (com.google.errorprone:error_prone_annotations:2.15.0) with JetifyTransform
 Transforming gson-2.8.5.jar (com.google.code.gson:gson:2.8.5) with JetifyTransform
-Transforming error_prone_annotations-2.15.0.jar (com.google.errorprone:error_prone_annotations:2.15.0) with IdentityTransform
 Transforming gson-2.8.5.jar (com.google.code.gson:gson:2.8.5) with IdentityTransform
-Transforming error_prone_annotations-2.15.0.jar (com.google.errorprone:error_prone_annotations:2.15.0) with EnumerateClassesTransform
 Transforming gson-2.8.5.jar (com.google.code.gson:gson:2.8.5) with EnumerateClassesTransform
 Transforming okio-1.17.2.jar (com.squareup.okio:okio:1.17.2) with JetifyTransform
 Transforming okio-1.17.2.jar (com.squareup.okio:okio:1.17.2) with IdentityTransform
 Transforming okio-1.17.2.jar (com.squareup.okio:okio:1.17.2) with EnumerateClassesTransform
+Transforming constraintlayout-core-1.0.4.jar (androidx.constraintlayout:constraintlayout-core:1.0.4) with JetifyTransform
+Transforming constraintlayout-core-1.0.4.jar (androidx.constraintlayout:constraintlayout-core:1.0.4) with IdentityTransform
+Transforming constraintlayout-core-1.0.4.jar (androidx.constraintlayout:constraintlayout-core:1.0.4) with EnumerateClassesTransform
 Caching disabled for task ':app:checkDebugDuplicateClasses' because:
   Caching has been disabled for the task
 Skipping task ':app:checkDebugDuplicateClasses' as it is up-to-date.
-Resolve mutations for :app:mergeExtDexDebug (Thread[#1640,Execution worker Thread 8,5,main]) started.
-:app:mergeExtDexDebug (Thread[#1640,Execution worker Thread 8,5,main]) started.
+Resolve mutations for :app:mergeExtDexDebug (Thread[#1567,Execution worker Thread 9,5,main]) started.
+:app:mergeExtDexDebug (Thread[#1567,Execution worker Thread 9,5,main]) started.
 
 > Task :app:mergeExtDexDebug UP-TO-DATE
 Transforming material-1.11.0.aar (com.google.android.material:material:1.11.0) with JetifyTransform
@@ -1828,20 +1822,20 @@ Transforming okio-1.17.2.jar (com.squareup.okio:okio:1.17.2) with DexingNoClassp
 Transforming okio-1.17.2.jar (com.squareup.okio:okio:1.17.2) with DexingOutputSplitTransform
 Build cache key for task ':app:mergeExtDexDebug' is 0da4c2f813bc157f4fa9e11cb8e72f8c
 Skipping task ':app:mergeExtDexDebug' as it is up-to-date.
-Resolve mutations for :app:mergeLibDexDebug (Thread[#1640,Execution worker Thread 8,5,main]) started.
-:app:mergeLibDexDebug (Thread[#1640,Execution worker Thread 8,5,main]) started.
+Resolve mutations for :app:mergeLibDexDebug (Thread[#1561,Execution worker Thread 3,5,main]) started.
+:app:mergeLibDexDebug (Thread[#1561,Execution worker Thread 3,5,main]) started.
 
 > Task :app:mergeLibDexDebug UP-TO-DATE
 Build cache key for task ':app:mergeLibDexDebug' is b5acf5a7fcd88fff335f12c2f6745d8f
 Skipping task ':app:mergeLibDexDebug' as it is up-to-date.
-Resolve mutations for :app:mergeDebugJniLibFolders (Thread[#1640,Execution worker Thread 8,5,main]) started.
-:app:mergeDebugJniLibFolders (Thread[#1640,Execution worker Thread 8,5,main]) started.
+Resolve mutations for :app:mergeDebugJniLibFolders (Thread[#1561,Execution worker Thread 3,5,main]) started.
+:app:mergeDebugJniLibFolders (Thread[#1561,Execution worker Thread 3,5,main]) started.
 
 > Task :app:mergeDebugJniLibFolders UP-TO-DATE
 Build cache key for task ':app:mergeDebugJniLibFolders' is c667fa0147f55f7b823f0ace63de39a6
 Skipping task ':app:mergeDebugJniLibFolders' as it is up-to-date.
-Resolve mutations for :app:mergeDebugNativeLibs (Thread[#1640,Execution worker Thread 8,5,main]) started.
-:app:mergeDebugNativeLibs (Thread[#1640,Execution worker Thread 8,5,main]) started.
+Resolve mutations for :app:mergeDebugNativeLibs (Thread[#1561,Execution worker Thread 3,5,main]) started.
+:app:mergeDebugNativeLibs (Thread[#1568,Execution worker Thread 10,5,main]) started.
 
 > Task :app:mergeDebugNativeLibs NO-SOURCE
 Transforming material-1.11.0.aar (com.google.android.material:material:1.11.0) with JetifyTransform
@@ -2037,27 +2031,27 @@ Transforming gson-2.8.5.jar (com.google.code.gson:gson:2.8.5) with ExtractJniTra
 Transforming okio-1.17.2.jar (com.squareup.okio:okio:1.17.2) with JetifyTransform
 Transforming okio-1.17.2.jar (com.squareup.okio:okio:1.17.2) with ExtractJniTransform
 Skipping task ':app:mergeDebugNativeLibs' as it has no source files and no previous output files.
-Resolve mutations for :app:stripDebugDebugSymbols (Thread[#1640,Execution worker Thread 8,5,main]) started.
-:app:stripDebugDebugSymbols (Thread[#1640,Execution worker Thread 8,5,main]) started.
+Resolve mutations for :app:stripDebugDebugSymbols (Thread[#1568,Execution worker Thread 10,5,main]) started.
+:app:stripDebugDebugSymbols (Thread[#1568,Execution worker Thread 10,5,main]) started.
 
 > Task :app:stripDebugDebugSymbols NO-SOURCE
 Skipping task ':app:stripDebugDebugSymbols' as it has no source files and no previous output files.
-Resolve mutations for :app:validateSigningDebug (Thread[#1640,Execution worker Thread 8,5,main]) started.
-:app:validateSigningDebug (Thread[#1640,Execution worker Thread 8,5,main]) started.
+Resolve mutations for :app:validateSigningDebug (Thread[#1568,Execution worker Thread 10,5,main]) started.
+:app:validateSigningDebug (Thread[#1568,Execution worker Thread 10,5,main]) started.
 
 > Task :app:validateSigningDebug UP-TO-DATE
 Caching disabled for task ':app:validateSigningDebug' because:
   Caching has been disabled for the task
 Skipping task ':app:validateSigningDebug' as it is up-to-date.
-Resolve mutations for :app:writeDebugAppMetadata (Thread[#1638,Execution worker Thread 6,5,main]) started.
-:app:writeDebugAppMetadata (Thread[#1638,Execution worker Thread 6,5,main]) started.
+Resolve mutations for :app:writeDebugAppMetadata (Thread[#1568,Execution worker Thread 10,5,main]) started.
+:app:writeDebugAppMetadata (Thread[#1568,Execution worker Thread 10,5,main]) started.
 
 > Task :app:writeDebugAppMetadata UP-TO-DATE
 Caching disabled for task ':app:writeDebugAppMetadata' because:
   Caching has been disabled for the task
 Skipping task ':app:writeDebugAppMetadata' as it is up-to-date.
-Resolve mutations for :app:writeDebugSigningConfigVersions (Thread[#1635,Execution worker Thread 3,5,main]) started.
-:app:writeDebugSigningConfigVersions (Thread[#1635,Execution worker Thread 3,5,main]) started.
+Resolve mutations for :app:writeDebugSigningConfigVersions (Thread[#1568,Execution worker Thread 10,5,main]) started.
+:app:writeDebugSigningConfigVersions (Thread[#1568,Execution worker Thread 10,5,main]) started.
 
 > Task :app:writeDebugSigningConfigVersions UP-TO-DATE
 Caching disabled for task ':app:writeDebugSigningConfigVersions' because:
@@ -2126,65 +2120,65 @@ Transforming lifecycle-viewmodel-2.6.1.aar (androidx.lifecycle:lifecycle-viewmod
 Transforming lifecycle-runtime-2.6.1.aar (androidx.lifecycle:lifecycle-runtime:2.6.1) with JetifyTransform
 Transforming lifecycle-runtime-2.6.1.aar (androidx.lifecycle:lifecycle-runtime:2.6.1) with AarToClassTransform
 Transforming lifecycle-viewmodel-savedstate-2.6.1.aar (androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1) with JetifyTransform
-Transforming lifecycle-common-2.6.1.jar (androidx.lifecycle:lifecycle-common:2.6.1) with JetifyTransform
 Transforming lifecycle-viewmodel-savedstate-2.6.1.aar (androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1) with AarToClassTransform
-Transforming lifecycle-common-2.6.1.jar (androidx.lifecycle:lifecycle-common:2.6.1) with IdentityTransform
 Transforming core-ktx-1.12.0.aar (androidx.core:core-ktx:1.12.0) with JetifyTransform
 Transforming core-ktx-1.12.0.aar (androidx.core:core-ktx:1.12.0) with AarToClassTransform
 Transforming savedstate-1.2.1.aar (androidx.savedstate:savedstate:1.2.1) with JetifyTransform
 Transforming savedstate-1.2.1.aar (androidx.savedstate:savedstate:1.2.1) with AarToClassTransform
 Transforming annotation-experimental-1.3.0.aar (androidx.annotation:annotation-experimental:1.3.0) with JetifyTransform
 Transforming annotation-experimental-1.3.0.aar (androidx.annotation:annotation-experimental:1.3.0) with AarToClassTransform
+Transforming lifecycle-common-2.6.1.jar (androidx.lifecycle:lifecycle-common:2.6.1) with JetifyTransform
+Transforming lifecycle-common-2.6.1.jar (androidx.lifecycle:lifecycle-common:2.6.1) with IdentityTransform
 Transforming cursoradapter-1.0.0.aar (androidx.cursoradapter:cursoradapter:1.0.0) with JetifyTransform
 Transforming cursoradapter-1.0.0.aar (androidx.cursoradapter:cursoradapter:1.0.0) with AarToClassTransform
 Transforming cardview-1.0.0.aar (androidx.cardview:cardview:1.0.0) with JetifyTransform
 Transforming cardview-1.0.0.aar (androidx.cardview:cardview:1.0.0) with AarToClassTransform
 Transforming versionedparcelable-1.1.1.aar (androidx.versionedparcelable:versionedparcelable:1.1.1) with JetifyTransform
 Transforming versionedparcelable-1.1.1.aar (androidx.versionedparcelable:versionedparcelable:1.1.1) with AarToClassTransform
+Transforming kotlinx-coroutines-core-jvm-1.7.3.jar (org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3) with JetifyTransform
+Transforming kotlinx-coroutines-core-jvm-1.7.3.jar (org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3) with IdentityTransform
+Transforming kotlinx-coroutines-android-1.7.3.jar (org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3) with JetifyTransform
+Transforming kotlinx-coroutines-android-1.7.3.jar (org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3) with IdentityTransform
 Transforming core-runtime-2.2.0.aar (androidx.arch.core:core-runtime:2.2.0) with JetifyTransform
 Transforming core-runtime-2.2.0.aar (androidx.arch.core:core-runtime:2.2.0) with AarToClassTransform
+Transforming kotlin-stdlib-jdk8-1.8.22.jar (org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22) with JetifyTransform
+Transforming kotlin-stdlib-jdk8-1.8.22.jar (org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22) with IdentityTransform
+Transforming collection-1.1.0.jar (androidx.collection:collection:1.1.0) with JetifyTransform
+Transforming collection-1.1.0.jar (androidx.collection:collection:1.1.0) with IdentityTransform
 Transforming interpolator-1.0.0.aar (androidx.interpolator:interpolator:1.0.0) with JetifyTransform
 Transforming interpolator-1.0.0.aar (androidx.interpolator:interpolator:1.0.0) with AarToClassTransform
 Transforming documentfile-1.0.0.aar (androidx.documentfile:documentfile:1.0.0) with JetifyTransform
 Transforming documentfile-1.0.0.aar (androidx.documentfile:documentfile:1.0.0) with AarToClassTransform
 Transforming localbroadcastmanager-1.0.0.aar (androidx.localbroadcastmanager:localbroadcastmanager:1.0.0) with JetifyTransform
 Transforming localbroadcastmanager-1.0.0.aar (androidx.localbroadcastmanager:localbroadcastmanager:1.0.0) with AarToClassTransform
+Transforming core-common-2.2.0.jar (androidx.arch.core:core-common:2.2.0) with JetifyTransform
 Transforming print-1.0.0.aar (androidx.print:print:1.0.0) with JetifyTransform
 Transforming print-1.0.0.aar (androidx.print:print:1.0.0) with AarToClassTransform
+Transforming core-common-2.2.0.jar (androidx.arch.core:core-common:2.2.0) with IdentityTransform
 Transforming constraintlayout-2.1.4.aar (androidx.constraintlayout:constraintlayout:2.1.4) with JetifyTransform
 Transforming constraintlayout-2.1.4.aar (androidx.constraintlayout:constraintlayout:2.1.4) with AarToClassTransform
-Transforming core-common-2.2.0.jar (androidx.arch.core:core-common:2.2.0) with JetifyTransform
-Transforming core-common-2.2.0.jar (androidx.arch.core:core-common:2.2.0) with IdentityTransform
+Transforming annotation-jvm-1.6.0.jar (androidx.annotation:annotation-jvm:1.6.0) with JetifyTransform
+Transforming annotation-jvm-1.6.0.jar (androidx.annotation:annotation-jvm:1.6.0) with IdentityTransform
 Transforming kotlin-stdlib-jdk7-1.8.22.jar (org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.22) with JetifyTransform
-Transforming kotlin-stdlib-1.9.22.jar (org.jetbrains.kotlin:kotlin-stdlib:1.9.22) with JetifyTransform
 Transforming kotlin-stdlib-jdk7-1.8.22.jar (org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.22) with IdentityTransform
-Transforming kotlin-stdlib-1.9.22.jar (org.jetbrains.kotlin:kotlin-stdlib:1.9.22) with IdentityTransform
 Transforming listenablefuture-1.0.jar (com.google.guava:listenablefuture:1.0) with JetifyTransform
 Transforming listenablefuture-1.0.jar (com.google.guava:listenablefuture:1.0) with IdentityTransform
-Transforming kotlinx-coroutines-android-1.7.3.jar (org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3) with JetifyTransform
-Transforming kotlinx-coroutines-android-1.7.3.jar (org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3) with IdentityTransform
-Transforming kotlin-stdlib-jdk8-1.8.22.jar (org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22) with JetifyTransform
-Transforming kotlin-stdlib-jdk8-1.8.22.jar (org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22) with IdentityTransform
 Transforming resourceinspection-annotation-1.0.1.jar (androidx.resourceinspection:resourceinspection-annotation:1.0.1) with JetifyTransform
-Transforming retrofit-2.9.0.jar (com.squareup.retrofit2:retrofit:2.9.0) with JetifyTransform
-Transforming kotlinx-coroutines-core-jvm-1.7.3.jar (org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3) with JetifyTransform
-Transforming retrofit-2.9.0.jar (com.squareup.retrofit2:retrofit:2.9.0) with IdentityTransform
 Transforming resourceinspection-annotation-1.0.1.jar (androidx.resourceinspection:resourceinspection-annotation:1.0.1) with IdentityTransform
-Transforming okhttp-3.14.9.jar (com.squareup.okhttp3:okhttp:3.14.9) with JetifyTransform
-Transforming okhttp-3.14.9.jar (com.squareup.okhttp3:okhttp:3.14.9) with IdentityTransform
-Transforming collection-1.1.0.jar (androidx.collection:collection:1.1.0) with JetifyTransform
-Transforming kotlinx-coroutines-core-jvm-1.7.3.jar (org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3) with IdentityTransform
-Transforming collection-1.1.0.jar (androidx.collection:collection:1.1.0) with IdentityTransform
-Transforming annotations-23.0.0.jar (org.jetbrains:annotations:23.0.0) with JetifyTransform
-Transforming annotations-23.0.0.jar (org.jetbrains:annotations:23.0.0) with IdentityTransform
-Transforming annotation-jvm-1.6.0.jar (androidx.annotation:annotation-jvm:1.6.0) with JetifyTransform
 Transforming okio-1.17.2.jar (com.squareup.okio:okio:1.17.2) with JetifyTransform
-Transforming annotation-jvm-1.6.0.jar (androidx.annotation:annotation-jvm:1.6.0) with IdentityTransform
 Transforming okio-1.17.2.jar (com.squareup.okio:okio:1.17.2) with IdentityTransform
-Transforming gson-2.8.5.jar (com.google.code.gson:gson:2.8.5) with JetifyTransform
-Transforming gson-2.8.5.jar (com.google.code.gson:gson:2.8.5) with IdentityTransform
 Transforming converter-gson-2.9.0.jar (com.squareup.retrofit2:converter-gson:2.9.0) with JetifyTransform
 Transforming converter-gson-2.9.0.jar (com.squareup.retrofit2:converter-gson:2.9.0) with IdentityTransform
+Transforming retrofit-2.9.0.jar (com.squareup.retrofit2:retrofit:2.9.0) with JetifyTransform
+Transforming retrofit-2.9.0.jar (com.squareup.retrofit2:retrofit:2.9.0) with IdentityTransform
+Transforming okhttp-3.14.9.jar (com.squareup.okhttp3:okhttp:3.14.9) with JetifyTransform
+Transforming gson-2.8.5.jar (com.google.code.gson:gson:2.8.5) with JetifyTransform
+Transforming okhttp-3.14.9.jar (com.squareup.okhttp3:okhttp:3.14.9) with IdentityTransform
+Transforming gson-2.8.5.jar (com.google.code.gson:gson:2.8.5) with IdentityTransform
+Transforming kotlin-stdlib-1.9.22.jar (org.jetbrains.kotlin:kotlin-stdlib:1.9.22) with JetifyTransform
+Transforming kotlin-stdlib-1.9.22.jar (org.jetbrains.kotlin:kotlin-stdlib:1.9.22) with IdentityTransform
+Transforming annotations-23.0.0.jar (org.jetbrains:annotations:23.0.0) with JetifyTransform
+Transforming annotations-23.0.0.jar (org.jetbrains:annotations:23.0.0) with IdentityTransform
 Transforming R.jar with ClasspathEntrySnapshotTransform
 Transforming material-1.11.0-api.jar with ClasspathEntrySnapshotTransform
 Transforming appcompat-1.6.1-api.jar with ClasspathEntrySnapshotTransform
@@ -2242,7 +2236,7 @@ Transforming jetified-okio-1.17.2.jar with ClasspathEntrySnapshotTransform
 Transforming jetified-gson-2.8.5.jar with ClasspathEntrySnapshotTransform
 Transforming android.jar with ClasspathEntrySnapshotTransform
 Transforming core-lambda-stubs.jar with ClasspathEntrySnapshotTransform
-Build cache key for task ':app:compileDebugKotlin' is b9eda160c0b369bfa6efca1a8753fdef
+Build cache key for task ':app:compileDebugKotlin' is 97e58f4f0b64616eb0f62958ac290e9c
 Task ':app:compileDebugKotlin' is not up-to-date because:
   Task has failed previously.
 The input changes require a full rebuild for incremental task ':app:compileDebugKotlin'.
@@ -2295,7 +2289,7 @@ Script source files:
 Script file extensions: 
 Using Kotlin/JVM incremental compilation
 [KOTLIN] Kotlin compilation 'jdkHome' argument: null
-i: found daemon on port 17915 (3425659 ms old), trying to connect
+i: found daemon on port 17915 (3316084 ms old), trying to connect
 i: connected to the daemon
 Options for KOTLIN DAEMON: IncrementalCompilationOptions(super=CompilationOptions(compilerMode=INCREMENTAL_COMPILER, targetPlatform=JVM, reportCategories=[0, 3], reportSeverity=2, requestedCompilationResults=[0], kotlinScriptExtensions=[]), areFileChangesKnown=false, modifiedFiles=null, deletedFiles=null, classpathChanges=NotAvailableForNonIncrementalRun, workingDir=C:\Users\mukht\Desktop\VS projects\TRUE-CARE-main\android\app\build\kotlin\compileDebugKotlin\cacheable, multiModuleICSettings=MultiModuleICSettings(buildHistoryFile=C:\Users\mukht\Desktop\VS projects\TRUE-CARE-main\android\app\build\kotlin\compileDebugKotlin\local-state\build-history.bin, useModuleDetection=true), usePreciseJavaTracking=true, outputFiles=[C:\Users\mukht\Desktop\VS projects\TRUE-CARE-main\android\app\build\tmp\kotlin-classes\debug, C:\Users\mukht\Desktop\VS projects\TRUE-CARE-main\android\app\build\kotlin\compileDebugKotlin\cacheable, C:\Users\mukht\Desktop\VS projects\TRUE-CARE-main\android\app\build\kotlin\compileDebugKotlin\local-state])
 .\gradle-8.5\bin\gradle
@@ -2332,19 +2326,70 @@ ht/Desktop/VS%20project
 s/TRUE-CARE-main/androi
 d/app/src/main/java/com
 /example/caregiver/frag
-ments/ScheduleFragment.
-kt:19:35 Unresolved 
+ments/ProfileFragment.k
+t:14:34 Unresolved 
 reference: 
-ScheduleAdapter
+RetrofitClient
+e: file:///C:/Users/muk
+ht/Desktop/VS%20project
+s/TRUE-CARE-main/androi
+d/app/src/main/java/com
+/example/caregiver/frag
+ments/ProfileFragment.k
+t:43:26 Unresolved 
+reference: 
+RetrofitClient
+e: file:///C:/Users/muk
+ht/Desktop/VS%20project
+s/TRUE-CARE-main/androi
+d/app/src/main/java/com
+/example/caregiver/frag
+ments/ProfileFragment.k
+t:50:42 Unresolved 
+reference: it
+e: file:///C:/Users/muk
+ht/Desktop/VS%20project
+s/TRUE-CARE-main/androi
+d/app/src/main/java/com
+/example/caregiver/frag
+ments/ProfileFragment.k
+t:50:58 Unresolved 
+reference: it
+e: file:///C:/Users/muk
+ht/Desktop/VS%20project
+s/TRUE-CARE-main/androi
+d/app/src/main/java/com
+/example/caregiver/frag
+ments/ProfileFragment.k
+t:51:40 Unresolved 
+reference: it
 e: file:///C:/Users/muk
 ht/Desktop/VS%20project
 s/TRUE-CARE-main/androi
 d/app/src/main/java/com
 /example/caregiver/frag
 ments/ScheduleFragment.
-kt:29:19 Unresolved 
+kt:15:34 Unresolved 
 reference: 
-ScheduleAdapter
+RetrofitClient
+e: file:///C:/Users/muk
+ht/Desktop/VS%20project
+s/TRUE-CARE-main/androi
+d/app/src/main/java/com
+/example/caregiver/frag
+ments/ScheduleFragment.
+kt:39:26 Unresolved 
+reference: 
+RetrofitClient
+e: file:///C:/Users/muk
+ht/Desktop/VS%20project
+s/TRUE-CARE-main/androi
+d/app/src/main/java/com
+/example/caregiver/frag
+ments/ScheduleFragment.
+kt:44:53 Not enough 
+information to infer 
+type variable T
 
 > Task :app:compileDebugKotlin FAILED
 
@@ -3122,6 +3167,8 @@ rationRunner.java:199)
 dOperationRunner$2.exec
 ute(DefaultBuildOperati
 onRunner.java:66)
+26 actionable tasks: 2 executed, 24 up-to-date
+Watched directory hierarchies: [C:\Users\mukht\Desktop\VS projects\TRUE-CARE-main\android]
 	at org.gradle.internal
 .operations.DefaultBuil
 dOperationRunner$2.exec
@@ -3137,7 +3184,6 @@ Runner.java:157)
 dOperationRunner.execut
 e(DefaultBuildOperation
 Runner.java:59)
-26 actionable tasks: 2 executed, 24 up-to-date
 	at org.gradle.internal
 .operations.DefaultBuil
 dOperationRunner.call(D
@@ -3378,5 +3424,4 @@ java:126)
 	... 2 more
 
 
-BUILD FAILED in 7s
-Watched directory hierarchies: [C:\Users\mukht\Desktop\VS projects\TRUE-CARE-main\android]
+BUILD FAILED in 5s

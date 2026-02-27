@@ -46,14 +46,27 @@ export const getGlobalStats = async (req: Request, res: Response) => {
 
 export const getFinancialDashboard = async (req: Request, res: Response) => {
     try {
-        const patients = await prisma.user.findMany({
-            where: { role: 'PATIENT', isDeleted: false },
-            include: {
-                profile: true,
-                serviceRequests: true,
-                payments: { where: { status: 'SUCCESS' } }
-            }
-        });
+        const [patients, recentTransactions, totals] = await Promise.all([
+            prisma.user.findMany({
+                where: { role: 'PATIENT', isDeleted: false },
+                include: { profile: true, serviceRequests: true }
+            }),
+            prisma.payment.findMany({
+                take: 10,
+                orderBy: { createdAt: 'desc' },
+                include: { user: { include: { profile: true } } }
+            }),
+            prisma.payment.aggregate({
+                _sum: { amount: true },
+                where: { status: 'SUCCESS' }
+            })
+        ]);
+
+        const summary = {
+            totalRevenue: totals._sum.amount ? parseFloat(totals._sum.amount.toString()) : 0,
+            outstandingInvoices: patients.reduce((acc, p) => acc + Number(p.profile?.balance || 0), 0),
+            caregiverPayoutsDue: 0
+        };
 
         const financials = patients.map(p => {
             const totalBilled = Number(p.profile?.totalBilled || 0);
@@ -69,7 +82,41 @@ export const getFinancialDashboard = async (req: Request, res: Response) => {
             };
         });
 
-        res.json(financials);
+        res.json({
+            patients: financials,
+            recentTransactions,
+            summary
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+export const getAllUsers = async (req: Request, res: Response) => {
+    try {
+        const users = await prisma.user.findMany({
+            where: { isDeleted: false },
+            include: { profile: true },
+            orderBy: { createdAt: 'desc' }
+        });
+        res.json(users);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+export const getAllRequests = async (req: Request, res: Response) => {
+    try {
+        const requests = await prisma.serviceRequest.findMany({
+            include: {
+                patient: { include: { profile: true } },
+                shift: { include: { caregiver: { include: { profile: true } } } }
+            },
+            orderBy: { createdAt: 'desc' }
+        });
+        res.json(requests);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
@@ -483,6 +530,69 @@ export const adminUpdateUser = async (req: Request, res: Response) => {
         });
 
         res.json(updated);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+export const getPlatformAnalytics = async (req: Request, res: Response) => {
+    try {
+        const sixMonthsAgo = new Date();
+        sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+        const [
+            usersCount,
+            patientsCount,
+            caregiversCount,
+            monthlyRevenue,
+            activeShiftsTrend,
+            recentPayments
+        ] = await Promise.all([
+            prisma.user.count({ where: { isDeleted: false } }),
+            prisma.user.count({ where: { role: 'PATIENT', isDeleted: false } }),
+            prisma.user.count({ where: { role: 'CAREGIVER', isDeleted: false } }),
+            prisma.payment.groupBy({
+                by: ['createdAt'],
+                where: { status: 'SUCCESS', createdAt: { gte: sixMonthsAgo } },
+                _sum: { amount: true }
+            }),
+            prisma.shift.groupBy({
+                by: ['startTime'],
+                where: { startTime: { gte: thirtyDaysAgo } },
+                _count: { _all: true }
+            }),
+            prisma.payment.findMany({
+                take: 10,
+                orderBy: { createdAt: 'desc' },
+                include: { user: { include: { profile: true } } }
+            })
+        ]);
+
+        // Process time-series data
+        const revenueTrend = monthlyRevenue.map(r => ({
+            date: r.createdAt.toISOString().split('T')[0],
+            amount: parseFloat(r._sum.amount?.toString() || '0')
+        }));
+
+        const shiftsTrend = activeShiftsTrend.map(s => ({
+            date: s.startTime.toISOString().split('T')[0],
+            count: s._count._all
+        }));
+
+        res.json({
+            totals: {
+                users: usersCount,
+                patients: patientsCount,
+                caregivers: caregiversCount
+            },
+            revenueTrend,
+            shiftsTrend,
+            recentPayments
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });

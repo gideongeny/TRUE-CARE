@@ -153,16 +153,18 @@
                     android:orientation="vertical"
                     android:layout_marginStart="16dp">
                     <TextView
+                        android:id="@+id/tvCurrentPatientName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Francis K. Urassa"
+                        android:text="No Active Session"
                         android:textColor="@color/med_text_primary"
                         android:textSize="16sp"
                         android:fontFamily="sans-serif-black" />
                     <TextView
+                        android:id="@+id/tvCurrentPatientAilment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Critical Post-Op Care"
+                        android:text="Standby Mode"
                         android:textColor="@color/med_teal_primary"
                         android:textSize="12sp"
                         android:fontFamily="sans-serif-black" />
@@ -198,9 +200,10 @@
                         android:fontFamily="sans-serif-black"
                         android:letterSpacing="0.1" />
                     <TextView
+                        android:id="@+id/tvTodayEarnings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="KSh 1,200"
+                        android:text="KSh 0"
                         android:textColor="@color/med_mint_success"
                         android:textSize="18sp"
                         android:fontFamily="sans-serif-black" />

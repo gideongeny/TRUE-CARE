@@ -75,6 +75,15 @@ class RegisterActivity : AppCompatActivity() {
 
         btnRegister.setOnClickListener { register() }
         tvLoginLink.setOnClickListener { finish() }
+
+        // Handle role pre-selection from intent
+        intent.getStringExtra("ROLE")?.let { role ->
+            if (role == "PATIENT") {
+                rbPatient.isChecked = true
+            } else if (role == "CAREGIVER") {
+                rbCaregiver.isChecked = true
+            }
+        }
     }
 
     private fun register() {

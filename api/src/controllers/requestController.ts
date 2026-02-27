@@ -89,6 +89,11 @@ export const updateRequestStatus = async (req: Request, res: Response) => {
 
         // If approved by admin, create an assigned/open shift
         if (status === 'APPROVED') {
+            const currentRequest = await prisma.serviceRequest.findUnique({ where: { id } });
+            if (!currentRequest || currentRequest.status !== 'PAID') {
+                return res.status(400).json({ message: "Request must be PAID before approval and caregiver assignment" });
+            }
+
             await prisma.shift.create({
                 data: {
                     patientId: request.patientId,

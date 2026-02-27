@@ -28,6 +28,9 @@ class CaregiverDashboardActivity : AppCompatActivity() {
     private lateinit var tvShiftTimer: TextView
     private lateinit var btnClockInOut: Button
     private lateinit var tvBalance: TextView
+    private lateinit var tvTodayEarnings: TextView
+    private lateinit var tvCurrentPatientName: TextView
+    private lateinit var tvCurrentPatientAilment: TextView
     private lateinit var btnWithdraw: View
     
     private var currentShiftId: String? = null
@@ -53,6 +56,9 @@ class CaregiverDashboardActivity : AppCompatActivity() {
         tvShiftTimer = findViewById(R.id.tvShiftTimer)
         btnClockInOut = findViewById(R.id.btnClockInOut)
         tvBalance = findViewById(R.id.tvBalance)
+        tvTodayEarnings = findViewById(R.id.tvTodayEarnings)
+        tvCurrentPatientName = findViewById(R.id.tvCurrentPatientName)
+        tvCurrentPatientAilment = findViewById(R.id.tvCurrentPatientAilment)
         btnWithdraw = findViewById(R.id.btnWithdraw)
 
         rvShifts.layoutManager = LinearLayoutManager(this)
@@ -163,7 +169,18 @@ class CaregiverDashboardActivity : AppCompatActivity() {
                 val response = ApiClient.apiService.getShifts()
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
-                        adapter.setShifts(response.body()!!)
+                        val shifts = response.body()!!
+                        adapter.setShifts(shifts)
+                        
+                        // Detect active/current shift
+                        val activeShift = shifts.find { it.status == "IN_PROGRESS" || it.status == "ACCEPTED" }
+                        activeShift?.let {
+                            tvCurrentPatientName.text = "${it.patient?.firstName} ${it.patient?.lastName}"
+                            tvCurrentPatientAilment.text = it.notes ?: "Active Care Session"
+                        } ?: run {
+                            tvCurrentPatientName.text = "No Active Session"
+                            tvCurrentPatientAilment.text = "Standby Mode"
+                        }
                     }
                 }
             } catch (e: Exception) {

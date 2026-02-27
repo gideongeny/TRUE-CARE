@@ -28,7 +28,8 @@ data class User(
     val role: String,
     val firstName: String? = null,
     val lastName: String? = null,
-    val profile: Profile?
+    val profile: Profile?,
+    val payments: List<Payment>? = emptyList()
 )
 
 data class Profile(

@@ -38,7 +38,7 @@ export default function FinancialsPage() {
 
     const handleApproveDisbursement = async (caregiverId: string, amount: number) => {
         try {
-            await api.post('/admin/pay-caregiver', { caregiverId, amount });
+            await api.post('/admin/shifts/payout', { caregiverId, amount });
             toast.success('Disbursement vector initiated via M-Pesa!');
             fetchData();
         } catch (error) {
@@ -132,7 +132,7 @@ export default function FinancialsPage() {
                                             </td>
                                             <td className="px-10 py-8">
                                                 <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest bg-slate-900 w-fit px-3 py-1 rounded-full border border-slate-800">
-                                                    {tx.type}
+                                                    {tx.method || 'MPESA'}
                                                 </div>
                                             </td>
                                             <td className="px-10 py-8">
@@ -142,8 +142,8 @@ export default function FinancialsPage() {
                                                 </div>
                                             </td>
                                             <td className="px-10 py-8 text-right">
-                                                <div className={`inline-flex px-5 py-2 rounded-2xl text-[9px] font-black uppercase tracking-[0.2em] shadow-lg ${tx.status === 'COMPLETED' ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' :
-                                                        'bg-blue-500/10 text-blue-500 border border-blue-500/20'
+                                                <div className={`inline-flex px-5 py-2 rounded-2xl text-[9px] font-black uppercase tracking-[0.2em] shadow-lg ${tx.status === 'PAID' ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' :
+                                                    'bg-blue-500/10 text-blue-500 border border-blue-500/20'
                                                     }`}>
                                                     {tx.status}
                                                 </div>

@@ -121,8 +121,9 @@ class PaymentsFragment : Fragment() {
                     val user = response.body()!!
                     withContext(Dispatchers.Main) {
                         tvBalance.text = "KSh ${user.profile?.balance ?: 0.00}"
-                        // In a real app, you'd fetch payments from a separate endpoint or user relation
-                        // adapter.setPayments(user.payments)
+                        user.payments?.let {
+                            adapter.setPayments(it)
+                        }
                     }
                 }
             } catch (e: Exception) {
