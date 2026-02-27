@@ -1,0 +1,18 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+    <!-- Outer Soft Circle -->
+    <path
+        android:fillColor="@color/med_teal_primary"
+        android:pathData="M60,10A50,50 0,1 1,59.99 10Z"
+        android:fillAlpha="0.1"/>
+    <!-- Medical Plus Symbol -->
+    <path
+        android:fillColor="@color/med_teal_primary"
+        android:pathData="M60,35 L60,85 M35,60 L85,60"
+        android:strokeColor="@color/med_teal_primary"
+        android:strokeWidth="12"
+        android:strokeLineCap="round"/>
+</vector>

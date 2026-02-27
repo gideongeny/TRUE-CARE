@@ -29,7 +29,7 @@ class SplashActivity : AppCompatActivity() {
                 }
                 startActivity(intent)
             } else {
-                startActivity(Intent(this, LoginActivity::class.java))
+                startActivity(Intent(this, RoleSelectionActivity::class.java))
             }
             finish()
         }, 2500)

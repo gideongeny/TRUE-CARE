@@ -9,6 +9,7 @@ import userRoutes from './routes/userRoutes';
 import adminRoutes from './routes/adminRoutes';
 import shiftRoutes from './routes/shiftRoutes';
 import requestRoutes from './routes/requestRoutes';
+import paymentRoutes from './routes/paymentRoutes';
 
 import rateLimit from 'express-rate-limit'; // Security best practice
 

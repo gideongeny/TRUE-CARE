@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="32dp">
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_medical_brand"
+        android:layout_marginTop="64dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tvWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to TrueCare"
+        android:textColor="@color/med_text_primary"
+        android:textSize="32sp"
+        android:fontFamily="sans-serif-black"
+        android:layout_marginTop="24dp"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/ivLogo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tvSubheadline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Your trusted clinical companion for professional home care management."
+        android:textColor="@color/med_text_secondary"
+        android:textSize="16sp"
+        android:layout_marginTop="12dp"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/tvWelcome"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="48dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPatient"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:text="CONTINUE AS PATIENT"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-black"
+            app:cornerRadius="32dp"
+            app:backgroundTint="@color/med_teal_primary"
+            android:letterSpacing="0.1"
+            app:elevation="4dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCaregiver"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:text="CONTINUE AS CAREGIVER"
+            android:textColor="@color/med_text_primary"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-black"
+            android:layout_marginTop="16dp"
+            app:cornerRadius="32dp"
+            app:backgroundTint="@color/med_soft_gray"
+            app:strokeColor="@color/med_soft_gray_dark"
+            app:strokeWidth="1dp"
+            android:letterSpacing="0.1"
+            app:elevation="0dp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

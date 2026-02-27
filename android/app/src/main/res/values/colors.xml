@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- TRUE CARE Premium Color Scheme -->
-    <color name="black">#000000</color>
-    <color name="white">#FFFFFF</color>
+    <!-- Core Brand Colors (Soft Medical Palette) -->
+    <color name="med_teal_primary">#2D9CDB</color>
+    <color name="med_teal_dark">#1B5D83</color>
+    <color name="med_mint_success">#27AE60</color>
+    <color name="med_mint_soft">#D1F2EB</color>
+    <color name="med_blue_bg">#EBF5FB</color>
+    <color name="med_soft_gray">#F2F4F4</color>
+    <color name="med_soft_gray_dark">#D5DBDB</color>
+    
+    <!-- Text Colors -->
+    <color name="med_text_primary">#1C2833</color>
+    <color name="med_text_secondary">#566573</color>
+    <color name="med_text_hint">#ABB2B9</color>
+    
+    <!-- Functional Colors -->
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="med_rose_error">#E74C3C</color>
+    <color name="med_amber_warning">#F39C12</color>
+    <color name="transparent">#00000000</color>
+
+    <!-- Legacy Compatibility Colors -->
     <color name="gray_50">#F8FAFC</color>
     <color name="gray_100">#F1F5F9</color>
     <color name="gray_200">#E2E8F0</color>
@@ -13,20 +32,7 @@
     <color name="gray_700">#334155</color>
     <color name="gray_800">#1E293B</color>
     <color name="gray_900">#0F172A</color>
-    
-    <!-- Accent Colors -->
-    <color name="primary">#000000</color>
-    <color name="primary_variant">#1E293B</color>
-    <color name="secondary">#64748B</color>
-    <color name="accent">#2563EB</color>
-    
-    <!-- Status Colors -->
-    <color name="success">#10B981</color>
-    <color name="warning">#F59E0B</color>
-    <color name="error">#EF4444</color>
-    
-    <!-- Backgrounds -->
-    <color name="background">#FFFFFF</color>
-    <color name="surface">#F8FAFC</color>
-    <color name="card_background">#FFFFFF</color>
+    <color name="emerald_500">#10B981</color>
+    <color name="teal_500">#14B8A6</color>
+    <color name="blue_500">#3B82F6</color>
 </resources>

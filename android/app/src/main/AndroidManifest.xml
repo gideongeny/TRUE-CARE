@@ -32,6 +32,9 @@
             android:exported="false" />
 
         <activity android:name=".RegisterActivity" />
+        <activity android:name=".RoleSelectionActivity" />
+        <activity android:name=".PaymentActivity" />
+        <activity android:name=".ContactActivity" />
         <activity android:name=".CaregiverDashboardActivity" />
         <activity android:name=".PatientDashboardActivity" />
         <activity android:name=".SettingsActivity" />

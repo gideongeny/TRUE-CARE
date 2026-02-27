@@ -7,7 +7,7 @@ const getJwtSecret = () => process.env.JWT_SECRET || 'secret';
 
 export const register = async (req: Request, res: Response) => {
     try {
-        const { email, password, role, firstName, lastName } = req.body;
+        const { email, password, role, firstName, lastName, phone, profile: profileData } = req.body;
 
         const existingUser = await prisma.user.findUnique({ where: { email } });
         if (existingUser) {
@@ -25,7 +25,17 @@ export const register = async (req: Request, res: Response) => {
                     create: {
                         firstName,
                         lastName,
-                        phone: req.body.phone,
+                        phone,
+                        // Expanded Fields
+                        age: profileData?.age,
+                        gender: profileData?.gender,
+                        ailment: profileData?.ailment,
+                        location: profileData?.location,
+                        emergencyContact: profileData?.emergencyContact,
+                        preferredShift: profileData?.preferredShift,
+                        idNumber: profileData?.idNumber,
+                        experienceYears: profileData?.experienceYears,
+                        availability: profileData?.availability,
                     },
                 },
             },
@@ -38,7 +48,7 @@ export const register = async (req: Request, res: Response) => {
 
         res.status(201).json({ token, user });
     } catch (error) {
-        console.error(error);
+        console.error('Registration error:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };

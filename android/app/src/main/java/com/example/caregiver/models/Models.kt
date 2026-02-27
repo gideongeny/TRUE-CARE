@@ -16,7 +16,8 @@ data class RegisterRequest(
     val email: String,
     val password: String,
     val role: String,
-    val phone: String? = null
+    val phone: String? = null,
+    val profile: Map<String, Any>? = null
 )
 
 data class RegisterResponse(val token: String, val user: User)
@@ -53,4 +54,17 @@ data class ServiceRequest(
     val status: String = "PENDING",
     val description: String? = null,
     val createdAt: String = ""
+)
+
+data class PaymentRequest(
+    val amount: Int,
+    val phoneNumber: String,
+    val userId: String
+)
+
+data class PaymentResponse(
+    val message: String,
+    val paymentId: String,
+    val MerchantRequestID: String,
+    val CheckoutRequestID: String
 )

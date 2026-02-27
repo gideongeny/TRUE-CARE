@@ -21,4 +21,7 @@ interface ApiService {
 
     @POST("requests")
     suspend fun createRequest(@Body request: ServiceRequest): Response<ServiceRequest>
+
+    @POST("payments/stk-push")
+    suspend fun initiateStkPush(@Body request: PaymentRequest): Response<PaymentResponse>
 }

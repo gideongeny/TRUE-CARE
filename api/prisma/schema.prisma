@@ -27,6 +27,9 @@ model User {
   patientShifts   Shift[] @relation("PatientShifts")
   
   serviceRequests ServiceRequest[]
+  payments        Payment[]
+  withdrawalRequests WithdrawalRequest[]
+  notifications   Notification[]
 }
 
 model Profile {
@@ -42,12 +45,20 @@ model Profile {
   // Medical Info (For Patients)
   ailment       String?
   medicalHistory String?
+  age           Int?
+  gender        String? // MALE, FEMALE, OTHER
+  location      String?
+  emergencyContact String?
+  preferredShift   String? // DAY, NIGHT, 24HR
 
   // Caregiver specific
   isVerified      Boolean @default(false)
   cvVerified      Boolean @default(false)
   idVerified      Boolean @default(false)
-  skills          String? // Comma separated or JSON
+  skills          String? 
+  idNumber        String?
+  experienceYears Int?
+  availability    String? // DAY, NIGHT, BOTH
   hourlyRate      Decimal?
   
   // Documents
@@ -57,6 +68,7 @@ model Profile {
 
   // Financial Info
   paymentStatus String @default("PENDING") // PENDING, PAID, OVERDUE
+  balance       Decimal @default(0)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -78,6 +90,7 @@ model Shift {
   clockInTime    DateTime?
   clockOutTime   DateTime?
   actualDuration Float?     // In hours
+  earnings       Decimal?   // Earnings for this specific shift
 
   report         Report?
 
@@ -90,7 +103,7 @@ model Report {
   shiftId   String   @unique
   shift     Shift    @relation(fields: [shiftId], references: [id])
   content   String
-  vitals    String?  // JSON string for BP, heart rate, temp etc
+  vitals    String?  
   createdAt DateTime @default(now())
 }
 
@@ -108,4 +121,43 @@ model ServiceRequest {
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Payment {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  amount        Decimal
+  transactionId String?  @unique
+  mpesaReceipt  String?
+  phoneNumber   String
+  status        String   @default("PENDING") // PENDING, SUCCESS, FAILED
+  type          String   @default("STK_PUSH")
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model WithdrawalRequest {
+  id          String   @id @default(uuid())
+  caregiverId String
+  caregiver   User     @relation(fields: [caregiverId], references: [id])
+  amount      Decimal
+  mpesaNumber String
+  status      String   @default("PENDING") // PENDING, APPROVED, REJECTED, PAID
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  title     String
+  message   String
+  isRead    Boolean  @default(false)
+  type      String?  // SHIFT, PAYMENT, SYSTEM
+  
+  createdAt DateTime @default(now())
 }

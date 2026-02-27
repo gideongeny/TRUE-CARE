@@ -1,0 +1,126 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="32dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvPaymentTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Secure Payment"
+                android:textColor="@color/med_text_primary"
+                android:textSize="28sp"
+                android:fontFamily="sans-serif-black"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/tvMpesaHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="VIA SAFARICOM M-PESA"
+                android:textColor="@color/med_mint_success"
+                android:textSize="10sp"
+                android:fontFamily="sans-serif-black"
+                android:letterSpacing="0.2"
+                app:layout_constraintTop_toBottomOf="@id/tvPaymentTitle"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:cardBackgroundColor="@color/med_soft_gray"
+                app:cardCornerRadius="32dp"
+                app:cardElevation="0dp"
+                app:layout_constraintTop_toBottomOf="@id/tvMpesaHint">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="40dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SERVICE DEPOSIT"
+                        android:textColor="@color/med_text_secondary"
+                        android:textSize="10sp"
+                        android:letterSpacing="0.1"
+                        android:fontFamily="sans-serif-black" />
+
+                    <TextView
+                        android:id="@+id/tvAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="KSh 2,500"
+                        android:textColor="@color/med_text_primary"
+                        android:textSize="48sp"
+                        android:fontFamily="sans-serif-black"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilMpesaPhone"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:hint="M-Pesa Phone Number"
+                app:boxStrokeColor="@color/med_mint_success"
+                app:hintTextColor="@color/med_text_secondary"
+                app:cornerRadius="16dp"
+                app:layout_constraintTop_toBottomOf="@id/cvAmount">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etMpesaPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:padding="16dp"
+                    android:textColor="@color/med_text_primary" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPay"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:text="INITIATE STK PUSH"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-black"
+                app:cornerRadius="32dp"
+                app:backgroundTint="@color/med_teal_primary"
+                android:layout_marginTop="48dp"
+                app:layout_constraintTop_toBottomOf="@id/tilMpesaPhone" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/pbPayment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:indeterminate="true"
+                app:indicatorColor="@color/med_mint_success"
+                app:layout_constraintTop_toTopOf="@id/btnPay"
+                app:layout_constraintBottom_toBottomOf="@id/btnPay"
+                app:layout_constraintStart_toStartOf="@id/btnPay"
+                app:layout_constraintEnd_toEndOf="@id/btnPay" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
