@@ -1,4 +1,5 @@
-import { getGlobalStats, getCaregiverPerformance, getShiftAnalytics, getActivityLog } from '../controllers/adminController';
+import { Router } from 'express';
+import { getGlobalStats, getCaregiverPerformance, getShiftAnalytics, getActivityLog, getAdvancedAnalytics, getVerificationQueue, getSystemReports, getClinicalIntelligence } from '../controllers/adminController';
 import { authenticate, authorize } from '../middleware/auth';
 
 const router = Router();
@@ -12,6 +13,6 @@ router.get('/analytics/shifts', getShiftAnalytics);
 router.get('/analytics/advanced', getAdvancedAnalytics);
 router.get('/verification/queue', getVerificationQueue);
 router.get('/reports/system', getSystemReports);
-router.get('/logs', getActivityLog);
+router.get('/analytics/clinical', getClinicalIntelligence);
 
 export default router;

@@ -235,3 +235,53 @@ export const getSystemReports = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+export const getClinicalIntelligence = async (req: Request, res: Response) => {
+    try {
+        // Target specifically Francis Kangethe as requested by user
+        const patient = await prisma.user.findFirst({
+            where: {
+                role: 'PATIENT',
+                profile: {
+                    OR: [
+                        { firstName: { contains: 'Francis' } },
+                        { lastName: { contains: 'Kangethe' } }
+                    ]
+                }
+            },
+            include: {
+                profile: true,
+                patientShifts: {
+                    include: {
+                        caregiver: { include: { profile: true } },
+                        report: true
+                    },
+                    orderBy: { startTime: 'desc' }
+                }
+            }
+        });
+
+        if (!patient) {
+            // Fallback to first patient if Francis is not found
+            const fallback = await prisma.user.findFirst({
+                where: { role: 'PATIENT' },
+                include: {
+                    profile: true,
+                    patientShifts: {
+                        include: {
+                            caregiver: { include: { profile: true } },
+                            report: true
+                        },
+                        orderBy: { startTime: 'desc' }
+                    }
+                }
+            });
+            return res.json(fallback);
+        }
+
+        res.json(patient);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};

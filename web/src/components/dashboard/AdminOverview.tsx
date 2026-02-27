@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
     Users,
@@ -51,13 +52,8 @@ export default function AdminOverview() {
                 setStats(statsRes.data);
                 setLogs(logsRes.data);
 
-                // Filter users
-                const coreTeamNames = ['John Githinji', 'Melsa Wanjiru', 'Francis Kangethe'];
                 setPatients(usersRes.data.filter((u: any) => u.role === 'PATIENT'));
-                setCaregivers(usersRes.data.filter((u: any) =>
-                    u.role === 'CAREGIVER' &&
-                    coreTeamNames.some(name => `${u.profile?.firstName} ${u.profile?.lastName}`.toLowerCase().includes(name.toLowerCase()))
-                ));
+                setCaregivers(usersRes.data.filter((u: any) => u.role === 'CAREGIVER'));
 
                 // Format analytics data for Recharts
                 const formattedChartData = Object.entries(analyticsRes.data).map(([date, count]) => ({
@@ -161,15 +157,15 @@ export default function AdminOverview() {
                                     {patients.map((patient) => (
                                         <tr key={patient.id} className="group hover:bg-slate-50/50 transition-colors">
                                             <td className="px-8 py-6">
-                                                <div className="flex items-center gap-4">
-                                                    <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-black">
+                                                <Link href={`/dashboard/patients/${patient.id}`} className="flex items-center gap-4 group/item">
+                                                    <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-black transition-transform group-hover/item:scale-110">
                                                         {patient.profile?.firstName?.[0] ?? '?'}{patient.profile?.lastName?.[0] ?? ''}
                                                     </div>
                                                     <div>
-                                                        <p className="text-sm font-black text-slate-900">{patient.profile?.firstName} {patient.profile?.lastName}</p>
+                                                        <p className="text-sm font-black text-slate-900 group-hover/item:text-blue-600 transition-colors">{patient.profile?.firstName} {patient.profile?.lastName}</p>
                                                         <p className="text-[10px] font-bold text-slate-400 uppercase">ID: {patient.id.slice(0, 8)}</p>
                                                     </div>
-                                                </div>
+                                                </Link>
                                             </td>
                                             <td className="px-8 py-6">
                                                 <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{patient.profile?.ailment || 'Observation'}</span>
@@ -201,15 +197,15 @@ export default function AdminOverview() {
                         <div className="space-y-6 relative z-10">
                             {caregivers.slice(0, 3).map((cg) => (
                                 <div key={cg.id} className="flex items-center justify-between group">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center font-black text-[10px] border border-white/10 group-hover:bg-blue-600 transition-colors">
+                                    <Link href={`/dashboard/caregivers/${cg.id}`} className="flex items-center gap-3 group/item">
+                                        <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center font-black text-[10px] border border-white/10 group-hover/item:bg-blue-600 transition-colors">
                                             {cg.profile?.firstName?.[0]}{cg.profile?.lastName?.[0]}
                                         </div>
                                         <div>
-                                            <p className="text-[11px] font-black uppercase tracking-tight">{cg.profile?.firstName} {cg.profile?.lastName}</p>
-                                            <p className="text-[9px] font-bold text-slate-500 uppercase">{cg.profile?.firstName?.includes('John') ? 'Night' : 'Day'} Shift</p>
+                                            <p className="text-[11px] font-black uppercase tracking-tight group-hover/item:text-blue-400 transition-colors">{cg.profile?.firstName} {cg.profile?.lastName}</p>
+                                            <p className="text-[9px] font-bold text-slate-500 uppercase">Registered Personnel</p>
                                         </div>
-                                    </div>
+                                    </Link>
                                     <div className="flex items-center gap-2">
                                         <div className={`w-1.5 h-1.5 rounded-full ${cg.profile?.firstName?.includes('Melsa') || cg.profile?.firstName?.includes('John') ? 'bg-blue-400 animate-pulse' : 'bg-white/20'}`} />
                                         <span className={`text-[9px] font-black uppercase tracking-widest ${cg.profile?.firstName?.includes('Melsa') || cg.profile?.firstName?.includes('John') ? 'text-blue-400' : 'text-slate-500'}`}>

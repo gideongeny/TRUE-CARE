@@ -7,157 +7,130 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// SQLite does not support enums, using Strings
-// Role: ADMIN, CAREGIVER, PATIENT
-// ShiftStatus: SCHEDULED, COMPLETED, CANCELLED, IN_PROGRESS
-// RequestStatus: PENDING, APPROVED, REJECTED
-
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
-  role      String   @default("PATIENT")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  profile   Profile?
-  
-  // Relations
-  caregiverShifts Shift[] @relation("CaregiverShifts")
-  patientShifts   Shift[] @relation("PatientShifts")
-  
-  serviceRequests ServiceRequest[]
-  payments        Payment[]
+  id                 String              @id @default(uuid())
+  email              String              @unique
+  password           String
+  role               String              @default("PATIENT")
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  notifications      Notification[]
+  payments           Payment[]
+  profile            Profile?
+  serviceRequests    ServiceRequest[]
+  patientShifts      Shift[]             @relation("PatientShifts")
+  caregiverShifts    Shift[]             @relation("CaregiverShifts")
   withdrawalRequests WithdrawalRequest[]
-  notifications   Notification[]
 }
 
 model Profile {
-  id        String   @id @default(uuid())
-  userId    String   @unique
-  user      User     @relation(fields: [userId], references: [id])
-  firstName String
-  lastName  String
-  phone     String?
-  address   String?
-  bio       String?
-  
-  // Medical Info (For Patients)
-  ailment       String?
-  medicalHistory String?
-  age           Int?
-  gender        String? // MALE, FEMALE, OTHER
-  location      String?
+  id               String   @id @default(uuid())
+  userId           String   @unique
+  firstName        String
+  lastName         String
+  phone            String?
+  address          String?
+  bio              String?
+  ailment          String?
+  medicalHistory   String?
+  age              Int?
+  gender           String?
+  location         String?
   emergencyContact String?
-  preferredShift   String? // DAY, NIGHT, 24HR
-
-  // Caregiver specific
-  isVerified      Boolean @default(false)
-  cvVerified      Boolean @default(false)
-  idVerified      Boolean @default(false)
-  skills          String? 
-  idNumber        String?
-  experienceYears Int?
-  availability    String? // DAY, NIGHT, BOTH
-  hourlyRate      Decimal?
-  
-  // Documents
-  cvUrl          String?
-  certificateUrl String?
-  idCardUrl      String?
-
-  // Financial Info
-  paymentStatus String @default("PENDING") // PENDING, PAID, OVERDUE
-  balance       Decimal @default(0)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  preferredShift   String?
+  isVerified       Boolean  @default(false)
+  cvVerified       Boolean  @default(false)
+  idVerified       Boolean  @default(false)
+  skills           String?
+  idNumber         String?
+  experienceYears  Int?
+  availability     String?
+  hourlyRate       Decimal?
+  cvUrl            String?
+  certificateUrl   String?
+  idCardUrl        String?
+  paymentStatus    String   @default("PENDING")
+  balance          Decimal  @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  user             User     @relation(fields: [userId], references: [id])
 }
 
 model Shift {
-  id          String      @id @default(uuid())
-  caregiverId String?
-  caregiver   User?       @relation("CaregiverShifts", fields: [caregiverId], references: [id])
-  patientId   String
-  patient     User        @relation("PatientShifts", fields: [patientId], references: [id])
-  
-  startTime   DateTime
-  endTime     DateTime
-  shiftType   String      @default("24HR") // DAY, NIGHT, 24HR
-  status      String      @default("SCHEDULED")
-  notes       String?
-  
+  id             String    @id @default(uuid())
+  caregiverId    String?
+  patientId      String
+  startTime      DateTime
+  endTime        DateTime
+  shiftType      String    @default("24HR")
+  status         String    @default("SCHEDULED")
+  notes          String?
   clockInTime    DateTime?
   clockOutTime   DateTime?
-  actualDuration Float?     // In hours
-  earnings       Decimal?   // Earnings for this specific shift
-
+  actualDuration Float?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  earnings       Decimal?
   report         Report?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  patient        User      @relation("PatientShifts", fields: [patientId], references: [id])
+  caregiver      User?     @relation("CaregiverShifts", fields: [caregiverId], references: [id])
 }
 
 model Report {
   id        String   @id @default(uuid())
   shiftId   String   @unique
-  shift     Shift    @relation(fields: [shiftId], references: [id])
   content   String
-  vitals    String?  
+  vitals    String?
   createdAt DateTime @default(now())
+  shift     Shift    @relation(fields: [shiftId], references: [id])
 }
 
 model ServiceRequest {
-  id        String        @id @default(uuid())
-  patientId String
-  patient   User          @relation(fields: [patientId], references: [id])
-  
+  id             String   @id @default(uuid())
+  patientId      String
   careType       String
-  patientAilment String?
   duration       String
   location       String
-  status         String        @default("PENDING")
+  status         String   @default("PENDING")
   description    String?
-  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  patientAilment String?
+  patient        User     @relation(fields: [patientId], references: [id])
 }
 
 model Payment {
   id            String   @id @default(uuid())
   userId        String
-  user          User     @relation(fields: [userId], references: [id])
   amount        Decimal
   transactionId String?  @unique
   mpesaReceipt  String?
   phoneNumber   String
-  status        String   @default("PENDING") // PENDING, SUCCESS, FAILED
+  status        String   @default("PENDING")
   type          String   @default("STK_PUSH")
-  
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  user          User     @relation(fields: [userId], references: [id])
 }
 
 model WithdrawalRequest {
   id          String   @id @default(uuid())
   caregiverId String
-  caregiver   User     @relation(fields: [caregiverId], references: [id])
   amount      Decimal
   mpesaNumber String
-  status      String   @default("PENDING") // PENDING, APPROVED, REJECTED, PAID
-  
+  status      String   @default("PENDING")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  caregiver   User     @relation(fields: [caregiverId], references: [id])
 }
 
 model Notification {
   id        String   @id @default(uuid())
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
   title     String
   message   String
   isRead    Boolean  @default(false)
-  type      String?  // SHIFT, PAYMENT, SYSTEM
-  
+  type      String?
   createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
 }

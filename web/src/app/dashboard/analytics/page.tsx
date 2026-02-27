@@ -43,16 +43,16 @@ export default function AnalyticsPage() {
     useEffect(() => {
         const fetchClinicalIntelligence = async () => {
             try {
-                const res = await api.get('/users');
-                const francis = res.data.find((u: any) => u.profile?.firstName === 'Francis') || res.data[0];
+                const res = await api.get('/admin/analytics/clinical');
+                const p = res.data;
 
-                if (francis) {
-                    setPatient(francis);
-                    const parsed = (francis.shifts || [])
+                if (p) {
+                    setPatient(p);
+                    const parsed = (p.patientShifts || [])
                         .filter((s: any) => s.report)
                         .map((s: any) => {
                             try {
-                                const v = JSON.parse(s.report.vitals || '{}');
+                                const v = typeof s.report.vitals === 'string' ? JSON.parse(s.report.vitals) : s.report.vitals || {};
                                 const [sys] = (v.bp || '0/0').split('/').map(Number);
                                 return {
                                     time: new Date(s.report.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric' }),
@@ -136,16 +136,16 @@ export default function AnalyticsPage() {
                         <div className="text-center md:text-left">
                             <h2 className="text-4xl font-black text-white tracking-tighter uppercase mb-2">{patient?.profile?.firstName} {patient?.profile?.lastName}</h2>
                             <div className="flex flex-wrap justify-center md:justify-start gap-3">
-                                <Badge icon={<Users className="w-3 h-3" />} text="Subject 1042" />
-                                <Badge icon={<Clock className="w-3 h-3" />} text="62Y / Male" />
-                                <Badge icon={<Shield className="w-3 h-3 text-emerald-500" />} text="Operational: ACTIVE" color="text-emerald-500 border-emerald-500/20 bg-emerald-500/5" />
+                                <Badge icon={<Users className="w-3 h-3" />} text={`ID: ${patient?.id?.slice(0, 8)}`} />
+                                <Badge icon={<Clock className="w-3 h-3" />} text={`${patient?.profile?.age || '??'}Y / ${patient?.profile?.gender || 'N/A'}`} />
+                                <Badge icon={<Shield className="w-3 h-3 text-emerald-500" />} text={`Status: ${patient?.profile?.paymentStatus || 'ACTIVE'}`} color="text-emerald-500 border-emerald-500/20 bg-emerald-500/5" />
                             </div>
                         </div>
                     </div>
 
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 relative z-10 w-full lg:w-auto">
-                        <StatBlock label="Clinical Node" value="Primary" />
-                        <StatBlock label="Vital Sync" value="99.8%" />
+                        <StatBlock label="Condition" value={patient?.profile?.ailment || 'Observation'} />
+                        <StatBlock label="Current Caregiver" value={patient?.patientShifts?.[0]?.caregiver?.profile?.firstName || 'None'} />
                         <StatBlock label="Alert Flux" value="0.02/h" color="text-blue-500" />
                         <StatBlock label="Integrity" value="NOMINAL" color="text-emerald-500" />
                     </div>
@@ -189,7 +189,7 @@ export default function AnalyticsPage() {
                         data={analyticsData}
                         dataKey="compliance"
                     />
-                </div>
+                </div >
 
                 {/* Intelligence Engine */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
