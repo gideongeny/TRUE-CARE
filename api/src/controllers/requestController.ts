@@ -54,6 +54,29 @@ export const getRequests = async (req: Request, res: Response) => {
     }
 };
 
+export const adminSetPrice = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const { price } = req.body;
+
+        const request = await prisma.serviceRequest.update({
+            where: { id },
+            data: {
+                price: Number(price),
+                remainingBalance: Number(price),
+                status: 'PRICED'
+            }
+        });
+
+        // Notify patient here
+
+        res.json(request);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
 export const updateRequestStatus = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
@@ -64,15 +87,18 @@ export const updateRequestStatus = async (req: Request, res: Response) => {
             data: { status }
         });
 
-        // If approved, create an open shift in the marketplace
+        // If approved by admin, create an assigned/open shift
         if (status === 'APPROVED') {
             await prisma.shift.create({
                 data: {
                     patientId: request.patientId,
-                    caregiverId: null, // Open to all
-                    startTime: new Date(), // Default or parsed from request context
-                    endTime: new Date(Date.now() + 3600000), // Default 1 hour
-                    notes: `Source: ${request.careType}. Description: ${request.description || 'None'}`
+                    requestId: request.id,
+                    caregiverId: null,
+                    startTime: new Date(),
+                    endTime: new Date(Date.now() + 8 * 60 * 60 * 1000), // Default 8h
+                    notes: `Session for ${request.careType}. Description: ${request.description || 'N/A'}`,
+                    status: 'ASSIGNED',
+                    earnings: Number(request.price) * 0.7 // Default 70% to caregiver
                 }
             });
         }

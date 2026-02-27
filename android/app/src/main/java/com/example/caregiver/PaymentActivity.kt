@@ -51,7 +51,7 @@ class PaymentActivity : AppCompatActivity() {
                 // Mocking userId for now, should come from SessionManager
                 val response = ApiClient.apiService.initiateStkPush(
                     PaymentRequest(
-                        amount = 2500,
+                        amount = 2500.0,
                         phoneNumber = phone,
                         userId = "current_user_id" 
                     )

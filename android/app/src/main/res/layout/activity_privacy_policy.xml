@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Privacy Policy"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1. Data Protection\nTRUE CARE is committed to protecting your personal data in accordance with the Data Protection Act of Kenya. We collect information only necessary for service provision.\n\n2. Information Collection\nWe collect your name, phone number, location, and health snapshots to connect you with the best care professional.\n\n3. Payment Security\nAll M-Pesa transactions are processed securely via Safaricom Daraja API. We do not store your M-Pesa PIN.\n\n4. Data Sharing\nYour information is shared only with assigned caregivers or patients for the duration of a shift.\n\n5. Compliance\nWe adhere to Kenyan healthcare and digital privacy regulations."
+            android:textSize="14sp"
+            android:textColor="@color/black" />
+
+    </LinearLayout>
+</ScrollView>

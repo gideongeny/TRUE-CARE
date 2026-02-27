@@ -36,6 +36,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/shifts', shiftRoutes);
 app.use('/api/requests', requestRoutes);
+app.use('/api/payments', paymentRoutes);
 
 app.get('/', (req: Request, res: Response) => {
     res.json({ message: 'TRUE CARE API is running' });

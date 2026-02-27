@@ -23,21 +23,17 @@ export default function ReportsPage() {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
 
+    const [selectedReport, setSelectedReport] = useState<any>(null);
+
     useEffect(() => {
         const fetchReports = async () => {
             try {
                 const res = await api.get('/admin/reports/system');
                 setReports(res.data.reports || []);
-                setStats(res.data.stats || { generated: 24, completionRate: 98 });
+                setStats(res.data.stats || { generated: 0, completionRate: 100 });
             } catch (error) {
                 console.error('Failed to fetch reports', error);
-                // Mock fallback for premium demonstration
-                setReports([
-                    { id: 'R001', name: 'Clinical Attendance Matrix - Feb', type: 'ATTENDANCE', date: '2024-02-28', size: '2.4 MB' },
-                    { id: 'R002', name: 'Financial Revenue Flux - Q1', type: 'FINANCIAL', date: '2024-02-25', size: '1.8 MB' },
-                    { id: 'R003', name: 'Caregiver Performance Audit', type: 'PERFORMANCE', date: '2024-02-20', size: '3.1 MB' },
-                ]);
-                setStats({ generated: 42, completionRate: 99.2 });
+                setReports([]);
             } finally {
                 setLoading(false);
             }
@@ -129,6 +125,7 @@ export default function ReportsPage() {
                                             transition={{ delay: idx * 0.05 }}
                                             key={report.id}
                                             className="hover:bg-slate-900/40 transition-all group cursor-pointer"
+                                            onClick={() => setSelectedReport(report)}
                                         >
                                             <td className="px-10 py-6">
                                                 <div className="flex items-center gap-5">
@@ -137,14 +134,15 @@ export default function ReportsPage() {
                                                     </div>
                                                     <div>
                                                         <p className="text-sm font-black text-white uppercase tracking-tight group-hover:text-blue-400 transition-colors">{report.name}</p>
-                                                        <p className="text-[9px] text-slate-600 font-bold uppercase tracking-widest mt-0.5">{report.size} &bull; Vector ID: {report.id}</p>
+                                                        <p className="text-[9px] text-slate-600 font-bold uppercase tracking-widest mt-0.5">{report.size} &bull; Vector ID: {report.id.slice(0, 8)}</p>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td className="px-10 py-6">
-                                                <span className="px-4 py-1.5 bg-slate-900 border border-slate-800 text-[9px] font-black uppercase text-blue-500 tracking-widest rounded-lg">
-                                                    {report.type}
-                                                </span>
+                                                <div className="space-y-1">
+                                                    <p className="text-[10px] font-black text-white uppercase tracking-tight">{report.caregiver}</p>
+                                                    <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest">For: {report.patient}</p>
+                                                </div>
                                             </td>
                                             <td className="px-10 py-6">
                                                 <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-widest">
@@ -154,7 +152,7 @@ export default function ReportsPage() {
                                             </td>
                                             <td className="px-10 py-6 text-right">
                                                 <button className="px-6 py-2.5 bg-white text-slate-950 hover:bg-blue-600 hover:text-white text-[10px] font-black uppercase tracking-widest rounded-xl transition-all shadow-xl active:scale-95">
-                                                    Extract
+                                                    Inspect
                                                 </button>
                                             </td>
                                         </motion.tr>
@@ -164,6 +162,80 @@ export default function ReportsPage() {
                         </table>
                     </div>
                 </div>
+
+                {/* Report Detail Modal */}
+                <AnimatePresence>
+                    {selectedReport && (
+                        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xl z-[100] flex items-center justify-center p-6">
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                                className="bg-slate-950 border border-slate-900 rounded-[50px] w-full max-w-2xl overflow-hidden shadow-[0_0_100px_rgba(37,99,235,0.1)]"
+                            >
+                                <div className="p-10 border-b border-slate-900 flex items-center justify-between bg-slate-900/20">
+                                    <div className="space-y-1">
+                                        <p className="text-[10px] font-black text-blue-500 uppercase tracking-[0.3em]">Full Clinical Disclosure</p>
+                                        <h3 className="text-2xl font-black text-white tracking-tighter uppercase italic">{selectedReport.name}</h3>
+                                    </div>
+                                    <button
+                                        onClick={() => setSelectedReport(null)}
+                                        className="w-12 h-12 rounded-2xl bg-slate-900 text-slate-500 hover:text-white flex items-center justify-center font-black transition-all"
+                                    >
+                                        ESC
+                                    </button>
+                                </div>
+                                <div className="p-10 space-y-8 max-h-[60vh] overflow-y-auto custom-scrollbar">
+                                    <div className="grid grid-cols-2 gap-8">
+                                        <div className="p-6 bg-slate-900/40 border border-slate-900 rounded-3xl">
+                                            <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2">Assigned Caregiver</p>
+                                            <p className="text-sm font-black text-white uppercase">{selectedReport.caregiver}</p>
+                                        </div>
+                                        <div className="p-6 bg-slate-900/40 border border-slate-900 rounded-3xl">
+                                            <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2">Target Patient</p>
+                                            <p className="text-sm font-black text-white uppercase">{selectedReport.patient}</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-4">
+                                        <p className="text-[10px] font-black text-blue-500 uppercase tracking-widest flex items-center gap-2">
+                                            <FileText className="w-3 h-3" />
+                                            Observation Notes
+                                        </p>
+                                        <div className="p-8 bg-slate-900/20 border border-slate-900 rounded-[32px] text-slate-300 text-sm leading-relaxed italic">
+                                            "{selectedReport.content}"
+                                        </div>
+                                    </div>
+
+                                    {selectedReport.vitals && (
+                                        <div className="space-y-4">
+                                            <p className="text-[10px] font-black text-emerald-500 uppercase tracking-widest flex items-center gap-2">
+                                                <Clock className="w-3 h-3" />
+                                                Vital Matrix Observations
+                                            </p>
+                                            <div className="grid grid-cols-2 gap-4">
+                                                {Object.entries(typeof selectedReport.vitals === 'string' ? JSON.parse(selectedReport.vitals) : selectedReport.vitals).map(([key, value]: any) => (
+                                                    <div key={key} className="px-6 py-4 bg-slate-900/60 rounded-2xl border border-slate-900 flex justify-between items-center">
+                                                        <span className="text-[10px] font-black text-slate-500 uppercase tracking-tighter">{key}</span>
+                                                        <span className="text-xs font-black text-white uppercase">{value}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="p-8 bg-slate-900/30 border-t border-slate-900">
+                                    <button
+                                        onClick={() => window.print()}
+                                        className="w-full py-4 bg-white text-slate-950 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-blue-600 hover:text-white transition-all active:scale-95"
+                                    >
+                                        Generate Hard Copy Archive
+                                    </button>
+                                </div>
+                            </motion.div>
+                        </div>
+                    )}
+                </AnimatePresence>
             </div>
         </DashboardLayout>
     );

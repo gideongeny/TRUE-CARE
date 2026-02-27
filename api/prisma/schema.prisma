@@ -12,6 +12,7 @@ model User {
   email              String              @unique
   password           String
   role               String              @default("PATIENT")
+  isDeleted          Boolean             @default(false)
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
   notifications      Notification[]
@@ -21,6 +22,8 @@ model User {
   patientShifts      Shift[]             @relation("PatientShifts")
   caregiverShifts    Shift[]             @relation("CaregiverShifts")
   withdrawalRequests WithdrawalRequest[]
+
+  @@index([role, isDeleted])
 }
 
 model Profile {
@@ -51,19 +54,24 @@ model Profile {
   idCardUrl        String?
   paymentStatus    String   @default("PENDING")
   balance          Decimal  @default(0)
+  totalBilled      Decimal  @default(0)
+  totalPaid        Decimal  @default(0)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
   user             User     @relation(fields: [userId], references: [id])
+
+  @@index([isVerified])
 }
 
 model Shift {
   id             String    @id @default(uuid())
   caregiverId    String?
   patientId      String
+  requestId      String?   @unique
   startTime      DateTime
   endTime        DateTime
   shiftType      String    @default("24HR")
-  status         String    @default("SCHEDULED")
+  status         String    @default("ASSIGNED") // ASSIGNED, ACCEPTED, IN_PROGRESS, COMPLETED, PAID
   notes          String?
   clockInTime    DateTime?
   clockOutTime   DateTime?
@@ -72,8 +80,12 @@ model Shift {
   updatedAt      DateTime  @updatedAt
   earnings       Decimal?
   report         Report?
+  paymentId      String?   @unique
   patient        User      @relation("PatientShifts", fields: [patientId], references: [id])
   caregiver      User?     @relation("CaregiverShifts", fields: [caregiverId], references: [id])
+  serviceRequest ServiceRequest? @relation(fields: [requestId], references: [id])
+
+  @@index([status])
 }
 
 model Report {
@@ -86,28 +98,36 @@ model Report {
 }
 
 model ServiceRequest {
-  id             String   @id @default(uuid())
-  patientId      String
-  careType       String
-  duration       String
-  location       String
-  status         String   @default("PENDING")
-  description    String?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  patientAilment String?
-  patient        User     @relation(fields: [patientId], references: [id])
+  id               String   @id @default(uuid())
+  patientId        String
+  careType         String
+  duration         String
+  location         String
+  status           String   @default("PENDING") // PENDING, PRICED, PAID, COMPLETED
+  description      String?
+  price            Decimal? @default(0)
+  amountPaid       Decimal? @default(0)
+  remainingBalance Decimal? @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  patientAilment   String?
+  patient          User     @relation(fields: [patientId], references: [id])
+  shift            Shift?
+
+  @@index([status])
 }
 
 model Payment {
   id            String   @id @default(uuid())
   userId        String
+  requestId     String?
+  shiftId       String?
   amount        Decimal
   transactionId String?  @unique
   mpesaReceipt  String?
   phoneNumber   String
-  status        String   @default("PENDING")
-  type          String   @default("STK_PUSH")
+  status        String   @default("PENDING") // PENDING, SUCCESS, FAILED
+  type          String   @default("STK_PUSH") // STK_PUSH, ADMIN_PAYOUT
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   user          User     @relation(fields: [userId], references: [id])

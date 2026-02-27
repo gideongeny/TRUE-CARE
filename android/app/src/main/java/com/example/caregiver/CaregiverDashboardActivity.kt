@@ -30,6 +30,7 @@ class CaregiverDashboardActivity : AppCompatActivity() {
     private lateinit var tvBalance: TextView
     private lateinit var btnWithdraw: View
     
+    private var currentShiftId: String? = null
     private var isClockedIn = false
     private var startTimeMillis: Long = 0
     private val handler = android.os.Handler(android.os.Looper.getMainLooper())
@@ -61,38 +62,98 @@ class CaregiverDashboardActivity : AppCompatActivity() {
         }
 
         btnClockInOut.setOnClickListener {
+            if (currentShiftId == null) {
+                Toast.makeText(this, "Please select an accepted shift first", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             toggleClock()
         }
 
-        btnWithdraw.setOnClickListener {
-            Toast.makeText(this, "Withdrawal request submitted! 🚀", Toast.LENGTH_SHORT).show()
-        }
-
-        adapter = ShiftAdapter()
+        adapter = ShiftAdapter(
+            onAccept = { shiftId -> acceptShift(shiftId) },
+            onSelect = { shift -> 
+                if (shift.status == "ACCEPTED" || shift.status == "IN_PROGRESS") {
+                    currentShiftId = shift.id
+                    Toast.makeText(this, "Active Shift: ${shift.patient?.profile?.firstName}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        )
         rvShifts.adapter = adapter
 
         fetchShifts()
+        fetchProfile()
+    }
+
+    private fun fetchProfile() {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = ApiClient.apiService.getMe()
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        val profile = response.body()!!.profile
+                        tvBalance.text = "KSh ${profile?.balance ?: 0.0}"
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun acceptShift(shiftId: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = ApiClient.apiService.acceptShift(shiftId)
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(this@CaregiverDashboardActivity, "Shift Accepted!", Toast.LENGTH_SHORT).show()
+                        fetchShifts()
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@CaregiverDashboardActivity, "Error accepting shift", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     private fun toggleClock() {
-        if (!isClockedIn) {
-            // Clock In
-            isClockedIn = true
-            startTimeMillis = System.currentTimeMillis()
-            btnClockInOut.text = "CLOCK OUT"
-            btnClockInOut.setBackgroundColor(android.graphics.Color.RED)
-            btnClockInOut.setTextColor(android.graphics.Color.WHITE)
-            handler.post(timerRunnable)
-            Toast.makeText(this, "Shift Started", Toast.LENGTH_SHORT).show()
-        } else {
-            // Clock Out
-            isClockedIn = false
-            handler.removeCallbacks(timerRunnable)
-            btnClockInOut.text = "CLOCK IN"
-            btnClockInOut.setBackgroundColor(android.graphics.Color.WHITE)
-            btnClockInOut.setTextColor(android.graphics.Color.BLACK)
-            Toast.makeText(this, "Shift Ended. Great work!", Toast.LENGTH_LONG).show()
-            // Here you would call an API to save the shift
+        val shiftId = currentShiftId ?: return
+        
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                if (!isClockedIn) {
+                    val response = ApiClient.apiService.clockIn(shiftId)
+                    withContext(Dispatchers.Main) {
+                        if (response.isSuccessful) {
+                            isClockedIn = true
+                            startTimeMillis = System.currentTimeMillis()
+                            btnClockInOut.text = "CLOCK OUT"
+                            btnClockInOut.setBackgroundColor(Color.RED)
+                            handler.post(timerRunnable)
+                            Toast.makeText(this@CaregiverDashboardActivity, "Clocked In", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                } else {
+                    val response = ApiClient.apiService.clockOut(shiftId)
+                    withContext(Dispatchers.Main) {
+                        if (response.isSuccessful) {
+                            isClockedIn = false
+                            handler.removeCallbacks(timerRunnable)
+                            btnClockInOut.text = "CLOCK IN"
+                            btnClockInOut.setBackgroundColor(Color.parseColor("#4CAF50"))
+                            currentShiftId = null
+                            Toast.makeText(this@CaregiverDashboardActivity, "Shift Completed! Notified Admin.", Toast.LENGTH_LONG).show()
+                            fetchShifts()
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@CaregiverDashboardActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
@@ -106,13 +167,16 @@ class CaregiverDashboardActivity : AppCompatActivity() {
                     }
                 }
             } catch (e: Exception) {
-                // Handle error
+                e.printStackTrace()
             }
         }
     }
 }
 
-class ShiftAdapter : RecyclerView.Adapter<ShiftAdapter.ShiftViewHolder>() {
+class ShiftAdapter(
+    private val onAccept: (String) -> Unit,
+    private val onSelect: (Shift) -> Unit
+) : RecyclerView.Adapter<ShiftAdapter.ShiftViewHolder>() {
     private var shifts: List<Shift> = emptyList()
 
     fun setShifts(newShifts: List<Shift>) {
@@ -121,24 +185,41 @@ class ShiftAdapter : RecyclerView.Adapter<ShiftAdapter.ShiftViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShiftViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(android.R.layout.simple_list_item_2, parent, false)
-        return ShiftViewHolder(view)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_shift_caregiver, parent, false)
+        return ShiftViewHolder(view, onAccept, onSelect)
     }
 
     override fun onBindViewHolder(holder: ShiftViewHolder, position: Int) {
-        val shift = shifts[position]
-        holder.bind(shift)
+        holder.bind(shifts[position])
     }
 
     override fun getItemCount(): Int = shifts.size
 
-    class ShiftViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val text1: TextView = itemView.findViewById(android.R.id.text1)
-        private val text2: TextView = itemView.findViewById(android.R.id.text2)
+    class ShiftViewHolder(
+        itemView: View,
+        private val onAccept: (String) -> Unit,
+        private val onSelect: (Shift) -> Unit
+    ) : RecyclerView.ViewHolder(itemView) {
+        private val tvPatientName: TextView = itemView.findViewById(R.id.tvPatientName)
+        private val tvShiftTime: TextView = itemView.findViewById(R.id.tvShiftTime)
+        private val tvStatus: TextView = itemView.findViewById(R.id.tvStatus)
+        private val btnAccept: Button = itemView.findViewById(R.id.btnAccept)
+        private val tvAmount: TextView = itemView.findViewById(R.id.tvAmount)
 
         fun bind(shift: Shift) {
-            text1.text = "Patient: ${shift.patient?.profile?.firstName} ${shift.patient?.profile?.lastName}"
-            text2.text = "Time: ${shift.startTime} - Status: ${shift.status}"
+            tvPatientName.text = "${shift.patient?.profile?.firstName} ${shift.patient?.profile?.lastName}"
+            tvShiftTime.text = "${shift.startTime} - ${shift.shiftType}"
+            tvStatus.text = shift.status
+            tvAmount.text = "Earnings: KSh ${shift.earnings ?: 0}"
+
+            if (shift.status == "ASSIGNED") {
+                btnAccept.visibility = View.VISIBLE
+                btnAccept.setOnClickListener { onAccept(shift.id) }
+            } else {
+                btnAccept.visibility = View.GONE
+            }
+
+            itemView.setOnClickListener { onSelect(shift) }
         }
     }
 }

@@ -96,3 +96,24 @@ export const login = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+export const getMe = async (req: Request, res: Response) => {
+    try {
+        const userId = req.user?.userId;
+        if (!userId) return res.status(401).json({ message: 'Unauthorized' });
+
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+            include: {
+                profile: true,
+                notifications: { orderBy: { createdAt: 'desc' }, take: 5 }
+            }
+        });
+
+        if (!user) return res.status(404).json({ message: 'User not found' });
+
+        res.json(user);
+    } catch (error) {
+        console.error('getMe error:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};

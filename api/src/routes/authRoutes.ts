@@ -7,6 +7,7 @@ const router = Router();
 
 router.post('/register', register);
 router.post('/login', login);
+router.get('/me', authenticate, getMe);
 
 router.get('/2fa/setup', authenticate, setup2FA);
 router.post('/2fa/verify', authenticate, verifyAndEnable2FA);

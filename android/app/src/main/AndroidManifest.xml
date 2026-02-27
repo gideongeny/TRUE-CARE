@@ -38,6 +38,8 @@
         <activity android:name=".CaregiverDashboardActivity" />
         <activity android:name=".PatientDashboardActivity" />
         <activity android:name=".SettingsActivity" />
+        <activity android:name=".PrivacyPolicyActivity" />
+        <activity android:name=".TermsOfServiceActivity" />
     </application>
 
 </manifest>

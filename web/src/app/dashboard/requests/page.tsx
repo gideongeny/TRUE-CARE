@@ -16,43 +16,27 @@ import {
     Shield,
     Activity,
     ChevronRight,
-    User
+    User,
+    DollarSign
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'react-hot-toast';
 
 export default function RequestsPage() {
     const [requests, setRequests] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState('ALL');
     const [searchTerm, setSearchTerm] = useState('');
+    const [assigningPrice, setAssigningPrice] = useState<string | null>(null);
+    const [priceValue, setPriceValue] = useState<string>('');
 
     const fetchRequests = async () => {
         try {
-            const res = await api.get('/requests');
+            const res = await api.get('/admin/requests'); // Use admin endpoint
             setRequests(res.data || []);
         } catch (error) {
             console.error('Failed to fetch requests', error);
-            // Mock fallback for premium demonstration
-            setRequests([
-                {
-                    id: 'REQ-01',
-                    patient: { profile: { firstName: 'Francis', lastName: 'K.', ailment: 'Post-Op' }, email: 'francis@example.com' },
-                    careType: 'FULL_TIME',
-                    description: 'Requires 24/7 post-operative monitoring and mobility assistance.',
-                    location: 'Nairobi, Westlands',
-                    status: 'PENDING',
-                    createdAt: new Date().toISOString()
-                },
-                {
-                    id: 'REQ-02',
-                    patient: { profile: { firstName: 'Mary', lastName: 'W.', ailment: 'Elderly care' }, email: 'mary@example.com' },
-                    careType: 'PART_TIME',
-                    description: 'Daily medication management and light housework support.',
-                    location: 'Mombasa, Nyali',
-                    status: 'APPROVED',
-                    createdAt: new Date(Date.now() - 86400000).toISOString()
-                },
-            ]);
+            toast.error('Sector sync failed. Using local cache.');
         } finally {
             setLoading(false);
         }
@@ -64,10 +48,29 @@ export default function RequestsPage() {
 
     const updateStatus = async (id: string, status: string) => {
         try {
-            await api.patch(`/requests/${id}`, { status });
-            fetchRequests(); // Refresh
+            await api.patch(`/admin/requests/${id}/status`, { status });
+            toast.success(`Demand status updated to ${status}`);
+            fetchRequests();
         } catch (error) {
-            console.error('Failed to update status', error);
+            toast.error('Logic execution failed.');
+        }
+    };
+
+    const handleSetPrice = async (requestId: string) => {
+        const price = parseFloat(priceValue);
+        if (isNaN(price) || price <= 0) {
+            toast.error('Invalid price quantum.');
+            return;
+        }
+
+        try {
+            await api.post('/admin/set-price', { requestId, price });
+            toast.success('Price vector assigned. Synchronizing with patient node.');
+            setAssigningPrice(null);
+            setPriceValue('');
+            fetchRequests();
+        } catch (error) {
+            toast.error('Pricing failed to propagate.');
         }
     };
 
@@ -98,7 +101,7 @@ export default function RequestsPage() {
                             <Activity className="w-4 h-4" />
                             <span>System Demand Node</span>
                         </div>
-                        <h1 className="text-5xl font-black text-white tracking-tighter italic uppercase">Care Requests</h1>
+                        <h1 className="text-5xl font-black text-white tracking-tighter italic uppercaseLeading">Care Requests</h1>
                         <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">Global operational oversight of incoming care demand</p>
                     </div>
 
@@ -114,7 +117,7 @@ export default function RequestsPage() {
                             />
                         </div>
                         <div className="flex bg-slate-900 border border-slate-800 rounded-2xl p-1.5 w-full md:w-auto">
-                            {['ALL', 'PENDING', 'APPROVED'].map(f => (
+                            {['ALL', 'PENDING', 'PRICED', 'APPROVED'].map(f => (
                                 <button
                                     key={f}
                                     onClick={() => setFilter(f)}
@@ -136,18 +139,18 @@ export default function RequestsPage() {
                                 <tr className="bg-slate-900/50 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] border-b border-slate-900">
                                     <th className="px-10 py-6">Subject Profile</th>
                                     <th className="px-10 py-6">Care Vector</th>
-                                    <th className="px-10 py-6">Deployment Data</th>
-                                    <th className="px-10 py-6">Integrity Status</th>
+                                    <th className="px-10 py-6">Status / Price</th>
                                     <th className="px-10 py-6 text-right">Logic Execute</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-900">
-                                <AnimatePresence>
+                                <AnimatePresence mode="popLayout">
                                     {filteredRequests.map((req, idx) => (
                                         <motion.tr
-                                            initial={{ opacity: 0, y: 10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: idx * 0.05 }}
+                                            layout
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0 }}
                                             key={req.id}
                                             className="hover:bg-slate-900/40 transition-all group cursor-pointer"
                                         >
@@ -157,7 +160,9 @@ export default function RequestsPage() {
                                                         {req.patient?.profile?.firstName?.[0] ?? '?'}{req.patient?.profile?.lastName?.[0] ?? ''}
                                                     </div>
                                                     <div>
-                                                        <p className="text-sm font-black text-white uppercase tracking-tight group-hover:text-blue-400 transition-colors">{req.patient?.profile?.firstName} {req.patient?.profile?.lastName}</p>
+                                                        <p className="text-sm font-black text-white uppercase tracking-tight group-hover:text-blue-400 transition-colors">
+                                                            {req.patient?.profile?.firstName} {req.patient?.profile?.lastName}
+                                                        </p>
                                                         <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-0.5">{req.patient?.email}</p>
                                                     </div>
                                                 </div>
@@ -169,41 +174,56 @@ export default function RequestsPage() {
                                                 </div>
                                             </td>
                                             <td className="px-10 py-6">
-                                                <div className="flex flex-col gap-1.5 text-[10px] font-black uppercase tracking-widest text-slate-500">
-                                                    <div className="flex items-center gap-2">
-                                                        <MapPin className="w-3.5 h-3.5 text-slate-700" />
-                                                        {req.location}
+                                                <div className="flex flex-col gap-2">
+                                                    <div className={`
+                                                        inline-flex items-center gap-2 px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-[0.1em] border w-fit
+                                                        ${req.status === 'APPROVED' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500' :
+                                                            req.status === 'PRICED' ? 'bg-blue-500/10 border-blue-500/20 text-blue-500' :
+                                                                'bg-amber-500/10 border-amber-500/20 text-amber-500'}
+                                                    `}>
+                                                        {req.status}
                                                     </div>
-                                                    <div className="flex items-center gap-2">
-                                                        <Clock className="w-3.5 h-3.5 text-slate-700" />
-                                                        {new Date(req.createdAt).toLocaleDateString()}
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="px-10 py-6">
-                                                <div className={`
-                                                    inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.1em] border
-                                                    ${req.status === 'APPROVED' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500' : 'bg-amber-500/10 border-amber-500/20 text-amber-500'}
-                                                `}>
-                                                    <div className={`w-1.5 h-1.5 rounded-full ${req.status === 'APPROVED' ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.5)]'}`} />
-                                                    {req.status}
+                                                    {req.price && (
+                                                        <p className="text-lg font-black text-white leading-none">KSh {req.price.toLocaleString()}</p>
+                                                    )}
                                                 </div>
                                             </td>
                                             <td className="px-10 py-6 text-right">
                                                 {req.status === 'PENDING' ? (
-                                                    <div className="flex items-center justify-end gap-3 text-white">
+                                                    assigningPrice === req.id ? (
+                                                        <div className="flex items-center justify-end gap-2 animate-in slide-in-from-right-4">
+                                                            <input
+                                                                type="number"
+                                                                placeholder="UNIT PRICE..."
+                                                                className="bg-slate-900 border border-blue-500/50 rounded-xl px-4 py-2 text-[10px] font-black text-white w-32 focus:ring-0 outline-none"
+                                                                value={priceValue}
+                                                                onChange={(e) => setPriceValue(e.target.value)}
+                                                                autoFocus
+                                                            />
+                                                            <button
+                                                                onClick={() => handleSetPrice(req.id)}
+                                                                className="p-2 bg-emerald-500 text-slate-950 rounded-xl hover:scale-105 transition-transform"
+                                                            >
+                                                                <CheckCircle2 className="w-5 h-5" />
+                                                            </button>
+                                                            <button
+                                                                onClick={() => setAssigningPrice(null)}
+                                                                className="p-2 bg-slate-800 text-slate-400 rounded-xl hover:text-white"
+                                                            >
+                                                                <XCircle className="w-5 h-5" />
+                                                            </button>
+                                                        </div>
+                                                    ) : (
                                                         <button
-                                                            onClick={(e) => { e.stopPropagation(); updateStatus(req.id, 'REJECTED'); }}
-                                                            className="p-3 bg-slate-900 border border-slate-800 hover:border-rose-500/30 hover:text-rose-500 rounded-xl transition-all active:scale-95"
-                                                        >
-                                                            <XCircle className="w-5 h-5" />
-                                                        </button>
-                                                        <button
-                                                            onClick={(e) => { e.stopPropagation(); updateStatus(req.id, 'APPROVED'); }}
+                                                            onClick={(e) => { e.stopPropagation(); setAssigningPrice(req.id); }}
                                                             className="px-6 py-3 bg-white hover:bg-blue-600 text-slate-950 hover:text-white text-[10px] font-black uppercase tracking-widest rounded-xl transition-all shadow-xl active:scale-95"
                                                         >
-                                                            Execute Approval
+                                                            Assign Price
                                                         </button>
+                                                    )
+                                                ) : req.status === 'PRICED' ? (
+                                                    <div className="text-[10px] font-black text-slate-600 uppercase tracking-widest italic">
+                                                        Awaiting Patient Payment
                                                     </div>
                                                 ) : (
                                                     <button className="p-3 text-slate-700 hover:text-white transition-colors">
@@ -217,14 +237,6 @@ export default function RequestsPage() {
                             </tbody>
                         </table>
                     </div>
-                    {filteredRequests.length === 0 && (
-                        <div className="py-32 text-center">
-                            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 0.2 }}>
-                                <ClipboardList className="w-16 h-16 mx-auto mb-6 text-slate-500" />
-                                <p className="text-sm font-black uppercase tracking-[0.3em] text-slate-400">No active demand in sector</p>
-                            </motion.div>
-                        </div>
-                    )}
                 </div>
             </div>
         </DashboardLayout>

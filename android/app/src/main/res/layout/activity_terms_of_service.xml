@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Terms of Service"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1. Services\nTRUE CARE provides a platform connecting patients with caregivers. We facilitate service listing and payments.\n\n2. Payment Terms\nPatients agree to pay the total session cost as billed. Partial payments are accepted but balance must be cleared before the next session. Refunds are subject to our refund policy.\n\n3. Caregiver Responsibility\nCaregivers are responsible for providing professional care during assigned shifts. Clock-in/out times must be accurate.\n\n4. Liability\nTRUE CARE acts as an intermediary. We are not liable for actions taken during a shift but provide mediation and verification.\n\n5. Governing Law\nThese terms are governed by the laws of Kenya. Disputes will be handled in Kenyan courts."
+            android:textSize="14sp"
+            android:textColor="@color/black" />
+
+    </LinearLayout>
+</ScrollView>

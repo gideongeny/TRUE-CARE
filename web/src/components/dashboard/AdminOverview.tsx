@@ -94,7 +94,7 @@ export default function AdminOverview() {
         { label: 'Total Patients', value: stats?.patientCount || 0, icon: Users, trend: (stats?.patientTrend || 0) >= 0 ? `+${stats?.patientTrend || 0}%` : `${stats?.patientTrend || 0}%`, up: (stats?.patientTrend || 0) >= 0, color: 'text-blue-600', bg: 'bg-blue-50' },
         { label: 'Verified Caregivers', value: stats?.caregiverCount || 0, icon: ShieldCheck, trend: (stats?.caregiverTrend || 0) >= 0 ? `+${stats?.caregiverTrend || 0}%` : `${stats?.caregiverTrend || 0}%`, up: (stats?.caregiverTrend || 0) >= 0, color: 'text-emerald-600', bg: 'bg-emerald-50' },
         { label: 'Pending Requests', value: stats?.pendingRequests || 0, icon: AlertCircle, trend: 'LIVE', up: true, color: 'text-amber-600', bg: 'bg-amber-50' },
-        { label: 'Active Shifts', value: stats?.activeShifts || 0, icon: Activity, trend: stats?.operationalLoad, up: true, color: 'text-indigo-600', bg: 'bg-indigo-50' },
+        { label: 'Total Revenue', value: stats?.totalRevenue || 0, icon: TrendingUp, trend: 'SECURE', up: true, color: 'text-indigo-600', bg: 'bg-indigo-50' },
     ];
 
     if (loading) return <div className="p-20 text-center font-black text-slate-400 uppercase tracking-widest">Waking Up Neural Engine...</div>;
@@ -122,10 +122,24 @@ export default function AdminOverview() {
                         </div>
                         <div>
                             <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1">{card.label}</p>
-                            <h3 className="text-3xl font-black text-slate-900 tracking-tight">{card.value}</h3>
+                            <h3 className="text-3xl font-black text-slate-900 tracking-tight">
+                                {card.label === 'Total Revenue' ? `$${stats?.totalRevenue?.toLocaleString() || 0}` : card.value}
+                            </h3>
                         </div>
                     </motion.div>
                 ))}
+            </div>
+
+            {/* Admin Controls */}
+            <div className="flex items-center gap-4">
+                <button className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-2xl shadow-xl shadow-blue-500/20 hover:bg-blue-500 transition-all active:scale-95">
+                    <UserPlus className="w-4 h-4" />
+                    New Patient Entry
+                </button>
+                <button className="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-slate-800 transition-all active:scale-95">
+                    <ShieldCheck className="w-4 h-4" />
+                    Onboard Professional
+                </button>
             </div>
 
             {/* Clinical Command & Patient Registry */}
@@ -137,11 +151,11 @@ export default function AdminOverview() {
                         <div className="absolute inset-0 bg-blue-900" />
                         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-transparent" />
                         <div className="relative z-10 p-12 h-full flex flex-col justify-center">
-                            <h4 className="text-white text-3xl font-black tracking-tight leading-tight max-w-md uppercase">
+                            <h4 className="text-white text-3xl font-black tracking-tight leading-tight max-w-md uppercase italic">
                                 Clinical Deployment <br />Command Operations
                             </h4>
                             <p className="text-blue-100/80 text-xs font-bold mt-4 max-w-xs uppercase tracking-widest leading-relaxed">
-                                Orchestrating {stats?.activeShifts || 0} active deployments across the care network.
+                                Orchestrating {stats?.activeShifts || 0} active deployments across the care network with zero-latency synchronization.
                             </p>
                         </div>
                     </div>
@@ -170,13 +184,26 @@ export default function AdminOverview() {
                                             <td className="px-8 py-6">
                                                 <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{patient.profile?.ailment || 'Observation'}</span>
                                             </td>
-                                            <td className="px-8 py-6">
-                                                <button
-                                                    onClick={() => { setSelectedPatient(patient); setIsAssigning(true); }}
-                                                    className="px-4 py-2 bg-slate-900 text-white text-[9px] font-black uppercase rounded-lg hover:bg-blue-600 transition-all"
-                                                >
-                                                    Smart Assign
-                                                </button>
+                                            <td className="px-8 py-6 text-right">
+                                                <div className="flex items-center justify-end gap-3">
+                                                    <button
+                                                        onClick={() => { setSelectedPatient(patient); setIsAssigning(true); }}
+                                                        className="px-4 py-2 bg-slate-900 text-white text-[9px] font-black uppercase rounded-lg hover:bg-blue-600 transition-all"
+                                                    >
+                                                        Smart Assign
+                                                    </button>
+                                                    <button
+                                                        onClick={async () => {
+                                                            if (confirm('Soft-delete this patient record?')) {
+                                                                await api.delete(`/admin/users/${patient.id}`);
+                                                                setPatients(prev => prev.filter(p => p.id !== patient.id));
+                                                            }
+                                                        }}
+                                                        className="p-2 text-slate-300 hover:text-rose-500 transition-colors"
+                                                    >
+                                                        <Activity className="w-4 h-4" />
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))}
