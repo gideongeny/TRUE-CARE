@@ -5,29 +5,31 @@ import DashboardLayout from '@/components/layout/DashboardLayout';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Search,
-    Filter,
     User,
     Mail,
     MapPin,
-    MoreVertical,
     ChevronRight,
     Lock,
     Unlock,
     Activity,
-    Clock
+    Clock,
+    Trash2,
+    PlusCircle
 } from 'lucide-react';
 import api from '@/lib/api';
+import UserModal from '@/components/dashboard/UserModal';
+import CreateRequestModal from '@/components/dashboard/CreateRequestModal';
 
 export default function PatientsPage() {
     const [patients, setPatients] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
-
-    useEffect(() => {
-        fetchPatients();
-    }, []);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
+    const [selectedPatient, setSelectedPatient] = useState<any>(null);
 
     const fetchPatients = async () => {
+        setLoading(true);
         try {
             const response = await api.get('/users');
             const data = response.data.filter((u: any) => u.role === 'PATIENT');
@@ -36,6 +38,22 @@ export default function PatientsPage() {
             console.error('Failed to fetch patients', err);
         } finally {
             setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchPatients();
+    }, []);
+
+    const handleDelete = async (id: string, e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (confirm('Are you sure you want to permanently delete this clinical record?')) {
+            try {
+                await api.delete(`/admin/users/${id}`);
+                setPatients(prev => prev.filter(p => p.id !== id));
+            } catch (err) {
+                console.error('Deletion failed', err);
+            }
         }
     };
 
@@ -69,6 +87,13 @@ export default function PatientsPage() {
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
+                        <button
+                            onClick={() => setIsModalOpen(true)}
+                            className="bg-blue-600 hover:bg-blue-500 text-white p-4 rounded-2xl shadow-xl shadow-blue-500/20 transition-all active:scale-95 flex items-center gap-2 px-6"
+                        >
+                            <User className="w-5 h-5" />
+                            <span className="text-[10px] font-black uppercase tracking-widest hidden md:block">Add Patient</span>
+                        </button>
                     </div>
                 </div>
 
@@ -90,13 +115,33 @@ export default function PatientsPage() {
                                         <User className="w-8 h-8 opacity-50" />
                                     </div>
 
-                                    {/* Payment Status Badge */}
-                                    <div className={`flex items-center gap-2 px-4 py-2 rounded-full border text-[10px] font-black uppercase tracking-widest ${patient.profile?.paymentStatus === 'PAID'
+                                    {/* Actions & Status */}
+                                    <div className="flex items-start gap-3">
+                                        <div className={`flex items-center gap-2 px-4 py-2 rounded-full border text-[10px] font-black uppercase tracking-widest ${patient.profile?.paymentStatus === 'PAID'
                                             ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500'
                                             : 'bg-amber-500/10 border-amber-500/20 text-amber-500'
-                                        }`}>
-                                        {patient.profile?.paymentStatus === 'PAID' ? <Unlock className="w-3 h-3" /> : <Lock className="w-3 h-3" />}
-                                        {patient.profile?.paymentStatus === 'PAID' ? 'Unlocked' : 'Locked'}
+                                            }`}>
+                                            {patient.profile?.paymentStatus === 'PAID' ? <Unlock className="w-3 h-3" /> : <Lock className="w-3 h-3" />}
+                                            {patient.profile?.paymentStatus === 'PAID' ? 'Unlocked' : 'Locked'}
+                                        </div>
+                                        <button
+                                            onClick={(e) => handleDelete(patient.id, e)}
+                                            className="p-2.5 bg-slate-900 border border-slate-800 rounded-xl text-slate-500 hover:text-rose-500 transition-all opacity-0 group-hover:opacity-100"
+                                            title="Delete Record"
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                        </button>
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setSelectedPatient(patient);
+                                                setIsRequestModalOpen(true);
+                                            }}
+                                            className="p-2.5 bg-blue-600 border border-blue-500 rounded-xl text-white hover:bg-blue-500 transition-all opacity-0 group-hover:opacity-100 shadow-lg shadow-blue-500/20"
+                                            title="Initiate Care"
+                                        >
+                                            <PlusCircle className="w-4 h-4" />
+                                        </button>
                                     </div>
                                 </div>
 
@@ -136,13 +181,30 @@ export default function PatientsPage() {
                     </AnimatePresence>
                 </div>
 
-                {filteredPatients.length === 0 && !loading && (
+                {filteredPatients.length === 0 && (
                     <div className="py-40 text-center bg-slate-950/50 border border-slate-900 border-dashed rounded-[60px]">
                         <User className="w-16 h-16 text-slate-800 mx-auto mb-6" />
                         <p className="text-slate-600 font-black uppercase tracking-widest text-sm">Synchronized search yielded zero clinical matches.</p>
                     </div>
                 )}
             </div>
+
+            <UserModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onSuccess={fetchPatients}
+                role="PATIENT"
+            />
+
+            {selectedPatient && (
+                <CreateRequestModal
+                    isOpen={isRequestModalOpen}
+                    onClose={() => setIsRequestModalOpen(false)}
+                    onSuccess={() => alert('Care request initiated successfully')}
+                    patientId={selectedPatient.id}
+                    patientName={`${selectedPatient.profile?.firstName} ${selectedPatient.profile?.lastName}`}
+                />
+            )}
         </DashboardLayout>
     );
 }

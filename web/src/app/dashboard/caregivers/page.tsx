@@ -7,19 +7,23 @@ import {
     Search,
     ShieldCheck,
     Mail,
-    Phone,
     Briefcase,
     FileText,
     CheckCircle,
     XCircle,
-    Clock
+    Clock,
+    UserPlus,
+    Trash2
 } from 'lucide-react';
 import Link from 'next/link';
+import UserModal from '@/components/dashboard/UserModal';
 
 export default function CaregiversListPage() {
     const [caregivers, setCaregivers] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState<'ACTIVE' | 'PENDING'>('ACTIVE');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
 
     const fetchCaregivers = async () => {
         setLoading(true);
@@ -40,18 +44,34 @@ export default function CaregiversListPage() {
 
     const handleApproval = async (id: string, approve: boolean) => {
         try {
-            // Placeholder for approval logic
-            // await api.put(`/admin/caregivers/${id}/approve`, { approved: approve });
-            alert(approve ? 'Caregiver Approved' : 'Caregiver Rejected');
+            if (approve) {
+                await api.post(`/admin/verification/approve/${id}`);
+            } else {
+                await api.post(`/admin/verification/reject/${id}`);
+            }
             fetchCaregivers();
         } catch (error) {
             console.error('Action failed', error);
         }
     };
 
-    const displayedCaregivers = caregivers.filter(cg =>
-        activeTab === 'ACTIVE' ? cg.profile?.isVerified : !cg.profile?.isVerified
-    );
+    const handleDelete = async (id: string) => {
+        if (confirm('Permanently remove this professional from the registry?')) {
+            try {
+                await api.delete(`/admin/users/${id}`);
+                setCaregivers(prev => prev.filter(c => c.id !== id));
+            } catch (error) {
+                console.error('Deletion failed', error);
+            }
+        }
+    };
+
+    const filteredCaregivers = caregivers.filter(cg => {
+        const matchesTab = activeTab === 'ACTIVE' ? cg.profile?.isVerified : !cg.profile?.isVerified;
+        const matchesSearch = `${cg.profile?.firstName} ${cg.profile?.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            cg.email.toLowerCase().includes(searchTerm.toLowerCase());
+        return matchesTab && matchesSearch;
+    });
 
     if (loading) return <div className="p-20 text-center text-slate-400 font-bold tracking-widest uppercase text-xs animate-pulse">Synchronizing Registry...</div>;
 
@@ -71,8 +91,17 @@ export default function CaregiversListPage() {
                                 type="text"
                                 placeholder="Search personnel..."
                                 className="bg-slate-900 border border-slate-800 rounded-xl pl-10 pr-4 py-3 text-sm text-white focus:ring-2 focus:ring-blue-500/20 outline-none w-64 transition-all"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
+                        <button
+                            onClick={() => setIsModalOpen(true)}
+                            className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-black uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-blue-500/20 active:scale-95"
+                        >
+                            <UserPlus className="w-4 h-4" />
+                            Onboard
+                        </button>
                     </div>
                 </div>
 
@@ -104,19 +133,19 @@ export default function CaregiversListPage() {
                             <tr className="bg-slate-900/50 text-[10px] font-black text-slate-500 uppercase tracking-widest border-b border-slate-800">
                                 <th className="px-8 py-6">Clinical Prototype</th>
                                 <th className="px-8 py-6">Credentials & Experience</th>
-                                <th className="px-8 py-6">Verification Node</th>
+                                <th className="px-8 py-6">Status Node</th>
                                 <th className="px-8 py-6 text-right">Dispatch Logic</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-900">
-                            {displayedCaregivers.length === 0 ? (
+                            {filteredCaregivers.length === 0 ? (
                                 <tr>
                                     <td colSpan={4} className="px-8 py-20 text-center">
                                         <p className="text-slate-600 font-bold uppercase tracking-widest text-xs">No personnel records found in this vector.</p>
                                     </td>
                                 </tr>
                             ) : (
-                                displayedCaregivers.map((cg) => (
+                                filteredCaregivers.map((cg) => (
                                     <tr key={cg.id} className="group hover:bg-slate-900/30 transition-all">
                                         <td className="px-8 py-6">
                                             <div className="flex items-center gap-5">
@@ -145,7 +174,7 @@ export default function CaregiversListPage() {
                                             </div>
                                         </td>
                                         <td className="px-8 py-6">
-                                            {activeTab === 'ACTIVE' ? (
+                                            {cg.profile?.isVerified ? (
                                                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 rounded-lg text-[9px] font-black uppercase tracking-widest">
                                                     <ShieldCheck className="w-3 h-3" />
                                                     Verified Clinical
@@ -153,36 +182,47 @@ export default function CaregiversListPage() {
                                             ) : (
                                                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-500 rounded-lg text-[9px] font-black uppercase tracking-widest">
                                                     <Clock className="w-3 h-3" />
-                                                    Compliance Review
+                                                    Account Locked
                                                 </div>
                                             )}
                                         </td>
                                         <td className="px-8 py-6 text-right">
-                                            {activeTab === 'ACTIVE' ? (
-                                                <Link
-                                                    href={`/dashboard/caregivers/${cg.id}`}
-                                                    className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-blue-500 hover:text-white text-slate-950 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all shadow-xl active:scale-95"
-                                                >
-                                                    Inspect Node
-                                                </Link>
-                                            ) : (
-                                                <div className="flex items-center justify-end gap-3">
-                                                    <button
-                                                        onClick={() => handleApproval(cg.id, false)}
-                                                        className="p-3 text-slate-500 hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-all"
-                                                        title="Reject Credentials"
-                                                    >
-                                                        <XCircle className="w-5 h-5" />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleApproval(cg.id, true)}
-                                                        className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-black uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-blue-500/20 active:scale-95"
-                                                    >
-                                                        <CheckCircle className="w-4 h-4" />
-                                                        Approve Professional
-                                                    </button>
-                                                </div>
-                                            )}
+                                            <div className="flex items-center justify-end gap-3">
+                                                {activeTab === 'ACTIVE' ? (
+                                                    <>
+                                                        <button
+                                                            onClick={() => handleDelete(cg.id)}
+                                                            className="p-3 text-slate-500 hover:text-rose-500 hover:bg-rose-500/10 rounded-xl transition-all"
+                                                            title="Delete Personnel"
+                                                        >
+                                                            <Trash2 className="w-4 h-4" />
+                                                        </button>
+                                                        <Link
+                                                            href={`/dashboard/caregivers/${cg.id}`}
+                                                            className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-blue-500 hover:text-white text-slate-950 text-[10px] font-black uppercase tracking-widest rounded-xl transition-all shadow-xl active:scale-95"
+                                                        >
+                                                            Inspect
+                                                        </Link>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <button
+                                                            onClick={() => handleApproval(cg.id, false)}
+                                                            className="p-3 text-slate-500 hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-all"
+                                                            title="Reject Credentials"
+                                                        >
+                                                            <XCircle className="w-5 h-5" />
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleApproval(cg.id, true)}
+                                                            className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-black uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-blue-500/20 active:scale-95"
+                                                        >
+                                                            <CheckCircle className="w-4 h-4" />
+                                                            Verify
+                                                        </button>
+                                                    </>
+                                                )}
+                                            </div>
                                         </td>
                                     </tr>
                                 ))
@@ -191,6 +231,14 @@ export default function CaregiversListPage() {
                     </table>
                 </div>
             </div>
+
+            <UserModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onSuccess={fetchCaregivers}
+                role="CAREGIVER"
+            />
         </DashboardLayout>
     );
 }
+

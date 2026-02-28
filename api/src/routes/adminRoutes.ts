@@ -18,7 +18,7 @@ import {
     getAllRequests,
     getPlatformAnalytics
 } from '../controllers/adminController';
-import { adminSetPrice, updateRequestStatus } from '../controllers/requestController';
+import { adminSetPrice, updateRequestStatus, adminCreateRequest } from '../controllers/requestController';
 import { adminPayCaregiver } from '../controllers/paymentController';
 import { authenticate, authorize } from '../middleware/auth';
 
@@ -49,6 +49,7 @@ router.get('/analytics/clinical', getClinicalIntelligence);
 router.post('/requests/:id/price', adminSetPrice); // Support both patterns
 router.post('/set-price', adminSetPrice); // Matches web dashboard
 router.patch('/requests/:id/status', updateRequestStatus);
+router.post('/requests/create', adminCreateRequest);
 router.post('/shifts/payout', adminPayCaregiver);
 
 // Admin User CRUD

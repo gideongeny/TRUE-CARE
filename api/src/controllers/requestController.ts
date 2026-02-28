@@ -26,6 +26,32 @@ export const createRequest = async (req: Request, res: Response) => {
     }
 };
 
+export const adminCreateRequest = async (req: Request, res: Response) => {
+    try {
+        const { patientId, careType, duration, location, description } = req.body;
+
+        if (!patientId) {
+            return res.status(400).json({ message: "patientId is required" });
+        }
+
+        const request = await prisma.serviceRequest.create({
+            data: {
+                patientId,
+                careType,
+                duration,
+                location,
+                description,
+                status: 'PENDING'
+            },
+        });
+
+        res.status(201).json(request);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
 export const getRequests = async (req: Request, res: Response) => {
     try {
         const userId = req.user?.userId;

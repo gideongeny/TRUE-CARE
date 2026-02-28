@@ -19,6 +19,7 @@ import {
     MoreVertical
 } from 'lucide-react';
 import api from '@/lib/api';
+import UserModal from './UserModal';
 import {
     AreaChart,
     Area,
@@ -38,6 +39,8 @@ export default function AdminOverview() {
     const [loading, setLoading] = useState(true);
     const [selectedPatient, setSelectedPatient] = useState<any>(null);
     const [isAssigning, setIsAssigning] = useState(false);
+    const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+    const [modalRole, setModalRole] = useState<'PATIENT' | 'CAREGIVER'>('PATIENT');
 
     useEffect(() => {
         const fetchDashboardData = async () => {
@@ -132,11 +135,17 @@ export default function AdminOverview() {
 
             {/* Admin Controls */}
             <div className="flex items-center gap-4">
-                <button className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-2xl shadow-xl shadow-blue-500/20 hover:bg-blue-500 transition-all active:scale-95">
+                <button
+                    onClick={() => { setModalRole('PATIENT'); setIsUserModalOpen(true); }}
+                    className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-2xl shadow-xl shadow-blue-500/20 hover:bg-blue-500 transition-all active:scale-95"
+                >
                     <UserPlus className="w-4 h-4" />
                     New Patient Entry
                 </button>
-                <button className="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-slate-800 transition-all active:scale-95">
+                <button
+                    onClick={() => { setModalRole('CAREGIVER'); setIsUserModalOpen(true); }}
+                    className="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-slate-800 transition-all active:scale-95"
+                >
                     <ShieldCheck className="w-4 h-4" />
                     Onboard Professional
                 </button>
@@ -293,6 +302,14 @@ export default function AdminOverview() {
                     </div>
                 </div>
             )}
+
+            {/* Global User Onboarding Modal */}
+            <UserModal
+                isOpen={isUserModalOpen}
+                onClose={() => setIsUserModalOpen(false)}
+                onSuccess={() => window.location.reload()}
+                role={modalRole}
+            />
         </div>
     );
 }
