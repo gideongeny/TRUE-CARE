@@ -1,7 +1,8 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
+import { AuthRequest } from '../types/AuthRequest';
 import prisma from '../utils/prisma';
 
-export const createShift = async (req: Request, res: Response) => {
+export const createShift = async (req: AuthRequest, res: Response) => {
     try {
         const { caregiverId, patientId, requestId, startTime, endTime, notes, earnings } = req.body;
 
@@ -35,7 +36,7 @@ export const createShift = async (req: Request, res: Response) => {
     }
 };
 
-export const getShifts = async (req: Request, res: Response) => {
+export const getShifts = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.user?.userId;
         const role = req.user?.role;
@@ -66,7 +67,7 @@ export const getShifts = async (req: Request, res: Response) => {
     }
 };
 
-export const getAvailableShifts = async (req: Request, res: Response) => {
+export const getAvailableShifts = async (req: AuthRequest, res: Response) => {
     try {
         const shifts = await prisma.shift.findMany({
             where: {
@@ -85,7 +86,7 @@ export const getAvailableShifts = async (req: Request, res: Response) => {
     }
 };
 
-export const claimShift = async (req: Request, res: Response) => {
+export const claimShift = async (req: AuthRequest, res: Response) => {
     try {
         const { id } = req.params;
         const caregiverId = req.user?.userId;
@@ -111,7 +112,7 @@ export const claimShift = async (req: Request, res: Response) => {
     }
 };
 
-export const deleteShift = async (req: Request, res: Response) => {
+export const deleteShift = async (req: AuthRequest, res: Response) => {
     try {
         const { id } = req.params;
         await prisma.shift.delete({ where: { id } });
@@ -122,7 +123,7 @@ export const deleteShift = async (req: Request, res: Response) => {
     }
 };
 
-export const updateShiftPayment = async (req: Request, res: Response) => {
+export const updateShiftPayment = async (req: AuthRequest, res: Response) => {
     try {
         const { id } = req.params;
         const { earnings } = req.body;
@@ -139,7 +140,7 @@ export const updateShiftPayment = async (req: Request, res: Response) => {
     }
 };
 
-export const acceptShift = async (req: Request, res: Response) => {
+export const acceptShift = async (req: AuthRequest, res: Response) => {
     try {
         const { id } = req.params;
         const caregiverId = req.user?.userId;
@@ -160,7 +161,7 @@ export const acceptShift = async (req: Request, res: Response) => {
     }
 };
 
-export const clockIn = async (req: Request, res: Response) => {
+export const clockIn = async (req: AuthRequest, res: Response) => {
     try {
         const { id } = req.params;
         const clockInTime = new Date();
@@ -177,7 +178,7 @@ export const clockIn = async (req: Request, res: Response) => {
     }
 };
 
-export const clockOut = async (req: Request, res: Response) => {
+export const clockOut = async (req: AuthRequest, res: Response) => {
     try {
         const { id } = req.params;
         const clockOutTime = new Date();
@@ -207,7 +208,7 @@ export const clockOut = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-export const createReport = async (req: Request, res: Response) => {
+export const createReport = async (req: AuthRequest, res: Response) => {
     try {
         const { id: shiftId } = req.params;
         const { content, vitals } = req.body;

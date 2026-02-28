@@ -1,10 +1,11 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 // @ts-ignore
 const { authenticator } = require('otplib');
 import qrcode from 'qrcode';
 import prisma from '../utils/prisma';
+import { AuthRequest } from '../types/AuthRequest';
 
-export const setup2FA = async (req: Request, res: Response) => {
+export const setup2FA = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.user?.userId;
         if (!userId) return res.status(401).json({ message: 'Unauthorized' });
@@ -24,7 +25,7 @@ export const setup2FA = async (req: Request, res: Response) => {
     }
 };
 
-export const verifyAndEnable2FA = async (req: Request, res: Response) => {
+export const verifyAndEnable2FA = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.user?.userId;
         const { secret, token } = req.body;
@@ -43,7 +44,7 @@ export const verifyAndEnable2FA = async (req: Request, res: Response) => {
             data: {
                 twoFactorSecret: secret,
                 twoFactorEnabled: true,
-            },
+            } as any,
         });
 
         res.json({ message: '2FA enabled successfully' });
@@ -53,7 +54,7 @@ export const verifyAndEnable2FA = async (req: Request, res: Response) => {
     }
 };
 
-export const disable2FA = async (req: Request, res: Response) => {
+export const disable2FA = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.user?.userId;
         if (!userId) return res.status(401).json({ message: 'Unauthorized' });
@@ -63,7 +64,7 @@ export const disable2FA = async (req: Request, res: Response) => {
             data: {
                 twoFactorSecret: null,
                 twoFactorEnabled: false,
-            },
+            } as any,
         });
 
         res.json({ message: '2FA disabled successfully' });

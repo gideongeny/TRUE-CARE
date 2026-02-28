@@ -1,13 +1,14 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 // @ts-ignore
 const { authenticator } = require('otplib');
 import prisma from '../utils/prisma';
+import { AuthRequest } from '../types/AuthRequest';
 
 const getJwtSecret = () => process.env.JWT_SECRET || 'secret';
 
-export const register = async (req: Request, res: Response) => {
+export const register = async (req: AuthRequest, res: Response) => {
     try {
         const { email, password, role, firstName, lastName, phone, profile: profileData } = req.body;
 
@@ -57,17 +58,17 @@ export const register = async (req: Request, res: Response) => {
 
 
 
-export const login = async (req: Request, res: Response) => {
+export const login = async (req: AuthRequest, res: Response) => {
     try {
         const { email, password, userId, token: tfaToken, is2FAAction } = req.body;
 
         if (is2FAAction) {
             const user = await prisma.user.findUnique({ where: { id: userId }, include: { profile: true } });
-            if (!user || !user.twoFactorSecret) {
+            if (!user || !(user as any).twoFactorSecret) {
                 return res.status(400).json({ message: 'Invalid 2FA request' });
             }
 
-            const isValid = authenticator.verify({ token: tfaToken, secret: user.twoFactorSecret });
+            const isValid = authenticator.verify({ token: tfaToken, secret: (user as any).twoFactorSecret });
             if (!isValid) {
                 return res.status(400).json({ message: 'Invalid verification code' });
             }
@@ -86,7 +87,7 @@ export const login = async (req: Request, res: Response) => {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
 
-        if (user.twoFactorEnabled) {
+        if ((user as any).twoFactorEnabled) {
             return res.json({ require2FA: true, userId: user.id });
         }
 
@@ -98,7 +99,7 @@ export const login = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-export const getMe = async (req: Request, res: Response) => {
+export const getMe = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.user?.userId;
         if (!userId) return res.status(401).json({ message: 'Unauthorized' });

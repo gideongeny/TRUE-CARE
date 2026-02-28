@@ -1,9 +1,10 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import { AuthRequest } from '../types/AuthRequest';
 
 const getJwtSecret = () => process.env.JWT_SECRET || 'secret';
 
-export const authenticate = (req: Request, res: Response, next: NextFunction) => {
+export const authenticate = (req: AuthRequest, res: Response, next: NextFunction) => {
     const token = req.header('Authorization')?.replace('Bearer ', '');
 
     if (!token) {
@@ -20,7 +21,7 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
 };
 
 export const authorize = (roles: string[]) => {
-    return (req: Request, res: Response, next: NextFunction) => {
+    return (req: AuthRequest, res: Response, next: NextFunction) => {
         if (!req.user || !roles.includes(req.user.role)) {
             return res.status(403).json({ message: 'Access denied' });
         }

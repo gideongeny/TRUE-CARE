@@ -1,7 +1,8 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
+import { AuthRequest } from '../types/AuthRequest';
 import prisma from '../utils/prisma';
 
-export const createRequest = async (req: Request, res: Response) => {
+export const createRequest = async (req: AuthRequest, res: Response) => {
     try {
         const patientId = req.user?.userId;
         if (!patientId) { return res.status(401).json({ message: "Unauthorized" }); }
@@ -26,7 +27,7 @@ export const createRequest = async (req: Request, res: Response) => {
     }
 };
 
-export const adminCreateRequest = async (req: Request, res: Response) => {
+export const adminCreateRequest = async (req: AuthRequest, res: Response) => {
     try {
         const { patientId, careType, duration, location, description } = req.body;
 
@@ -52,7 +53,7 @@ export const adminCreateRequest = async (req: Request, res: Response) => {
     }
 };
 
-export const getRequests = async (req: Request, res: Response) => {
+export const getRequests = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.user?.userId;
         const role = req.user?.role;
@@ -80,7 +81,7 @@ export const getRequests = async (req: Request, res: Response) => {
     }
 };
 
-export const adminSetPrice = async (req: Request, res: Response) => {
+export const adminSetPrice = async (req: AuthRequest, res: Response) => {
     try {
         const { id } = req.params;
         const { price } = req.body;
@@ -103,7 +104,7 @@ export const adminSetPrice = async (req: Request, res: Response) => {
     }
 };
 
-export const updateRequestStatus = async (req: Request, res: Response) => {
+export const updateRequestStatus = async (req: AuthRequest, res: Response) => {
     try {
         const { id } = req.params;
         const { status } = req.body;

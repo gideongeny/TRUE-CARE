@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import prisma from '../utils/prisma';
 import { DarajaService } from '../utils/daraja';
+import { AuthRequest } from '../types/AuthRequest';
 
 export const initiateStkPush = async (req: Request, res: Response) => {
     const { amount, phoneNumber, userId, requestId, shiftId } = req.body;
@@ -180,7 +181,7 @@ export const getPaymentStatus = async (req: Request, res: Response) => {
     }
 };
 
-export const getPaymentHistory = async (req: Request, res: Response) => {
+export const getPaymentHistory = async (req: AuthRequest, res: Response) => {
     const userId = req.user?.userId;
 
     try {

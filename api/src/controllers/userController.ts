@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
+import { AuthRequest } from '../types/AuthRequest';
 import prisma from '../utils/prisma';
 
-export const getProfile = async (req: Request, res: Response) => {
+export const getProfile = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.user?.userId;
         if (!userId) {
@@ -30,7 +31,7 @@ export const getProfile = async (req: Request, res: Response) => {
     }
 };
 
-export const updateProfile = async (req: Request, res: Response) => {
+export const updateProfile = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.user?.userId;
         if (!userId) {
