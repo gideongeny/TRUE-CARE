@@ -52,11 +52,19 @@ app.use('/api/shifts', shiftRoutes);
 app.use('/api/requests', requestRoutes);
 app.use('/api/payments', paymentRoutes);
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/', async (req: Request, res: Response) => {
+    let dbStatus = 'Checking...';
+    try {
+        await prisma.user.count();
+        dbStatus = 'Connected';
+    } catch (e: any) {
+        dbStatus = `Error: ${e.message}`;
+    }
     res.json({
-        message: 'TRUE CARE API is running (Ver: 1.0.2)',
+        message: 'TRUE CARE API is running (Ver: 1.0.3)',
         deployedAt: new Date().toISOString(),
-        status: 'Operational'
+        status: 'Operational',
+        database: dbStatus
     });
 });
 
