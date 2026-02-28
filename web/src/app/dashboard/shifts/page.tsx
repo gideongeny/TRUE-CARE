@@ -21,21 +21,80 @@ import api from '@/lib/api';
 
 export default function ShiftsPage() {
     const [shifts, setShifts] = useState<any[]>([]);
+    const [patients, setPatients] = useState<any[]>([]);
+    const [caregivers, setCaregivers] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const [formData, setFormData] = useState({
+        patientId: '',
+        caregiverId: '',
+        startTime: '',
+        endTime: '',
+        notes: '',
+        earnings: '0'
+    });
 
     useEffect(() => {
         fetchShifts();
     }, []);
 
-    const fetchShifts = async () => {
+    const fetchInitialData = async () => {
         try {
-            const response = await api.get('/shifts');
-            setShifts(response.data);
+            const [shiftsRes, usersRes] = await Promise.all([
+                api.get('/shifts'),
+                api.get('/admin/users')
+            ]);
+            setShifts(shiftsRes.data);
+            setPatients(usersRes.data.filter((u: any) => u.role === 'PATIENT'));
+            setCaregivers(usersRes.data.filter((u: any) => u.role === 'CAREGIVER'));
         } catch (err) {
-            console.error('Failed to fetch shifts', err);
+            console.error('Failed to fetch initial data', err);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleCreateShift = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            await api.post('/shifts', formData);
+            setIsCreateModalOpen(false);
+            fetchInitialData();
+            setFormData({
+                patientId: '',
+                caregiverId: '',
+                startTime: '',
+                endTime: '',
+                notes: '',
+                earnings: '0'
+            });
+        } catch (err) {
+            console.error('Failed to create shift', err);
+            alert('Allocation Failure: Check parameters');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleDeleteShift = async (id: string) => {
+        if (!confirm('Are you sure you want to terminate this shift vector?')) return;
+        try {
+            await api.delete(`/shifts/${id}`);
+            fetchInitialData();
+        } catch (err) {
+            console.error('Failed to delete shift', err);
+        }
+    };
+
+    const handleUpdatePayment = async (id: string) => {
+        const amount = prompt('Enter payment magnitude (KES):');
+        if (!amount) return;
+        try {
+            await api.patch(`/shifts/${id}/payment`, { earnings: amount });
+            fetchInitialData();
+        } catch (err) {
+            console.error('Failed to update payment', err);
         }
     };
 
@@ -128,8 +187,8 @@ export default function ShiftsPage() {
                                             </td>
                                             <td className="px-8 py-6">
                                                 <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-[0.2em] border ${shift.status === 'IN_PROGRESS' ? 'bg-blue-600/10 text-blue-500 border-blue-500/20 animate-pulse' :
-                                                        shift.status === 'COMPLETED' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' :
-                                                            'bg-slate-800/20 text-slate-600 border-slate-800'
+                                                    shift.status === 'COMPLETED' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' :
+                                                        'bg-slate-800/20 text-slate-600 border-slate-800'
                                                     }`}>
                                                     {shift.status === 'IN_PROGRESS' && <Activity className="w-3 h-3" />}
                                                     {shift.status}
@@ -137,8 +196,19 @@ export default function ShiftsPage() {
                                             </td>
                                             <td className="px-8 py-6 text-right">
                                                 <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-all">
-                                                    <button className="p-2 hover:bg-slate-800 rounded-lg text-slate-600 hover:text-white">
-                                                        <MoreVertical className="w-5 h-5" />
+                                                    <button
+                                                        onClick={() => handleUpdatePayment(shift.id)}
+                                                        className="p-2.5 bg-slate-900 border border-slate-800 rounded-xl text-slate-500 hover:text-emerald-500 transition-all"
+                                                        title="Set Payment"
+                                                    >
+                                                        <DollarSign className="w-4 h-4" />
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleDeleteShift(shift.id)}
+                                                        className="p-2.5 bg-slate-900 border border-slate-800 rounded-xl text-slate-500 hover:text-rose-500 transition-all"
+                                                        title="Terminate Shift"
+                                                    >
+                                                        <X className="w-4 h-4" />
                                                     </button>
                                                 </div>
                                             </td>
@@ -177,14 +247,22 @@ export default function ShiftsPage() {
                                     </button>
                                 </div>
 
-                                <div className="space-y-8">
+                                <form onSubmit={handleCreateShift} className="space-y-8">
                                     <div className="grid grid-cols-2 gap-6">
                                         <div className="space-y-2">
                                             <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-4">Patient Target</label>
                                             <div className="relative">
                                                 <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-700" />
-                                                <select className="w-full bg-slate-900 border border-slate-800 rounded-2xl py-4 pl-12 pr-4 text-sm text-white focus:border-blue-500/50 outline-none appearance-none font-bold">
-                                                    <option>Select Patient Node</option>
+                                                <select
+                                                    required
+                                                    className="w-full bg-slate-900 border border-slate-800 rounded-2xl py-4 pl-12 pr-4 text-sm text-white focus:border-blue-500/50 outline-none appearance-none font-bold"
+                                                    value={formData.patientId}
+                                                    onChange={(e) => setFormData({ ...formData, patientId: e.target.value })}
+                                                >
+                                                    <option value="">Select Patient Node</option>
+                                                    {patients.map(p => (
+                                                        <option key={p.id} value={p.id}>{p.profile?.firstName} {p.profile?.lastName}</option>
+                                                    ))}
                                                 </select>
                                             </div>
                                         </div>
@@ -192,8 +270,15 @@ export default function ShiftsPage() {
                                             <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-4">Caregiver Asset</label>
                                             <div className="relative">
                                                 <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-700" />
-                                                <select className="w-full bg-slate-900 border border-slate-800 rounded-2xl py-4 pl-12 pr-4 text-sm text-white focus:border-blue-500/50 outline-none appearance-none font-bold">
-                                                    <option>Select Personnel</option>
+                                                <select
+                                                    className="w-full bg-slate-900 border border-slate-800 rounded-2xl py-4 pl-12 pr-4 text-sm text-white focus:border-blue-500/50 outline-none appearance-none font-bold"
+                                                    value={formData.caregiverId}
+                                                    onChange={(e) => setFormData({ ...formData, caregiverId: e.target.value })}
+                                                >
+                                                    <option value="">Open Listing (Unassigned)</option>
+                                                    {caregivers.map(c => (
+                                                        <option key={c.id} value={c.id}>{c.profile?.firstName} {c.profile?.lastName}</option>
+                                                    ))}
                                                 </select>
                                             </div>
                                         </div>
@@ -202,19 +287,48 @@ export default function ShiftsPage() {
                                     <div className="grid grid-cols-2 gap-6">
                                         <div className="space-y-2">
                                             <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-4">Temporal Start</label>
-                                            <input type="datetime-local" className="w-full bg-slate-900 border border-slate-800 rounded-2xl py-4 px-6 text-sm text-white focus:border-blue-500/50 outline-none font-bold [color-scheme:dark]" />
+                                            <input
+                                                required
+                                                type="datetime-local"
+                                                className="w-full bg-slate-900 border border-slate-800 rounded-2xl py-4 px-6 text-sm text-white focus:border-blue-500/50 outline-none font-bold [color-scheme:dark]"
+                                                value={formData.startTime}
+                                                onChange={(e) => setFormData({ ...formData, startTime: e.target.value })}
+                                            />
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-4">Temporal End</label>
-                                            <input type="datetime-local" className="w-full bg-slate-900 border border-slate-800 rounded-2xl py-4 px-6 text-sm text-white focus:border-blue-500/50 outline-none font-bold [color-scheme:dark]" />
+                                            <input
+                                                required
+                                                type="datetime-local"
+                                                className="w-full bg-slate-900 border border-slate-800 rounded-2xl py-4 px-6 text-sm text-white focus:border-blue-500/50 outline-none font-bold [color-scheme:dark]"
+                                                value={formData.endTime}
+                                                onChange={(e) => setFormData({ ...formData, endTime: e.target.value })}
+                                            />
                                         </div>
                                     </div>
 
-                                    <button className="w-full bg-blue-600 hover:bg-blue-500 py-6 rounded-3xl text-white text-xs font-black uppercase tracking-[0.3em] transition-all shadow-2xl shadow-blue-500/20 active:scale-[0.98] flex items-center justify-center gap-4">
-                                        Submit Vector Assignment
-                                        <ChevronRight className="w-5 h-5" />
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-4">Financial Magnitude (KES)</label>
+                                        <div className="relative">
+                                            <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-700" />
+                                            <input
+                                                type="number"
+                                                className="w-full bg-slate-900 border border-slate-800 rounded-2xl py-4 pl-12 pr-4 text-sm text-white focus:border-blue-500/50 outline-none font-bold"
+                                                placeholder="Earnings for this shift..."
+                                                value={formData.earnings}
+                                                onChange={(e) => setFormData({ ...formData, earnings: e.target.value })}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <button
+                                        type="submit"
+                                        disabled={loading}
+                                        className="w-full bg-blue-600 hover:bg-blue-500 py-6 rounded-3xl text-white text-xs font-black uppercase tracking-[0.3em] transition-all shadow-2xl shadow-blue-500/20 active:scale-[0.98] flex items-center justify-center gap-4 disabled:opacity-50"
+                                    >
+                                        {loading ? 'Processing Node...' : <>Submit Vector Assignment <ChevronRight className="w-5 h-5" /></>}
                                     </button>
-                                </div>
+                                </form>
                             </motion.div>
                         </>
                     )}

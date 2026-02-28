@@ -1,15 +1,17 @@
-import { Request, Response } from 'express';
-import prisma from '../utils/prisma';
-
-export const createShift = async (req: Request, res: Response) => {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createReport = exports.clockOut = exports.clockIn = exports.acceptShift = exports.updateShiftPayment = exports.deleteShift = exports.claimShift = exports.getAvailableShifts = exports.getShifts = exports.createShift = void 0;
+const prisma_1 = __importDefault(require("../utils/prisma"));
+const createShift = async (req, res) => {
     try {
         const { caregiverId, patientId, requestId, startTime, endTime, notes, earnings } = req.body;
-
         if (!patientId || !startTime || !endTime) {
             return res.status(400).json({ message: "Missing required fields" });
         }
-
-        const shift = await prisma.shift.create({
+        const shift = await prisma_1.default.shift.create({
             data: {
                 caregiverId: caregiverId || null,
                 patientId,
@@ -25,32 +27,30 @@ export const createShift = async (req: Request, res: Response) => {
                 patient: { include: { profile: true } },
             },
         });
-
         // Trigger notification logic here if needed
-
         res.status(201).json(shift);
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
-export const getShifts = async (req: Request, res: Response) => {
+exports.createShift = createShift;
+const getShifts = async (req, res) => {
     try {
         const userId = req.user?.userId;
         const role = req.user?.role;
-
-        if (!userId) return res.status(401).json({ message: "Unauthorized" });
-
-        let whereClause: any = {};
+        if (!userId)
+            return res.status(401).json({ message: "Unauthorized" });
+        let whereClause = {};
         if (role === 'PATIENT') {
             whereClause = { patientId: userId };
-        } else if (role === 'CAREGIVER') {
+        }
+        else if (role === 'CAREGIVER') {
             whereClause = { caregiverId: userId };
         }
         // ADMIN sees all
-
-        const shifts = await prisma.shift.findMany({
+        const shifts = await prisma_1.default.shift.findMany({
             where: whereClause,
             include: {
                 caregiver: { include: { profile: true } },
@@ -58,17 +58,17 @@ export const getShifts = async (req: Request, res: Response) => {
             },
             orderBy: { startTime: 'desc' },
         });
-
         res.json(shifts);
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
-export const getAvailableShifts = async (req: Request, res: Response) => {
+exports.getShifts = getShifts;
+const getAvailableShifts = async (req, res) => {
     try {
-        const shifts = await prisma.shift.findMany({
+        const shifts = await prisma_1.default.shift.findMany({
             where: {
                 caregiverId: null,
                 status: 'ASSIGNED'
@@ -79,118 +79,115 @@ export const getAvailableShifts = async (req: Request, res: Response) => {
             orderBy: { startTime: 'asc' },
         });
         res.json(shifts);
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
-export const claimShift = async (req: Request, res: Response) => {
+exports.getAvailableShifts = getAvailableShifts;
+const claimShift = async (req, res) => {
     try {
         const { id } = req.params;
         const caregiverId = req.user?.userId;
-
-        if (!caregiverId) return res.status(401).json({ message: "Unauthorized" });
-
-        const shift = await prisma.shift.findUnique({ where: { id } });
-        if (!shift) return res.status(404).json({ message: "Shift not found" });
-        if (shift.caregiverId) return res.status(400).json({ message: "Shift already claimed" });
-
-        const updatedShift = await prisma.shift.update({
+        if (!caregiverId)
+            return res.status(401).json({ message: "Unauthorized" });
+        const shift = await prisma_1.default.shift.findUnique({ where: { id } });
+        if (!shift)
+            return res.status(404).json({ message: "Shift not found" });
+        if (shift.caregiverId)
+            return res.status(400).json({ message: "Shift already claimed" });
+        const updatedShift = await prisma_1.default.shift.update({
             where: { id },
             data: {
                 caregiverId,
                 status: 'ACCEPTED' // Auto-accept when claimed
             },
         });
-
         res.json(updatedShift);
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
-export const deleteShift = async (req: Request, res: Response) => {
+exports.claimShift = claimShift;
+const deleteShift = async (req, res) => {
     try {
         const { id } = req.params;
-        await prisma.shift.delete({ where: { id } });
+        await prisma_1.default.shift.delete({ where: { id } });
         res.json({ message: 'Shift deleted successfully' });
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
-export const updateShiftPayment = async (req: Request, res: Response) => {
+exports.deleteShift = deleteShift;
+const updateShiftPayment = async (req, res) => {
     try {
         const { id } = req.params;
         const { earnings } = req.body;
-
-        const updatedShift = await prisma.shift.update({
+        const updatedShift = await prisma_1.default.shift.update({
             where: { id },
             data: { earnings: Number(earnings) }
         });
-
         res.json(updatedShift);
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
-export const acceptShift = async (req: Request, res: Response) => {
+exports.updateShiftPayment = updateShiftPayment;
+const acceptShift = async (req, res) => {
     try {
         const { id } = req.params;
         const caregiverId = req.user?.userId;
-
-        const shift = await prisma.shift.findUnique({ where: { id } });
-        if (!shift) return res.status(404).json({ message: "Shift not found" });
-        if (shift.caregiverId !== caregiverId) return res.status(403).json({ message: "Unassigned shift" });
-
-        const updatedShift = await prisma.shift.update({
+        const shift = await prisma_1.default.shift.findUnique({ where: { id } });
+        if (!shift)
+            return res.status(404).json({ message: "Shift not found" });
+        if (shift.caregiverId !== caregiverId)
+            return res.status(403).json({ message: "Unassigned shift" });
+        const updatedShift = await prisma_1.default.shift.update({
             where: { id },
             data: { status: 'ACCEPTED' },
         });
-
         res.json(updatedShift);
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
-export const clockIn = async (req: Request, res: Response) => {
+exports.acceptShift = acceptShift;
+const clockIn = async (req, res) => {
     try {
         const { id } = req.params;
         const clockInTime = new Date();
-
-        const updatedShift = await prisma.shift.update({
+        const updatedShift = await prisma_1.default.shift.update({
             where: { id },
             data: { clockInTime, status: 'IN_PROGRESS' },
         });
-
         res.json(updatedShift);
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
-export const clockOut = async (req: Request, res: Response) => {
+exports.clockIn = clockIn;
+const clockOut = async (req, res) => {
     try {
         const { id } = req.params;
         const clockOutTime = new Date();
-
-        const shift = await prisma.shift.findUnique({ where: { id } });
+        const shift = await prisma_1.default.shift.findUnique({ where: { id } });
         if (!shift || !shift.clockInTime) {
             return res.status(400).json({ message: "Cannot clock out without clocking in" });
         }
-
         const diffMs = clockOutTime.getTime() - shift.clockInTime.getTime();
         const actualDuration = parseFloat((diffMs / (1000 * 60 * 60)).toFixed(2));
-
-        const updatedShift = await prisma.shift.update({
+        const updatedShift = await prisma_1.default.shift.update({
             where: { id },
             data: {
                 clockOutTime,
@@ -198,32 +195,32 @@ export const clockOut = async (req: Request, res: Response) => {
                 actualDuration
             },
         });
-
         // Notify Admin logic here
-
         res.json(updatedShift);
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-export const createReport = async (req: Request, res: Response) => {
+exports.clockOut = clockOut;
+const createReport = async (req, res) => {
     try {
         const { id: shiftId } = req.params;
         const { content, vitals } = req.body;
-
-        const shift = await prisma.shift.findUnique({ where: { id: shiftId } });
-        if (!shift) return res.status(404).json({ message: "Shift not found" });
-
-        const report = await prisma.report.upsert({
+        const shift = await prisma_1.default.shift.findUnique({ where: { id: shiftId } });
+        if (!shift)
+            return res.status(404).json({ message: "Shift not found" });
+        const report = await prisma_1.default.report.upsert({
             where: { shiftId },
             update: { content, vitals },
             create: { shiftId, content, vitals },
         });
-
         res.status(201).json(report);
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+exports.createReport = createReport;

@@ -1,34 +1,29 @@
-import { Request, Response } from 'express';
-import bcrypt from 'bcryptjs';
-import prisma from '../utils/prisma';
-
-export const getGlobalStats = async (req: Request, res: Response) => {
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getPlatformAnalytics = exports.adminUpdateUser = exports.adminCreateUser = exports.adminDeleteUser = exports.getClinicalIntelligence = exports.getSystemReports = exports.rejectCaregiver = exports.approveCaregiver = exports.getVerificationQueue = exports.getActivityLog = exports.getShiftAnalytics = exports.getCaregiverPerformance = exports.getAdvancedAnalytics = exports.getPatientFinancialDetails = exports.getAllRequests = exports.getAllUsers = exports.getFinancialDashboard = exports.getGlobalStats = void 0;
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const prisma_1 = __importDefault(require("../utils/prisma"));
+const getGlobalStats = async (req, res) => {
     try {
-        const [
-            patientCount,
-            caregiverCount,
-            pendingRequests,
-            activeShifts,
-            totalRevenueResult,
-            allCaregivers,
-        ] = await Promise.all([
-            prisma.user.count({ where: { role: 'PATIENT', isDeleted: false } }),
-            prisma.user.count({ where: { role: 'CAREGIVER', isDeleted: false, profile: { isVerified: true } } }),
-            prisma.serviceRequest.count({ where: { status: 'PENDING' } }),
-            prisma.shift.count({ where: { status: 'IN_PROGRESS' } }),
-            prisma.payment.aggregate({
+        const [patientCount, caregiverCount, pendingRequests, activeShifts, totalRevenueResult, allCaregivers,] = await Promise.all([
+            prisma_1.default.user.count({ where: { role: 'PATIENT', isDeleted: false } }),
+            prisma_1.default.user.count({ where: { role: 'CAREGIVER', isDeleted: false, profile: { isVerified: true } } }),
+            prisma_1.default.serviceRequest.count({ where: { status: 'PENDING' } }),
+            prisma_1.default.shift.count({ where: { status: 'IN_PROGRESS' } }),
+            prisma_1.default.payment.aggregate({
                 _sum: { amount: true },
                 where: { status: 'SUCCESS', type: 'STK_PUSH' }
             }),
-            prisma.user.findMany({
+            prisma_1.default.user.findMany({
                 where: { role: 'CAREGIVER', isDeleted: false },
                 include: { profile: true }
             })
         ]);
-
         const verifiedCount = allCaregivers.filter(c => c.profile?.isVerified).length;
         const totalRevenue = totalRevenueResult._sum.amount ? parseFloat(totalRevenueResult._sum.amount.toString()) : 0;
-
         res.json({
             patientCount,
             patientTrend: "+12%",
@@ -39,36 +34,35 @@ export const getGlobalStats = async (req: Request, res: Response) => {
             totalRevenue,
             operationalLoad: activeShifts > 10 ? 'High' : activeShifts > 5 ? 'Active' : 'Stable'
         });
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
-export const getFinancialDashboard = async (req: Request, res: Response) => {
+exports.getGlobalStats = getGlobalStats;
+const getFinancialDashboard = async (req, res) => {
     try {
         const [patients, recentTransactions, totals] = await Promise.all([
-            prisma.user.findMany({
+            prisma_1.default.user.findMany({
                 where: { role: 'PATIENT', isDeleted: false },
                 include: { profile: true, serviceRequests: true }
             }),
-            prisma.payment.findMany({
+            prisma_1.default.payment.findMany({
                 take: 10,
                 orderBy: { createdAt: 'desc' },
                 include: { user: { include: { profile: true } } }
             }),
-            prisma.payment.aggregate({
+            prisma_1.default.payment.aggregate({
                 _sum: { amount: true },
                 where: { status: 'SUCCESS' }
             })
         ]);
-
         const summary = {
             totalRevenue: totals._sum.amount ? parseFloat(totals._sum.amount.toString()) : 0,
             outstandingInvoices: patients.reduce((acc, p) => acc + Number(p.profile?.balance || 0), 0),
             caregiverPayoutsDue: 0
         };
-
         const financials = patients.map(p => {
             const totalBilled = Number(p.profile?.totalBilled || 0);
             const totalPaid = Number(p.profile?.totalPaid || 0);
@@ -82,35 +76,36 @@ export const getFinancialDashboard = async (req: Request, res: Response) => {
                 status: totalBilled > totalPaid ? 'Balance Due' : 'Paid'
             };
         });
-
         res.json({
             patients: financials,
             recentTransactions,
             summary
         });
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
-export const getAllUsers = async (req: Request, res: Response) => {
+exports.getFinancialDashboard = getFinancialDashboard;
+const getAllUsers = async (req, res) => {
     try {
-        const users = await prisma.user.findMany({
+        const users = await prisma_1.default.user.findMany({
             where: { isDeleted: false },
             include: { profile: true },
             orderBy: { createdAt: 'desc' }
         });
         res.json(users);
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
-export const getAllRequests = async (req: Request, res: Response) => {
+exports.getAllUsers = getAllUsers;
+const getAllRequests = async (req, res) => {
     try {
-        const requests = await prisma.serviceRequest.findMany({
+        const requests = await prisma_1.default.serviceRequest.findMany({
             include: {
                 patient: { include: { profile: true } },
                 shift: { include: { caregiver: { include: { profile: true } } } }
@@ -118,16 +113,17 @@ export const getAllRequests = async (req: Request, res: Response) => {
             orderBy: { createdAt: 'desc' }
         });
         res.json(requests);
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
-export const getPatientFinancialDetails = async (req: Request, res: Response) => {
+exports.getAllRequests = getAllRequests;
+const getPatientFinancialDetails = async (req, res) => {
     try {
         const { id } = req.params;
-        const patient = await prisma.user.findUnique({
+        const patient = await prisma_1.default.user.findUnique({
             where: { id },
             include: {
                 profile: true,
@@ -135,9 +131,8 @@ export const getPatientFinancialDetails = async (req: Request, res: Response) =>
                 payments: { orderBy: { createdAt: 'desc' } }
             }
         });
-
-        if (!patient) return res.status(404).json({ message: "Patient not found" });
-
+        if (!patient)
+            return res.status(404).json({ message: "Patient not found" });
         res.json({
             profile: patient.profile,
             sessions: patient.serviceRequests,
@@ -148,46 +143,45 @@ export const getPatientFinancialDetails = async (req: Request, res: Response) =>
                 balance: Number(patient.profile?.balance || 0)
             }
         });
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
-export const getAdvancedAnalytics = async (req: Request, res: Response) => {
+exports.getPatientFinancialDetails = getPatientFinancialDetails;
+const getAdvancedAnalytics = async (req, res) => {
     try {
         const [shiftsByType, recentShifts] = await Promise.all([
-            prisma.serviceRequest.groupBy({
+            prisma_1.default.serviceRequest.groupBy({
                 by: ['careType'],
                 _count: { _all: true }
             }),
-            prisma.shift.findMany({
+            prisma_1.default.shift.findMany({
                 where: { status: 'COMPLETED' },
                 take: 100,
                 orderBy: { endTime: 'desc' }
             })
         ]);
-
         const distribution = shiftsByType.map(item => ({
             name: item.careType,
             value: item._count._all
         }));
-
         res.json({
             distribution,
             retentionRate: '92.4' // Logic for retention could be added here based on recurring patientIds
         });
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
-export const getCaregiverPerformance = async (req: Request, res: Response) => {
+exports.getAdvancedAnalytics = getAdvancedAnalytics;
+const getCaregiverPerformance = async (req, res) => {
     try {
         const { id } = req.params;
-
-        const caregiver = await prisma.user.findUnique({
+        const caregiver = await prisma_1.default.user.findUnique({
             where: { id },
             include: {
                 profile: true,
@@ -197,30 +191,28 @@ export const getCaregiverPerformance = async (req: Request, res: Response) => {
                 }
             }
         });
-
-        if (!caregiver) return res.status(404).json({ message: "Caregiver not found" });
-
+        if (!caregiver)
+            return res.status(404).json({ message: "Caregiver not found" });
         // Calculate total hours
         const totalHours = caregiver.caregiverShifts.reduce((acc, shift) => acc + (shift.actualDuration || 0), 0);
-
         res.json({
             caregiver,
             totalHours: parseFloat(totalHours.toFixed(2)),
             shiftCount: caregiver.caregiverShifts.length
         });
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
-export const getShiftAnalytics = async (req: Request, res: Response) => {
+exports.getCaregiverPerformance = getCaregiverPerformance;
+const getShiftAnalytics = async (req, res) => {
     try {
         // Last 7 days aggregation
         const sevenDaysAgo = new Date();
         sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-
-        const shifts = await prisma.shift.findMany({
+        const shifts = await prisma_1.default.shift.findMany({
             where: {
                 startTime: { gte: sevenDaysAgo }
             },
@@ -229,31 +221,31 @@ export const getShiftAnalytics = async (req: Request, res: Response) => {
                 status: true
             }
         });
-
         // Simple grouping by date
-        const analytics = shifts.reduce((acc: any, shift) => {
+        const analytics = shifts.reduce((acc, shift) => {
             const date = shift.startTime.toISOString().split('T')[0];
-            if (!acc[date]) acc[date] = 0;
+            if (!acc[date])
+                acc[date] = 0;
             acc[date]++;
             return acc;
         }, {});
-
         res.json(analytics);
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
-export const getActivityLog = async (req: Request, res: Response) => {
+exports.getShiftAnalytics = getShiftAnalytics;
+const getActivityLog = async (req, res) => {
     try {
         const [recentRequests, recentShifts] = await Promise.all([
-            prisma.serviceRequest.findMany({
+            prisma_1.default.serviceRequest.findMany({
                 take: 5,
                 orderBy: { createdAt: 'desc' },
                 include: { patient: { include: { profile: true } } }
             }),
-            prisma.shift.findMany({
+            prisma_1.default.shift.findMany({
                 take: 5,
                 orderBy: { updatedAt: 'desc' },
                 include: {
@@ -262,7 +254,6 @@ export const getActivityLog = async (req: Request, res: Response) => {
                 }
             })
         ]);
-
         const events = [
             ...recentRequests.map(r => ({
                 id: r.id,
@@ -281,17 +272,18 @@ export const getActivityLog = async (req: Request, res: Response) => {
                 status: s.status
             }))
         ].sort((a, b) => b.time.getTime() - a.time.getTime()).slice(0, 10);
-
         res.json(events);
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-export const getVerificationQueue = async (req: Request, res: Response) => {
+exports.getActivityLog = getActivityLog;
+const getVerificationQueue = async (req, res) => {
     try {
         const { skip = 0, take = 50 } = req.query;
-        const pending = await prisma.user.findMany({
+        const pending = await prisma_1.default.user.findMany({
             where: {
                 role: 'CAREGIVER',
                 isDeleted: false,
@@ -302,7 +294,6 @@ export const getVerificationQueue = async (req: Request, res: Response) => {
             skip: Number(skip),
             take: Number(take)
         });
-
         const queue = pending.map(p => ({
             id: p.id,
             name: `${p.profile?.firstName} ${p.profile?.lastName}`,
@@ -311,24 +302,23 @@ export const getVerificationQueue = async (req: Request, res: Response) => {
             risk: 'Low',
             date: p.createdAt
         }));
-
         res.json(queue);
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
-export const approveCaregiver = async (req: Request, res: Response) => {
+exports.getVerificationQueue = getVerificationQueue;
+const approveCaregiver = async (req, res) => {
     try {
         const { id } = req.params;
-        await prisma.profile.update({
+        await prisma_1.default.profile.update({
             where: { userId: id },
             data: { isVerified: true }
         });
-
         // Create notification
-        await prisma.notification.create({
+        await prisma_1.default.notification.create({
             data: {
                 userId: id,
                 title: 'Account Verified',
@@ -336,25 +326,24 @@ export const approveCaregiver = async (req: Request, res: Response) => {
                 type: 'SYSTEM'
             }
         });
-
         res.json({ message: 'Caregiver approved successfully' });
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
-export const rejectCaregiver = async (req: Request, res: Response) => {
+exports.approveCaregiver = approveCaregiver;
+const rejectCaregiver = async (req, res) => {
     try {
         const { id } = req.params;
         // In a real system, you might delete the profile or mark as rejected
         // For now we just reset verification or could soft delete
-        await prisma.profile.update({
+        await prisma_1.default.profile.update({
             where: { userId: id },
             data: { isVerified: false }
         });
-
-        await prisma.notification.create({
+        await prisma_1.default.notification.create({
             data: {
                 userId: id,
                 title: 'Verification Update',
@@ -362,18 +351,18 @@ export const rejectCaregiver = async (req: Request, res: Response) => {
                 type: 'SYSTEM'
             }
         });
-
         res.json({ message: 'Caregiver rejected' });
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
-export const getSystemReports = async (req: Request, res: Response) => {
+exports.rejectCaregiver = rejectCaregiver;
+const getSystemReports = async (req, res) => {
     try {
         const { skip = 0, take = 50 } = req.query;
-        const reports = await prisma.report.findMany({
+        const reports = await prisma_1.default.report.findMany({
             include: {
                 shift: {
                     include: {
@@ -386,7 +375,6 @@ export const getSystemReports = async (req: Request, res: Response) => {
             skip: Number(skip),
             take: Number(take)
         });
-
         res.json({
             reports: reports.map(r => ({
                 id: r.id,
@@ -404,16 +392,17 @@ export const getSystemReports = async (req: Request, res: Response) => {
                 completionRate: 100
             }
         });
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
-export const getClinicalIntelligence = async (req: Request, res: Response) => {
+exports.getSystemReports = getSystemReports;
+const getClinicalIntelligence = async (req, res) => {
     try {
         // Target specifically Francis Kangethe as requested by user
-        const patient = await prisma.user.findFirst({
+        const patient = await prisma_1.default.user.findFirst({
             where: {
                 role: 'PATIENT',
                 profile: {
@@ -434,10 +423,9 @@ export const getClinicalIntelligence = async (req: Request, res: Response) => {
                 }
             }
         });
-
         if (!patient) {
             // Fallback to first patient if Francis is not found
-            const fallback = await prisma.user.findFirst({
+            const fallback = await prisma_1.default.user.findFirst({
                 where: { role: 'PATIENT' },
                 include: {
                     profile: true,
@@ -452,39 +440,38 @@ export const getClinicalIntelligence = async (req: Request, res: Response) => {
             });
             return res.json(fallback);
         }
-
         res.json(patient);
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
-export const adminDeleteUser = async (req: Request, res: Response) => {
+exports.getClinicalIntelligence = getClinicalIntelligence;
+const adminDeleteUser = async (req, res) => {
     try {
         const { id } = req.params;
-        await prisma.user.update({
+        await prisma_1.default.user.update({
             where: { id },
             data: { isDeleted: true }
         });
         res.json({ message: 'User soft-deleted successfully' });
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
-export const adminCreateUser = async (req: Request, res: Response) => {
+exports.adminDeleteUser = adminDeleteUser;
+const adminCreateUser = async (req, res) => {
     try {
         const { email, password, role, firstName, lastName, phone, address, ailment, experienceYears } = req.body;
-
         // Basic check
-        const existing = await prisma.user.findUnique({ where: { email } });
-        if (existing) return res.status(400).json({ message: 'User already exists' });
-
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        const user = await prisma.user.create({
+        const existing = await prisma_1.default.user.findUnique({ where: { email } });
+        if (existing)
+            return res.status(400).json({ message: 'User already exists' });
+        const hashedPassword = await bcryptjs_1.default.hash(password, 10);
+        const user = await prisma_1.default.user.create({
             data: {
                 email,
                 password: hashedPassword,
@@ -503,20 +490,19 @@ export const adminCreateUser = async (req: Request, res: Response) => {
             },
             include: { profile: true }
         });
-
         res.json(user);
-    } catch (error: any) {
+    }
+    catch (error) {
         console.error('adminCreateUser error:', error);
         res.status(500).json({ message: error.message || 'Internal server error' });
     }
 };
-
-export const adminUpdateUser = async (req: Request, res: Response) => {
+exports.adminCreateUser = adminCreateUser;
+const adminUpdateUser = async (req, res) => {
     try {
         const { id } = req.params;
         const { firstName, lastName, phone, ailment, experienceYears, role } = req.body;
-
-        const updated = await prisma.user.update({
+        const updated = await prisma_1.default.user.update({
             where: { id },
             data: {
                 role,
@@ -532,61 +518,49 @@ export const adminUpdateUser = async (req: Request, res: Response) => {
             },
             include: { profile: true }
         });
-
         res.json(updated);
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
-
-export const getPlatformAnalytics = async (req: Request, res: Response) => {
+exports.adminUpdateUser = adminUpdateUser;
+const getPlatformAnalytics = async (req, res) => {
     try {
         const sixMonthsAgo = new Date();
         sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
-
         const thirtyDaysAgo = new Date();
         thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-
-        const [
-            usersCount,
-            patientsCount,
-            caregiversCount,
-            monthlyRevenue,
-            activeShiftsTrend,
-            recentPayments
-        ] = await Promise.all([
-            prisma.user.count({ where: { isDeleted: false } }),
-            prisma.user.count({ where: { role: 'PATIENT', isDeleted: false } }),
-            prisma.user.count({ where: { role: 'CAREGIVER', isDeleted: false } }),
-            prisma.payment.groupBy({
+        const [usersCount, patientsCount, caregiversCount, monthlyRevenue, activeShiftsTrend, recentPayments] = await Promise.all([
+            prisma_1.default.user.count({ where: { isDeleted: false } }),
+            prisma_1.default.user.count({ where: { role: 'PATIENT', isDeleted: false } }),
+            prisma_1.default.user.count({ where: { role: 'CAREGIVER', isDeleted: false } }),
+            prisma_1.default.payment.groupBy({
                 by: ['createdAt'],
                 where: { status: 'SUCCESS', createdAt: { gte: sixMonthsAgo } },
                 _sum: { amount: true }
             }),
-            prisma.shift.groupBy({
+            prisma_1.default.shift.groupBy({
                 by: ['startTime'],
                 where: { startTime: { gte: thirtyDaysAgo } },
                 _count: { _all: true }
             }),
-            prisma.payment.findMany({
+            prisma_1.default.payment.findMany({
                 take: 10,
                 orderBy: { createdAt: 'desc' },
                 include: { user: { include: { profile: true } } }
             })
         ]);
-
         // Process time-series data
         const revenueTrend = monthlyRevenue.map(r => ({
             date: r.createdAt.toISOString().split('T')[0],
             amount: parseFloat(r._sum.amount?.toString() || '0')
         }));
-
         const shiftsTrend = activeShiftsTrend.map(s => ({
             date: s.startTime.toISOString().split('T')[0],
             count: s._count._all
         }));
-
         res.json({
             totals: {
                 users: usersCount,
@@ -597,8 +571,10 @@ export const getPlatformAnalytics = async (req: Request, res: Response) => {
             shiftsTrend,
             recentPayments
         });
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+exports.getPlatformAnalytics = getPlatformAnalytics;

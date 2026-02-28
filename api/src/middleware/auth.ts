@@ -3,18 +3,6 @@ import jwt from 'jsonwebtoken';
 
 const getJwtSecret = () => process.env.JWT_SECRET || 'secret';
 
-/*
-  Extend Express Request interface to include user property
-  Note: In a real project, this would be in a separate type definition file (e.g., types.d.ts)
-*/
-declare global {
-    namespace Express {
-        interface Request {
-            user?: { userId: string; role: string };
-        }
-    }
-}
-
 export const authenticate = (req: Request, res: Response, next: NextFunction) => {
     const token = req.header('Authorization')?.replace('Bearer ', '');
 

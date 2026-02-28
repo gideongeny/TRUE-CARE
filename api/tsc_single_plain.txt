@@ -1,0 +1,6 @@
+﻿src/controllers/2faController.ts(2,10): error TS2305: Module '"otplib"' has no exported member 'authenticator'.
+src/controllers/2faController.ts(8,28): error TS2339: Property 'user' does not exist on type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+src/controllers/2faController.ts(28,28): error TS2339: Property 'user' does not exist on type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+src/controllers/2faController.ts(43,17): error TS2353: Object literal may only specify known properties, and 'twoFactorSecret' does not exist in type '(Without<UserUpdateInput, UserUncheckedUpdateInput> & UserUncheckedUpdateInput) | (Without<...> & UserUpdateInput)'.
+src/controllers/2faController.ts(57,28): error TS2339: Property 'user' does not exist on type 'Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>'.
+src/controllers/2faController.ts(63,17): error TS2353: Object literal may only specify known properties, and 'twoFactorSecret' does not exist in type '(Without<UserUpdateInput, UserUncheckedUpdateInput> & UserUncheckedUpdateInput) | (Without<...> & UserUpdateInput)'.

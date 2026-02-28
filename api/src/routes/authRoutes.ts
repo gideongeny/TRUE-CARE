@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { register, login } from '../controllers/authController';
+import { register, login, getMe } from '../controllers/authController';
 import { setup2FA, verifyAndEnable2FA, disable2FA } from '../controllers/2faController';
 import { authenticate } from '../middleware/auth';
 

@@ -1,0 +1,17 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const shiftController_1 = require("../controllers/shiftController");
+const auth_1 = require("../middleware/auth");
+const router = (0, express_1.Router)();
+router.get('/', auth_1.authenticate, shiftController_1.getShifts);
+router.post('/', auth_1.authenticate, (0, auth_1.authorize)(['ADMIN']), shiftController_1.createShift);
+router.get('/open', auth_1.authenticate, (0, auth_1.authorize)(['CAREGIVER']), shiftController_1.getAvailableShifts);
+router.post('/:id/claim', auth_1.authenticate, (0, auth_1.authorize)(['CAREGIVER']), shiftController_1.claimShift);
+router.post('/:id/accept', auth_1.authenticate, (0, auth_1.authorize)(['CAREGIVER']), shiftController_1.acceptShift);
+router.post('/:id/clock-in', auth_1.authenticate, (0, auth_1.authorize)(['CAREGIVER']), shiftController_1.clockIn);
+router.post('/:id/clock-out', auth_1.authenticate, (0, auth_1.authorize)(['CAREGIVER']), shiftController_1.clockOut);
+router.post('/:id/report', auth_1.authenticate, (0, auth_1.authorize)(['CAREGIVER']), shiftController_1.createReport);
+router.patch('/:id/payment', auth_1.authenticate, (0, auth_1.authorize)(['ADMIN']), shiftController_1.updateShiftPayment);
+router.delete('/:id', auth_1.authenticate, (0, auth_1.authorize)(['ADMIN']), shiftController_1.deleteShift);
+exports.default = router;
