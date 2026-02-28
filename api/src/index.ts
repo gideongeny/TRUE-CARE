@@ -42,6 +42,10 @@ app.get('/', (req: Request, res: Response) => {
     res.json({ message: 'TRUE CARE API is running' });
 });
 
+app.get('/ping', (req: Request, res: Response) => {
+    res.json({ message: 'pong', timestamp: new Date().toISOString() });
+});
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
