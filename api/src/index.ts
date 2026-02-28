@@ -47,5 +47,5 @@ app.get('/ping', (req: Request, res: Response) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    console.log(`Server is running on port ${port} - Deploy Version: ${new Date().toISOString()}`);
 });
