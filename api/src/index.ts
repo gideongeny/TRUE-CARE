@@ -53,7 +53,11 @@ app.use('/api/requests', requestRoutes);
 app.use('/api/payments', paymentRoutes);
 
 app.get('/', (req: Request, res: Response) => {
-    res.json({ message: 'TRUE CARE API is running' });
+    res.json({
+        message: 'TRUE CARE API is running (Ver: 1.0.2)',
+        deployedAt: new Date().toISOString(),
+        status: 'Operational'
+    });
 });
 
 app.get('/ping', (req: Request, res: Response) => {
