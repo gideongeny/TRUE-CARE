@@ -76,29 +76,39 @@ async function seed() {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         // John - Day Shift
-        await prisma.shift.create({
-            data: {
-                caregiverId: john.id,
-                patientId: patientFrancis.id,
-                startTime: new Date(today.getTime() + 8 * 60 * 60 * 1000), // 8 AM
-                endTime: new Date(today.getTime() + 20 * 60 * 60 * 1000), // 8 PM
-                shiftType: 'DAY',
-                status: 'IN_PROGRESS',
-                notes: 'Monitoring vitals and managing medication schedule.'
-            }
+        const existingDayShift = await prisma.shift.findFirst({
+            where: { caregiverId: john.id, patientId: patientFrancis.id, startTime: new Date(today.getTime() + 8 * 60 * 60 * 1000) }
         });
+        if (!existingDayShift) {
+            await prisma.shift.create({
+                data: {
+                    caregiverId: john.id,
+                    patientId: patientFrancis.id,
+                    startTime: new Date(today.getTime() + 8 * 60 * 60 * 1000), // 8 AM
+                    endTime: new Date(today.getTime() + 20 * 60 * 60 * 1000), // 8 PM
+                    shiftType: 'DAY',
+                    status: 'IN_PROGRESS',
+                    notes: 'Monitoring vitals and managing medication schedule.'
+                }
+            });
+        }
         // Francis - Night Shift
-        await prisma.shift.create({
-            data: {
-                caregiverId: francisCg.id,
-                patientId: patientFrancis.id,
-                startTime: new Date(today.getTime() + 20 * 60 * 60 * 1000), // 8 PM
-                endTime: new Date(today.getTime() + 32 * 60 * 60 * 1000), // 8 AM next day
-                shiftType: 'NIGHT',
-                status: 'SCHEDULED',
-                notes: 'Nocturnal supervision and sleep hygiene management.'
-            }
+        const existingNightShift = await prisma.shift.findFirst({
+            where: { caregiverId: francisCg.id, patientId: patientFrancis.id, startTime: new Date(today.getTime() + 20 * 60 * 60 * 1000) }
         });
+        if (!existingNightShift) {
+            await prisma.shift.create({
+                data: {
+                    caregiverId: francisCg.id,
+                    patientId: patientFrancis.id,
+                    startTime: new Date(today.getTime() + 20 * 60 * 60 * 1000), // 8 PM
+                    endTime: new Date(today.getTime() + 32 * 60 * 60 * 1000), // 8 AM next day
+                    shiftType: 'NIGHT',
+                    status: 'SCHEDULED',
+                    notes: 'Nocturnal supervision and sleep hygiene management.'
+                }
+            });
+        }
     }
     console.log('✅ Production seed complete: John, Francis, and Melsa initialized.');
     await prisma.$disconnect();

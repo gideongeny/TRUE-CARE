@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verifyUser = exports.getUsers = exports.updateProfile = exports.getProfile = void 0;
+exports.updateLocation = exports.getUserById = exports.verifyUser = exports.getUsers = exports.updateProfile = exports.getProfile = void 0;
 const prisma_1 = __importDefault(require("../utils/prisma"));
 const getProfile = async (req, res) => {
     try {
@@ -99,3 +99,58 @@ const verifyUser = async (req, res) => {
     }
 };
 exports.verifyUser = verifyUser;
+const getUserById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await prisma_1.default.user.findUnique({
+            where: { id },
+            include: {
+                profile: true,
+                patientShifts: {
+                    include: { caregiver: { include: { profile: true } }, report: true },
+                    orderBy: { startTime: 'desc' }
+                },
+                caregiverShifts: {
+                    include: { patient: { include: { profile: true } }, report: true },
+                    orderBy: { startTime: 'desc' }
+                }
+            }
+        });
+        if (!user)
+            return res.status(404).json({ message: "User not found" });
+        // Security: Exclude password and map shifts to unified array
+        const { password, ...userWithoutPassword } = user;
+        const shifts = user.role === 'PATIENT' ? user.patientShifts : user.caregiverShifts;
+        res.json({
+            ...userWithoutPassword,
+            shifts
+        });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+exports.getUserById = getUserById;
+const updateLocation = async (req, res) => {
+    try {
+        const userId = req.user?.userId;
+        const { latitude, longitude } = req.body;
+        if (!userId)
+            return res.status(401).json({ message: "Unauthorized" });
+        await prisma_1.default.profile.update({
+            where: { userId },
+            data: {
+                lastLatitude: Number(latitude),
+                lastLongitude: Number(longitude),
+                locationUpdatedAt: new Date()
+            }
+        });
+        res.json({ message: "Location updated" });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+exports.updateLocation = updateLocation;

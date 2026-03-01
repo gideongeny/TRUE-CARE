@@ -8,6 +8,20 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
 const morgan_1 = __importDefault(require("morgan"));
+// Global Error Handlers for Production Stability
+process.on('uncaughtException', (err) => {
+    console.error('UNCAUGHT EXCEPTION! 💥 Shutting down...');
+    console.error(err.name, err.message);
+    console.error(err.stack);
+    process.exit(1);
+});
+process.on('unhandledRejection', (err) => {
+    console.error('UNHANDLED REJECTION! 💥 Shutting down...');
+    console.error(err.name, err.message);
+    process.exit(1);
+});
+const child_process_1 = require("child_process");
+const prisma_1 = __importDefault(require("./utils/prisma"));
 const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
 const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 const adminRoutes_1 = __importDefault(require("./routes/adminRoutes"));
@@ -35,9 +49,49 @@ app.use('/api/admin', adminRoutes_1.default);
 app.use('/api/shifts', shiftRoutes_1.default);
 app.use('/api/requests', requestRoutes_1.default);
 app.use('/api/payments', paymentRoutes_1.default);
-app.get('/', (req, res) => {
-    res.json({ message: 'TRUE CARE API is running' });
+app.get('/', async (req, res) => {
+    let dbStatus = 'Checking...';
+    try {
+        await prisma_1.default.user.count();
+        dbStatus = 'Connected';
+    }
+    catch (e) {
+        dbStatus = `Error: ${e.message}`;
+    }
+    res.json({
+        message: 'TRUE CARE API is running (Ver: 1.0.4)',
+        deployedAt: new Date().toISOString(),
+        status: 'Operational',
+        database: dbStatus
+    });
+});
+app.get('/api/admin/init-db', async (req, res) => {
+    try {
+        console.log('Starting manual database initialization...');
+        // 1. Push schema
+        const pushResult = (0, child_process_1.execSync)('npx prisma db push --accept-data-loss').toString();
+        console.log('Prisma push result:', pushResult);
+        // 2. Run seed
+        const seedResult = (0, child_process_1.execSync)('npm run seed').toString();
+        console.log('Seed result:', seedResult);
+        res.json({
+            message: 'Database initialized successfully',
+            push: pushResult,
+            seed: seedResult
+        });
+    }
+    catch (error) {
+        console.error('Initialization error:', error);
+        res.status(500).json({
+            message: 'Database initialization failed',
+            error: error.message,
+            stack: error.stack
+        });
+    }
+});
+app.get('/ping', (req, res) => {
+    res.json({ message: 'pong', timestamp: new Date().toISOString() });
 });
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    console.log(`Server is running on port ${port} - Deploy Version: ${new Date().toISOString()}`);
 });

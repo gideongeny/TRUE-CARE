@@ -3,8 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPlatformAnalytics = exports.adminUpdateUser = exports.adminCreateUser = exports.adminDeleteUser = exports.getClinicalIntelligence = exports.getSystemReports = exports.rejectCaregiver = exports.approveCaregiver = exports.getVerificationQueue = exports.getActivityLog = exports.getShiftAnalytics = exports.getCaregiverPerformance = exports.getAdvancedAnalytics = exports.getPatientFinancialDetails = exports.getAllRequests = exports.getAllUsers = exports.getFinancialDashboard = exports.getGlobalStats = void 0;
+exports.getLiveOperations = exports.updateShiftDetails = exports.reassignShift = exports.impersonateUser = exports.getUserById = exports.getPlatformAnalytics = exports.adminUpdateUser = exports.adminCreateUser = exports.adminDeleteUser = exports.getClinicalIntelligence = exports.getSystemReports = exports.rejectCaregiver = exports.approveCaregiver = exports.getVerificationQueue = exports.getActivityLog = exports.getShiftAnalytics = exports.getCaregiverPerformance = exports.getAdvancedAnalytics = exports.getPatientFinancialDetails = exports.getAllRequests = exports.getAllUsers = exports.getFinancialDashboard = exports.getGlobalStats = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const prisma_1 = __importDefault(require("../utils/prisma"));
 const getGlobalStats = async (req, res) => {
     try {
@@ -578,3 +579,100 @@ const getPlatformAnalytics = async (req, res) => {
     }
 };
 exports.getPlatformAnalytics = getPlatformAnalytics;
+const getUserById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await prisma_1.default.user.findUnique({
+            where: { id },
+            include: {
+                profile: true,
+                patientShifts: {
+                    include: { caregiver: { include: { profile: true } }, report: true },
+                    orderBy: { startTime: 'desc' }
+                },
+                caregiverShifts: {
+                    include: { patient: { include: { profile: true } }, report: true },
+                    orderBy: { startTime: 'desc' }
+                }
+            }
+        });
+        if (!user)
+            return res.status(404).json({ message: "User not found" });
+        res.json(user);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+exports.getUserById = getUserById;
+const impersonateUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await prisma_1.default.user.findUnique({ where: { id }, include: { profile: true } });
+        if (!user)
+            return res.status(404).json({ message: "User not found" });
+        const token = jsonwebtoken_1.default.sign({ userId: user.id, role: user.role }, process.env.JWT_SECRET || 'secret', { expiresIn: '1d' });
+        res.json({ token, user });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+exports.impersonateUser = impersonateUser;
+const reassignShift = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { caregiverId } = req.body;
+        const updatedShift = await prisma_1.default.shift.update({
+            where: { id },
+            data: { caregiverId },
+            include: { caregiver: { include: { profile: true } } }
+        });
+        res.json(updatedShift);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+exports.reassignShift = reassignShift;
+const updateShiftDetails = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { endTime, earnings, notes } = req.body;
+        const updatedShift = await prisma_1.default.shift.update({
+            where: { id },
+            data: {
+                endTime: endTime ? new Date(endTime) : undefined,
+                earnings: earnings ? Number(earnings) : undefined,
+                notes
+            },
+            include: { patient: { include: { profile: true } }, caregiver: { include: { profile: true } } }
+        });
+        res.json(updatedShift);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+exports.updateShiftDetails = updateShiftDetails;
+const getLiveOperations = async (req, res) => {
+    try {
+        const activeShifts = await prisma_1.default.shift.findMany({
+            where: { status: 'IN_PROGRESS' },
+            include: {
+                caregiver: { include: { profile: true } },
+                patient: { include: { profile: true } }
+            }
+        });
+        res.json(activeShifts);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+exports.getLiveOperations = getLiveOperations;

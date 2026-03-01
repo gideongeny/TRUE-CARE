@@ -84,12 +84,13 @@ exports.getRequests = getRequests;
 const adminSetPrice = async (req, res) => {
     try {
         const { id } = req.params;
-        const { price } = req.body;
+        const { price, duration } = req.body;
         const request = await prisma_1.default.serviceRequest.update({
             where: { id },
             data: {
                 price: Number(price),
                 remainingBalance: Number(price),
+                duration: duration || undefined,
                 status: 'PRICED'
             }
         });

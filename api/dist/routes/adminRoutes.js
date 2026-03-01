@@ -31,6 +31,11 @@ router.patch('/requests/:id/status', requestController_1.updateRequestStatus);
 router.post('/requests/create', requestController_1.adminCreateRequest);
 router.post('/shifts/payout', paymentController_1.adminPayCaregiver);
 // Admin User CRUD
+router.get('/users/:id', adminController_1.getUserById);
+router.post('/impersonate/:id', adminController_1.impersonateUser);
+router.post('/shifts/:id/reassign', adminController_1.reassignShift);
+router.patch('/shifts/:id/details', adminController_1.updateShiftDetails);
+router.get('/operations/live', adminController_1.getLiveOperations);
 router.post('/users', adminController_1.adminCreateUser);
 router.patch('/users/:id', adminController_1.adminUpdateUser);
 router.delete('/users/:id', adminController_1.adminDeleteUser);
