@@ -13,5 +13,6 @@ router.post('/:id/clock-in', auth_1.authenticate, (0, auth_1.authorize)(['CAREGI
 router.post('/:id/clock-out', auth_1.authenticate, (0, auth_1.authorize)(['CAREGIVER']), shiftController_1.clockOut);
 router.post('/:id/report', auth_1.authenticate, (0, auth_1.authorize)(['CAREGIVER']), shiftController_1.createReport);
 router.patch('/:id/payment', auth_1.authenticate, (0, auth_1.authorize)(['ADMIN']), shiftController_1.updateShiftPayment);
+router.put('/:id', auth_1.authenticate, (0, auth_1.authorize)(['ADMIN']), shiftController_1.updateShift);
 router.delete('/:id', auth_1.authenticate, (0, auth_1.authorize)(['ADMIN']), shiftController_1.deleteShift);
 exports.default = router;

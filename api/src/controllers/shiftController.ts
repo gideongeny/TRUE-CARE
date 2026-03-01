@@ -4,10 +4,19 @@ import prisma from '../utils/prisma';
 
 export const createShift = async (req: AuthRequest, res: Response) => {
     try {
-        const { caregiverId, patientId, requestId, startTime, endTime, notes, earnings } = req.body;
+        const { caregiverId, patientId, requestId, startTime, endTime: providedEndTime, notes, earnings, shiftType, duration } = req.body;
 
-        if (!patientId || !startTime || !endTime) {
+        if (!patientId || !startTime) {
             return res.status(400).json({ message: "Missing required fields" });
+        }
+
+        let finalEndTime = providedEndTime ? new Date(providedEndTime) : null;
+        if (!finalEndTime && duration) {
+            finalEndTime = new Date(new Date(startTime).getTime() + Number(duration) * 60 * 60 * 1000);
+        }
+
+        if (!finalEndTime) {
+            return res.status(400).json({ message: "End time or duration must be provided" });
         }
 
         const shift = await prisma.shift.create({
@@ -16,9 +25,10 @@ export const createShift = async (req: AuthRequest, res: Response) => {
                 patientId,
                 requestId,
                 startTime: new Date(startTime),
-                endTime: new Date(endTime),
+                endTime: finalEndTime,
                 notes,
-                status: caregiverId ? 'ASSIGNED' : 'ASSIGNED', // Start as ASSIGNED even if caregiverId is present
+                shiftType: shiftType || '24HR',
+                status: caregiverId ? 'ASSIGNED' : 'ASSIGNED',
                 earnings: earnings ? Number(earnings) : 0,
             },
             include: {
@@ -30,6 +40,38 @@ export const createShift = async (req: AuthRequest, res: Response) => {
         // Trigger notification logic here if needed
 
         res.status(201).json(shift);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+export const updateShift = async (req: AuthRequest, res: Response) => {
+    try {
+        const { id } = req.params;
+        const { startTime, endTime, shiftType, notes, duration } = req.body;
+
+        const existingShift = await prisma.shift.findUnique({ where: { id } });
+        if (!existingShift) return res.status(404).json({ message: "Shift not found" });
+
+        let finalEndTime = endTime ? new Date(endTime) : existingShift.endTime;
+        let finalStartTime = startTime ? new Date(startTime) : existingShift.startTime;
+
+        if (!endTime && duration) {
+            finalEndTime = new Date(finalStartTime.getTime() + Number(duration) * 60 * 60 * 1000);
+        }
+
+        const updatedShift = await prisma.shift.update({
+            where: { id },
+            data: {
+                startTime: finalStartTime,
+                endTime: finalEndTime,
+                shiftType,
+                notes
+            }
+        });
+
+        res.json(updatedShift);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });

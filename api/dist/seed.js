@@ -8,7 +8,7 @@ const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const prisma = new client_1.PrismaClient();
 async function seed() {
     const salt = 10;
-    const adminPassword = await bcryptjs_1.default.hash('adminpassword123', salt);
+    const adminPassword = await bcryptjs_1.default.hash('Admin@123', salt);
     const commonPassword = await bcryptjs_1.default.hash('password123', salt);
     // Admin
     await prisma.user.upsert({

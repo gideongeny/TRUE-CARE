@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 async function seed() {
     const salt = 10;
-    const adminPassword = await bcrypt.hash('adminpassword123', salt);
+    const adminPassword = await bcrypt.hash('Admin@123', salt);
     const commonPassword = await bcrypt.hash('password123', salt);
 
     // Admin

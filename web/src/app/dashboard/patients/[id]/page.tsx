@@ -16,10 +16,11 @@ import {
     Star,
     Stethoscope,
     Thermometer,
-    User,
     Clock,
     FileText,
-    TrendingUp
+    TrendingUp,
+    Settings,
+    Edit2
 } from 'lucide-react';
 import api from '@/lib/api';
 import {
@@ -39,6 +40,10 @@ export default function PatientDetailPage() {
     const [caregivers, setCaregivers] = useState<any[]>([]);
     const [isAssigning, setIsAssigning] = useState(false);
     const [assignmentLoading, setAssignmentLoading] = useState(false);
+    const [selectedShiftType, setSelectedShiftType] = useState('DAY');
+    const [selectedDuration, setSelectedDuration] = useState(8);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editingShiftId, setEditingShiftId] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchPatientDetails = async () => {
@@ -65,7 +70,8 @@ export default function PatientDetailPage() {
                 caregiverId,
                 patientId: id,
                 startTime: new Date(),
-                endTime: new Date(Date.now() + 8 * 60 * 60 * 1000), // 8 hour shift
+                shiftType: selectedShiftType,
+                duration: selectedDuration,
                 notes: `Clinical deployment assigned via ${patient.profile?.lastName} focus node`
             });
             setIsAssigning(false);
@@ -74,6 +80,27 @@ export default function PatientDetailPage() {
             setPatient(res.data);
         } catch (error) {
             console.error('Failed to assign caregiver', error);
+        } finally {
+            setAssignmentLoading(false);
+        }
+    };
+
+    const handleUpdateAssignment = async (shiftId: string) => {
+        setAssignmentLoading(true);
+        try {
+            await api.put(`/shifts/${shiftId}`, {
+                startTime: new Date(),
+                shiftType: selectedShiftType,
+                duration: selectedDuration,
+                notes: `Deployment parameters updated via ${patient.profile?.lastName} nodal access`
+            });
+            setIsEditing(false);
+            setEditingShiftId(null);
+            // Refresh data
+            const res = await api.get(`/users/${id}`);
+            setPatient(res.data);
+        } catch (error) {
+            console.error('Failed to update assignment', error);
         } finally {
             setAssignmentLoading(false);
         }
@@ -111,7 +138,7 @@ export default function PatientDetailPage() {
         // Only include real caregivers (role check) who differ from the patient
         if (s.caregiver && s.caregiver.id !== patient.id && !seenIds.has(s.caregiver.id)) {
             seenIds.add(s.caregiver.id);
-            assignedCaregivers.push({ ...s.caregiver, shiftType: s.shiftType });
+            assignedCaregivers.push({ ...s.caregiver, shiftType: s.shiftType, shiftId: s.id });
         }
     }
 
@@ -195,10 +222,22 @@ export default function PatientDetailPage() {
                                         <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center font-black text-xs shrink-0">
                                             {cg.profile?.firstName?.[0] ?? '?'}{cg.profile?.lastName?.[0] ?? ''}
                                         </div>
-                                        <div>
+                                        <div className="flex-1">
                                             <p className="text-[11px] font-black group-hover:text-blue-400 transition-colors uppercase">{cg.profile?.firstName} {cg.profile?.lastName}</p>
                                             <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">{cg.shiftType || 'GENERAL'}</p>
                                         </div>
+                                        <button
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                                setIsEditing(true);
+                                                setEditingShiftId(cg.shiftId);
+                                                setSelectedShiftType(cg.shiftType || 'DAY');
+                                            }}
+                                            className="p-2 opacity-0 group-hover:opacity-100 bg-white/10 hover:bg-blue-600 rounded-lg transition-all"
+                                        >
+                                            <Edit2 className="w-3 h-3 text-white" />
+                                        </button>
                                     </Link>
                                 )) : (
                                     <p className="text-center py-4 text-[10px] uppercase font-black text-slate-600 tracking-widest">No active assignments</p>
@@ -357,39 +396,87 @@ export default function PatientDetailPage() {
                     </div>
                 </div>
 
-                {/* Assignment Modal */}
-                {isAssigning && (
+                {/* Assignment & Edit Modal */}
+                {(isAssigning || isEditing) && (
                     <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[100] flex items-center justify-center p-6">
                         <div className="bg-white rounded-[40px] shadow-2xl w-full max-w-lg overflow-hidden border border-slate-100">
                             <div className="p-8 border-b border-slate-100 flex items-center justify-between">
-                                <h3 className="font-black text-slate-900 uppercase tracking-widest text-xs">Assign Care Team</h3>
-                                <button onClick={() => setIsAssigning(false)} className="text-[10px] font-black text-slate-400 hover:text-slate-900 border border-slate-100 px-3 py-1 rounded-full px-4 py-2 hover:bg-slate-50 transition-all uppercase tracking-widest">Close</button>
+                                <h3 className="font-black text-slate-900 uppercase tracking-widest text-xs">
+                                    {isEditing ? 'Modify Assignment' : 'Assign Care Team'}
+                                </h3>
+                                <button
+                                    onClick={() => {
+                                        setIsAssigning(false);
+                                        setIsEditing(false);
+                                        setEditingShiftId(null);
+                                    }}
+                                    className="text-[10px] font-black text-slate-400 hover:text-slate-900 border border-slate-100 px-4 py-2 rounded-full hover:bg-slate-50 transition-all uppercase tracking-widest"
+                                >
+                                    Close
+                                </button>
                             </div>
-                            <div className="p-8 space-y-4 max-h-[400px] overflow-y-auto">
-                                {caregivers.length > 0 ? caregivers.map(cg => (
-                                    <div
-                                        key={cg.id}
-                                        onClick={() => !assignmentLoading && handleAssign(cg.id)}
-                                        className={`p-4 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-between cursor-pointer hover:bg-blue-50 hover:border-blue-200 transition-all group ${assignmentLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+
+                            <div className="p-8 bg-slate-50 border-b border-slate-100 grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Shift Protocol</label>
+                                    <select
+                                        value={selectedShiftType}
+                                        onChange={(e) => setSelectedShiftType(e.target.value)}
+                                        className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-[10px] font-black uppercase outline-none focus:border-blue-500 transition-all"
                                     >
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-12 h-12 rounded-xl bg-slate-900 text-white flex items-center justify-center font-black text-xs group-hover:scale-105 transition-transform">
-                                                {cg.profile?.firstName?.[0] ?? '?'}{cg.profile?.lastName?.[0] ?? ''}
-                                            </div>
-                                            <div>
-                                                <p className="text-xs font-black text-slate-900 uppercase">{cg.profile?.firstName} {cg.profile?.lastName}</p>
-                                                <div className="flex items-center gap-2 mt-1">
-                                                    <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
-                                                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Verified Personnel</p>
+                                        <option value="DAY">Day Shift</option>
+                                        <option value="NIGHT">Night Shift</option>
+                                        <option value="24HR">24 Hour Stay</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Duration (Hours)</label>
+                                    <input
+                                        type="number"
+                                        value={selectedDuration}
+                                        onChange={(e) => setSelectedDuration(parseInt(e.target.value))}
+                                        className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-[10px] font-black outline-none focus:border-blue-500 transition-all"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="p-8 space-y-4 max-h-[300px] overflow-y-auto">
+                                {isEditing ? (
+                                    <button
+                                        onClick={() => editingShiftId && handleUpdateAssignment(editingShiftId)}
+                                        disabled={assignmentLoading}
+                                        className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-600 transition-all shadow-xl shadow-slate-900/20 disabled:opacity-50"
+                                    >
+                                        {assignmentLoading ? 'Processing...' : 'Apply Modifications'}
+                                    </button>
+                                ) : (
+                                    <>
+                                        {caregivers.length > 0 ? caregivers.map(cg => (
+                                            <div
+                                                key={cg.id}
+                                                onClick={() => !assignmentLoading && handleAssign(cg.id)}
+                                                className={`p-4 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-between cursor-pointer hover:bg-blue-50 hover:border-blue-200 transition-all group ${assignmentLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                            >
+                                                <div className="flex items-center gap-4">
+                                                    <div className="w-12 h-12 rounded-xl bg-slate-900 text-white flex items-center justify-center font-black text-xs group-hover:scale-105 transition-transform">
+                                                        {cg.profile?.firstName?.[0] ?? '?'}{cg.profile?.lastName?.[0] ?? ''}
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-xs font-black text-slate-900 uppercase">{cg.profile?.firstName} {cg.profile?.lastName}</p>
+                                                        <div className="flex items-center gap-2 mt-1">
+                                                            <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
+                                                            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Verified Personnel</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center group-hover:bg-blue-500 group-hover:border-blue-500 transition-all">
+                                                    <ChevronLeft className="w-4 h-4 text-slate-300 group-hover:text-white rotate-180" />
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center group-hover:bg-blue-500 group-hover:border-blue-500 transition-all">
-                                            <ChevronLeft className="w-4 h-4 text-slate-300 group-hover:text-white rotate-180" />
-                                        </div>
-                                    </div>
-                                )) : (
-                                    <div className="py-10 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">No verified personnel available</div>
+                                        )) : (
+                                            <div className="py-10 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">No verified personnel available</div>
+                                        )}
+                                    </>
                                 )}
                             </div>
                         </div>

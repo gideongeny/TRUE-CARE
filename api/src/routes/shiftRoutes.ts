@@ -9,7 +9,8 @@ import {
     clockOut,
     createReport,
     deleteShift,
-    updateShiftPayment
+    updateShiftPayment,
+    updateShift
 } from '../controllers/shiftController';
 import { authenticate, authorize } from '../middleware/auth';
 
@@ -24,6 +25,7 @@ router.post('/:id/clock-in', authenticate, authorize(['CAREGIVER']), clockIn);
 router.post('/:id/clock-out', authenticate, authorize(['CAREGIVER']), clockOut);
 router.post('/:id/report', authenticate, authorize(['CAREGIVER']), createReport);
 router.patch('/:id/payment', authenticate, authorize(['ADMIN']), updateShiftPayment);
+router.put('/:id', authenticate, authorize(['ADMIN']), updateShift);
 router.delete('/:id', authenticate, authorize(['ADMIN']), deleteShift);
 
 export default router;

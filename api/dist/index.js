@@ -43,29 +43,7 @@ const limiter = (0, express_rate_limit_1.default)({
     message: 'Too many requests from this IP, please try again after 15 minutes',
 });
 app.use('/api/', limiter);
-app.use('/api/auth', authRoutes_1.default);
-app.use('/api/users', userRoutes_1.default);
-app.use('/api/admin', adminRoutes_1.default);
-app.use('/api/shifts', shiftRoutes_1.default);
-app.use('/api/requests', requestRoutes_1.default);
-app.use('/api/payments', paymentRoutes_1.default);
-app.get('/', async (req, res) => {
-    let dbStatus = 'Checking...';
-    try {
-        await prisma_1.default.user.count();
-        dbStatus = 'Connected';
-    }
-    catch (e) {
-        dbStatus = `Error: ${e.message}`;
-    }
-    res.json({
-        message: 'TRUE CARE API is running (Ver: 1.0.4)',
-        deployedAt: new Date().toISOString(),
-        status: 'Operational',
-        database: dbStatus
-    });
-});
-app.get('/api/admin/init-db', async (req, res) => {
+app.get('/api/public/init-db', async (req, res) => {
     try {
         console.log('Starting manual database initialization...');
         // 1. Push schema
@@ -88,6 +66,28 @@ app.get('/api/admin/init-db', async (req, res) => {
             stack: error.stack
         });
     }
+});
+app.use('/api/auth', authRoutes_1.default);
+app.use('/api/users', userRoutes_1.default);
+app.use('/api/admin', adminRoutes_1.default);
+app.use('/api/shifts', shiftRoutes_1.default);
+app.use('/api/requests', requestRoutes_1.default);
+app.use('/api/payments', paymentRoutes_1.default);
+app.get('/', async (req, res) => {
+    let dbStatus = 'Checking...';
+    try {
+        await prisma_1.default.user.count();
+        dbStatus = 'Connected';
+    }
+    catch (e) {
+        dbStatus = `Error: ${e.message}`;
+    }
+    res.json({
+        message: 'TRUE CARE API is running (Ver: 1.0.5)',
+        deployedAt: new Date().toISOString(),
+        status: 'Operational',
+        database: dbStatus
+    });
 });
 app.get('/ping', (req, res) => {
     res.json({ message: 'pong', timestamp: new Date().toISOString() });
