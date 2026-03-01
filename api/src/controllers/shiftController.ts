@@ -184,11 +184,11 @@ export const clockOut = async (req: AuthRequest, res: Response) => {
         const clockOutTime = new Date();
 
         const shift = await prisma.shift.findUnique({ where: { id } });
-        if (!shift || !shift.clockInTime) {
-            return res.status(400).json({ message: "Cannot clock out without clocking in" });
-        }
+        if (!shift) return res.status(404).json({ message: "Shift not found" });
 
-        const diffMs = clockOutTime.getTime() - shift.clockInTime.getTime();
+        // Fallback: If clockInTime is missing, use scheduled startTime or current time
+        const effectiveClockIn = shift.clockInTime || shift.startTime || clockOutTime;
+        const diffMs = Math.max(0, clockOutTime.getTime() - effectiveClockIn.getTime());
         const actualDuration = parseFloat((diffMs / (1000 * 60 * 60)).toFixed(2));
 
         const updatedShift = await prisma.shift.update({

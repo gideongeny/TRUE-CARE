@@ -35,7 +35,7 @@ export default function ShiftsPage() {
     });
 
     useEffect(() => {
-        fetchShifts();
+        fetchInitialData();
     }, []);
 
     const fetchInitialData = async () => {
