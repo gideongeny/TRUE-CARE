@@ -51,6 +51,20 @@ app.get('/api/public/init-db', async (req: Request, res: Response) => {
     try {
         console.log('Starting database seeding...');
 
+        // Sanitize URLs to handle common Render entry errors (quotes, spaces)
+        if (process.env.DATABASE_URL) {
+            process.env.DATABASE_URL = process.env.DATABASE_URL.replace(/['"]/g, '').trim();
+        }
+        if (process.env.DIRECT_URL) {
+            process.env.DIRECT_URL = process.env.DIRECT_URL.replace(/['"]/g, '').trim();
+        }
+
+        // Debug URL format (safe)
+        const dbUrl = process.env.DATABASE_URL || '';
+        const drUrl = process.env.DIRECT_URL || '';
+        console.log(`DATABASE_URL prefix: ${dbUrl.substring(0, 15)}... len: ${dbUrl.length}`);
+        console.log(`DIRECT_URL prefix: ${drUrl.substring(0, 15)}... len: ${drUrl.length}`);
+
         // Only run seed — schema is managed via migrations, not db push
         const seedResult = execSync('npm run seed', { timeout: 60000 }).toString();
         console.log('Seed result:', seedResult);
@@ -64,7 +78,8 @@ app.get('/api/public/init-db', async (req: Request, res: Response) => {
         res.status(500).json({
             message: 'Database seeding failed',
             error: error.message,
-            stderr: error.stderr?.toString()
+            stderr: error.stderr?.toString(),
+            db_prefix: (process.env.DATABASE_URL || '').substring(0, 15)
         });
     }
 });
@@ -73,6 +88,15 @@ app.get('/api/public/init-db', async (req: Request, res: Response) => {
 app.get('/api/public/migrate-db', async (req: Request, res: Response) => {
     try {
         console.log('Running schema push...');
+
+        // Sanitize URLs here too
+        if (process.env.DATABASE_URL) {
+            process.env.DATABASE_URL = process.env.DATABASE_URL.replace(/['"]/g, '').trim();
+        }
+        if (process.env.DIRECT_URL) {
+            process.env.DIRECT_URL = process.env.DIRECT_URL.replace(/['"]/g, '').trim();
+        }
+
         // Uses DIRECT_URL if set (bypasses PgBouncer pooler)
         const pushResult = execSync('npx prisma db push --skip-generate', { timeout: 120000 }).toString();
         console.log('Push result:', pushResult);
@@ -82,7 +106,8 @@ app.get('/api/public/migrate-db', async (req: Request, res: Response) => {
         res.status(500).json({
             message: 'Schema migration failed',
             error: error.message,
-            stderr: error.stderr?.toString()
+            stderr: error.stderr?.toString(),
+            dr_prefix: (process.env.DIRECT_URL || '').substring(0, 15)
         });
     }
 });
