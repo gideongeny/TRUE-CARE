@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import prisma from '../utils/prisma';
 
 export const getGlobalStats = async (req: Request, res: Response) => {
@@ -597,6 +598,52 @@ export const getPlatformAnalytics = async (req: Request, res: Response) => {
             shiftsTrend,
             recentPayments
         });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+export const getUserById = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const user = await prisma.user.findUnique({
+            where: { id },
+            include: {
+                profile: true,
+                patientShifts: {
+                    include: { caregiver: { include: { profile: true } }, report: true },
+                    orderBy: { startTime: 'desc' }
+                },
+                caregiverShifts: {
+                    include: { patient: { include: { profile: true } }, report: true },
+                    orderBy: { startTime: 'desc' }
+                }
+            }
+        });
+
+        if (!user) return res.status(404).json({ message: "User not found" });
+        res.json(user);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+export const impersonateUser = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const user = await prisma.user.findUnique({ where: { id }, include: { profile: true } });
+
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        const token = jwt.sign(
+            { userId: user.id, role: user.role },
+            process.env.JWT_SECRET || 'secret',
+            { expiresIn: '1d' }
+        );
+
+        res.json({ token, user });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });

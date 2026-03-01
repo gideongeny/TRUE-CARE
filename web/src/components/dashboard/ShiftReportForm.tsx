@@ -37,6 +37,7 @@ export default function ShiftReportForm({ shiftId, patientName, onClose, onSucce
         setError('');
 
         try {
+            // Step 1: Submit Clinical Report
             await api.post(`/shifts/${shiftId}/report`, {
                 content: vitals.notes,
                 vitals: JSON.stringify({
@@ -45,6 +46,10 @@ export default function ShiftReportForm({ shiftId, patientName, onClose, onSucce
                     temp: vitals.temperature
                 })
             });
+
+            // Step 2: Protocol Auto Clock-out
+            await api.post(`/shifts/${shiftId}/clock-out`);
+
             onSuccess();
         } catch (err: any) {
             setError('Failed to transmit clinical report. Please verify connection.');

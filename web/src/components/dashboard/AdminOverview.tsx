@@ -16,7 +16,8 @@ import {
     Search,
     UserPlus,
     Stethoscope,
-    MoreVertical
+    MoreVertical,
+    Zap
 } from 'lucide-react';
 import api from '@/lib/api';
 import UserModal from './UserModal';
@@ -90,6 +91,19 @@ export default function AdminOverview() {
             window.location.reload();
         } catch (error) {
             console.error('Failed to assign caregiver', error);
+        }
+    };
+
+    const handleImpersonate = async (userId: string) => {
+        if (!confirm('Switch to this personnel Access Vector? System will re-authorize as the target subject.')) return;
+        try {
+            const res = await api.post(`/admin/impersonate/${userId}`);
+            localStorage.setItem('token', res.data.token);
+            localStorage.setItem('user', JSON.stringify(res.data.user));
+            window.location.href = '/dashboard';
+        } catch (error) {
+            console.error('Impersonation failed', error);
+            alert('CRITICAL: Access Vector Switch Failed');
         }
     };
 
@@ -242,11 +256,20 @@ export default function AdminOverview() {
                                             <p className="text-[9px] font-bold text-slate-500 uppercase">Registered Personnel</p>
                                         </div>
                                     </Link>
-                                    <div className="flex items-center gap-2">
-                                        <div className={`w-1.5 h-1.5 rounded-full ${cg.profile?.firstName?.includes('Melsa') || cg.profile?.firstName?.includes('John') ? 'bg-blue-400 animate-pulse' : 'bg-white/20'}`} />
-                                        <span className={`text-[9px] font-black uppercase tracking-widest ${cg.profile?.firstName?.includes('Melsa') || cg.profile?.firstName?.includes('John') ? 'text-blue-400' : 'text-slate-500'}`}>
-                                            {cg.profile?.firstName?.includes('Melsa') || cg.profile?.firstName?.includes('John') ? 'Live' : 'Ready'}
-                                        </span>
+                                    <div className="flex items-center gap-4">
+                                        <div className="flex items-center gap-2">
+                                            <div className={`w-1.5 h-1.5 rounded-full ${cg.profile?.firstName?.includes('Melsa') || cg.profile?.firstName?.includes('John') ? 'bg-blue-400 animate-pulse' : 'bg-white/20'}`} />
+                                            <span className={`text-[9px] font-black uppercase tracking-widest ${cg.profile?.firstName?.includes('Melsa') || cg.profile?.firstName?.includes('John') ? 'text-blue-400' : 'text-slate-500'}`}>
+                                                {cg.profile?.firstName?.includes('Melsa') || cg.profile?.firstName?.includes('John') ? 'Live' : 'Ready'}
+                                            </span>
+                                        </div>
+                                        <button
+                                            onClick={() => handleImpersonate(cg.id)}
+                                            className="p-2 bg-white/5 border border-white/10 rounded-lg text-slate-500 hover:text-blue-400 hover:bg-white/10 transition-all group/btn"
+                                            title="Login As Caregiver"
+                                        >
+                                            <Zap className="w-3.5 h-3.5 group-hover/btn:fill-blue-400" />
+                                        </button>
                                     </div>
                                 </div>
                             ))}

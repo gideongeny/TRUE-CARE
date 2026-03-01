@@ -16,7 +16,9 @@ import {
     adminDeleteUser,
     getAllUsers,
     getAllRequests,
-    getPlatformAnalytics
+    getPlatformAnalytics,
+    getUserById,
+    impersonateUser
 } from '../controllers/adminController';
 import { adminSetPrice, updateRequestStatus, adminCreateRequest } from '../controllers/requestController';
 import { adminPayCaregiver } from '../controllers/paymentController';
@@ -53,6 +55,8 @@ router.post('/requests/create', adminCreateRequest);
 router.post('/shifts/payout', adminPayCaregiver);
 
 // Admin User CRUD
+router.get('/users/:id', getUserById);
+router.post('/impersonate/:id', impersonateUser);
 router.post('/users', adminCreateUser);
 router.patch('/users/:id', adminUpdateUser);
 router.delete('/users/:id', adminDeleteUser);

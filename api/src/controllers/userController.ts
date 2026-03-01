@@ -99,3 +99,36 @@ export const verifyUser = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+export const getUserById = async (req: AuthRequest, res: Response) => {
+    try {
+        const { id } = req.params;
+        const user = await prisma.user.findUnique({
+            where: { id },
+            include: {
+                profile: true,
+                patientShifts: {
+                    include: { caregiver: { include: { profile: true } }, report: true },
+                    orderBy: { startTime: 'desc' }
+                },
+                caregiverShifts: {
+                    include: { patient: { include: { profile: true } }, report: true },
+                    orderBy: { startTime: 'desc' }
+                }
+            }
+        });
+
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        // Security: Exclude password and map shifts to unified array
+        const { password, ...userWithoutPassword } = user;
+        const shifts = user.role === 'PATIENT' ? (user as any).patientShifts : (user as any).caregiverShifts;
+
+        res.json({
+            ...userWithoutPassword,
+            shifts
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
