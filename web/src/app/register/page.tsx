@@ -59,6 +59,7 @@ export default function RegisterPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (loading) return; // Prevent duplicate submission
         setLoading(true);
         setError('');
 

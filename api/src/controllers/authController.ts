@@ -10,7 +10,19 @@ const getJwtSecret = () => process.env.JWT_SECRET || 'secret';
 
 export const register = async (req: AuthRequest, res: Response) => {
     try {
-        const { email, password, role, firstName, lastName, phone, profile: profileData } = req.body;
+        const {
+            email,
+            password,
+            role,
+            firstName,
+            lastName,
+            phone,
+            bio,
+            ailment,
+            medicalHistory,
+            emergencyContact,
+            profile: profileData
+        } = req.body;
 
         const existingUser = await prisma.user.findUnique({ where: { email } });
         if (existingUser) {
@@ -29,12 +41,14 @@ export const register = async (req: AuthRequest, res: Response) => {
                         firstName,
                         lastName,
                         phone,
-                        // Expanded Fields
+                        bio: bio || profileData?.bio,
+                        ailment: ailment || profileData?.ailment,
+                        medicalHistory: medicalHistory || profileData?.medicalHistory,
+                        emergencyContact: emergencyContact || profileData?.emergencyContact,
+                        // Expanded Fields fallback to profileData if provided
                         age: profileData?.age,
                         gender: profileData?.gender,
-                        ailment: profileData?.ailment,
                         location: profileData?.location,
-                        emergencyContact: profileData?.emergencyContact,
                         preferredShift: profileData?.preferredShift,
                         idNumber: profileData?.idNumber,
                         experienceYears: profileData?.experienceYears,

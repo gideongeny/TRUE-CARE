@@ -12,7 +12,7 @@ const prisma_1 = __importDefault(require("../utils/prisma"));
 const getJwtSecret = () => process.env.JWT_SECRET || 'secret';
 const register = async (req, res) => {
     try {
-        const { email, password, role, firstName, lastName, phone, profile: profileData } = req.body;
+        const { email, password, role, firstName, lastName, phone, bio, ailment, medicalHistory, emergencyContact, profile: profileData } = req.body;
         const existingUser = await prisma_1.default.user.findUnique({ where: { email } });
         if (existingUser) {
             return res.status(400).json({ message: 'User already exists' });
@@ -28,12 +28,14 @@ const register = async (req, res) => {
                         firstName,
                         lastName,
                         phone,
-                        // Expanded Fields
+                        bio: bio || profileData?.bio,
+                        ailment: ailment || profileData?.ailment,
+                        medicalHistory: medicalHistory || profileData?.medicalHistory,
+                        emergencyContact: emergencyContact || profileData?.emergencyContact,
+                        // Expanded Fields fallback to profileData if provided
                         age: profileData?.age,
                         gender: profileData?.gender,
-                        ailment: profileData?.ailment,
                         location: profileData?.location,
-                        emergencyContact: profileData?.emergencyContact,
                         preferredShift: profileData?.preferredShift,
                         idNumber: profileData?.idNumber,
                         experienceYears: profileData?.experienceYears,
