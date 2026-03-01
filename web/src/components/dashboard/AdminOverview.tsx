@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import api from '@/lib/api';
 import UserModal from './UserModal';
+import ShiftManagementModal from './ShiftManagementModal';
 import {
     AreaChart,
     Area,
@@ -42,19 +43,23 @@ export default function AdminOverview() {
     const [isAssigning, setIsAssigning] = useState(false);
     const [isUserModalOpen, setIsUserModalOpen] = useState(false);
     const [modalRole, setModalRole] = useState<'PATIENT' | 'CAREGIVER'>('PATIENT');
+    const [liveOps, setLiveOps] = useState<any[]>([]);
+    const [selectedShift, setSelectedShift] = useState<any>(null);
 
     useEffect(() => {
         const fetchDashboardData = async () => {
             try {
-                const [statsRes, analyticsRes, logsRes, usersRes] = await Promise.all([
+                const [statsRes, analyticsRes, logsRes, usersRes, liveOpsRes] = await Promise.all([
                     api.get('/admin/stats'),
                     api.get('/admin/analytics/shifts'),
                     api.get('/admin/logs'),
-                    api.get('/admin/users')
+                    api.get('/admin/users'),
+                    api.get('/admin/operations/live')
                 ]);
 
                 setStats(statsRes.data);
                 setLogs(logsRes.data);
+                setLiveOps(liveOpsRes.data || []);
 
                 setPatients(usersRes.data.filter((u: any) => u.role === 'PATIENT'));
                 setCaregivers(usersRes.data.filter((u: any) => u.role === 'CAREGIVER'));
@@ -276,17 +281,64 @@ export default function AdminOverview() {
                         </div>
                     </div>
 
+                    {/* Live Operations Tracking */}
+                    <div className="bg-white border border-slate-200 rounded-[40px] p-8 shadow-sm">
+                        <div className="flex items-center justify-between mb-8">
+                            <h4 className="font-black text-slate-900 uppercase tracking-widest text-xs">Live Operations Tracking</h4>
+                            <div className="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-[9px] font-black uppercase border border-emerald-100 flex items-center gap-2">
+                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                Real-time Sync
+                            </div>
+                        </div>
+                        <div className="space-y-6">
+                            {liveOps.length > 0 ? liveOps.map((op) => (
+                                <div key={op.id} className="flex items-center justify-between p-4 bg-slate-50/50 rounded-2xl border border-slate-100 group hover:border-blue-200 transition-all">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center font-black text-blue-600">
+                                            {op.caregiver?.profile?.firstName?.[0]}{op.caregiver?.profile?.lastName?.[0]}
+                                        </div>
+                                        <div>
+                                            <p className="text-[11px] font-black uppercase text-slate-900">{op.caregiver?.profile?.firstName} (Caregiver)</p>
+                                            <p className="text-[9px] font-bold text-slate-500 uppercase flex items-center gap-1">
+                                                <Activity className="w-3 h-3 text-slate-300" /> W: {op.patient?.profile?.lastName}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="text-right">
+                                        <p className="text-[10px] font-black text-slate-900 uppercase">
+                                            {op.caregiver?.profile?.lastLatitude ? `${op.caregiver.profile.lastLatitude.toFixed(2)}, ${op.caregiver.profile.lastLongitude.toFixed(2)}` : 'Signal Lost'}
+                                        </p>
+                                        <p className="text-[8px] font-bold text-slate-400 mt-1 uppercase tracking-widest">
+                                            {op.caregiver?.profile?.locationUpdatedAt ? new Date(op.caregiver.profile.locationUpdatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A'}
+                                        </p>
+                                    </div>
+                                </div>
+                            )) : (
+                                <div className="py-10 text-center opacity-20 italic font-medium text-xs">No Active Operational Signals</div>
+                            )}
+                        </div>
+                    </div>
+
                     {/* Recent Deployment Feed */}
                     <div className="bg-white border border-slate-200 rounded-[40px] p-8">
                         <h4 className="font-black text-slate-900 uppercase tracking-widest text-xs mb-8">Active Deployment Feed</h4>
                         <div className="space-y-6">
-                            {logs.slice(0, 5).map((log) => (
-                                <div key={log.id} className="flex gap-4">
-                                    <div className="w-2 h-2 bg-blue-600 rounded-full mt-1 shrink-0" />
-                                    <div>
-                                        <p className="text-[11px] font-black text-slate-900 uppercase leading-tight">{log.title}</p>
-                                        <p className="text-[9px] font-bold text-slate-400 mt-1 uppercase tracking-widest">{log.description}</p>
+                            {liveOps.slice(0, 5).map((shift) => (
+                                <div key={shift.id} className="flex items-center justify-between group border-b border-slate-50 pb-4 last:border-0 last:pb-0">
+                                    <div className="flex gap-4">
+                                        <div className="w-2 h-2 bg-blue-600 rounded-full mt-1 shrink-0" />
+                                        <div>
+                                            <p className="text-[11px] font-black text-slate-900 uppercase leading-tight">Patient: {shift.patient?.profile?.lastName}</p>
+                                            <p className="text-[9px] font-bold text-slate-400 mt-1 uppercase tracking-widest">Personnel: {shift.caregiver?.profile?.firstName} {shift.caregiver?.profile?.lastName}</p>
+                                        </div>
                                     </div>
+                                    <button
+                                        onClick={() => setSelectedShift(shift)}
+                                        className="p-2 text-slate-300 hover:text-blue-600 transition-colors"
+                                        title="Manage Shift"
+                                    >
+                                        <Calendar className="w-4 h-4" />
+                                    </button>
                                 </div>
                             ))}
                         </div>
@@ -333,6 +385,18 @@ export default function AdminOverview() {
                 onSuccess={() => window.location.reload()}
                 role={modalRole}
             />
+
+            {/* Shift Management / Reassignment Modal */}
+            {selectedShift && (
+                <ShiftManagementModal
+                    shift={selectedShift}
+                    onClose={() => setSelectedShift(null)}
+                    onSuccess={() => {
+                        setSelectedShift(null);
+                        window.location.reload();
+                    }}
+                />
+            )}
         </div>
     );
 }

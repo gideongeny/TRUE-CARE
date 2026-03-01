@@ -649,3 +649,61 @@ export const impersonateUser = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+export const reassignShift = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const { caregiverId } = req.body;
+
+        const updatedShift = await prisma.shift.update({
+            where: { id },
+            data: { caregiverId },
+            include: { caregiver: { include: { profile: true } } }
+        });
+
+        res.json(updatedShift);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+export const updateShiftDetails = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const { endTime, earnings, notes } = req.body;
+
+        const updatedShift = await prisma.shift.update({
+            where: { id },
+            data: {
+                endTime: endTime ? new Date(endTime) : undefined,
+                earnings: earnings ? Number(earnings) : undefined,
+                notes
+            },
+            include: { patient: { include: { profile: true } }, caregiver: { include: { profile: true } } }
+        });
+
+        res.json(updatedShift);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+export const getLiveOperations = async (req: Request, res: Response) => {
+    try {
+        const activeShifts = await prisma.shift.findMany({
+            where: { status: 'IN_PROGRESS' },
+            include: {
+                caregiver: { include: { profile: true } },
+                patient: { include: { profile: true } }
+            }
+        });
+
+        res.json(activeShifts);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+

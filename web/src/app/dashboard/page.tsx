@@ -8,6 +8,7 @@ import CaregiverSchedule from '@/components/dashboard/CaregiverSchedule';
 import PatientDashboard from '@/components/dashboard/PatientDashboard';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Activity, Shield, Zap, Bell, Search, User } from 'lucide-react';
+import api from '@/lib/api';
 
 export default function DashboardPage() {
     const [user, setUser] = useState<any>(null);
@@ -17,6 +18,32 @@ export default function DashboardPage() {
         if (savedUser) setUser(JSON.parse(savedUser));
         else setUser({ role: 'ADMIN', firstName: 'System', lastName: 'Admin' }); // Fallback for dev
     }, []);
+
+    // Real-time Core: Periodic Location Tracking for Caregivers
+    useEffect(() => {
+        if (user?.role !== 'CAREGIVER') return;
+
+        const reportLocation = async () => {
+            if (!navigator.geolocation) return;
+
+            navigator.geolocation.getCurrentPosition(async (position) => {
+                try {
+                    await api.post('/users/update-location', {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    });
+                } catch (error) {
+                    console.error('Location sync heartbeat failed', error);
+                }
+            });
+        };
+
+        // Immediate report and then every 2 mins
+        reportLocation();
+        const interval = setInterval(reportLocation, 120000);
+
+        return () => clearInterval(interval);
+    }, [user?.role]);
 
     if (!user) return (
         <div className="min-h-screen bg-slate-950 flex items-center justify-center">

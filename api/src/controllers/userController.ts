@@ -132,3 +132,27 @@ export const getUserById = async (req: AuthRequest, res: Response) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+export const updateLocation = async (req: AuthRequest, res: Response) => {
+    try {
+        const userId = req.user?.userId;
+        const { latitude, longitude } = req.body;
+
+        if (!userId) return res.status(401).json({ message: "Unauthorized" });
+
+        await prisma.profile.update({
+            where: { userId },
+            data: {
+                lastLatitude: Number(latitude),
+                lastLongitude: Number(longitude),
+                locationUpdatedAt: new Date()
+            }
+        });
+
+        res.json({ message: "Location updated" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+

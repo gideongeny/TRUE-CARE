@@ -47,12 +47,15 @@ type SidebarProps = {
 export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
     const pathname = usePathname();
     const [userRole, setUserRole] = useState<string>('PATIENT');
+    const [userId, setUserId] = useState<string>('');
 
     useEffect(() => {
         const user = localStorage.getItem('user');
         if (user) {
             try {
-                setUserRole(JSON.parse(user).role);
+                const parsed = JSON.parse(user);
+                setUserRole(parsed.role);
+                setUserId(parsed.id);
             } catch (e) {
                 console.error('Failed to parse user role');
             }
@@ -60,6 +63,16 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
     }, []);
 
     const filteredMenu = menuItems.filter(item => item.roles.includes(userRole));
+
+    // Add "My Bio" if caregiver
+    if (userRole === 'CAREGIVER' && userId) {
+        filteredMenu.push({
+            icon: Users,
+            label: 'My Bio',
+            href: `/dashboard/caregivers/${userId}`,
+            roles: ['CAREGIVER']
+        });
+    }
 
     return (
         <aside

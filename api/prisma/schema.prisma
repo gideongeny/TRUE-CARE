@@ -54,10 +54,10 @@ model Profile {
   cvUrl            String?
   certificateUrl   String?
   idCardUrl        String?
-  paymentStatus    String   @default("PENDING")
-  balance          Decimal  @default(0)
-  totalBilled      Decimal  @default(0)
   totalPaid        Decimal  @default(0)
+  lastLatitude     Float?
+  lastLongitude    Float?
+  locationUpdatedAt DateTime?
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
   user             User     @relation(fields: [userId], references: [id])

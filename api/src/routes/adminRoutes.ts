@@ -18,7 +18,10 @@ import {
     getAllRequests,
     getPlatformAnalytics,
     getUserById,
-    impersonateUser
+    impersonateUser,
+    reassignShift,
+    updateShiftDetails,
+    getLiveOperations
 } from '../controllers/adminController';
 import { adminSetPrice, updateRequestStatus, adminCreateRequest } from '../controllers/requestController';
 import { adminPayCaregiver } from '../controllers/paymentController';
@@ -57,6 +60,9 @@ router.post('/shifts/payout', adminPayCaregiver);
 // Admin User CRUD
 router.get('/users/:id', getUserById);
 router.post('/impersonate/:id', impersonateUser);
+router.post('/shifts/:id/reassign', reassignShift);
+router.patch('/shifts/:id/details', updateShiftDetails);
+router.get('/operations/live', getLiveOperations);
 router.post('/users', adminCreateUser);
 router.patch('/users/:id', adminUpdateUser);
 router.delete('/users/:id', adminDeleteUser);
