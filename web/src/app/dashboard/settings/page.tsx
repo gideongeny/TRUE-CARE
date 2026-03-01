@@ -7,8 +7,6 @@ import {
     Bell,
     Shield,
     Lock,
-    CreditCard,
-    Globe,
     Zap,
     Activity,
     ChevronRight,
@@ -20,6 +18,25 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function SettingsPage() {
     const [activeTab, setActiveTab] = useState('profile');
     const [isSaving, setIsSaving] = useState(false);
+    const [saveSuccess, setSaveSuccess] = useState(false);
+
+    // Security toggles state
+    const [biometric, setBiometric] = useState(true);
+    const [mfa, setMfa] = useState(false);
+
+    // Notification toggles state
+    const [notifications, setNotifications] = useState({
+        criticalFailures: true,
+        shiftUpdates: true,
+        financialFlux: false,
+        admittanceRequests: true,
+        operationalDirectives: false,
+        networkLatency: true,
+    });
+
+    const toggleNotification = (key: keyof typeof notifications) => {
+        setNotifications(prev => ({ ...prev, [key]: !prev[key] }));
+    };
 
     const tabs = [
         { id: 'profile', label: 'Identity Matrix', icon: User },
@@ -31,9 +48,11 @@ export default function SettingsPage() {
 
     const handleSave = () => {
         setIsSaving(true);
+        setSaveSuccess(false);
         setTimeout(() => {
             setIsSaving(false);
-            // alert('Settings updated successfully in real-time.');
+            setSaveSuccess(true);
+            setTimeout(() => setSaveSuccess(false), 3000);
         }, 1200);
     };
 
@@ -60,8 +79,8 @@ export default function SettingsPage() {
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
                                 className={`w-full flex items-center justify-between px-8 py-5 rounded-[24px] text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 border ${activeTab === tab.id
-                                        ? 'bg-blue-600 border-blue-500 text-white shadow-2xl shadow-blue-600/20 translate-x-1'
-                                        : 'bg-slate-950 border-slate-900 text-slate-500 hover:text-white hover:border-slate-800'
+                                    ? 'bg-blue-600 border-blue-500 text-white shadow-2xl shadow-blue-600/20 translate-x-1'
+                                    : 'bg-slate-950 border-slate-900 text-slate-500 hover:text-white hover:border-slate-800'
                                     }`}
                             >
                                 <div className="flex items-center gap-4">
@@ -122,18 +141,28 @@ export default function SettingsPage() {
                                                 title="Biometric Authentication"
                                                 desc="Extra layer of neural identity verification."
                                                 icon={<Fingerprint className="w-5 h-5 text-blue-500" />}
-                                                active
+                                                active={biometric}
+                                                onToggle={() => setBiometric(v => !v)}
                                             />
                                             <SecurityToggle
                                                 title="Multi-Factor Flux"
                                                 desc="Temporary cryptographic token generation."
                                                 icon={<Shield className="w-5 h-5 text-slate-500" />}
+                                                active={mfa}
+                                                onToggle={() => setMfa(v => !v)}
                                             />
                                             <SecurityToggle
                                                 title="Global Session Flush"
-                                                desc="Terminate all active deployment sessions."
+                                                desc="Terminate all active deployment sessions. This will sign you out everywhere."
                                                 icon={<Lock className="w-5 h-5 text-rose-500" />}
+                                                active={false}
                                                 isNegative
+                                                onToggle={() => {
+                                                    if (confirm('This will terminate all active sessions. Are you sure?')) {
+                                                        localStorage.clear();
+                                                        window.location.href = '/login';
+                                                    }
+                                                }}
                                             />
                                         </div>
                                     </motion.div>
@@ -153,12 +182,54 @@ export default function SettingsPage() {
                                         </div>
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                            <NotifySwitch label="Critical System Failures" active />
-                                            <NotifySwitch label="Shift Temporal Updates" active />
-                                            <NotifySwitch label="Financial Flux Detected" />
-                                            <NotifySwitch label="Subject Admittance Requests" active />
-                                            <NotifySwitch label="Operational Directives" />
-                                            <NotifySwitch label="Network Latency Alerts" active />
+                                            <NotifySwitch label="Critical System Failures" active={notifications.criticalFailures} onToggle={() => toggleNotification('criticalFailures')} />
+                                            <NotifySwitch label="Shift Temporal Updates" active={notifications.shiftUpdates} onToggle={() => toggleNotification('shiftUpdates')} />
+                                            <NotifySwitch label="Financial Flux Detected" active={notifications.financialFlux} onToggle={() => toggleNotification('financialFlux')} />
+                                            <NotifySwitch label="Subject Admittance Requests" active={notifications.admittanceRequests} onToggle={() => toggleNotification('admittanceRequests')} />
+                                            <NotifySwitch label="Operational Directives" active={notifications.operationalDirectives} onToggle={() => toggleNotification('operationalDirectives')} />
+                                            <NotifySwitch label="Network Latency Alerts" active={notifications.networkLatency} onToggle={() => toggleNotification('networkLatency')} />
+                                        </div>
+                                    </motion.div>
+                                )}
+
+                                {activeTab === 'compliance' && (
+                                    <motion.div
+                                        key="compliance"
+                                        initial={{ opacity: 0, x: 20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0, x: -20 }}
+                                        className="space-y-12"
+                                    >
+                                        <div className="space-y-2">
+                                            <h3 className="text-2xl font-black text-white tracking-tighter uppercase italic">Regulatory Flux</h3>
+                                            <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.1em]">Data governance and compliance configuration</p>
+                                        </div>
+                                        <div className="space-y-4">
+                                            <ComplianceItem label="HIPAA Data Compliance" status="Active" />
+                                            <ComplianceItem label="GDPR Patient Rights" status="Configured" />
+                                            <ComplianceItem label="Audit Log Retention" status="90 Days" />
+                                            <ComplianceItem label="Data Encryption Standard" status="AES-256" />
+                                        </div>
+                                    </motion.div>
+                                )}
+
+                                {activeTab === 'integrations' && (
+                                    <motion.div
+                                        key="integrations"
+                                        initial={{ opacity: 0, x: 20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0, x: -20 }}
+                                        className="space-y-12"
+                                    >
+                                        <div className="space-y-2">
+                                            <h3 className="text-2xl font-black text-white tracking-tighter uppercase italic">System Nexus</h3>
+                                            <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.1em]">External integrations and platform connections</p>
+                                        </div>
+                                        <div className="space-y-4">
+                                            <IntegrationItem label="M-Pesa Payment Gateway" status="Connected" color="emerald" />
+                                            <IntegrationItem label="SMS Alert Provider" status="Connected" color="blue" />
+                                            <IntegrationItem label="Email Dispatch Service" status="Connected" color="blue" />
+                                            <IntegrationItem label="Real-Time Telemetry API" status="Pending" color="amber" />
                                         </div>
                                     </motion.div>
                                 )}
@@ -169,7 +240,7 @@ export default function SettingsPage() {
                         <div className="mt-16 pt-8 border-t border-slate-900 flex flex-col md:flex-row items-center justify-between gap-6">
                             <p className="text-[10px] font-black text-slate-700 uppercase tracking-widest flex items-center gap-2">
                                 <Activity className="w-4 h-4" />
-                                System Registered: 2024-01-12
+                                {saveSuccess ? '✓ Changes Saved Successfully' : 'System Registered: 2024-01-12'}
                             </p>
                             <div className="flex gap-4 w-full md:w-auto">
                                 <button className="flex-1 md:flex-none px-10 py-4 bg-slate-900 border border-slate-800 text-slate-500 hover:text-white rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all">Cancel</button>
@@ -209,12 +280,17 @@ function Field({ label, defaultValue, isTextArea = false }: any) {
     );
 }
 
-function SecurityToggle({ title, desc, icon, active = false, isNegative = false }: any) {
+function SecurityToggle({ title, desc, icon, active = false, isNegative = false, onToggle }: any) {
     return (
-        <button className={`w-full flex items-center justify-between p-8 rounded-[32px] border transition-all duration-300 group ${isNegative
+        <button
+            onClick={onToggle}
+            className={`w-full flex items-center justify-between p-8 rounded-[32px] border transition-all duration-300 group ${isNegative
                 ? 'bg-rose-500/5 border-rose-500/10 hover:border-rose-500/30'
-                : 'bg-slate-900/50 border-slate-800 hover:border-slate-700'
-            }`}>
+                : active
+                    ? 'bg-blue-600/5 border-blue-500/20 hover:border-blue-500/40'
+                    : 'bg-slate-900/50 border-slate-800 hover:border-slate-700'
+                }`}
+        >
             <div className="flex items-center gap-6">
                 <div className={`w-14 h-14 bg-slate-950 border border-slate-800 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110`}>
                     {icon}
@@ -224,20 +300,46 @@ function SecurityToggle({ title, desc, icon, active = false, isNegative = false 
                     <p className="text-[10px] text-slate-600 font-bold tracking-widest uppercase mt-0.5">{desc}</p>
                 </div>
             </div>
-            <div className={`w-12 h-6 rounded-full flex items-center px-1 transition-all ${active ? 'bg-blue-600 justify-end' : 'bg-slate-800 justify-start'}`}>
-                <div className="w-4 h-4 bg-white rounded-full shadow-lg" />
+            <div className={`w-12 h-6 rounded-full flex items-center px-1 transition-all duration-300 ${active ? 'bg-blue-600 justify-end' : isNegative ? 'bg-rose-900/50 justify-start' : 'bg-slate-800 justify-start'}`}>
+                <div className="w-4 h-4 bg-white rounded-full shadow-lg transition-all" />
             </div>
         </button>
     );
 }
 
-function NotifySwitch({ label, active = false }: any) {
+function NotifySwitch({ label, active = false, onToggle }: any) {
     return (
-        <div className="flex items-center justify-between p-6 bg-slate-900/30 border border-slate-800/30 rounded-2xl group hover:border-blue-500/20 transition-all">
-            <span className="text-[11px] font-black text-slate-400 group-hover:text-white transition-colors uppercase tracking-tight">{label}</span>
-            <button className={`w-10 h-5 rounded-full flex items-center px-0.5 transition-all ${active ? 'bg-blue-600 justify-end' : 'bg-slate-800 justify-start'}`}>
-                <div className="w-3.5 h-3.5 bg-white rounded-full" />
-            </button>
+        <div
+            onClick={onToggle}
+            className={`flex items-center justify-between p-6 rounded-2xl border cursor-pointer transition-all group ${active ? 'bg-blue-600/5 border-blue-500/20 hover:border-blue-500/30' : 'bg-slate-900/30 border-slate-800/30 hover:border-blue-500/20'}`}
+        >
+            <span className={`text-[11px] font-black uppercase tracking-tight transition-colors ${active ? 'text-white' : 'text-slate-400 group-hover:text-white'}`}>{label}</span>
+            <div className={`w-10 h-5 rounded-full flex items-center px-0.5 transition-all duration-300 ${active ? 'bg-blue-600 justify-end' : 'bg-slate-800 justify-start'}`}>
+                <div className="w-3.5 h-3.5 bg-white rounded-full shadow transition-all" />
+            </div>
+        </div>
+    );
+}
+
+function ComplianceItem({ label, status }: any) {
+    return (
+        <div className="flex items-center justify-between p-6 bg-slate-900/30 border border-slate-800/30 rounded-2xl">
+            <span className="text-[11px] font-black text-slate-400 uppercase tracking-tight">{label}</span>
+            <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest border border-emerald-400/20 bg-emerald-400/5 px-3 py-1 rounded-full">{status}</span>
+        </div>
+    );
+}
+
+function IntegrationItem({ label, status, color }: any) {
+    const colorMap: Record<string, string> = {
+        emerald: 'text-emerald-400 border-emerald-400/20 bg-emerald-400/5',
+        blue: 'text-blue-400 border-blue-400/20 bg-blue-400/5',
+        amber: 'text-amber-400 border-amber-400/20 bg-amber-400/5',
+    };
+    return (
+        <div className="flex items-center justify-between p-6 bg-slate-900/30 border border-slate-800/30 rounded-2xl">
+            <span className="text-[11px] font-black text-slate-400 uppercase tracking-tight">{label}</span>
+            <span className={`text-[10px] font-black uppercase tracking-widest border px-3 py-1 rounded-full ${colorMap[color] || colorMap.blue}`}>{status}</span>
         </div>
     );
 }

@@ -104,6 +104,17 @@ export default function PatientDetailPage() {
         .filter(Boolean)
         .reverse();
 
+    // Deduplicate caregivers — one caregiver may have multiple shifts
+    const assignedCaregivers: any[] = [];
+    const seenIds = new Set<string>();
+    for (const s of (patient?.shifts || [])) {
+        // Only include real caregivers (role check) who differ from the patient
+        if (s.caregiver && s.caregiver.id !== patient.id && !seenIds.has(s.caregiver.id)) {
+            seenIds.add(s.caregiver.id);
+            assignedCaregivers.push({ ...s.caregiver, shiftType: s.shiftType });
+        }
+    }
+
     // Fallback if no real data exists yet
     const displayVitals = vitalsData.length > 0 ? vitalsData : [
         { time: '08:00', hr: 72, bp: 120, temp: 36.6, date: 'Baseline' },
@@ -175,18 +186,18 @@ export default function PatientDetailPage() {
                         <div className="bg-slate-900 rounded-[40px] p-8 text-white">
                             <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-400 mb-8 text-center">Assigned Care Team</h3>
                             <div className="space-y-4">
-                                {patient.shifts && patient.shifts.length > 0 ? patient.shifts.slice(0, 3).map((s: any) => (
+                                {assignedCaregivers.length > 0 ? assignedCaregivers.map((cg: any) => (
                                     <Link
-                                        href={`/dashboard/caregivers/${s.caregiver?.id}`}
-                                        key={s.id}
+                                        href={`/dashboard/caregivers/${cg.id}`}
+                                        key={cg.id}
                                         className="p-4 bg-white/5 border border-white/10 rounded-2xl flex items-center gap-4 group cursor-pointer hover:bg-white/10 transition-all block"
                                     >
-                                        <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center font-black text-xs">
-                                            {s.caregiver?.profile?.firstName?.[0] ?? '?'}{s.caregiver?.profile?.lastName?.[0] ?? ''}
+                                        <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center font-black text-xs shrink-0">
+                                            {cg.profile?.firstName?.[0] ?? '?'}{cg.profile?.lastName?.[0] ?? ''}
                                         </div>
                                         <div>
-                                            <p className="text-[11px] font-black group-hover:text-blue-400 transition-colors uppercase">{s.caregiver?.profile?.firstName} {s.caregiver?.profile?.lastName}</p>
-                                            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">{s.shiftType || 'GENERAL'}</p>
+                                            <p className="text-[11px] font-black group-hover:text-blue-400 transition-colors uppercase">{cg.profile?.firstName} {cg.profile?.lastName}</p>
+                                            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">{cg.shiftType || 'GENERAL'}</p>
                                         </div>
                                     </Link>
                                 )) : (
