@@ -20,6 +20,7 @@ export default function LoginPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (loading) return;
         setLoading(true);
         setError('');
 
@@ -37,12 +38,14 @@ export default function LoginPage() {
             router.push('/dashboard');
         } catch (err: any) {
             setError(err.response?.data?.message || 'Invalid credentials. Please try again.');
+        } finally {
             setLoading(false);
         }
     };
 
     const handleVerify2FA = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (loading) return;
         setLoading(true);
         setError('');
         try {
@@ -57,6 +60,7 @@ export default function LoginPage() {
             router.push('/dashboard');
         } catch (err: any) {
             setError('Invalid verification code.');
+        } finally {
             setLoading(false);
         }
     };
