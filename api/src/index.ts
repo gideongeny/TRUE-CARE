@@ -51,8 +51,8 @@ app.get('/api/public/init-db', async (req: Request, res: Response) => {
     try {
         console.log('Starting manual database initialization...');
 
-        // 1. Push schema
-        const pushResult = execSync('npx prisma db push --accept-data-loss').toString();
+        // 1. Push schema (Non-destructive)
+        const pushResult = execSync('npx prisma db push').toString();
         console.log('Prisma push result:', pushResult);
 
         // 2. Run seed
