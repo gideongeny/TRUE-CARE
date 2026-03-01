@@ -47,32 +47,7 @@ const limiter = rateLimit({
 
 app.use('/api/', limiter);
 
-app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/shifts', shiftRoutes);
-app.use('/api/requests', requestRoutes);
-app.use('/api/payments', paymentRoutes);
-
-
-
-app.get('/', async (req: Request, res: Response) => {
-    let dbStatus = 'Checking...';
-    try {
-        await prisma.user.count();
-        dbStatus = 'Connected';
-    } catch (e: any) {
-        dbStatus = `Error: ${e.message}`;
-    }
-    res.json({
-        message: 'TRUE CARE API is running (Ver: 1.0.4)',
-        deployedAt: new Date().toISOString(),
-        status: 'Operational',
-        database: dbStatus
-    });
-});
-
-app.get('/api/admin/init-db', async (req: Request, res: Response) => {
+app.get('/api/public/init-db', async (req: Request, res: Response) => {
     try {
         console.log('Starting manual database initialization...');
 
@@ -97,6 +72,29 @@ app.get('/api/admin/init-db', async (req: Request, res: Response) => {
             stack: error.stack
         });
     }
+});
+
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/shifts', shiftRoutes);
+app.use('/api/requests', requestRoutes);
+app.use('/api/payments', paymentRoutes);
+
+app.get('/', async (req: Request, res: Response) => {
+    let dbStatus = 'Checking...';
+    try {
+        await prisma.user.count();
+        dbStatus = 'Connected';
+    } catch (e: any) {
+        dbStatus = `Error: ${e.message}`;
+    }
+    res.json({
+        message: 'TRUE CARE API is running (Ver: 1.0.5)',
+        deployedAt: new Date().toISOString(),
+        status: 'Operational',
+        database: dbStatus
+    });
 });
 
 app.get('/ping', (req: Request, res: Response) => {
