@@ -64,9 +64,13 @@ export const register = async (req: AuthRequest, res: Response) => {
         const token = jwt.sign({ userId: user.id, role: user.role }, getJwtSecret());
 
         res.status(201).json({ token, user });
-    } catch (error) {
+    } catch (error: any) {
         console.error('Registration error:', error);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json({
+            message: 'Internal server error',
+            error: error.message,
+            stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+        });
     }
 };
 
