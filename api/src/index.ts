@@ -49,27 +49,40 @@ app.use('/api/', limiter);
 
 app.get('/api/public/init-db', async (req: Request, res: Response) => {
     try {
-        console.log('Starting manual database initialization...');
+        console.log('Starting database seeding...');
 
-        // 1. Push schema (Non-destructive)
-        const pushResult = execSync('npx prisma db push').toString();
-        console.log('Prisma push result:', pushResult);
-
-        // 2. Run seed
-        const seedResult = execSync('npm run seed').toString();
+        // Only run seed — schema is managed via migrations, not db push
+        const seedResult = execSync('npm run seed', { timeout: 60000 }).toString();
         console.log('Seed result:', seedResult);
 
         res.json({
-            message: 'Database initialized successfully',
-            push: pushResult,
+            message: 'Database seeded successfully',
             seed: seedResult
         });
     } catch (error: any) {
-        console.error('Initialization error:', error);
+        console.error('Seeding error:', error);
         res.status(500).json({
-            message: 'Database initialization failed',
+            message: 'Database seeding failed',
             error: error.message,
-            stack: error.stack
+            stderr: error.stderr?.toString()
+        });
+    }
+});
+
+// Separate endpoint for schema migration (requires direct DB connection)
+app.get('/api/public/migrate-db', async (req: Request, res: Response) => {
+    try {
+        console.log('Running schema push...');
+        // Uses DIRECT_URL if set (bypasses PgBouncer pooler)
+        const pushResult = execSync('npx prisma db push --skip-generate', { timeout: 120000 }).toString();
+        console.log('Push result:', pushResult);
+        res.json({ message: 'Schema migration complete', result: pushResult });
+    } catch (error: any) {
+        console.error('Migration error:', error);
+        res.status(500).json({
+            message: 'Schema migration failed',
+            error: error.message,
+            stderr: error.stderr?.toString()
         });
     }
 });

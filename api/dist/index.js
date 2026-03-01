@@ -45,25 +45,39 @@ const limiter = (0, express_rate_limit_1.default)({
 app.use('/api/', limiter);
 app.get('/api/public/init-db', async (req, res) => {
     try {
-        console.log('Starting manual database initialization...');
-        // 1. Push schema
-        const pushResult = (0, child_process_1.execSync)('npx prisma db push --accept-data-loss').toString();
-        console.log('Prisma push result:', pushResult);
-        // 2. Run seed
-        const seedResult = (0, child_process_1.execSync)('npm run seed').toString();
+        console.log('Starting database seeding...');
+        // Only run seed — schema is managed via migrations, not db push
+        const seedResult = (0, child_process_1.execSync)('npm run seed', { timeout: 60000 }).toString();
         console.log('Seed result:', seedResult);
         res.json({
-            message: 'Database initialized successfully',
-            push: pushResult,
+            message: 'Database seeded successfully',
             seed: seedResult
         });
     }
     catch (error) {
-        console.error('Initialization error:', error);
+        console.error('Seeding error:', error);
         res.status(500).json({
-            message: 'Database initialization failed',
+            message: 'Database seeding failed',
             error: error.message,
-            stack: error.stack
+            stderr: error.stderr?.toString()
+        });
+    }
+});
+// Separate endpoint for schema migration (requires direct DB connection)
+app.get('/api/public/migrate-db', async (req, res) => {
+    try {
+        console.log('Running schema push...');
+        // Uses DIRECT_URL if set (bypasses PgBouncer pooler)
+        const pushResult = (0, child_process_1.execSync)('npx prisma db push --skip-generate', { timeout: 120000 }).toString();
+        console.log('Push result:', pushResult);
+        res.json({ message: 'Schema migration complete', result: pushResult });
+    }
+    catch (error) {
+        console.error('Migration error:', error);
+        res.status(500).json({
+            message: 'Schema migration failed',
+            error: error.message,
+            stderr: error.stderr?.toString()
         });
     }
 });
