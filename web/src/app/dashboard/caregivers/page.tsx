@@ -148,18 +148,18 @@ export default function CaregiversListPage() {
                                 filteredCaregivers.map((cg) => (
                                     <tr key={cg.id} className="group hover:bg-slate-900/30 transition-all">
                                         <td className="px-8 py-6">
-                                            <div className="flex items-center gap-5">
-                                                <div className="w-12 h-12 bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 text-white rounded-2xl flex items-center justify-center font-black text-sm shadow-xl">
+                                            <Link href={`/dashboard/caregivers/${cg.id}`} className="group/card flex items-center gap-5 cursor-pointer">
+                                                <div className="w-12 h-12 bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 text-white rounded-2xl flex items-center justify-center font-black text-sm shadow-xl group-hover/card:border-blue-500 transition-all">
                                                     {cg.profile?.firstName?.[0]}{cg.profile?.lastName?.[0]}
                                                 </div>
                                                 <div>
-                                                    <p className="text-sm font-bold text-white group-hover:text-blue-400 transition-colors uppercase tracking-tight">{cg.profile?.firstName} {cg.profile?.lastName}</p>
+                                                    <p className="text-sm font-bold text-white group-hover/card:text-blue-400 transition-colors uppercase tracking-tight">{cg.profile?.firstName} {cg.profile?.lastName}</p>
                                                     <div className="flex items-center gap-2 mt-1">
                                                         <Mail className="w-3 h-3 text-slate-600" />
                                                         <p className="text-[10px] text-slate-500 font-bold lowercase">{cg.email}</p>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </Link>
                                         </td>
                                         <td className="px-8 py-6">
                                             <div className="space-y-2">
