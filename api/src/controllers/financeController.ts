@@ -1,6 +1,7 @@
 import { Response } from 'express';
 import { AuthRequest } from '../types/AuthRequest';
 import prisma from '../utils/prisma';
+import { createNotification } from '../utils/notifications';
 
 export const getWalletBalance = async (req: AuthRequest, res: Response) => {
     try {
@@ -51,6 +52,12 @@ export const requestWithdrawal = async (req: AuthRequest, res: Response) => {
                 status: 'PENDING'
             }
         });
+
+        // Notify Admins
+        const admins = await prisma.user.findMany({ where: { role: 'ADMIN' } });
+        for (const admin of admins) {
+            await createNotification(admin.id, 'New Payout Request', `Caregiver has requested a withdrawal of KSh ${amount}`, 'FINANCE');
+        }
 
         res.status(201).json(request);
     } catch (error) {
@@ -117,6 +124,9 @@ export const approvePayout = async (req: AuthRequest, res: Response) => {
                 }
             })
         ]);
+
+        // Notify Caregiver
+        await createNotification(request.caregiverId, 'Payout Approved!', `Your withdrawal of KSh ${request.amount} has been processed: ${transactionId}`, 'FINANCE');
 
         res.json({ message: "Payout approved and recorded" });
     } catch (error) {

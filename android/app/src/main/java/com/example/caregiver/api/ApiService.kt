@@ -5,6 +5,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PATCH
 import retrofit2.http.Path
 
 interface ApiService {
@@ -54,4 +55,18 @@ interface ApiService {
 
     @POST("finance/withdraw")
     suspend fun requestWithdrawal(@Body request: WithdrawalRequest): Response<WithdrawalResponse>
+
+    // Notifications (v2.0)
+    @GET("users/meta/notifications")
+    suspend fun getNotifications(): Response<List<Notification>>
+
+    @PATCH("users/meta/notifications/{id}/read")
+    suspend fun markNotificationRead(@Path("id") id: String): Response<Unit>
+
+    // Verification (v2.0)
+    @GET("verification/status")
+    suspend fun getVerificationStatus(): Response<VerificationStatusResponse>
+
+    @POST("verification/upload")
+    suspend fun uploadDoc(@Body request: VerificationDoc): Response<VerificationDoc>
 }

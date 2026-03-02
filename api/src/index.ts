@@ -28,6 +28,7 @@ import requestRoutes from './routes/requestRoutes';
 import paymentRoutes from './routes/paymentRoutes';
 import clinicalRoutes from './routes/clinicalRoutes';
 import financeRoutes from './routes/financeRoutes';
+import verificationRoutes from './routes/verificationRoutes';
 
 import rateLimit from 'express-rate-limit'; // Security best practice
 
@@ -122,6 +123,7 @@ app.use('/api/requests', requestRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/clinical', clinicalRoutes);
 app.use('/api/finance', financeRoutes);
+app.use('/api/verification', verificationRoutes);
 
 app.get('/', async (req: Request, res: Response) => {
     let dbStatus = 'Checking...';

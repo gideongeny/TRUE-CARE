@@ -45,6 +45,7 @@ export default function AdminOverview() {
     const [modalRole, setModalRole] = useState<'PATIENT' | 'CAREGIVER'>('PATIENT');
     const [liveOps, setLiveOps] = useState<any[]>([]);
     const [selectedShift, setSelectedShift] = useState<any>(null);
+    const [insights, setInsights] = useState<any>(null);
 
     useEffect(() => {
         const fetchDashboardData = async () => {
@@ -54,12 +55,14 @@ export default function AdminOverview() {
                     api.get('/admin/analytics/shifts'),
                     api.get('/admin/logs'),
                     api.get('/admin/users'),
-                    api.get('/admin/operations/live')
+                    api.get('/admin/operations/live'),
+                    api.get('/admin/insights')
                 ]);
 
                 setStats(statsRes.data);
                 setLogs(logsRes.data);
                 setLiveOps(liveOpsRes.data || []);
+                setInsights(insightsRes.data);
 
                 setPatients(usersRes.data.filter((u: any) => u.role === 'PATIENT'));
                 setCaregivers(usersRes.data.filter((u: any) => u.role === 'CAREGIVER'));
@@ -114,9 +117,9 @@ export default function AdminOverview() {
 
     const cards = [
         { label: 'Total Patients', value: stats?.patientCount || 0, icon: Users, trend: (stats?.patientTrend || 0) >= 0 ? `+${stats?.patientTrend || 0}%` : `${stats?.patientTrend || 0}%`, up: (stats?.patientTrend || 0) >= 0, color: 'text-blue-600', bg: 'bg-blue-50' },
-        { label: 'Verified Caregivers', value: stats?.caregiverCount || 0, icon: ShieldCheck, trend: (stats?.caregiverTrend || 0) >= 0 ? `+${stats?.caregiverTrend || 0}%` : `${stats?.caregiverTrend || 0}%`, up: (stats?.caregiverTrend || 0) >= 0, color: 'text-emerald-600', bg: 'bg-emerald-50' },
-        { label: 'Pending Requests', value: stats?.pendingRequests || 0, icon: AlertCircle, trend: 'LIVE', up: true, color: 'text-amber-600', bg: 'bg-amber-50' },
-        { label: 'Total Revenue', value: stats?.totalRevenue || 0, icon: TrendingUp, trend: 'SECURE', up: true, color: 'text-indigo-600', bg: 'bg-indigo-50' },
+        { label: 'Pending Payouts', value: insights?.pendingPayouts?.amount || 0, icon: TrendingUp, trend: `${insights?.pendingPayouts?.count || 0} Req`, up: true, color: 'text-rose-600', bg: 'bg-rose-50' },
+        { label: 'Clinical Intensity', value: insights?.clinicalActivity?.last24hLogs || 0, icon: Stethoscope, trend: '24HR', up: true, color: 'text-amber-600', bg: 'bg-amber-50' },
+        { label: 'Verification Queue', value: insights?.operational?.verificationQueue || 0, icon: ShieldCheck, trend: 'ACTION', up: false, color: 'text-indigo-600', bg: 'bg-indigo-50' },
     ];
 
     if (loading) return <div className="p-20 text-center font-black text-slate-400 uppercase tracking-widest">Waking Up Neural Engine...</div>;
@@ -145,7 +148,7 @@ export default function AdminOverview() {
                         <div>
                             <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1">{card.label}</p>
                             <h3 className="text-3xl font-black text-slate-900 tracking-tight">
-                                {card.label === 'Total Revenue' ? `$${stats?.totalRevenue?.toLocaleString() || 0}` : card.value}
+                                {card.label === 'Pending Payouts' ? `KSh ${card.value.toLocaleString()}` : card.value}
                             </h3>
                         </div>
                     </motion.div>

@@ -1,6 +1,7 @@
 import { Response } from 'express';
 import { AuthRequest } from '../types/AuthRequest';
 import prisma from '../utils/prisma';
+import { createNotification } from '../utils/notifications';
 
 export const createShift = async (req: AuthRequest, res: Response) => {
     try {
@@ -37,7 +38,10 @@ export const createShift = async (req: AuthRequest, res: Response) => {
             },
         });
 
-        // Trigger notification logic here if needed
+        // Notify Caregiver if assigned directly
+        if (caregiverId) {
+            await createNotification(caregiverId, 'New Assignment', `You have been assigned to a new care session for a patient starting ${new Date(startTime).toLocaleString()}`, 'SHIFT');
+        }
 
         res.status(201).json(shift);
     } catch (error) {
@@ -190,6 +194,11 @@ export const updateShiftPayment = async (req: AuthRequest, res: Response) => {
                     totalBilled: { increment: Number(earnings) }
                 }
             });
+
+            // Notify Caregiver
+            if (shift.caregiverId) {
+                await createNotification(shift.caregiverId, 'Payment Received', `Payment of KSh ${earnings} has been credited to your wallet for shift #${id}`, 'FINANCE');
+            }
         }
 
         res.json(updatedShift);
@@ -279,7 +288,11 @@ export const clockOut = async (req: AuthRequest, res: Response) => {
             },
         });
 
-        // Notify Admin logic here
+        // Notify Admin
+        const admins = await prisma.user.findMany({ where: { role: 'ADMIN' } });
+        for (const admin of admins) {
+            await createNotification(admin.id, 'Shift Completed', `Caregiver has clocked out of shift #${id}. Please review clinical logs.`, 'SHIFT');
+        }
 
         res.json(updatedShift);
     } catch (error) {

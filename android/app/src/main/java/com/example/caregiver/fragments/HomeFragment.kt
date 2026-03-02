@@ -43,6 +43,12 @@ class HomeFragment : Fragment() {
             showNewRequestDialog()
         }
 
+        view.findViewById<View>(R.id.btnHealthHistory).setOnClickListener {
+            val intent = android.content.Intent(context, com.example.caregiver.ClinicalHistoryActivity::class.java)
+            // Passing current user ID as patientId for health history
+            startActivity(intent)
+        }
+
         loadDashboardData()
         fetchRequests()
         

@@ -60,6 +60,8 @@ class CaregiverDashboardActivity : AppCompatActivity() {
         tvCurrentPatientName = findViewById(R.id.tvCurrentPatientName)
         tvCurrentPatientAilment = findViewById(R.id.tvCurrentPatientAilment)
         btnWithdraw = findViewById(R.id.btnWithdraw)
+        val btnNotifications = findViewById<View>(R.id.btnNotifications)
+        val cvVerification = findViewById<View>(R.id.cvVerificationBanner)
 
         rvShifts.layoutManager = LinearLayoutManager(this)
         
@@ -77,6 +79,14 @@ class CaregiverDashboardActivity : AppCompatActivity() {
 
         btnWithdraw.setOnClickListener {
             showWithdrawDialog()
+        }
+
+        btnNotifications.setOnClickListener {
+            startActivity(Intent(this, NotificationActivity::class.java))
+        }
+
+        cvVerification.setOnClickListener {
+            startActivity(Intent(this, VerificationActivity::class.java))
         }
 
         findViewById<View>(R.id.layoutCurrentPatient).setOnClickListener {

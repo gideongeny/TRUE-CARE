@@ -21,7 +21,8 @@ import {
     impersonateUser,
     reassignShift,
     updateShiftDetails,
-    getLiveOperations
+    getLiveOperations,
+    getAdminInsights
 } from '../controllers/adminController';
 import { adminSetPrice, updateRequestStatus, adminCreateRequest } from '../controllers/requestController';
 import { adminPayCaregiver } from '../controllers/paymentController';
@@ -34,6 +35,7 @@ router.use(authenticate, authorize(['ADMIN']));
 
 // Admin Strategic Monitoring
 router.get('/stats', getGlobalStats);
+router.get('/insights', getAdminInsights);
 router.get('/logs', getActivityLog);
 router.get('/users', getAllUsers);
 router.get('/requests', getAllRequests);

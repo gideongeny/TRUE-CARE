@@ -121,3 +121,27 @@ data class WithdrawalResponse(
     val message: String,
     val request: WithdrawalRequest? = null
 )
+
+// Notifications (v2.0)
+data class Notification(
+    val id: String,
+    val title: String,
+    val message: String,
+    val isRead: Boolean,
+    val type: String?,
+    val createdAt: String
+)
+
+// Verification (v2.0)
+data class VerificationDoc(
+    val id: String,
+    val title: String,
+    val docUrl: String,
+    val status: String,
+    val createdAt: String
+)
+
+data class VerificationStatusResponse(
+    val isVerified: Boolean,
+    val documents: List<VerificationDoc>
+)

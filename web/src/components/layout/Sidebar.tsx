@@ -16,7 +16,10 @@ import {
     FileText,
     ShieldCheck,
     Briefcase,
-    Shield
+    Shield,
+    Wallet,
+    Stethoscope,
+    Activity
 } from 'lucide-react';
 import { logout } from '@/lib/api';
 
@@ -29,6 +32,8 @@ type MenuItem = {
 
 const menuItems: MenuItem[] = [
     { icon: LayoutDashboard, label: 'Dashboard', href: '/dashboard', roles: ['ADMIN', 'CAREGIVER', 'PATIENT'] },
+    { icon: Activity, label: 'Clinical Timeline', href: '/dashboard/clinical', roles: ['ADMIN', 'PATIENT', 'CAREGIVER'] },
+    { icon: Wallet, label: 'Financials', href: '/dashboard/finance', roles: ['ADMIN', 'CAREGIVER'] },
     { icon: TrendingUp, label: 'Analytics', href: '/dashboard/analytics', roles: ['ADMIN'] },
     { icon: ClipboardList, label: 'Care Requests', href: '/dashboard/requests', roles: ['ADMIN', 'PATIENT'] },
     { icon: Briefcase, label: 'Marketplace', href: '/dashboard/marketplace', roles: ['CAREGIVER'] },

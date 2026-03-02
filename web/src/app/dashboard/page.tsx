@@ -9,6 +9,7 @@ import PatientDashboard from '@/components/dashboard/PatientDashboard';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Activity, Shield, Zap, Bell, Search, User } from 'lucide-react';
 import api from '@/lib/api';
+import NotificationDropdown from '@/components/dashboard/NotificationDropdown';
 
 export default function DashboardPage() {
     const [user, setUser] = useState<any>(null);
@@ -86,10 +87,7 @@ export default function DashboardPage() {
                             />
                         </div>
                         <div className="flex items-center gap-4">
-                            <button className="p-4 bg-slate-900 border border-slate-800 rounded-2xl text-slate-500 hover:text-white transition-all relative">
-                                <Bell className="w-5 h-5" />
-                                <div className="absolute top-3.5 right-3.5 w-2 h-2 bg-blue-600 rounded-full shadow-[0_0_8px_rgba(37,99,235,0.8)]" />
-                            </button>
+                            <NotificationDropdown />
                             <div className="h-10 w-px bg-slate-900 mx-2" />
                             <div className="flex items-center gap-4 px-6 py-3 bg-slate-900 border border-slate-800 rounded-2xl">
                                 <div className="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center font-black text-white text-xs">

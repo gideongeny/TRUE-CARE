@@ -75,6 +75,19 @@
             android:fontFamily="sans-serif-black"
             android:textSize="14sp"
             app:elevation="8dp"
+            android:layout_marginBottom="16dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnHealthHistory"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:text="View Health History"
+            app:cornerRadius="32dp"
+            app:backgroundTint="#F3F4F6"
+            android:textColor="#374151"
+            android:fontFamily="sans-serif-black"
+            android:textSize="14sp"
+            app:elevation="2dp"
             android:layout_marginBottom="32dp" />
 
         <!-- Recent Activity Registry -->

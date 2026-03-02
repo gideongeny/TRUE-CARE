@@ -155,4 +155,33 @@ export const updateLocation = async (req: AuthRequest, res: Response) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+export const getNotifications = async (req: AuthRequest, res: Response) => {
+    try {
+        const userId = req.user?.userId;
+        if (!userId) return res.status(401).json({ message: "Unauthorized" });
 
+        const notifications = await prisma.notification.findMany({
+            where: { userId },
+            orderBy: { createdAt: 'desc' },
+            take: 20
+        });
+        res.json(notifications);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+export const markNotificationRead = async (req: AuthRequest, res: Response) => {
+    try {
+        const { id } = req.params;
+        await prisma.notification.update({
+            where: { id },
+            data: { isRead: true }
+        });
+        res.json({ message: "Notification marked as read" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
