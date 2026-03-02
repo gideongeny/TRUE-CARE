@@ -37,4 +37,21 @@ interface ApiService {
 
     @POST("shifts/{id}/clock-out")
     suspend fun clockOut(@Path("id") id: String): Response<Shift>
+
+    // Clinical Logging (v2.0)
+    @POST("clinical")
+    suspend fun addClinicalLog(@Body request: ClinicalLogRequest): Response<ClinicalLog>
+
+    @GET("clinical/shift/{shiftId}")
+    suspend fun getClinicalLogs(@Path("shiftId") shiftId: String): Response<List<ClinicalLog>>
+
+    @GET("clinical/patient/{patientId}")
+    suspend fun getPatientHealthHistory(@Path("patientId") patientId: String): Response<List<ClinicalLog>>
+
+    // Finance & Wallet (v2.0)
+    @GET("finance/wallet")
+    suspend fun getWalletBalance(): Response<WalletResponse>
+
+    @POST("finance/withdraw")
+    suspend fun requestWithdrawal(@Body request: WithdrawalRequest): Response<WithdrawalResponse>
 }

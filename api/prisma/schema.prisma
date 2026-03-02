@@ -25,8 +25,21 @@ model User {
   patientShifts      Shift[]             @relation("PatientShifts")
   caregiverShifts    Shift[]             @relation("CaregiverShifts")
   withdrawalRequests WithdrawalRequest[]
+  verificationDocs   VerificationDoc[]
 
   @@index([role, isDeleted])
+}
+
+model VerificationDoc {
+  id        String   @id @default(uuid())
+  userId    String
+  title     String   // "ID Card", "Nursing License", "Passport", etc.
+  docUrl    String
+  status    String   @default("PENDING") // PENDING, VERIFIED, REJECTED
+  expiryDate DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model Profile {
@@ -47,6 +60,7 @@ model Profile {
   isVerified       Boolean  @default(false)
   cvVerified       Boolean  @default(false)
   idVerified       Boolean  @default(false)
+  licenseVerified  Boolean  @default(false) // New for v2
   skills           String?
   idNumber         String?
   experienceYears  Int?
@@ -85,13 +99,23 @@ model Shift {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
   earnings       Decimal?
-  report         Report?
+  report         Report?   // High level final report
+  clinicalLogs   ClinicalLog[] // Multiple updates during shift
   paymentId      String?   @unique
   patient        User      @relation("PatientShifts", fields: [patientId], references: [id])
   caregiver      User?     @relation("CaregiverShifts", fields: [caregiverId], references: [id])
   serviceRequest ServiceRequest? @relation(fields: [requestId], references: [id])
 
   @@index([status])
+}
+
+model ClinicalLog {
+  id          String   @id @default(uuid())
+  shiftId     String
+  content     String
+  vitals      String?  // JSON string: { "bp": "120/80", "temp": "37", "spo2": "98" }
+  loggedAt    DateTime @default(now())
+  shift       Shift    @relation(fields: [shiftId], references: [id])
 }
 
 model Report {
@@ -144,7 +168,8 @@ model WithdrawalRequest {
   caregiverId String
   amount      Decimal
   mpesaNumber String
-  status      String   @default("PENDING")
+  status      String   @default("PENDING") // PENDING, APPROVED, REJECTED, COMPLETED
+  payoutId    String?  // Reference to Payment object if completed
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   caregiver   User     @relation(fields: [caregiverId], references: [id])

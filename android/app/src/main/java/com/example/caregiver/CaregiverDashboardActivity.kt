@@ -75,6 +75,18 @@ class CaregiverDashboardActivity : AppCompatActivity() {
             toggleClock()
         }
 
+        btnWithdraw.setOnClickListener {
+            showWithdrawDialog()
+        }
+
+        findViewById<View>(R.id.layoutCurrentPatient).setOnClickListener {
+            if (isClockedIn) {
+                showClinicalLogDialog()
+            } else {
+                Toast.makeText(this, "Start shift to log clinical updates", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         adapter = ShiftAdapter(
             onAccept = { shiftId -> acceptShift(shiftId) },
             onSelect = { shift -> 
@@ -177,10 +189,90 @@ class CaregiverDashboardActivity : AppCompatActivity() {
                         activeShift?.let {
                             tvCurrentPatientName.text = "${it.patient?.firstName} ${it.patient?.lastName}"
                             tvCurrentPatientAilment.text = it.notes ?: "Active Care Session"
+                            // If clockIn but isClockedIn is false (recovered session)
+                            if (it.status == "IN_PROGRESS" && !isClockedIn) {
+                                isClockedIn = true
+                                // We don't have start time stored here, so just start from 0 for now or fetch it
+                                startTimeMillis = System.currentTimeMillis() 
+                                btnClockInOut.text = "CLOCK OUT"
+                                btnClockInOut.setBackgroundColor(Color.RED)
+                                handler.post(timerRunnable)
+                            }
                         } ?: run {
                             tvCurrentPatientName.text = "No Active Session"
                             tvCurrentPatientAilment.text = "Standby Mode"
                         }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun showWithdrawDialog() {
+        val builder = android.app.AlertDialog.Builder(this)
+        builder.setTitle("Request Payout")
+        val view = layoutInflater.inflate(R.layout.dialog_withdraw, null)
+        val etAmount = view.findViewById<android.widget.EditText>(R.id.etAmount)
+        val etPhone = view.findViewById<android.widget.EditText>(R.id.etPhone)
+        builder.setView(view)
+        builder.setPositiveButton("Submit") { _, _ ->
+            val amount = etAmount.text.toString().toDoubleOrNull() ?: 0.0
+            val phone = etPhone.text.toString()
+            if (amount > 0 && phone.isNotEmpty()) {
+                requestWithdrawal(amount, phone)
+            }
+        }
+        builder.setNegativeButton("Cancel", null)
+        builder.show()
+    }
+
+    private fun requestWithdrawal(amount: Double, phone: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = ApiClient.apiService.requestWithdrawal(com.example.caregiver.models.WithdrawalRequest(amount = amount, mpesaNumber = phone))
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(this@CaregiverDashboardActivity, "Widthrawal Requested!", Toast.LENGTH_SHORT).show()
+                        fetchProfile()
+                    } else {
+                        Toast.makeText(this@CaregiverDashboardActivity, "Failed: ${response.message()}", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun showClinicalLogDialog() {
+        val shiftId = currentShiftId ?: return
+        val builder = android.app.AlertDialog.Builder(this)
+        builder.setTitle("Log Clinical Update")
+        val view = layoutInflater.inflate(R.layout.dialog_clinical_log, null)
+        val etContent = view.findViewById<android.widget.EditText>(R.id.etContent)
+        val etBp = view.findViewById<android.widget.EditText>(R.id.etBp)
+        val etTemp = view.findViewById<android.widget.EditText>(R.id.etTemp)
+        builder.setView(view)
+        builder.setPositiveButton("Save Log") { _, _ ->
+            val content = etContent.text.toString()
+            val vitals = mapOf("bp" to etBp.text.toString(), "temp" to etTemp.text.toString())
+            if (content.isNotEmpty()) {
+                saveClinicalLog(shiftId, content, vitals)
+            }
+        }
+        builder.setNegativeButton("Cancel", null)
+        builder.show()
+    }
+
+    private fun saveClinicalLog(shiftId: String, content: String, vitals: Map<String, String>) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = ApiClient.apiService.addClinicalLog(com.example.caregiver.models.ClinicalLogRequest(shiftId, content, vitals))
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(this@CaregiverDashboardActivity, "Clinical log saved", Toast.LENGTH_SHORT).show()
                     }
                 }
             } catch (e: Exception) {

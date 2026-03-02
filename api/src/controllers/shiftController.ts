@@ -170,12 +170,49 @@ export const updateShiftPayment = async (req: AuthRequest, res: Response) => {
         const { id } = req.params;
         const { earnings } = req.body;
 
+        const shift = await prisma.shift.findUnique({ where: { id } });
+        if (!shift) return res.status(404).json({ message: "Shift not found" });
+
         const updatedShift = await prisma.shift.update({
             where: { id },
-            data: { earnings: Number(earnings) }
+            data: {
+                earnings: Number(earnings),
+                status: 'PAID' // Auto-mark as paid if earnings set by admin
+            }
         });
 
+        // Credit caregiver balance
+        if (shift.caregiverId) {
+            await prisma.profile.update({
+                where: { userId: shift.caregiverId },
+                data: {
+                    balance: { increment: Number(earnings) },
+                    totalBilled: { increment: Number(earnings) }
+                }
+            });
+        }
+
         res.json(updatedShift);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+export const getShiftById = async (req: AuthRequest, res: Response) => {
+    try {
+        const { id } = req.params;
+        const shift = await prisma.shift.findUnique({
+            where: { id },
+            include: {
+                caregiver: { include: { profile: true } },
+                patient: { include: { profile: true } },
+                clinicalLogs: { orderBy: { loggedAt: 'desc' } },
+                report: true
+            }
+        });
+        if (!shift) return res.status(404).json({ message: "Shift not found" });
+        res.json(shift);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });

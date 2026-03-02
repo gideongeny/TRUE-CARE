@@ -87,3 +87,37 @@ data class PaymentResponse(
     val paymentId: String,
     val CheckoutRequestID: String? = null
 )
+
+// Clinical Logging (v2.0)
+data class ClinicalLogRequest(
+    val shiftId: String,
+    val content: String,
+    val vitals: Map<String, String>? = null
+)
+
+data class ClinicalLog(
+    val id: String,
+    val shiftId: String,
+    val content: String,
+    val vitals: String?,
+    val loggedAt: String
+)
+
+// Finance & Wallet (v2.0)
+data class WalletResponse(
+    val balance: Double,
+    val history: List<WithdrawalRequest>
+)
+
+data class WithdrawalRequest(
+    val id: String? = null,
+    val amount: Double,
+    val mpesaNumber: String,
+    val status: String? = null,
+    val createdAt: String? = null
+)
+
+data class WithdrawalResponse(
+    val message: String,
+    val request: WithdrawalRequest? = null
+)
