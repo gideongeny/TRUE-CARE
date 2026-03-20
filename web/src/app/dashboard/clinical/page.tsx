@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import api from '@/lib/api';
+import DashboardLayout from '@/components/layout/DashboardLayout';
 import {
     Activity,
     Thermometer,
@@ -59,7 +60,8 @@ export default function ClinicalTimelinePage() {
     );
 
     return (
-        <div className="space-y-8 animate-reveal">
+        <DashboardLayout>
+            <div className="space-y-8 animate-reveal">
             <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-black text-slate-900 tracking-tight">CLINICAL TIMELINE</h1>
@@ -210,6 +212,7 @@ export default function ClinicalTimelinePage() {
                     </div>
                 </div>
             </div>
-        </div>
+            </div>
+        </DashboardLayout>
     );
 }

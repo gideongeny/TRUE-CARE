@@ -76,8 +76,9 @@ export default function VerificationPage() {
     );
 
     return (
-        <div className="max-w-7xl mx-auto space-y-12 pb-20 animate-reveal">
-            <div className="space-y-4">
+        <DashboardLayout>
+            <div className="max-w-7xl mx-auto space-y-12 pb-20 animate-reveal">
+                <div className="space-y-4">
                 <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-blue-600">
                     <ShieldCheck className="w-4 h-4" />
                     <span>Identity & Trust</span>
@@ -215,6 +216,7 @@ export default function VerificationPage() {
                     </div>
                 </div>
             )}
-        </div>
+            </div>
+        </DashboardLayout>
     );
 }

@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import api from '@/lib/api';
+import DashboardLayout from '@/components/layout/DashboardLayout';
 import {
     Wallet,
     ArrowUpRight,
@@ -81,7 +82,8 @@ export default function FinancePage() {
     );
 
     return (
-        <div className="space-y-8 animate-reveal">
+        <DashboardLayout>
+            <div className="space-y-8 animate-reveal">
             <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-black text-slate-900 tracking-tight">FINANCIAL HUB</h1>
@@ -307,6 +309,7 @@ export default function FinancePage() {
                     </motion.div>
                 </div>
             )}
-        </div>
+            </div>
+        </DashboardLayout>
     );
 }

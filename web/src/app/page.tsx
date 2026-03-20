@@ -73,12 +73,12 @@ export default function LandingPage() {
                             <span className="text-xs font-bold tracking-wide text-slate-700">Verified & Certified Providers</span>
                         </div>
 
-                        <h1 className="text-6xl md:text-8xl font-extrabold text-slate-900 tracking-tight leading-[1]">
+                        <h1 className="text-5xl lg:text-7xl xl:text-8xl font-extrabold text-slate-900 tracking-tight leading-[1]">
                             Compassionate care, <br />
                             <span className="text-teal-600 text-glow">Right at home.</span>
                         </h1>
 
-                        <p className="text-lg text-slate-500 font-medium max-w-lg leading-relaxed">
+                        <p className="text-base lg:text-lg text-slate-500 font-medium max-w-lg leading-relaxed">
                             Connecting families with dedicated, world-class caregivers. Experience peace of mind with real-time health updates, secure scheduling, and transparent communication.
                         </p>
 

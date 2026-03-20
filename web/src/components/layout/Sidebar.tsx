@@ -138,9 +138,12 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
 
                         <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
                             <div className="flex -space-x-2">
-                                {[1, 2, 3].map(i => (
-                                    <div key={i} className="w-6 h-6 rounded-full border-2 border-teal-600 bg-slate-200 overflow-hidden">
-                                        <img src={`/Raquel.png`} alt="Caregiver" className="w-full h-full object-cover" />
+                                {[1, 2, 3].map((i) => (
+                                    <div
+                                        key={i}
+                                        className="w-8 h-8 rounded-full bg-white border-2 border-slate-50 flex items-center justify-center text-teal-600 shadow-sm"
+                                    >
+                                        <ShieldCheck className="w-4 h-4" />
                                     </div>
                                 ))}
                             </div>

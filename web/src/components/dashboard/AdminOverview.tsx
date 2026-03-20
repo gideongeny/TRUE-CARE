@@ -17,11 +17,14 @@ import {
     UserPlus,
     Stethoscope,
     MoreVertical,
-    Zap
+    Zap,
+    Sparkles,
+    Brain
 } from 'lucide-react';
 import api from '@/lib/api';
 import UserModal from './UserModal';
 import ShiftManagementModal from './ShiftManagementModal';
+import AIPredictiveInsights from './AIPredictiveInsights';
 import {
     AreaChart,
     Area,
@@ -46,6 +49,7 @@ export default function AdminOverview() {
     const [liveOps, setLiveOps] = useState<any[]>([]);
     const [selectedShift, setSelectedShift] = useState<any>(null);
     const [insights, setInsights] = useState<any>(null);
+    const [isInsightsOpen, setIsInsightsOpen] = useState(false);
 
     useEffect(() => {
         const fetchDashboardData = async () => {
@@ -156,17 +160,24 @@ export default function AdminOverview() {
             </div>
 
             {/* Admin Controls */}
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center gap-4">
+                <button
+                    onClick={() => setIsInsightsOpen(true)}
+                    className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-teal-600 to-emerald-600 text-white text-xs font-bold uppercase tracking-wider rounded-2xl shadow-xl shadow-teal-500/20 hover:from-teal-500 hover:to-emerald-500 transition-all active:scale-95 group border border-teal-400/50"
+                >
+                    <Sparkles className="w-4 h-4 text-emerald-100 group-hover:animate-pulse" />
+                    AI Predictive Synthesis
+                </button>
                 <button
                     onClick={() => { setModalRole('PATIENT'); setIsUserModalOpen(true); }}
-                    className="flex items-center gap-2 px-6 py-3 bg-teal-600 text-white text-xs font-bold uppercase tracking-wider rounded-2xl shadow-xl shadow-teal-500/20 hover:bg-teal-500 transition-all active:scale-95"
+                    className="flex items-center gap-2 px-6 py-3 bg-slate-800 text-white text-xs font-bold uppercase tracking-wider rounded-2xl shadow-lg hover:bg-slate-700 transition-all active:scale-95"
                 >
                     <UserPlus className="w-4 h-4" />
                     New Patient Entry
                 </button>
                 <button
                     onClick={() => { setModalRole('CAREGIVER'); setIsUserModalOpen(true); }}
-                    className="flex items-center gap-2 px-6 py-3 bg-slate-800 text-white text-xs font-bold uppercase tracking-wider rounded-2xl hover:bg-slate-700 transition-all active:scale-95 shadow-lg"
+                    className="flex items-center gap-2 px-6 py-3 bg-white border border-slate-200 text-slate-700 text-xs font-bold uppercase tracking-wider rounded-2xl hover:bg-slate-50 transition-all active:scale-95 shadow-sm"
                 >
                     <ShieldCheck className="w-4 h-4" />
                     Onboard Professional
@@ -178,14 +189,14 @@ export default function AdminOverview() {
                 {/* Clinical Intelligence Image 2 Integration */}
                 <div className="xl:col-span-2 space-y-8">
                     {/* Hero Illustration */}
-                    <div className="relative h-[280px] w-full rounded-[40px] overflow-hidden group">
-                        <div className="absolute inset-0 bg-teal-900" />
-                        <div className="absolute inset-0 bg-gradient-to-r from-teal-600/40 to-transparent" />
+                    <div className="relative h-[280px] w-full rounded-[40px] overflow-hidden group border border-teal-100 shadow-sm bg-teal-50">
+                        <div className="absolute inset-0 bg-gradient-to-r from-teal-100/50 to-transparent" />
                         <div className="relative z-10 p-12 h-full flex flex-col justify-center">
-                            <h4 className="text-white text-3xl font-extrabold tracking-tight leading-tight max-w-md uppercase">
-                                Clinical Deployment <br />Care Operations
+                            <h4 className="text-teal-900 text-3xl font-extrabold tracking-tight leading-tight max-w-md uppercase">
+                                Clinical Deployment <br />
+                                <span className="text-teal-600">Care Operations</span>
                             </h4>
-                            <p className="text-teal-100/90 text-sm font-semibold mt-4 max-w-sm leading-relaxed">
+                            <p className="text-teal-700/80 text-sm font-bold mt-4 max-w-sm leading-relaxed">
                                 Orchestrating {stats?.activeShifts || 0} active deployments across the care network with zero-latency synchronization.
                             </p>
                         </div>
@@ -247,33 +258,33 @@ export default function AdminOverview() {
                 {/* Performance Feed & Personnel Status */}
                 <div className="space-y-8">
                     {/* Live Personnel Oversight */}
-                    <div className="bg-gradient-to-br from-teal-900 to-emerald-900 rounded-[40px] p-8 text-white shadow-2xl relative overflow-hidden">
+                    <div className="glass-card border border-teal-100 bg-teal-50/50 rounded-[40px] p-8 text-slate-900 shadow-sm relative overflow-hidden">
                         <div className="absolute top-0 right-0 p-8 opacity-10">
-                            <ShieldCheck className="w-16 h-16 text-teal-100" />
+                            <ShieldCheck className="w-16 h-16 text-teal-600" />
                         </div>
-                        <h4 className="font-bold text-teal-200/80 uppercase tracking-widest text-[10px] mb-8">Live Personnel Oversight</h4>
+                        <h4 className="font-bold text-teal-700 uppercase tracking-[0.2em] text-[10px] mb-8">Live Personnel Oversight</h4>
                         <div className="space-y-6 relative z-10">
                             {caregivers.slice(0, 3).map((cg) => (
                                 <div key={cg.id} className="flex items-center justify-between group">
                                     <Link href={`/dashboard/caregivers/${cg.id}`} className="flex items-center gap-3 group/item">
-                                        <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center font-bold text-[10px] border border-white/10 group-hover/item:bg-teal-500 transition-colors">
+                                        <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center font-bold text-[10px] border border-teal-100 text-teal-600 group-hover/item:bg-teal-600 group-hover/item:text-white transition-colors shadow-sm">
                                             {cg.profile?.firstName?.[0]}{cg.profile?.lastName?.[0]}
                                         </div>
                                         <div>
-                                            <p className="text-xs font-bold tracking-tight group-hover/item:text-teal-200 transition-colors">{cg.profile?.firstName} {cg.profile?.lastName}</p>
-                                            <p className="text-[9px] font-bold text-teal-100/60 uppercase">Registered Personnel</p>
+                                            <p className="text-xs font-bold tracking-tight text-slate-900 group-hover/item:text-teal-600 transition-colors">{cg.profile?.firstName} {cg.profile?.lastName}</p>
+                                            <p className="text-[9px] font-bold text-slate-500 uppercase">Registered Personnel</p>
                                         </div>
                                     </Link>
                                     <div className="flex items-center gap-4">
                                         <div className="flex items-center gap-2">
-                                            <div className={`w-1.5 h-1.5 rounded-full bg-white/40 ${cg.profile?.firstName?.includes('Melsa') || cg.profile?.firstName?.includes('John') ? 'bg-teal-300 animate-pulse' : ''}`} />
-                                            <span className={`text-[9px] font-bold uppercase tracking-widest ${cg.profile?.firstName?.includes('Melsa') || cg.profile?.firstName?.includes('John') ? 'text-teal-200' : 'text-teal-100/60'}`}>
+                                            <div className={`w-1.5 h-1.5 rounded-full ${cg.profile?.firstName?.includes('Melsa') || cg.profile?.firstName?.includes('John') ? 'bg-teal-500 animate-pulse' : 'bg-slate-300'}`} />
+                                            <span className={`text-[9px] font-bold uppercase tracking-widest ${cg.profile?.firstName?.includes('Melsa') || cg.profile?.firstName?.includes('John') ? 'text-teal-600' : 'text-slate-500'}`}>
                                                 {cg.profile?.firstName?.includes('Melsa') || cg.profile?.firstName?.includes('John') ? 'Live' : 'Ready'}
                                             </span>
                                         </div>
                                         <button
                                             onClick={() => handleImpersonate(cg.id)}
-                                            className="p-2 bg-white/5 border border-white/10 rounded-lg text-teal-100/60 hover:text-white hover:bg-white/20 transition-all group/btn"
+                                            className="p-2 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-teal-600 hover:border-teal-200 hover:shadow-sm transition-all shadow-sm group/btn"
                                             title="Login As Caregiver"
                                         >
                                             <Zap className="w-4 h-4" />
@@ -400,6 +411,12 @@ export default function AdminOverview() {
                     }}
                 />
             )}
+
+            {/* AI Insights Modal */}
+            <AIPredictiveInsights 
+                isOpen={isInsightsOpen}
+                onClose={() => setIsInsightsOpen(false)}
+            />
         </div>
     );
 }
