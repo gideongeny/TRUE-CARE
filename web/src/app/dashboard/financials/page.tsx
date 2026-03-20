@@ -70,14 +70,14 @@ export default function FinancialsPage() {
                 {/* Header & Stats Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-end">
                     <div className="col-span-2">
-                        <h1 className="text-6xl font-black text-white tracking-tighter leading-none">Clinical Treasury</h1>
+                        <h1 className="text-6xl font-black text-white tracking-tight leading-none">Clinical Treasury</h1>
                         <p className="text-slate-500 text-xs mt-4 font-bold uppercase tracking-[0.3em]">Real-time Revenue & Payout Matrix</p>
                     </div>
                     <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-[40px] p-8 space-y-8 shadow-2xl shadow-blue-500/20 group hover:scale-[1.02] transition-transform">
                         <DollarSign className="w-10 h-10 text-white/40 group-hover:rotate-12 transition-transform" />
                         <div>
                             <p className="text-[10px] text-white/60 font-black uppercase tracking-[0.2em]">Liquid Assets</p>
-                            <p className="text-5xl font-black text-white leading-none mt-2 tracking-tighter">KSh {stats?.totalRevenue?.toLocaleString() || 0}</p>
+                            <p className="text-5xl font-black text-white leading-none mt-2 tracking-tight">KSh {stats?.totalRevenue?.toLocaleString() || 0}</p>
                         </div>
                     </div>
                 </div>
@@ -136,7 +136,7 @@ export default function FinancialsPage() {
                                                 </div>
                                             </td>
                                             <td className="px-10 py-8">
-                                                <div className="flex items-center gap-2 text-emerald-400 font-black text-lg tracking-tighter">
+                                                <div className="flex items-center gap-2 text-emerald-400 font-black text-lg tracking-tight">
                                                     <ArrowDownLeft className="w-5 h-5 text-emerald-500" />
                                                     KSh {tx.amount.toLocaleString()}
                                                 </div>

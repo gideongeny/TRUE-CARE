@@ -262,7 +262,7 @@ export default function AdminOverview() {
                         <div className="absolute top-0 right-0 p-8 opacity-10">
                             <ShieldCheck className="w-16 h-16 text-teal-600" />
                         </div>
-                        <h4 className="font-bold text-teal-700 uppercase tracking-[0.2em] text-[10px] mb-8">Live Personnel Oversight</h4>
+                        <h4 className="font-bold text-teal-700 uppercase tracking-widest text-[10px] mb-8 pl-1">Live Personnel Oversight</h4>
                         <div className="space-y-6 relative z-10">
                             {caregivers.slice(0, 3).map((cg) => (
                                 <div key={cg.id} className="flex items-center justify-between group">

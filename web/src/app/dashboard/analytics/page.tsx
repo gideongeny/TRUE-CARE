@@ -95,7 +95,7 @@ export default function AnalyticsPage() {
                         </div>
                         <div>
                             <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Total Active Ecosystem</p>
-                            <h3 className="text-5xl font-black text-slate-900 tracking-tighter">{data?.totals?.users || 0}</h3>
+                            <h3 className="text-5xl font-black text-slate-900 tracking-tight">{data?.totals?.users || 0}</h3>
                         </div>
                     </motion.div>
 
@@ -111,7 +111,7 @@ export default function AnalyticsPage() {
                         </div>
                         <div>
                             <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Rolling Treasury Flux</p>
-                            <h3 className="text-5xl font-black text-slate-900 tracking-tighter">KSh {data?.revenueTrend?.[data.revenueTrend.length - 1]?.amount?.toLocaleString() || 0}</h3>
+                            <h3 className="text-5xl font-black text-slate-900 tracking-tight">KSh {data?.revenueTrend?.[data.revenueTrend.length - 1]?.amount?.toLocaleString() || 0}</h3>
                         </div>
                     </motion.div>
 
@@ -125,7 +125,7 @@ export default function AnalyticsPage() {
                         </div>
                         <div className="relative z-10">
                             <p className="text-xs font-bold text-teal-100 uppercase tracking-widest mb-2">Real-time Deployment</p>
-                            <h3 className="text-5xl font-black text-white tracking-tighter">{data?.shiftsTrend?.[data.shiftsTrend.length - 1]?.count || 0}</h3>
+                            <h3 className="text-5xl font-black text-white tracking-tight">{data?.shiftsTrend?.[data.shiftsTrend.length - 1]?.count || 0}</h3>
                         </div>
                     </motion.div>
                 </div>

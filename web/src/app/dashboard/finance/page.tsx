@@ -111,7 +111,7 @@ export default function FinancePage() {
                             <div className="relative z-10">
                                 <span className="text-[11px] font-black uppercase tracking-[0.3em] opacity-60">Available Balance</span>
                                 <div className="mt-4 flex items-baseline gap-2">
-                                    <span className="text-5xl font-black tracking-tighter">KSh {parseFloat(wallet?.balance || 0).toLocaleString()}</span>
+                                    <span className="text-5xl font-black tracking-tight">KSh {parseFloat(wallet?.balance || 0).toLocaleString()}</span>
                                 </div>
 
                                 <div className="mt-12 grid grid-cols-2 gap-8 border-t border-white/10 pt-8">

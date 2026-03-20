@@ -83,9 +83,9 @@ export default function CaregiverDetailPage() {
         <DashboardLayout>
             <div className="space-y-8 pb-20">
                 {/* Tactical Header */}
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                     <div className="flex items-center gap-6">
-                        <button onClick={() => window.history.back()} className="p-4 bg-slate-900 text-white rounded-[24px] hover:bg-blue-600 transition-all">
+                        <button onClick={() => window.history.back()} className="p-4 bg-white border border-slate-200 text-slate-400 rounded-2xl hover:text-teal-600 hover:border-teal-200 hover:bg-teal-50 shadow-sm transition-all active:scale-95">
                             <ChevronLeft className="w-5 h-5" />
                         </button>
                         <div>
@@ -97,8 +97,8 @@ export default function CaregiverDetailPage() {
                         </div>
                     </div>
                     <div className="flex gap-4">
-                        <button className="px-6 py-3 bg-white border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50">View Resume</button>
-                        <button className="px-6 py-3 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-600 shadow-xl shadow-slate-900/10">Authorize Deployment</button>
+                        <button className="px-6 py-3 bg-white border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 text-slate-600 shadow-sm transition-colors">View Resume</button>
+                        <button className="px-6 py-3 bg-teal-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-teal-500 shadow-xl shadow-teal-600/20 active:scale-95 transition-all">Authorize Deployment</button>
                     </div>
                 </div>
 
@@ -152,23 +152,23 @@ export default function CaregiverDetailPage() {
                         </div>
 
                         {/* Resume / Background Verification */}
-                        <div className="bg-slate-900 rounded-[40px] p-8 text-white relative overflow-hidden">
-                            <div className="absolute top-0 right-0 p-8 opacity-10">
-                                <Award className="w-24 h-24" />
+                        <div className="bg-gradient-to-b from-teal-50 to-white border border-teal-100 rounded-[40px] p-8 text-slate-900 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-8 opacity-5">
+                                <Award className="w-24 h-24 text-teal-900" />
                             </div>
-                            <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-400 mb-8">Professional Resume</h3>
+                            <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-teal-600 mb-8 relative z-10">Professional Resume</h3>
                             <div className="space-y-4 relative z-10">
-                                <div className="p-5 bg-white/5 rounded-2xl border border-white/10">
-                                    <p className="text-[10px] font-black text-blue-400 uppercase mb-2">Academic Node</p>
-                                    <p className="text-xs font-bold">BSN - Clinical Nursing (Advanced Honors)</p>
+                                <div className="p-5 bg-white rounded-2xl border border-teal-100/50 shadow-sm shadow-teal-100/20">
+                                    <p className="text-[10px] font-black text-teal-600 uppercase mb-2 tracking-widest">Academic Node</p>
+                                    <p className="text-xs font-bold text-slate-900 uppercase">BSN - Clinical Nursing (Advanced Honors)</p>
                                 </div>
-                                <div className="p-5 bg-white/5 rounded-2xl border border-white/10">
-                                    <p className="text-[10px] font-black text-blue-400 uppercase mb-2">Key Certification</p>
-                                    <p className="text-xs font-bold">Board Certified: Critical Care Registered Nurse (CCRN)</p>
+                                <div className="p-5 bg-white rounded-2xl border border-teal-100/50 shadow-sm shadow-teal-100/20">
+                                    <p className="text-[10px] font-black text-teal-600 uppercase mb-2 tracking-widest">Key Certification</p>
+                                    <p className="text-xs font-bold text-slate-900 uppercase">Board Certified: Critical Care Registered Nurse (CCRN)</p>
                                 </div>
-                                <div className="p-5 bg-white/5 rounded-2xl border border-white/10">
-                                    <p className="text-[10px] font-black text-blue-400 uppercase mb-2">Experience Delta</p>
-                                    <p className="text-xs font-bold">10+ Years Professional Service</p>
+                                <div className="p-5 bg-white rounded-2xl border border-teal-100/50 shadow-sm shadow-teal-100/20">
+                                    <p className="text-[10px] font-black text-teal-600 uppercase mb-2 tracking-widest">Experience Delta</p>
+                                    <p className="text-xs font-bold text-slate-900 uppercase">10+ Years Professional Service</p>
                                 </div>
                             </div>
                         </div>

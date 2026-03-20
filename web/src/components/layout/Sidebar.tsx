@@ -92,7 +92,7 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
             <div className="h-24 flex items-center shrink-0 px-8 border-b border-slate-100 bg-white/50 backdrop-blur-sm">
                 <Link href="/dashboard" className="flex items-center gap-4" onClick={onClose}>
                     <img src="/logo.png" alt="TrueCare" className="h-10 w-auto" />
-                    <span className="font-black text-slate-900 tracking-tighter text-xl">TRUE CARE</span>
+                    <span className="font-black text-slate-900 tracking-tight text-xl">TRUE CARE</span>
                 </Link>
             </div>
 

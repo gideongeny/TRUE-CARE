@@ -36,16 +36,9 @@ export default function UserModal({ isOpen, onClose, onSuccess, role }: UserModa
             });
             onSuccess();
             onClose();
-            // Reset form
             setFormData({
-                email: '',
-                password: '',
-                firstName: '',
-                lastName: '',
-                phone: '',
-                ailment: '',
-                experienceYears: '',
-                address: ''
+                email: '', password: '', firstName: '', lastName: '',
+                phone: '', ailment: '', experienceYears: '', address: ''
             });
         } catch (error: any) {
             console.error('Failed to create user', error);
@@ -59,163 +52,185 @@ export default function UserModal({ isOpen, onClose, onSuccess, role }: UserModa
 
     return (
         <AnimatePresence>
-            <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-8">
+            <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6 backdrop-blur-sm bg-slate-900/40">
                 <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    onClick={onClose}
-                    className="absolute inset-0 bg-slate-950/80 backdrop-blur-xl"
-                />
-
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                    className="relative w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-[40px] shadow-2xl overflow-hidden flex flex-col md:flex-row"
+                    exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                    className="relative w-full max-w-3xl bg-white border border-slate-200 rounded-[40px] shadow-2xl flex flex-col max-h-[90vh] overflow-hidden"
                 >
-                    {/* Sidebar / Visual Accents */}
-                    <div className="w-full md:w-1/3 bg-gradient-to-b from-blue-600 to-indigo-700 p-10 flex flex-col justify-between text-white relative overflow-hidden">
-                        <div className="absolute top-0 right-0 p-4 opacity-10">
-                            {role === 'PATIENT' ? <Activity className="w-32 h-32" /> : <ShieldCheck className="w-32 h-32" />}
+                    {/* Header Banner */}
+                    <div className={`p-8 pb-6 border-b border-slate-100 flex items-start justify-between relative overflow-hidden ${role === 'PATIENT' ? 'bg-teal-50' : 'bg-slate-50'}`}>
+                        {/* Decorative background icon */}
+                        <div className="absolute right-0 top-0 opacity-5 w-64 h-64 -mt-16 -mr-16 pointer-events-none">
+                            {role === 'PATIENT' ? <Activity className="w-full h-full text-teal-900" /> : <ShieldCheck className="w-full h-full text-slate-900" />}
                         </div>
-
-                        <div className="relative z-10">
-                            <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center mb-6">
-                                {role === 'PATIENT' ? <User className="w-6 h-6" /> : <ShieldCheck className="w-6 h-6" />}
+                        
+                        <div className="relative z-10 flex gap-5 items-center">
+                            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-sm border ${role === 'PATIENT' ? 'bg-white border-teal-100 text-teal-600' : 'bg-white border-slate-200 text-slate-700'}`}>
+                                {role === 'PATIENT' ? <User className="w-7 h-7" /> : <ShieldCheck className="w-7 h-7" />}
                             </div>
-                            <h2 className="text-3xl font-black tracking-tighter uppercase italic leading-none">
-                                {role === 'PATIENT' ? 'New Patient' : 'Verify Professional'}
-                            </h2>
-                            <p className="text-blue-100/60 text-[10px] font-black uppercase tracking-widest mt-4">
-                                System Node Onboarding
-                            </p>
+                            <div className="space-y-1 py-1">
+                                {/* Removed problematic tracking-tighter/italic to prevent text clipping */}
+                                <h2 className="text-3xl font-black tracking-tight uppercase text-slate-900">
+                                    {role === 'PATIENT' ? 'New Patient' : 'Verify Professional'}
+                                </h2>
+                                <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest">
+                                    System Node Onboarding
+                                </p>
+                            </div>
                         </div>
 
-                        <div className="text-[10px] font-black uppercase tracking-[0.2em] opacity-40">
-                            Protocol Alpha-9 Secure
-                        </div>
-                    </div>
-
-                    {/* Form Area */}
-                    <div className="flex-1 p-10 max-h-[85vh] overflow-y-auto custom-scrollbar">
                         <button
                             onClick={onClose}
-                            className="absolute top-8 right-8 text-slate-500 hover:text-white transition-colors"
+                            className="w-10 h-10 rounded-full bg-white hover:bg-slate-100 border border-slate-200 text-slate-400 hover:text-slate-700 font-bold transition-colors flex items-center justify-center relative z-10 shadow-sm"
                         >
-                            <X className="w-6 h-6" />
+                            <X className="w-5 h-5" />
                         </button>
+                    </div>
 
-                        <form onSubmit={handleSubmit} className="space-y-8">
-                            <div className="space-y-6">
-                                <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Credentials Vector</h4>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Form Scroll Area */}
+                    <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
+                        <form onSubmit={handleSubmit} className="space-y-10 max-w-2xl mx-auto">
+                            
+                            {/* Section: Credentials */}
+                            <div className="space-y-4">
+                                <div className="flex items-center gap-2 border-b border-slate-100 pb-2">
+                                    <Lock className="w-4 h-4 text-slate-400" />
+                                    <h4 className="text-[10px] font-black text-slate-700 uppercase tracking-[0.2em]">Credentials Vector</h4>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                     <div className="space-y-2">
-                                        <label className="text-[9px] font-black text-slate-400 uppercase ml-2">Email Address</label>
+                                        <label className="text-[9px] font-black text-slate-500 uppercase ml-2 tracking-widest">Email Address</label>
                                         <div className="relative group">
-                                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600 group-focus-within:text-blue-500 transition-colors" />
+                                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-teal-600 transition-colors" />
                                             <input
-                                                required
-                                                type="email"
-                                                className="w-full bg-slate-950 border border-slate-800 rounded-2xl pl-12 pr-6 py-4 text-xs text-white outline-none focus:border-blue-500/40 transition-all font-bold"
-                                                placeholder="user@truecare.com"
-                                                value={formData.email}
-                                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                                required type="email" placeholder="user@truecare.com"
+                                                className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-12 pr-6 py-4 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-teal-500/40 focus:ring-4 focus:ring-teal-500/10 transition-all font-bold shadow-sm"
+                                                value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                             />
                                         </div>
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-[9px] font-black text-slate-400 uppercase ml-2">Initial Password</label>
+                                        <label className="text-[9px] font-black text-slate-500 uppercase ml-2 tracking-widest">Initial Password</label>
                                         <div className="relative group">
-                                            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600 group-focus-within:text-blue-500 transition-colors" />
+                                            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-teal-600 transition-colors" />
                                             <input
-                                                required
-                                                type="password"
-                                                className="w-full bg-slate-950 border border-slate-800 rounded-2xl pl-12 pr-6 py-4 text-xs text-white outline-none focus:border-blue-500/40 transition-all font-bold"
-                                                placeholder="••••••••"
-                                                value={formData.password}
-                                                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                                                required type="password" placeholder="••••••••"
+                                                className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-12 pr-6 py-4 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-teal-500/40 focus:ring-4 focus:ring-teal-500/10 transition-all font-bold shadow-sm"
+                                                value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                                             />
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="space-y-6">
-                                <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Biological Data</h4>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <input
-                                        required
-                                        className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-6 py-4 text-xs text-white outline-none focus:border-blue-500/40 transition-all font-bold"
-                                        placeholder="First Name"
-                                        value={formData.firstName}
-                                        onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                                    />
-                                    <input
-                                        required
-                                        className="w-full bg-slate-950 border border-slate-800 rounded-2xl px-6 py-4 text-xs text-white outline-none focus:border-blue-500/40 transition-all font-bold"
-                                        placeholder="Last Name"
-                                        value={formData.lastName}
-                                        onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                                    />
+                            {/* Section: Biological Data */}
+                            <div className="space-y-4">
+                                <div className="flex items-center gap-2 border-b border-slate-100 pb-2">
+                                    <User className="w-4 h-4 text-slate-400" />
+                                    <h4 className="text-[10px] font-black text-slate-700 uppercase tracking-[0.2em]">Biological Data</h4>
                                 </div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div className="relative group">
-                                        <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600 group-focus-within:text-blue-500 transition-colors" />
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                    <div className="space-y-2">
+                                        <label className="text-[9px] font-black text-slate-500 uppercase ml-2 tracking-widest">First Name</label>
                                         <input
-                                            required
-                                            className="w-full bg-slate-950 border border-slate-800 rounded-2xl pl-12 pr-6 py-4 text-xs text-white outline-none focus:border-blue-500/40 transition-all font-bold"
-                                            placeholder="Contact Phone"
-                                            value={formData.phone}
-                                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                            required placeholder="Jane"
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-teal-500/40 focus:ring-4 focus:ring-teal-500/10 transition-all font-bold shadow-sm"
+                                            value={formData.firstName} onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                                         />
                                     </div>
-                                    <div className="relative group">
-                                        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600 group-focus-within:text-blue-500 transition-colors" />
+                                    <div className="space-y-2">
+                                        <label className="text-[9px] font-black text-slate-500 uppercase ml-2 tracking-widest">Last Name</label>
                                         <input
-                                            required
-                                            className="w-full bg-slate-950 border border-slate-800 rounded-2xl pl-12 pr-6 py-4 text-xs text-white outline-none focus:border-blue-500/40 transition-all font-bold"
-                                            placeholder="Physical Address"
-                                            value={formData.address}
-                                            onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                                            required placeholder="Doe"
+                                            className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-teal-500/40 focus:ring-4 focus:ring-teal-500/10 transition-all font-bold shadow-sm"
+                                            value={formData.lastName} onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                                         />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[9px] font-black text-slate-500 uppercase ml-2 tracking-widest">Contact Phone</label>
+                                        <div className="relative group">
+                                            <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-teal-600 transition-colors" />
+                                            <input
+                                                required placeholder="+254 700 000000"
+                                                className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-12 pr-6 py-4 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-teal-500/40 focus:ring-4 focus:ring-teal-500/10 transition-all font-bold shadow-sm"
+                                                value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[9px] font-black text-slate-500 uppercase ml-2 tracking-widest">Physical Address</label>
+                                        <div className="relative group">
+                                            <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-teal-600 transition-colors" />
+                                            <input
+                                                required placeholder="Nairobi Primary Vector"
+                                                className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-12 pr-6 py-4 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-teal-500/40 focus:ring-4 focus:ring-teal-500/10 transition-all font-bold shadow-sm"
+                                                value={formData.address} onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="space-y-6">
-                                <h4 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">{role === 'PATIENT' ? 'Clinical Profile' : 'Professional Profile'}</h4>
+                            {/* Section: Clinical/Professional Profile */}
+                            <div className="space-y-4">
+                                <div className="flex items-center gap-2 border-b border-slate-100 pb-2">
+                                    <Activity className="w-4 h-4 text-slate-400" />
+                                    <h4 className="text-[10px] font-black text-slate-700 uppercase tracking-[0.2em]">{role === 'PATIENT' ? 'Clinical Profile' : 'Professional Profile'}</h4>
+                                </div>
+                                
                                 {role === 'PATIENT' ? (
-                                    <div className="relative group">
-                                        <Activity className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600 group-focus-within:text-blue-500 transition-colors" />
-                                        <input
-                                            className="w-full bg-slate-950 border border-slate-800 rounded-2xl pl-12 pr-6 py-4 text-xs text-white outline-none focus:border-blue-500/40 transition-all font-bold"
-                                            placeholder="Primary Ailment / Condition"
-                                            value={formData.ailment}
-                                            onChange={(e) => setFormData({ ...formData, ailment: e.target.value })}
-                                        />
+                                    <div className="space-y-2">
+                                        <label className="text-[9px] font-black text-slate-500 uppercase ml-2 tracking-widest">Primary Ailment / Condition</label>
+                                        <div className="relative group">
+                                            <Activity className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-teal-600 transition-colors" />
+                                            <input
+                                                className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-12 pr-6 py-4 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-teal-500/40 focus:ring-4 focus:ring-teal-500/10 transition-all font-bold shadow-sm"
+                                                placeholder="Post-operative observation, Mobility Support..."
+                                                value={formData.ailment} onChange={(e) => setFormData({ ...formData, ailment: e.target.value })}
+                                            />
+                                        </div>
                                     </div>
                                 ) : (
-                                    <div className="relative group">
-                                        <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600 group-focus-within:text-blue-500 transition-colors" />
-                                        <input
-                                            type="number"
-                                            className="w-full bg-slate-950 border border-slate-800 rounded-2xl pl-12 pr-6 py-4 text-xs text-white outline-none focus:border-blue-500/40 transition-all font-bold"
-                                            placeholder="Years of Practical Experience"
-                                            value={formData.experienceYears}
-                                            onChange={(e) => setFormData({ ...formData, experienceYears: e.target.value })}
-                                        />
+                                    <div className="space-y-2">
+                                        <label className="text-[9px] font-black text-slate-500 uppercase ml-2 tracking-widest">Verified Practical Experience</label>
+                                        <div className="relative group">
+                                            <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-teal-600 transition-colors" />
+                                            <input
+                                                type="number"
+                                                className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-12 pr-6 py-4 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-teal-500/40 focus:ring-4 focus:ring-teal-500/10 transition-all font-bold shadow-sm"
+                                                placeholder="Years (e.g., 5)"
+                                                value={formData.experienceYears} onChange={(e) => setFormData({ ...formData, experienceYears: e.target.value })}
+                                            />
+                                        </div>
                                     </div>
                                 )}
                             </div>
+                        </form>
+                    </div>
 
+                    {/* Footer Actions */}
+                    <div className="p-6 border-t border-slate-100 bg-slate-50 flex items-center justify-between shrink-0">
+                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2 pl-2">
+                            <ShieldCheck className="w-3.5 h-3.5" />
+                            Protocol Alpha-9 Secure
+                        </div>
+                        <div className="flex items-center gap-3">
                             <button
-                                type="submit"
+                                onClick={onClose}
                                 disabled={loading}
-                                className="w-full bg-blue-600 hover:bg-blue-500 text-white font-black uppercase tracking-[0.2em] py-5 rounded-2xl transition-all shadow-xl shadow-blue-500/20 active:scale-95 disabled:opacity-50 flex items-center justify-center gap-3 text-xs"
+                                className="px-6 py-3 bg-white border border-slate-200 text-slate-500 hover:text-slate-800 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors shadow-sm"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleSubmit}
+                                disabled={loading}
+                                className={`px-8 py-3 text-white rounded-xl text-xs font-black uppercase tracking-widest transition-all shadow-lg active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2 ${role === 'PATIENT' ? 'bg-teal-600 hover:bg-teal-700 shadow-teal-600/20' : 'bg-slate-800 hover:bg-slate-900 shadow-slate-900/20'}`}
                             >
                                 {loading ? (
-                                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                                 ) : (
                                     <>
                                         <Plus className="w-4 h-4" />
@@ -223,7 +238,7 @@ export default function UserModal({ isOpen, onClose, onSuccess, role }: UserModa
                                     </>
                                 )}
                             </button>
-                        </form>
+                        </div>
                     </div>
                 </motion.div>
             </div>

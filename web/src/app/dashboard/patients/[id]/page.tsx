@@ -154,22 +154,22 @@ export default function PatientDetailPage() {
         <DashboardLayout>
             <div className="space-y-8 pb-20">
                 {/* Tactical Header */}
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                     <div className="flex items-center gap-6">
-                        <button onClick={() => window.history.back()} className="p-4 bg-slate-900 text-white rounded-[24px] hover:bg-blue-600 transition-all">
+                        <button onClick={() => window.history.back()} className="p-4 bg-white border border-slate-200 text-slate-400 rounded-2xl hover:text-teal-600 hover:border-teal-200 hover:bg-teal-50 shadow-sm transition-all active:scale-95">
                             <ChevronLeft className="w-5 h-5" />
                         </button>
                         <div>
-                            <h1 className="text-3xl font-black text-slate-900 tracking-tight uppercase">{patient.profile?.firstName} {patient.profile?.lastName}</h1>
-                            <div className="flex items-center gap-4 mt-1">
-                                <span className="text-[10px] font-black bg-blue-50 text-blue-600 px-2 py-0.5 rounded-md border border-blue-100 uppercase tracking-widest">{patient.profile?.ailment || 'Observation'}</span>
-                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] italic">Clinical Node: {patient.id.slice(0, 12)}</span>
+                            <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight uppercase">{patient.profile?.firstName} {patient.profile?.lastName}</h1>
+                            <div className="flex items-center gap-4 mt-2">
+                                <span className="text-[10px] font-black bg-teal-50 text-teal-600 px-3 py-1 rounded-md border border-teal-100 uppercase tracking-widest">{patient.profile?.ailment || 'Observation'}</span>
+                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Clinical Node: {patient.id.slice(0, 12)}</span>
                             </div>
                         </div>
                     </div>
                     <div className="flex gap-4">
-                        <button className="px-6 py-3 bg-white border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50">Generate Report</button>
-                        <button className="px-6 py-3 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-600 shadow-xl shadow-slate-900/10">Modify Care Plan</button>
+                        <button className="px-6 py-3 bg-white border border-slate-200 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-50 text-slate-600 shadow-sm">Generate Report</button>
+                        <button className="px-6 py-3 bg-teal-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-teal-500 shadow-xl shadow-teal-600/20 active:scale-95 transition-all">Modify Care Plan</button>
                     </div>
                 </div>
 
@@ -179,7 +179,7 @@ export default function PatientDetailPage() {
                     <div className="lg:col-span-1 space-y-8">
                         <div className="bg-white border border-slate-200 rounded-[40px] p-8 shadow-sm">
                             <div className="flex items-center gap-4 mb-8">
-                                <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600">
+                                <div className="w-16 h-16 bg-teal-50 rounded-2xl flex items-center justify-center text-teal-600">
                                     <Clipboard className="w-8 h-8" />
                                 </div>
                                 <h3 className="font-black text-slate-900 uppercase tracking-widest text-xs">Medical Summary</h3>
@@ -210,21 +210,22 @@ export default function PatientDetailPage() {
                         </div>
 
                         {/* Recent Deployments */}
-                        <div className="bg-slate-900 rounded-[40px] p-8 text-white">
-                            <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-blue-400 mb-8 text-center">Assigned Care Team</h3>
-                            <div className="space-y-4">
+                        <div className="bg-gradient-to-b from-teal-50 to-white border border-teal-100 rounded-[40px] p-8 text-slate-900 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-teal-100/50 rounded-full blur-[60px] -mr-32 -mt-32 pointer-events-none" />
+                            <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-teal-600 mb-8 text-center relative z-10">Assigned Care Team</h3>
+                            <div className="space-y-4 relative z-10">
                                 {assignedCaregivers.length > 0 ? assignedCaregivers.map((cg: any) => (
                                     <Link
                                         href={`/dashboard/caregivers/${cg.id}`}
                                         key={cg.id}
-                                        className="p-4 bg-white/5 border border-white/10 rounded-2xl flex items-center gap-4 group cursor-pointer hover:bg-white/10 transition-all block"
+                                        className="p-4 bg-white border border-teal-100/50 rounded-2xl flex items-center gap-4 group cursor-pointer hover:border-teal-300 hover:shadow-md transition-all block shadow-sm"
                                     >
-                                        <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center font-black text-xs shrink-0">
+                                        <div className="w-10 h-10 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center font-black text-xs shrink-0 group-hover:bg-teal-600 group-hover:text-white transition-colors">
                                             {cg.profile?.firstName?.[0] ?? '?'}{cg.profile?.lastName?.[0] ?? ''}
                                         </div>
                                         <div className="flex-1">
-                                            <p className="text-[11px] font-black group-hover:text-blue-400 transition-colors uppercase">{cg.profile?.firstName} {cg.profile?.lastName}</p>
-                                            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">{cg.shiftType || 'GENERAL'}</p>
+                                            <p className="text-[11px] font-black group-hover:text-teal-600 transition-colors uppercase text-slate-900">{cg.profile?.firstName} {cg.profile?.lastName}</p>
+                                            <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-0.5">{cg.shiftType || 'GENERAL'}</p>
                                         </div>
                                         <button
                                             onClick={(e) => {
@@ -234,17 +235,17 @@ export default function PatientDetailPage() {
                                                 setEditingShiftId(cg.shiftId);
                                                 setSelectedShiftType(cg.shiftType || 'DAY');
                                             }}
-                                            className="p-2 opacity-0 group-hover:opacity-100 bg-white/10 hover:bg-blue-600 rounded-lg transition-all"
+                                            className="p-2 opacity-0 group-hover:opacity-100 bg-teal-50 hover:bg-teal-600 hover:text-white rounded-lg transition-all text-teal-600"
                                         >
-                                            <Edit2 className="w-3 h-3 text-white" />
+                                            <Edit2 className="w-3 h-3" />
                                         </button>
                                     </Link>
                                 )) : (
-                                    <p className="text-center py-4 text-[10px] uppercase font-black text-slate-600 tracking-widest">No active assignments</p>
+                                    <p className="text-center py-4 text-[10px] uppercase font-black text-slate-400 tracking-widest">No active assignments</p>
                                 )}
                                 <button
                                     onClick={() => setIsAssigning(true)}
-                                    className="w-full py-3 border border-dashed border-white/20 rounded-2xl text-[9px] font-black uppercase tracking-widest text-slate-400 hover:border-blue-500 hover:text-blue-500 transition-all mt-4"
+                                    className="w-full py-3 bg-white border border-dashed border-teal-200 rounded-2xl text-[9px] font-black uppercase tracking-widest text-teal-600 hover:border-teal-400 hover:bg-teal-50 transition-all mt-4"
                                 >
                                     + Assign Personnel
                                 </button>
@@ -261,8 +262,8 @@ export default function PatientDetailPage() {
                                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">24 Hour Operational Overview</p>
                                 </div>
                                 <div className="flex gap-2">
-                                    <div className="px-3 py-1 bg-blue-50 text-blue-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-blue-100 flex items-center gap-2">
-                                        <div className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse" /> Live Stream
+                                    <div className="px-3 py-1 bg-teal-50 text-teal-600 rounded-lg text-[10px] font-black uppercase tracking-widest border border-teal-100 flex items-center gap-2">
+                                        <div className="w-1.5 h-1.5 bg-teal-600 rounded-full animate-pulse" /> Live Stream
                                     </div>
                                 </div>
                             </div>
@@ -272,8 +273,8 @@ export default function PatientDetailPage() {
                                     <AreaChart data={displayVitals}>
                                         <defs>
                                             <linearGradient id="colorHR" x1="0" y1="0" x2="0" y2="1">
-                                                <stop offset="5%" stopColor="#2563eb" stopOpacity={0.1} />
-                                                <stop offset="95%" stopColor="#2563eb" stopOpacity={0} />
+                                                <stop offset="5%" stopColor="#0d9488" stopOpacity={0.1} />
+                                                <stop offset="95%" stopColor="#0d9488" stopOpacity={0} />
                                             </linearGradient>
                                         </defs>
                                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
@@ -294,7 +295,7 @@ export default function PatientDetailPage() {
                                         <Area
                                             type="monotone"
                                             dataKey="hr"
-                                            stroke="#2563eb"
+                                            stroke="#0d9488"
                                             strokeWidth={4}
                                             fillOpacity={1}
                                             fill="url(#colorHR)"

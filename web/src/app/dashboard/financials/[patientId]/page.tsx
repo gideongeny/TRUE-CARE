@@ -50,7 +50,7 @@ export default function PatientFinancialsPage({ params }: { params: Promise<{ pa
                         <span className="text-[10px] font-black uppercase tracking-[0.2em]">Return to Finance Hub</span>
                     </Link>
                     <div className="text-right">
-                        <h1 className="text-4xl font-black text-white tracking-tighter uppercase italic">{data.profile?.firstName} {data.profile?.lastName}</h1>
+                        <h1 className="text-4xl font-black text-white tracking-tight uppercase italic">{data.profile?.firstName} {data.profile?.lastName}</h1>
                         <p className="text-[10px] text-blue-500 font-black uppercase tracking-[0.3em] mt-1">Status: {data.summary.balance > 0 ? 'Balance Arrears' : 'Cleared Vector'}</p>
                     </div>
                 </div>
@@ -130,7 +130,7 @@ export default function PatientFinancialsPage({ params }: { params: Promise<{ pa
                                                 </div>
                                             </td>
                                             <td className="px-8 py-5">
-                                                <span className="text-[10px] text-slate-500 font-black uppercase tracking-tighter">MP-{tx.mpesaReceipt?.slice(0, 10) || tx.id.slice(0, 8)}</span>
+                                                <span className="text-[10px] text-slate-500 font-black uppercase tracking-tight">MP-{tx.mpesaReceipt?.slice(0, 10) || tx.id.slice(0, 8)}</span>
                                             </td>
                                             <td className="px-8 py-5 text-right">
                                                 <span className="text-xs font-black text-emerald-500 tracking-tight italic">+ {tx.amount}</span>
@@ -161,7 +161,7 @@ export default function PatientFinancialsPage({ params }: { params: Promise<{ pa
                                             <Activity className="w-4 h-4 text-blue-400" />
                                         </div>
                                         <div>
-                                            <p className="text-[11px] font-black text-white uppercase tracking-tighter">{session.careType}</p>
+                                            <p className="text-[11px] font-black text-white uppercase tracking-tight">{session.careType}</p>
                                             <p className="text-[9px] text-slate-500 font-bold uppercase mt-0.5">{new Date(session.createdAt).toLocaleDateString()}</p>
                                         </div>
                                     </div>

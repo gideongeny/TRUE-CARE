@@ -106,7 +106,7 @@ export default function ShiftsPage() {
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
                     <div>
-                        <h1 className="text-5xl font-black text-white tracking-tighter italic">Shift Vector Control</h1>
+                        <h1 className="text-5xl font-black text-white tracking-tight">Shift Vector Control</h1>
                         <p className="text-slate-500 text-xs mt-3 font-bold uppercase tracking-widest flex items-center gap-2">
                             <Calendar className="w-4 h-4 text-blue-500" />
                             Clinical Resource Deployment
@@ -239,7 +239,7 @@ export default function ShiftsPage() {
                             >
                                 <div className="flex justify-between items-start mb-12">
                                     <div>
-                                        <h2 className="text-3xl font-black text-white tracking-tighter uppercase italic">Assign Deployment</h2>
+                                        <h2 className="text-3xl font-black text-white tracking-tight uppercase italic">Assign Deployment</h2>
                                         <p className="text-slate-500 text-[10px] font-black tracking-widest mt-2 uppercase">Input clinical task parameters</p>
                                     </div>
                                     <button onClick={() => setIsCreateModalOpen(false)} className="p-4 hover:bg-slate-900 rounded-full text-slate-500 transition-all">
