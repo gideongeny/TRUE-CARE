@@ -54,4 +54,7 @@ dependencies {
 
     // Biometrics
     implementation 'androidx.biometric:biometric:1.2.0-alpha05'
+
+    // Charts
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }

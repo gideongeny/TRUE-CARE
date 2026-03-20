@@ -21,8 +21,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 class PaymentsFragment : Fragment() {
 
-    private lateinit var tvBalance: TextView
-    private lateinit var rvPayments: RecyclerView
+    private lateinit var tvTotalPaid: TextView
+    private lateinit var rvPaymentHistory: RecyclerView
     private lateinit var adapter: PaymentAdapter
 
     override fun onCreateView(
@@ -31,14 +31,14 @@ class PaymentsFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_payments, container, false)
         
-        tvBalance = view.findViewById(R.id.tvBalance)
-        rvPayments = view.findViewById(R.id.rvPayments)
-        rvPayments.layoutManager = LinearLayoutManager(context)
+        tvTotalPaid = view.findViewById(R.id.tvTotalPaid)
+        rvPaymentHistory = view.findViewById(R.id.rvPaymentHistory)
+        rvPaymentHistory.layoutManager = LinearLayoutManager(context)
         adapter = PaymentAdapter()
-        rvPayments.adapter = adapter
+        rvPaymentHistory.adapter = adapter
         
         view.findViewById<View>(R.id.btnPayNow).setOnClickListener {
-            val amountStr = tvBalance.text.toString().replace("KSh ", "").replace(",", "")
+            val amountStr = view.findViewById<TextView>(R.id.tvOutstandingBalance).text.toString().replace("KSh ", "").replace(",", "")
             val amount = amountStr.toDoubleOrNull() ?: 0.0
             if (amount > 0) {
                 initiatePayment(amount)
@@ -47,34 +47,9 @@ class PaymentsFragment : Fragment() {
             }
         }
 
-        view.findViewById<View>(R.id.btnPartialPayment).setOnClickListener {
-            showPartialPaymentDialog()
-        }
-
         loadPaymentData()
         
         return view
-    }
-
-    private fun showPartialPaymentDialog() {
-        val input = EditText(requireContext())
-        input.setHint("Enter amount (KSh)")
-        input.inputType = android.text.InputType.TYPE_CLASS_NUMBER
-
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Partial Payment")
-            .setMessage("Enter the amount you wish to pay now")
-            .setView(input)
-            .setPositiveButton("PAY") { _, _ ->
-                val amount = input.text.toString().toDoubleOrNull() ?: 0.0
-                if (amount > 0) {
-                    initiatePayment(amount)
-                } else {
-                    Toast.makeText(context, "Invalid amount", Toast.LENGTH_SHORT).show()
-                }
-            }
-            .setNegativeButton("CANCEL", null)
-            .show()
     }
 
     private fun initiatePayment(amount: Double) {
@@ -120,7 +95,7 @@ class PaymentsFragment : Fragment() {
                 if (response.isSuccessful && response.body() != null) {
                     val user = response.body()!!
                     withContext(Dispatchers.Main) {
-                        tvBalance.text = "KSh ${user.profile?.balance ?: 0.00}"
+                        tvTotalPaid.text = "KSh ${user.profile?.balance ?: 0.00}"
                         user.payments?.let {
                             adapter.setPayments(it)
                         }

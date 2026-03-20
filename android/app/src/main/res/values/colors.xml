@@ -1,27 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Core Brand Colors (Soft Medical Palette) -->
-    <color name="med_teal_primary">#2D9CDB</color>
-    <color name="med_teal_dark">#1B5D83</color>
-    <color name="med_mint_success">#27AE60</color>
-    <color name="med_mint_soft">#D1F2EB</color>
-    <color name="med_blue_bg">#EBF5FB</color>
-    <color name="med_soft_gray">#F2F4F4</color>
-    <color name="med_soft_gray_dark">#D5DBDB</color>
-    
-    <!-- Text Colors -->
-    <color name="med_text_primary">#1C2833</color>
-    <color name="med_text_secondary">#566573</color>
-    <color name="med_text_hint">#ABB2B9</color>
-    
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!--       COMPASSIONATE CARE V3 — ANDROID DESIGN SYSTEM TOKENS     -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+
+    <!-- Primary Brand: Teal (matches web #0d9488) -->
+    <color name="teal_primary">#0D9488</color>
+    <color name="teal_dark">#0F766E</color>
+    <color name="teal_light">#CCFBF1</color>
+    <color name="teal_50">#F0FDFA</color>
+
+    <!-- Secondary Brand: Emerald -->
+    <color name="emerald_primary">#10B981</color>
+    <color name="emerald_light">#D1FAE5</color>
+    <color name="emerald_50">#ECFDF5</color>
+
+    <!-- Legacy alias (keep for old references) -->
+    <color name="med_teal_primary">#0D9488</color>
+    <color name="med_teal_dark">#0F766E</color>
+    <color name="med_mint_success">#10B981</color>
+    <color name="med_mint_soft">#CCFBF1</color>
+    <color name="med_blue_bg">#F0FDFA</color>
+
+    <!-- Slate Scale (matches Tailwind slate-*) -->
+    <color name="slate_900">#0F172A</color>
+    <color name="slate_800">#1E293B</color>
+    <color name="slate_700">#334155</color>
+    <color name="slate_600">#475569</color>
+    <color name="slate_500">#64748B</color>
+    <color name="slate_400">#94A3B8</color>
+    <color name="slate_300">#CBD5E1</color>
+    <color name="slate_200">#E2E8F0</color>
+    <color name="slate_100">#F1F5F9</color>
+    <color name="slate_50">#F8FAFC</color>
+
+    <!-- Legacy aliases -->
+    <color name="med_text_primary">#0F172A</color>
+    <color name="med_text_secondary">#64748B</color>
+    <color name="med_text_hint">#94A3B8</color>
+    <color name="med_soft_gray">#F1F5F9</color>
+    <color name="med_soft_gray_dark">#CBD5E1</color>
+
     <!-- Functional Colors -->
     <color name="white">#FFFFFFFF</color>
     <color name="black">#FF000000</color>
-    <color name="med_rose_error">#E74C3C</color>
-    <color name="med_amber_warning">#F39C12</color>
     <color name="transparent">#00000000</color>
 
-    <!-- Legacy Compatibility Colors -->
+    <!-- Semantic Colors -->
+    <color name="rose_primary">#F43F5E</color>
+    <color name="rose_light">#FFE4E6</color>
+    <color name="amber_primary">#F59E0B</color>
+    <color name="amber_light">#FEF3C7</color>
+    <color name="blue_primary">#3B82F6</color>
+    <color name="blue_light">#EFF6FF</color>
+
+    <!-- Legacy functional aliases -->
+    <color name="med_rose_error">#F43F5E</color>
+    <color name="med_amber_warning">#F59E0B</color>
+
+    <!-- Gradient Start/End for backgrounds -->
+    <color name="gradient_start">#0D9488</color>
+    <color name="gradient_end">#059669</color>
+
+    <!-- Legacy grid compat -->
     <color name="gray_50">#F8FAFC</color>
     <color name="gray_100">#F1F5F9</color>
     <color name="gray_200">#E2E8F0</color>
@@ -33,6 +75,7 @@
     <color name="gray_800">#1E293B</color>
     <color name="gray_900">#0F172A</color>
     <color name="emerald_500">#10B981</color>
-    <color name="teal_500">#14B8A6</color>
+    <color name="teal_500">#0D9488</color>
     <color name="blue_500">#3B82F6</color>
+
 </resources>

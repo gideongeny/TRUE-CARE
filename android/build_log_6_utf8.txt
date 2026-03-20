@@ -1,0 +1,777 @@
+﻿> Task :app:checkKotlinGradlePluginConfigurationErrors
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :app:generateDebugResValues UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:mergeDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+> Task :app:processDebugResources UP-TO-DATE
+
+> Task :app:compileDebugKotlin FAILED
+.\gradlew : e: file:///C:/Use
+rs/mukht/Desktop/VS%20project
+s/TRUE-CARE-main/android/app/
+src/main/java/com/example/car
+egiver/AnalyticsActivity.kt:3
+4:36 Unresolved reference: 
+BarEntry
+At line:1 char:1
++ .\gradlew 
+:app:compileDebugKotlin > 
+build_log_6.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: (e: file  
+  :///C:/U...rence: BarEnt   
+ ry:String) [], RemoteExc    
+eption
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Analy
+ticsActivity.kt:35:24 
+Unresolved reference: 
+BarEntry
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Analy
+ticsActivity.kt:36:24 
+Unresolved reference: 
+BarEntry
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Analy
+ticsActivity.kt:37:24 
+Unresolved reference: 
+BarEntry
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Analy
+ticsActivity.kt:38:24 
+Unresolved reference: 
+BarEntry
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Analy
+ticsActivity.kt:40:26 
+Unresolved reference: 
+BarDataSet
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Analy
+ticsActivity.kt:41:20 
+Variable expected
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Analy
+ticsActivity.kt:43:23 
+Unresolved reference: BarData
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Analy
+ticsActivity.kt:44:9 
+Unresolved reference: binding
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Analy
+ticsActivity.kt:44:31 
+Variable expected
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Analy
+ticsActivity.kt:45:9 
+Unresolved reference: binding
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Analy
+ticsActivity.kt:49:9 
+Unresolved reference: binding
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Analy
+ticsActivity.kt:49:32 
+Variable expected
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Analy
+ticsActivity.kt:50:9 
+Unresolved reference: binding
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Analy
+ticsActivity.kt:50:34 
+Variable expected
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Clini
+calHistoryActivity.kt:30:9 
+Unresolved reference: 
+rvClinicalHistory
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Clini
+calHistoryActivity.kt:30:29 
+Not enough information to 
+infer type variable T
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Clini
+calHistoryActivity.kt:31:9 
+Unresolved reference: 
+rvClinicalHistory
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Clini
+calHistoryActivity.kt:31:27 
+Variable expected
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Clini
+calHistoryActivity.kt:33:9 
+Unresolved reference: 
+rvClinicalHistory
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Clini
+calHistoryActivity.kt:33:27 
+Variable expected
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Setti
+ngsActivity.kt:23:40 
+Unresolved reference: btnBack
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Setti
+ngsActivity.kt:33:22 
+Unresolved reference: View
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Setti
+ngsActivity.kt:37:22 
+Unresolved reference: View
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Setti
+ngsActivity.kt:41:22 
+Unresolved reference: View
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/adapt
+ers/ScheduleAdapter.kt:15:62 
+Unresolved reference: 
+tvPatientName
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/adapt
+ers/ScheduleAdapter.kt:17:60 
+Unresolved reference: 
+tvShiftTime
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:56:9
+ Expecting member declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:56:1
+4 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:56:1
+5 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:56:2
+2 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:56:2
+3 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:56:2
+4 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:56:4
+2 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:56:4
+3 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:57:9
+ Expecting member declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:57:1
+4 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:57:1
+5 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:57:2
+5 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:57:2
+7 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:57:3
+4 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:57:3
+5 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:57:3
+9 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:57:4
+0 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:57:4
+9 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:57:5
+0 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:59:9
+ Expecting member declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:59:3
+5 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:59:3
+6 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:59:5
+0 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:59:5
+1 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:59:5
+2 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:60:1
+3 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:60:1
+4 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:60:2
+2 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:60:2
+3 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:60:2
+4 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:60:3
+9 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:60:4
+0 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:61:1
+3 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:61:1
+4 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:61:2
+4 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:61:2
+5 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:61:2
+6 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:61:6
+2 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:61:6
+3 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:62:1
+3 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:62:1
+4 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:62:2
+1 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:62:2
+2 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:62:2
+7 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:63:1
+3 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:63:1
+4 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:63:3
+1 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:63:3
+2 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:63:3
+3 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:63:3
+6 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:63:3
+7 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:63:3
+9 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:63:4
+2 Unexpected tokens (use ';' 
+to separate expressions on 
+the same line)
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:71:1
+3 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:71:1
+4 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:71:3
+1 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:71:3
+2 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:71:3
+3 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:71:3
+9 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:71:4
+0 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:71:4
+2 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:71:4
+6 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:72:1
+3 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:72:1
+4 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:72:1
+8 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:72:1
+9 Expecting member 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:129:
+1 Expecting a top level 
+declaration
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:63:3
+9 Function declaration must 
+have a name
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:63:4
+1 Unresolved reference: _
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:84:4
+0 Unresolved reference: 
+context
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:98:4
+0 Unresolved reference: 
+context
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:100:
+40 Unresolved reference: 
+context
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:105:
+36 Unresolved reference: 
+context
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:117:
+21 Not enough information to 
+infer type variable T
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:118:
+25 Unresolved reference: 
+tvTotalPaid
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:118:
+37 Variable expected
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:120:
+29 Unresolved reference: 
+adapter
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/ProfileFragment.kt:33:43
+ Unresolved reference: 
+SettingsActivity
+
+FAILURE: Build failed with 
+an exception.
+
+* What went wrong:
+Execution failed for task 
+':app:compileDebugKotlin'.
+> A failure occurred while 
+executing org.jetbrains.kotli
+n.compilerRunner.GradleCompil
+erRunnerWithWorkers$GradleKot
+linCompilerWorkAction
+   > Compilation error. See 
+log for more details
+
+* Try:
+> Run with --stacktrace 
+option to get the stack 
+trace.
+> Run with --info or --debug 
+option to get more log 
+output.
+> Run with --scan to get 
+full insights.
+> Get more help at 
+https://help.gradle.org.
+
+BUILD FAILED in 5s
+14 actionable tasks: 2 executed, 12 up-to-date

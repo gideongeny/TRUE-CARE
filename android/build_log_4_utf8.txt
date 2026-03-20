@@ -1,0 +1,117 @@
+﻿> Task :app:checkKotlinGradlePluginConfigurationErrors
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :app:generateDebugResValues UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+
+> Task :app:parseDebugLocalResources FAILED
+.\gradlew : [Fatal Error] 
+activity_settings.xml:303:1: 
+XML document structures must 
+start and end within the 
+same entity.
+At line:1 char:1
++ .\gradlew 
+:app:compileDebugKotlin > 
+build_log_4.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: ([Fatal   
+  Error] a...he same entit   
+ y.:String) [], RemoteExc    
+eption
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+
+> Task :app:mergeDebugResources FAILED
+
+FAILURE: Build completed 
+with 2 failures.
+
+1: Task failed with an 
+exception.
+-----------
+* What went wrong:
+Execution failed for task ':a
+pp:parseDebugLocalResources'.
+> A failure occurred while 
+executing com.android.build.g
+radle.internal.res.ParseLibra
+ryResourcesTask$ParseResource
+sRunnable
+   > Failed to parse XML 
+file 
+'C:\Users\mukht\Desktop\VS pr
+ojects\TRUE-CARE-main\android
+\app\build\intermediates\pack
+aged_res\debug\layout\activit
+y_settings.xml'
+
+* Try:
+> Run with --stacktrace 
+option to get the stack 
+trace.
+> Run with --info or --debug 
+option to get more log 
+output.
+> Run with --scan to get 
+full insights.
+> Get more help at 
+https://help.gradle.org.
+=============================
+=============================
+====================
+
+2: Task failed with an 
+exception.
+-----------
+* What went wrong:
+Execution failed for task 
+':app:mergeDebugResources'.
+> A failure occurred while 
+executing com.android.build.g
+radle.internal.res.ResourceCo
+mpilerRunnable
+   > Resource compilation 
+failed (Failed to compile 
+resource file: 
+C:\Users\mukht\Desktop\VS pro
+jects\TRUE-CARE-main\android\
+app\src\main\res\layout\activ
+ity_settings.xml: . Cause: ja
+vax.xml.stream.XMLStreamExcep
+tion: ParseError at 
+[row,col]:[303,1]
+     Message: XML document 
+structures must start and 
+end within the same 
+entity.). Check logs for 
+more details.
+
+* Try:
+> Run with --stacktrace 
+option to get the stack 
+trace.
+> Run with --info or --debug 
+option to get more log 
+output.
+> Run with --scan to get 
+full insights.
+> Get more help at 
+https://help.gradle.org.
+=============================
+=============================
+====================
+
+BUILD FAILED in 5s
+12 actionable tasks: 3 executed, 9 up-to-date

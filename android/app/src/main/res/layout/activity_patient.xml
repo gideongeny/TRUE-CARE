@@ -1,67 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- Patient dashboard container with Bottom Navigation -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:orientation="vertical"
+    android:background="@color/slate_50">
 
-    <FrameLayout
-        android:id="@+id/fragment_container"
+    <!-- Top App Bar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/topAppBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="88dp" />
+        android:layout_height="64dp"
+        android:background="@color/white"
+        android:elevation="2dp"
+        app:titleTextColor="@color/slate_900"
+        app:title="TRUE CARE"
+        app:titleTextAppearance="@style/TextAppearance.TrueCare.Heading"
+        app:navigationIconTint="@color/teal_primary"/>
 
-    <androidx.cardview.widget.CardView
+    <!-- Fragment Container -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:layout_gravity="bottom"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="36dp"
-        app:cardElevation="12dp"
-        app:cardBackgroundColor="@color/med_text_primary">
-        
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center">
-            
-            <ImageButton
-                android:id="@+id/nav_home"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@android:drawable/ic_menu_myplaces"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:tint="@color/white" />
-                
-            <ImageButton
-                android:id="@+id/nav_schedule"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@android:drawable/ic_menu_today"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:tint="@color/med_text_secondary" />
-                
-            <ImageButton
-                android:id="@+id/nav_payments"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@android:drawable/ic_popup_reminder"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:tint="@color/med_text_secondary" />
-                
-            <ImageButton
-                android:id="@+id/nav_profile"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@android:drawable/ic_menu_view"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:tint="@color/med_text_secondary" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <!-- Bottom Navigation (Patient tabs) -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="12dp"
+        app:itemIconTint="@color/bottom_nav_icon_color"
+        app:itemTextColor="@color/bottom_nav_icon_color"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_nav_patient"/>
+
+</LinearLayout>

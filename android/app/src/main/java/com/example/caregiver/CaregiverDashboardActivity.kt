@@ -16,21 +16,21 @@ class CaregiverDashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_caregiver)
 
-        val navView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+        val navView: BottomNavigationView = findViewById(R.id.bottomNavigation)
         
-        // Header buttons
-        findViewById<View>(R.id.btnNotifications).setOnClickListener {
-            startActivity(Intent(this, NotificationActivity::class.java))
-        }
-
-        findViewById<View>(R.id.btnSettings).setOnClickListener {
-            startActivity(Intent(this, SettingsActivity::class.java))
+        // Default fragment
+        if (savedInstanceState == null) {
+            loadFragment(CaregiverHomeFragment())
         }
 
         navView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
                     loadFragment(CaregiverHomeFragment())
+                    true
+                }
+                R.id.nav_schedule -> {
+                    loadFragment(com.example.caregiver.fragments.ScheduleFragment())
                     true
                 }
                 R.id.nav_wallet -> {
@@ -44,16 +44,11 @@ class CaregiverDashboardActivity : AppCompatActivity() {
                 else -> false
             }
         }
-
-        // Default fragment
-        if (savedInstanceState == null) {
-            loadFragment(CaregiverHomeFragment())
-        }
     }
 
     private fun loadFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, fragment)
+        transaction.replace(R.id.fragmentContainer, fragment)
         transaction.commit()
     }
 }

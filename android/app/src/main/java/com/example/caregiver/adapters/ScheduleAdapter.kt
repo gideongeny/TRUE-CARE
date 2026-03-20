@@ -12,10 +12,10 @@ class ScheduleAdapter(private var shifts: List<Shift>) :
     RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val tvPatientName: TextView = view.findViewById(R.id.tvPatientName)
-        val tvStatus: TextView = view.findViewById(R.id.tvStatus)
-        val tvShiftTime: TextView = view.findViewById(R.id.tvShiftTime)
-        val tvAmount: TextView = view.findViewById(R.id.tvAmount)
+        val tvPatientName: TextView = view.findViewById(R.id.tvShiftPatient)
+        val tvStatus: TextView = view.findViewById(R.id.tvShiftStatus)
+        val tvShiftTime: TextView = view.findViewById(R.id.tvShiftType)
+        val tvAmount: TextView = view.findViewById(R.id.tvShiftAmount)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.caregiver.LoginActivity
 import com.example.caregiver.NotificationActivity
+import com.example.caregiver.SettingsActivity
 import com.example.caregiver.R
 import com.example.caregiver.VerificationActivity
 import com.example.caregiver.api.ApiClient
@@ -25,12 +26,12 @@ class ProfileFragment : Fragment() {
         sessionManager = SessionManager(requireContext())
         tvName = view.findViewById(R.id.tvProfileName)
 
-        view.findViewById<View>(R.id.btnProfileNotifications).setOnClickListener {
+        view.findViewById<View>(R.id.btnNotifications).setOnClickListener {
             startActivity(Intent(context, NotificationActivity::class.java))
         }
 
-        view.findViewById<View>(R.id.btnProfileVerification).setOnClickListener {
-            startActivity(Intent(context, VerificationActivity::class.java))
+        view.findViewById<View>(R.id.btnSettings).setOnClickListener {
+            startActivity(Intent(context, SettingsActivity::class.java))
         }
 
         view.findViewById<View>(R.id.btnLogout).setOnClickListener {

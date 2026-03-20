@@ -17,7 +17,7 @@ import kotlinx.coroutines.withContext
 
 class ClinicalHistoryActivity : AppCompatActivity() {
 
-    private lateinit var rvClinicalLogs: RecyclerView
+    private lateinit var rvClinicalHistory: RecyclerView
     private lateinit var adapter: ClinicalLogAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,10 +27,10 @@ class ClinicalHistoryActivity : AppCompatActivity() {
         val patientId = intent.getStringExtra("patientId")
         val shiftId = intent.getStringExtra("shiftId")
 
-        rvClinicalLogs = findViewById(R.id.rvClinicalLogs)
-        rvClinicalLogs.layoutManager = LinearLayoutManager(this)
+        rvClinicalHistory = findViewById(R.id.rvClinicalHistory)
+        rvClinicalHistory.layoutManager = LinearLayoutManager(this)
         adapter = ClinicalLogAdapter()
-        rvClinicalLogs.adapter = adapter
+        rvClinicalHistory.adapter = adapter
 
         if (patientId != null) {
             fetchPatientHistory(patientId)

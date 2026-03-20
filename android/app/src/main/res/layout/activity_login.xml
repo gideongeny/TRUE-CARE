@@ -1,182 +1,206 @@
-<?xml version="1.0" encoding="utf-8"?> 
+<?xml version="1.0" encoding="utf-8"?>
+<!-- V3 Compassionate Care Login -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@color/white">
+    android:background="@color/slate_50">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="32dp">
+        android:orientation="vertical">
 
-        <!-- Header Section -->
-        <ImageView
-            android:id="@+id/ivLogo"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:layout_marginTop="64dp"
-            android:src="@drawable/ic_medical_brand"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <TextView
-            android:id="@+id/tvGreeting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Welcome Back"
-            android:textColor="@color/med_text_primary"
-            android:textSize="32sp"
-            android:fontFamily="sans-serif-black"
-            android:layout_marginTop="24dp"
-            app:layout_constraintTop_toBottomOf="@id/ivLogo"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <TextView
-            android:id="@+id/tvInstruction"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Please sign in to your secure portal."
-            android:textColor="@color/med_text_secondary"
-            android:textSize="16sp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@id/tvGreeting"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- Input Fields -->
+        <!-- Teal Header Banner -->
         <LinearLayout
-            android:id="@+id/layoutInputs"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@color/teal_primary"
+            android:paddingBottom="32dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:cardCornerRadius="24dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardElevation="8dp">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_medical_brand"
+                    android:scaleType="centerInside"
+                    android:padding="16dp"/>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Welcome Back"
+                android:textColor="@color/white"
+                android:textSize="26sp"
+                android:fontFamily="sans-serif-black"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sign in to your secure portal"
+                android:textColor="#B2F5EA"
+                android:textSize="13sp"
+                android:fontFamily="sans-serif"
+                android:layout_marginTop="4dp"/>
+        </LinearLayout>
+
+        <!-- White card form area -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="32dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="@color/white"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="-32dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="28dp">
+
+                <!-- Email label -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="EMAIL ADDRESS"
+                    android:textColor="@color/slate_500"
+                    android:textSize="10sp"
+                    android:fontFamily="sans-serif-black"
+                    android:letterSpacing="0.12"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginBottom="8dp"/>
+
+                <!-- Email input -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.TrueCare.TextInputLayout"
+                    android:layout_marginBottom="20dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:hint="name@example.com"
+                        android:inputType="textEmailAddress"
+                        android:textColor="@color/slate_900"
+                        android:textSize="15sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Password label -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SECURE PASSWORD"
+                    android:textColor="@color/slate_500"
+                    android:textSize="10sp"
+                    android:fontFamily="sans-serif-black"
+                    android:letterSpacing="0.12"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginBottom="8dp"/>
+
+                <!-- Password input -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.TrueCare.TextInputLayout"
+                    app:endIconMode="password_toggle"
+                    android:layout_marginBottom="32dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:hint="••••••••"
+                        android:inputType="textPassword"
+                        android:textColor="@color/slate_900"
+                        android:textSize="15sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Sign In CTA -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:text="SIGN IN"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"
+                    android:fontFamily="sans-serif-black"
+                    android:letterSpacing="0.1"
+                    app:backgroundTint="@color/teal_primary"
+                    app:cornerRadius="32dp"
+                    app:elevation="4dp"/>
+
+                <!-- Biometric button (shown conditionally) -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnBiometric"
+                    style="@style/Widget.TrueCare.Button.Secondary"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:text="Access with Biometrics"
+                    android:layout_marginTop="12dp"
+                    android:visibility="gone"/>
+
+                <!-- Loading indicator -->
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/progressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true"
+                    android:layout_gravity="center_horizontal"
+                    app:indicatorColor="@color/teal_primary"
+                    android:visibility="gone"
+                    android:layout_marginTop="16dp"/>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Footer links -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="48dp"
-            app:layout_constraintTop_toBottomOf="@id/tvInstruction">
+            android:gravity="center"
+            android:padding="28dp">
 
             <TextView
+                android:id="@+id/tvSignUpLink"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="EMAIL ADDRESS"
-                android:textColor="@color/med_text_secondary"
-                android:textSize="10sp"
-                android:fontFamily="sans-serif-black"
-                android:letterSpacing="0.1"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="8dp" />
-
-            <EditText
-                android:id="@+id/etEmail"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:background="@drawable/bg_edit_text_soft"
-                android:hint="name@example.com"
-                android:inputType="textEmailAddress"
-                android:paddingHorizontal="24dp"
-                android:textColor="@color/med_text_primary"
-                android:textColorHint="@color/med_text_hint"
-                android:textSize="16sp"
-                android:layout_marginBottom="20dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="SECURE PASSWORD"
-                android:textColor="@color/med_text_secondary"
-                android:textSize="10sp"
-                android:fontFamily="sans-serif-black"
-                android:letterSpacing="0.1"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="8dp" />
-
-            <EditText
-                android:id="@+id/etPassword"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:background="@drawable/bg_edit_text_soft"
-                android:hint="••••••••"
-                android:inputType="textPassword"
-                android:paddingHorizontal="24dp"
-                android:textColor="@color/med_text_primary"
-                android:textColorHint="@color/med_text_hint"
-                android:textSize="16sp"
-                android:layout_marginBottom="32dp" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnLogin"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:text="SIGN IN"
-                android:textColor="@color/white"
+                android:text="Don't have an account? Sign Up"
+                android:textColor="@color/teal_primary"
                 android:textSize="14sp"
-                android:fontFamily="sans-serif-black"
-                app:backgroundTint="@color/med_teal_primary"
-                app:cornerRadius="32dp"
-                app:elevation="4dp" />
+                android:fontFamily="sans-serif-black"/>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnBiometric"
-                style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="Access with Biometrics"
-                android:textColor="@color/med_teal_primary"
-                android:fontFamily="sans-serif-bold"
-                android:layout_marginTop="12dp"
-                android:visibility="gone" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Forgot your password?"
+                android:textColor="@color/slate_400"
+                android:textSize="12sp"
+                android:layout_marginTop="12dp"/>
+
+            <TextView
+                android:id="@+id/tvPrivacyPolicy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Privacy Policy · Terms of Service"
+                android:textColor="@color/slate_300"
+                android:textSize="11sp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"/>
         </LinearLayout>
 
-        <!-- Footer Links -->
-        <TextView
-            android:id="@+id/tvSignUpLink"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Don't have an account? Sign Up"
-            android:textColor="@color/med_teal_primary"
-            android:textSize="14sp"
-            android:fontFamily="sans-serif-black"
-            android:layout_marginTop="32dp"
-            app:layout_constraintTop_toBottomOf="@id/layoutInputs"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Forgot your password?"
-            android:textColor="@color/med_text_secondary"
-            android:textSize="12sp"
-            android:layout_marginTop="12dp"
-            app:layout_constraintTop_toBottomOf="@id/tvSignUpLink"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <TextView
-            android:id="@+id/tvPrivacyPolicy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Privacy Policy"
-            android:textColor="@color/med_text_hint"
-            android:textSize="11sp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintTop_toBottomOf="@id/tvSignUpLink"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            app:indicatorColor="@color/med_teal_primary"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="32dp" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </ScrollView>

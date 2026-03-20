@@ -90,8 +90,8 @@ class NotificationAdapter(private val onRead: (String) -> Unit) : RecyclerView.A
 
     class NotificationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvTitle: TextView = itemView.findViewById(R.id.tvNotificationTitle)
-        val tvMessage: TextView = itemView.findViewById(R.id.tvNotificationMessage)
+        val tvMessage: TextView = itemView.findViewById(R.id.tvNotificationBody)
         val tvTime: TextView = itemView.findViewById(R.id.tvNotificationTime)
-        val vIndicator: View = itemView.findViewById(R.id.vStatusIndicator)
+        val vIndicator: View = itemView.findViewById(R.id.viewUnreadDot)
     }
 }

@@ -1,25 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.CaregiverManagementSystem" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/med_teal_primary</item>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--    COMPASSIONATE CARE V3 — LIGHT THEME (Primary)          -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <style name="Theme.CaregiverManagementSystem" parent="Theme.Material3.Light.NoActionBar">
+
+        <!-- Primary: Teal -->
+        <item name="colorPrimary">@color/teal_primary</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="colorPrimaryContainer">@color/med_teal_primary</item>
-        <item name="colorOnPrimaryContainer">@color/white</item>
+        <item name="colorPrimaryContainer">@color/teal_light</item>
+        <item name="colorOnPrimaryContainer">@color/teal_dark</item>
 
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/med_mint_success</item>
+        <!-- Secondary: Emerald -->
+        <item name="colorSecondary">@color/emerald_primary</item>
         <item name="colorOnSecondary">@color/white</item>
-        <item name="colorSecondaryContainer">@color/med_mint_soft</item>
-        <item name="colorOnSecondaryContainer">@color/med_text_primary</item>
+        <item name="colorSecondaryContainer">@color/emerald_light</item>
+        <item name="colorOnSecondaryContainer">@color/slate_800</item>
 
-        <!-- Status bar color. -->
+        <!-- Error: Rose -->
+        <item name="colorError">@color/rose_primary</item>
+        <item name="colorOnError">@color/white</item>
+        <item name="colorErrorContainer">@color/rose_light</item>
+
+        <!-- Surface & Background -->
+        <item name="android:windowBackground">@color/slate_50</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/slate_900</item>
+        <item name="colorSurfaceVariant">@color/slate_100</item>
+        <item name="colorOnSurfaceVariant">@color/slate_500</item>
+
+        <!-- Outline -->
+        <item name="colorOutline">@color/slate_200</item>
+
+        <!-- Status Bar: light (white bar, dark icons) -->
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
-        
-        <!-- Surface & Background -->
-        <item name="android:windowBackground">@color/white</item>
-        <item name="colorSurface">@color/white</item>
-        <item name="colorOnSurface">@color/med_text_primary</item>
+        <item name="android:navigationBarColor">@color/white</item>
+
+        <!-- Shape: globally rounded -->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.TrueCare.Small</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.TrueCare.Medium</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.TrueCare.Large</item>
+
+        <!-- Default button style -->
+        <item name="materialButtonStyle">@style/Widget.TrueCare.Button.Primary</item>
+
+        <!-- Bottom Navigation -->
+        <item name="bottomNavigationStyle">@style/Widget.TrueCare.BottomNavigation</item>
     </style>
+
+    <!-- ═══════════════════ SHAPE APPEARANCES ═══════════════════ -->
+    <style name="ShapeAppearance.TrueCare.Small" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+    </style>
+
+    <style name="ShapeAppearance.TrueCare.Medium" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20dp</item>
+    </style>
+
+    <style name="ShapeAppearance.TrueCare.Large" parent="ShapeAppearance.Material3.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">28dp</item>
+    </style>
+
+    <!-- ═══════════════════ BUTTONS ═══════════════════ -->
+    <style name="Widget.TrueCare.Button.Primary" parent="Widget.Material3.Button">
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:letterSpacing">0.08</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="backgroundTint">@color/teal_primary</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="cornerRadius">32dp</item>
+        <item name="elevation">4dp</item>
+    </style>
+
+    <style name="Widget.TrueCare.Button.Secondary" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:letterSpacing">0.08</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="strokeColor">@color/slate_200</item>
+        <item name="android:textColor">@color/slate_700</item>
+        <item name="cornerRadius">32dp</item>
+    </style>
+
+    <style name="Widget.TrueCare.Button.Danger" parent="Widget.Material3.Button">
+        <item name="android:textSize">13sp</item>
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="backgroundTint">@color/rose_primary</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="cornerRadius">32dp</item>
+    </style>
+
+    <!-- ═══════════════════ TEXT APPEARANCES ═══════════════════ -->
+    <style name="TextAppearance.TrueCare.Display" parent="TextAppearance.Material3.DisplayMedium">
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:textColor">@color/slate_900</item>
+        <item name="android:textSize">36sp</item>
+    </style>
+
+    <style name="TextAppearance.TrueCare.Heading" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:textColor">@color/slate_900</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="TextAppearance.TrueCare.Label" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:textColor">@color/teal_primary</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:letterSpacing">0.15</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="TextAppearance.TrueCare.Body" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/slate_600</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- ═══════════════════ CARD ═══════════════════ -->
+    <style name="Widget.TrueCare.Card" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardBackgroundColor">@color/white</item>
+        <item name="cardCornerRadius">24dp</item>
+        <item name="cardElevation">2dp</item>
+        <item name="strokeColor">@color/slate_100</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+
+    <style name="Widget.TrueCare.Card.Teal" parent="Widget.TrueCare.Card">
+        <item name="cardBackgroundColor">@color/teal_50</item>
+        <item name="strokeColor">@color/teal_light</item>
+    </style>
+
+    <!-- ═══════════════════ INPUT ═══════════════════ -->
+    <style name="Widget.TrueCare.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">16dp</item>
+        <item name="boxCornerRadiusTopEnd">16dp</item>
+        <item name="boxCornerRadiusBottomStart">16dp</item>
+        <item name="boxCornerRadiusBottomEnd">16dp</item>
+        <item name="boxStrokeColor">@color/input_stroke_state</item>
+        <item name="hintTextColor">@color/slate_500</item>
+        <item name="android:textColorHint">@color/slate_400</item>
+    </style>
+
+    <!-- ═══════════════════ BOTTOM NAVIGATION ═══════════════════ -->
+    <style name="Widget.TrueCare.BottomNavigation" parent="Widget.Material3.BottomNavigationView">
+        <item name="itemIconTint">@color/bottom_nav_icon_color</item>
+        <item name="itemTextColor">@color/bottom_nav_icon_color</item>
+        <item name="android:background">@color/white</item>
+        <item name="elevation">12dp</item>
+    </style>
+
+    <!-- Splash Screen theme (no action bar, full teal gradient) -->
+    <style name="Theme.TrueCare.Splash" parent="Theme.CaregiverManagementSystem">
+        <item name="android:windowBackground">@color/teal_primary</item>
+        <item name="android:statusBarColor">@color/teal_dark</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
 </resources>

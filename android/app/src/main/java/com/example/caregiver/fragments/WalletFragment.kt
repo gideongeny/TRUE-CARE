@@ -24,7 +24,7 @@ class WalletFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_wallet, container, false)
 
         tvBalance = view.findViewById(R.id.tvWalletBalance)
-        btnWithdraw = view.findViewById(R.id.btnWithdrawWallet)
+        btnWithdraw = view.findViewById(R.id.btnWithdraw)
 
         btnWithdraw.setOnClickListener {
             Toast.makeText(context, "Withdrawal request initiated via M-Pesa", Toast.LENGTH_SHORT).show()

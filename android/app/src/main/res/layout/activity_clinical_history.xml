@@ -1,33 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- V3 Clinical History — Vertical Timeline -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F9FAFB"
-    android:padding="16dp">
+    android:background="@color/slate_50">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="HEALTH TIMELINE"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        android:textColor="#EF4444"
-        android:letterSpacing="0.2"
-        android:layout_marginBottom="8dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Patient History"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="#111827"
-        android:layout_marginBottom="16dp"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvClinicalLogs"
+    <!-- Teal App Bar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="64dp"
+        android:background="@color/teal_primary"
+        app:title="Health Timeline"
+        app:titleTextColor="@color/white"
+        app:navigationIcon="@android:drawable/ic_menu_revert"
+        app:navigationIconTint="@color/white"/>
+
+    <!-- Filter chip row -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
+        android:scrollbars="none">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="All Records"
+                android:checked="true"
+                style="@style/Widget.Material3.Chip.Filter"/>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipVitals"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vitals"
+                style="@style/Widget.Material3.Chip.Filter"/>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipNotes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clinical Notes"
+                style="@style/Widget.Material3.Chip.Filter"/>
+        </com.google.android.material.chip.ChipGroup>
+    </HorizontalScrollView>
+
+    <!-- Timeline list -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvClinicalHistory"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="24dp"
+        android:paddingTop="8dp"/>
 
 </LinearLayout>

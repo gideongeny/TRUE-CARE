@@ -1,89 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- V3 Patient Payments Fragment -->
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:background="@color/white">
+    android:background="@color/slate_50"
+    android:clipToPadding="false"
+    android:paddingBottom="88dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Clinical Treasury"
-        android:textColor="@color/med_text_primary"
-        android:textSize="24sp"
-        android:fontFamily="sans-serif-black"
-        android:layout_marginBottom="24dp" />
-
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="32dp"
-        app:cardElevation="8dp"
-        android:layout_marginBottom="32dp"
-        app:cardBackgroundColor="@color/med_text_primary">
-        
+        android:orientation="vertical">
+
+        <!-- Teal header -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="180dp"
             android:orientation="vertical"
-            android:padding="32dp">
-            
+            android:gravity="center"
+            android:background="@color/teal_primary"
+            android:padding="28dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Balance Due"
-                android:textColor="@color/med_text_secondary"
-                android:textSize="12sp"
+                android:text="FINANCIAL SUMMARY"
+                android:textColor="#B2F5EA"
+                android:textSize="10sp"
                 android:fontFamily="sans-serif-black"
-                android:textAllCaps="true" />
-                
+                android:letterSpacing="0.2"/>
+
             <TextView
-                android:id="@+id/tvBalance"
+                android:id="@+id/tvTotalPaid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="KSh 0.00"
                 android:textColor="@color/white"
-                android:textSize="36sp"
+                android:textSize="40sp"
                 android:fontFamily="sans-serif-black"
-                android:layout_marginVertical="8dp" />
-                
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnPayNow"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:text="Settle with M-Pesa"
-                app:cornerRadius="24dp"
-                app:backgroundTint="@color/med_teal_primary"
-                android:textColor="@color/white"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="8dp"/>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnPartialPayment"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Amount Settled"
+                android:textColor="#B2F5EA"
+                android:textSize="13sp"
+                android:layout_marginTop="4dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:layout_marginTop="-24dp">
+
+            <!-- Payment Methods / Quick Pay -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Make Partial Payment"
-                android:textColor="@color/white"
-                android:layout_marginTop="8dp" />
+                app:cardCornerRadius="24dp"
+                app:cardElevation="8dp"
+                app:cardBackgroundColor="@color/white"
+                android:layout_marginBottom="24dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ACTION REQUIRED"
+                        android:textColor="@color/amber_primary"
+                        android:textSize="10sp"
+                        android:fontFamily="sans-serif-black"
+                        android:letterSpacing="0.15"
+                        android:layout_marginBottom="12dp"/>
+
+                    <TextView
+                        android:id="@+id/tvOutstandingBalance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No Pending Balance"
+                        android:textColor="@color/slate_900"
+                        android:textSize="18sp"
+                        android:fontFamily="sans-serif-black"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnPayNow"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:text="PAY VIA M-PESA"
+                        android:textColor="@color/white"
+                        android:fontFamily="sans-serif-black"
+                        android:layout_marginTop="20dp"
+                        app:backgroundTint="@color/teal_primary"
+                        app:cornerRadius="28dp"
+                        app:elevation="4dp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- History -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TRANSACTION HISTORY"
+                android:textColor="@color/slate_500"
+                android:textSize="10sp"
+                android:fontFamily="sans-serif-black"
+                android:letterSpacing="0.15"
+                android:layout_marginBottom="12dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPaymentHistory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"/>
+
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Transaction History"
-        android:textColor="@color/med_text_primary"
-        android:textSize="18sp"
-        android:fontFamily="sans-serif-black"
-        android:layout_marginBottom="16dp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPayments"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingBottom="80dp" />
-
-</LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

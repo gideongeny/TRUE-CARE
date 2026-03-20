@@ -1,270 +1,334 @@
-<?xml version="1.0" encoding="utf-8"?> 
+<?xml version="1.0" encoding="utf-8"?>
+<!-- V3 Compassionate Care Registration -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@color/white">
+    android:background="@color/slate_50">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="32dp">
+        android:orientation="vertical">
 
-        <!-- Header -->
-        <ImageView
-            android:id="@+id/ivLogo"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_medical_brand"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Join TrueCare"
-            android:textColor="@color/med_text_primary"
-            android:textSize="28sp"
-            android:fontFamily="sans-serif-black"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/ivLogo"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/tvSubtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Your journey to better care starts here."
-            android:textColor="@color/med_text_secondary"
-            android:textSize="14sp"
-            app:layout_constraintTop_toBottomOf="@id/tvTitle"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <!-- Core Fields Container -->
+        <!-- Teal Header -->
         <LinearLayout
-            android:id="@+id/layoutCoreFields"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="180dp"
             android:orientation="vertical"
-            android:layout_marginTop="32dp"
-            app:layout_constraintTop_toBottomOf="@id/tvSubtitle">
+            android:gravity="center|start"
+            android:background="@color/teal_primary"
+            android:paddingHorizontal="28dp"
+            android:paddingBottom="32dp">
 
-            <!-- Name -->
-            <EditText
-                android:id="@+id/etName"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@drawable/bg_edit_text_soft"
-                android:hint="Full Name"
-                android:inputType="textPersonName"
-                android:paddingHorizontal="20dp"
-                android:textColor="@color/med_text_primary"
-                android:textSize="14sp"
-                android:layout_marginBottom="12dp" />
-
-            <!-- Email -->
-            <EditText
-                android:id="@+id/etEmail"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@drawable/bg_edit_text_soft"
-                android:hint="Email Address"
-                android:inputType="textEmailAddress"
-                android:paddingHorizontal="20dp"
-                android:textColor="@color/med_text_primary"
-                android:textSize="14sp"
-                android:layout_marginBottom="12dp" />
-
-            <!-- Phone -->
-            <EditText
-                android:id="@+id/etPhone"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@drawable/bg_edit_text_soft"
-                android:hint="Phone Number"
-                android:inputType="phone"
-                android:paddingHorizontal="20dp"
-                android:textColor="@color/med_text_primary"
-                android:textSize="14sp"
-                android:layout_marginBottom="12dp" />
-
-            <!-- Password -->
-            <EditText
-                android:id="@+id/etPassword"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:background="@drawable/bg_edit_text_soft"
-                android:hint="Create Password"
-                android:inputType="textPassword"
-                android:paddingHorizontal="20dp"
-                android:textColor="@color/med_text_primary"
-                android:textSize="14sp"
-                android:layout_marginBottom="24dp" />
-
-            <!-- Role Selection Toggle -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="I AM REGISTERING AS:"
-                android:textColor="@color/med_text_secondary"
+                android:text="JOIN TRUE CARE"
+                android:textColor="#B2F5EA"
                 android:textSize="10sp"
                 android:fontFamily="sans-serif-black"
-                android:letterSpacing="0.1"
-                android:layout_marginStart="8dp"
-                android:layout_marginBottom="8dp" />
+                android:letterSpacing="0.2"/>
 
-            <RadioGroup
-                android:id="@+id/rgRole"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:orientation="horizontal"
-                android:background="@drawable/bg_soft_card"
-                android:padding="4dp">
-                <RadioButton
-                    android:id="@+id/rbPatient"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Patient"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:checked="true"
-                    android:background="@drawable/bg_pill_button"
-                    android:textColor="@color/white"
-                    android:fontFamily="sans-serif-bold" />
-                <RadioButton
-                    android:id="@+id/rbCaregiver"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Caregiver"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:textColor="@color/med_text_secondary"
-                    android:fontFamily="sans-serif-bold" />
-            </RadioGroup>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Create Account"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:fontFamily="sans-serif-black"
+                android:layout_marginTop="6dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Join the compassionate care network"
+                android:textColor="#B2F5EA"
+                android:textSize="13sp"
+                android:layout_marginTop="4dp"/>
         </LinearLayout>
 
-        <!-- Dynamic Role Fields -->
-        <FrameLayout
-            android:id="@+id/roleFieldsContainer"
+        <!-- Form Card -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            app:layout_constraintTop_toBottomOf="@id/layoutCoreFields">
+            app:cardCornerRadius="32dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="@color/white"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="-32dp">
 
-            <!-- Patient Specific -->
             <LinearLayout
-                android:id="@+id/llPatientFields"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <EditText
-                    android:id="@+id/etAge"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:background="@drawable/bg_edit_text_soft"
-                    android:hint="Age"
-                    android:inputType="number"
-                    android:paddingHorizontal="20dp"
-                    android:layout_marginBottom="12dp" />
-                <EditText
-                    android:id="@+id/etCondition"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:background="@drawable/bg_edit_text_soft"
-                    android:hint="Condition / Illness"
-                    android:paddingHorizontal="20dp"
-                    android:layout_marginBottom="12dp" />
-                <EditText
-                    android:id="@+id/etLocation"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:background="@drawable/bg_edit_text_soft"
-                    android:hint="Full Address / Location"
-                    android:paddingHorizontal="20dp" />
-            </LinearLayout>
-
-            <!-- Caregiver Specific (Hidden by default) -->
-            <LinearLayout
-                android:id="@+id/llCaregiverFields"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone">
-                <EditText
-                    android:id="@+id/etIdNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:background="@drawable/bg_edit_text_soft"
-                    android:hint="National ID Number"
-                    android:paddingHorizontal="20dp"
-                    android:layout_marginBottom="12dp" />
-                <LinearLayout
+                android:padding="28dp">
+
+                <!-- Section: Role Selection -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="I AM A..."
+                    android:textColor="@color/teal_primary"
+                    android:textSize="10sp"
+                    android:fontFamily="sans-serif-black"
+                    android:letterSpacing="0.15"
+                    android:layout_marginBottom="12dp"/>
+
+                <RadioGroup
+                    android:id="@+id/rgRole"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginBottom="24dp">
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/rbPatient"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Patient"
+                        android:checked="true"
+                        android:fontFamily="sans-serif-medium"/>
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/rbCaregiver"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Caregiver"
+                        android:fontFamily="sans-serif-medium"/>
+                </RadioGroup>
+
+                <!-- Section: Personal Info -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PERSONAL INFORMATION"
+                    android:textColor="@color/teal_primary"
+                    android:textSize="10sp"
+                    android:fontFamily="sans-serif-black"
+                    android:letterSpacing="0.15"
+                    android:layout_marginBottom="16dp"/>
+
+                <!-- First Name -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.TrueCare.TextInputLayout"
                     android:layout_marginBottom="16dp">
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnUploadCv"
-                        android:layout_width="0dp"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etFirstName"
+                        android:layout_width="match_parent"
                         android:layout_height="56dp"
-                        android:layout_weight="1"
-                        android:text="Upload CV"
-                        style="@style/Widget.Material3.Button.OutlinedButton"
-                        app:cornerRadius="16dp"
-                        android:layout_marginEnd="8dp" />
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnUploadCert"
-                        android:layout_width="0dp"
+                        android:hint="First name"
+                        android:inputType="textPersonName"
+                        android:textSize="15sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Last Name -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.TrueCare.TextInputLayout"
+                    android:layout_marginBottom="16dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etLastName"
+                        android:layout_width="match_parent"
                         android:layout_height="56dp"
-                        android:layout_weight="1"
-                        android:text="Certificates"
-                        style="@style/Widget.Material3.Button.OutlinedButton"
-                        app:cornerRadius="16dp"
-                        android:layout_marginStart="8dp" />
+                        android:hint="Last name"
+                        android:inputType="textPersonName"
+                        android:textSize="15sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Patient Specialized Fields -->
+                <LinearLayout
+                    android:id="@+id/llPatientFields"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+                    
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.TrueCare.TextInputLayout"
+                        android:layout_marginBottom="16dp">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etAge"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:hint="Age"
+                            android:inputType="number"
+                            android:textSize="15sp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.TrueCare.TextInputLayout"
+                        android:layout_marginBottom="16dp">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etCondition"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:hint="Medical Condition / Ailment"
+                            android:inputType="text"
+                            android:textSize="15sp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.TrueCare.TextInputLayout"
+                        android:layout_marginBottom="16dp">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etLocation"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:hint="Location / Town"
+                            android:inputType="text"
+                            android:textSize="15sp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
+
+                <!-- Caregiver Specialized Fields -->
+                <LinearLayout
+                    android:id="@+id/llCaregiverFields"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+                    
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.TrueCare.TextInputLayout"
+                        android:layout_marginBottom="16dp">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etIdNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:hint="National ID Number"
+                            android:inputType="number"
+                            android:textSize="15sp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <!-- Email & Phone -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.TrueCare.TextInputLayout"
+                    android:layout_marginBottom="16dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:hint="Email address"
+                        android:inputType="textEmailAddress"
+                        android:textSize="15sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.TrueCare.TextInputLayout"
+                    android:layout_marginBottom="16dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:hint="Phone number (+254)"
+                        android:inputType="phone"
+                        android:textSize="15sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Password -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.TrueCare.TextInputLayout"
+                    app:endIconMode="password_toggle"
+                    android:layout_marginBottom="16dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:hint="Create password"
+                        android:inputType="textPassword"
+                        android:textSize="15sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Confirm Password -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.TrueCare.TextInputLayout"
+                    app:endIconMode="password_toggle"
+                    android:layout_marginBottom="32dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etConfirmPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:hint="Confirm password"
+                        android:inputType="textPassword"
+                        android:textSize="15sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Register CTA -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnRegister"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:text="CREATE ACCOUNT"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"
+                    android:fontFamily="sans-serif-black"
+                    android:letterSpacing="0.1"
+                    app:backgroundTint="@color/teal_primary"
+                    app:cornerRadius="32dp"
+                    app:elevation="4dp"/>
+
+                <!-- Loading -->
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progressBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true"
+                    app:indicatorColor="@color/teal_primary"
+                    android:visibility="gone"
+                    android:layout_marginTop="16dp"/>
+
             </LinearLayout>
-        </FrameLayout>
+        </androidx.cardview.widget.CardView>
 
-        <!-- Finalize -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnRegister"
+        <!-- Footer -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:text="CREATE SECURE ACCOUNT"
-            android:textColor="@color/white"
-            android:fontFamily="sans-serif-black"
-            app:backgroundTint="@color/med_teal_primary"
-            app:cornerRadius="32dp"
-            android:layout_marginTop="32dp"
-            app:layout_constraintTop_toBottomOf="@id/roleFieldsContainer" />
-
-        <TextView
-            android:id="@+id/tvLoginLink"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Already have an account? Sign In"
-            android:textColor="@color/med_teal_primary"
-            android:fontFamily="sans-serif-bold"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="48dp"
-            app:layout_constraintTop_toBottomOf="@id/btnRegister"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="28dp">
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:layout_constraintTop_toTopOf="@id/btnRegister"
-            app:layout_constraintBottom_toBottomOf="@id/btnRegister"
-            app:layout_constraintStart_toStartOf="@id/btnRegister"
-            app:layout_constraintEnd_toEndOf="@id/btnRegister" />
+            <TextView
+                android:id="@+id/tvLoginLink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Already have an account? Sign In"
+                android:textColor="@color/teal_primary"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-black"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="By registering, you agree to our Terms of Service"
+                android:textColor="@color/slate_300"
+                android:textSize="11sp"
+                android:layout_marginTop="12dp"
+                android:textAlignment="center"/>
+        </LinearLayout>
+
+    </LinearLayout>
 </ScrollView>

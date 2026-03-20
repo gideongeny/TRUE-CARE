@@ -1,0 +1,289 @@
+﻿> Task :app:checkKotlinGradlePluginConfigurationErrors
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :app:generateDebugResValues UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:mergeDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+> Task :app:processDebugResources UP-TO-DATE
+
+> Task :app:compileDebugKotlin FAILED
+.\gradlew : e: file:///C:/Use
+rs/mukht/Desktop/VS%20project
+s/TRUE-CARE-main/android/app/
+src/main/java/com/example/car
+egiver/AdminDashboardActivity
+.kt:9:30 Unresolved 
+reference: databinding
+At line:1 char:1
++ .\gradlew 
+:app:compileDebugKotlin > 
+build_log_3.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: (e: file  
+  :///C:/U...ce: databindi   
+ ng:String) [], RemoteExc    
+eption
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Admin
+DashboardActivity.kt:10:34 
+Unresolved reference: 
+RetrofitClient
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Admin
+DashboardActivity.kt:18:35 
+Unresolved reference: 
+ActivityAdminBinding
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Admin
+DashboardActivity.kt:22:19 
+Unresolved reference: 
+ActivityAdminBinding
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Admin
+DashboardActivity.kt:51:29 
+Variable expected
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Admin
+DashboardActivity.kt:61:44 
+Variable expected
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Admin
+DashboardActivity.kt:62:44 
+Variable expected
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Analy
+ticsActivity.kt:5:30 
+Unresolved reference: 
+databinding
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Analy
+ticsActivity.kt:16:35 
+Unresolved reference: 
+ActivityAnalyticsBinding
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Analy
+ticsActivity.kt:20:19 
+Unresolved reference: 
+ActivityAnalyticsBinding
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Analy
+ticsActivity.kt:52:30 
+Variable expected
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Analy
+ticsActivity.kt:66:31 
+Variable expected
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Analy
+ticsActivity.kt:71:32 
+Variable expected
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Analy
+ticsActivity.kt:72:34 
+Variable expected
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Clini
+calHistoryActivity.kt:30:44 
+Unresolved reference: 
+rvClinicalLogs
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Notif
+icationActivity.kt:93:62 
+Unresolved reference: 
+tvNotificationMessage
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Notif
+icationActivity.kt:95:59 
+Unresolved reference: 
+vStatusIndicator
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Regis
+terActivity.kt:44:36 
+Unresolved reference: etName
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Regis
+terActivity.kt:48:39 
+Unresolved reference: 
+rbPatient
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Regis
+terActivity.kt:49:41 
+Unresolved reference: 
+rbCaregiver
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Regis
+terActivity.kt:54:45 
+Unresolved reference: 
+llPatientFields
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Regis
+terActivity.kt:55:47 
+Unresolved reference: 
+llCaregiverFields
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Regis
+terActivity.kt:56:35 
+Unresolved reference: etAge
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Regis
+terActivity.kt:59:40 
+Unresolved reference: 
+etIdNumber
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Setti
+ngsActivity.kt:23:40 
+Unresolved reference: btnBack
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Setti
+ngsActivity.kt:33:41 
+Unresolved reference: 
+btnPrivacy
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/Setti
+ngsActivity.kt:37:41 
+Unresolved reference: 
+btnTerms
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/adapt
+ers/ScheduleAdapter.kt:15:62 
+Unresolved reference: 
+tvPatientName
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/adapt
+ers/ScheduleAdapter.kt:17:60 
+Unresolved reference: 
+tvShiftTime
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:34:4
+4 Unresolved reference: 
+tvBalance
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/PaymentsFragment.kt:50:3
+8 Unresolved reference: 
+btnPartialPayment
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/ProfileFragment.kt:28:38
+ Unresolved reference: 
+btnProfileNotifications
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/ProfileFragment.kt:32:38
+ Unresolved reference: 
+btnProfileVerification
+e: file:///C:/Users/mukht/Des
+ktop/VS%20projects/TRUE-CARE-
+main/android/app/src/main/jav
+a/com/example/caregiver/fragm
+ents/WalletFragment.kt:27:46 
+Unresolved reference: 
+btnWithdrawWallet
+
+FAILURE: Build failed with 
+an exception.
+
+* What went wrong:
+Execution failed for task 
+':app:compileDebugKotlin'.
+> A failure occurred while 
+executing org.jetbrains.kotli
+n.compilerRunner.GradleCompil
+erRunnerWithWorkers$GradleKot
+linCompilerWorkAction
+   > Compilation error. See 
+log for more details
+
+* Try:
+> Run with --stacktrace 
+option to get the stack 
+trace.
+> Run with --info or --debug 
+option to get more log 
+output.
+> Run with --scan to get 
+full insights.
+> Get more help at 
+https://help.gradle.org.
+
+BUILD FAILED in 8s
+14 actionable tasks: 2 executed, 12 up-to-date

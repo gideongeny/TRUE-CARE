@@ -1,160 +1,224 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- V3 Profile Fragment (Caregiver & Patient shared) -->
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:background="@color/white">
+    android:background="@color/slate_50"
+    android:clipToPadding="false"
+    android:paddingBottom="88dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Professional Profile"
-        android:textColor="@color/med_text_primary"
-        android:textSize="24sp"
-        android:fontFamily="sans-serif-black"
-        android:layout_marginBottom="32dp" />
-
-    <!-- User Info Card -->
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="2dp"
-        android:layout_marginBottom="32dp"
-        app:cardBackgroundColor="@color/white">
+        android:orientation="vertical">
+
+        <!-- Teal profile hero -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="24dp"
-            android:gravity="center_vertical">
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/ivProfileAvatar"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:src="@drawable/ic_medical_brand"
-                android:background="@color/med_soft_gray"
-                android:padding="12dp"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.SmallComponent" />
-            <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@color/teal_primary"
+            android:paddingTop="40dp"
+            android:paddingBottom="56dp">
+
+            <!-- Avatar circle -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                app:cardCornerRadius="48dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardElevation="8dp">
+                <TextView
+                    android:id="@+id/tvAvatarInitials"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="TC"
+                    android:textColor="@color/teal_primary"
+                    android:textSize="32sp"
+                    android:fontFamily="sans-serif-black"/>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tvProfileName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginStart="16dp">
-                <TextView
-                    android:id="@+id/tvProfileName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Loading..."
-                    android:textColor="@color/med_text_primary"
-                    android:textSize="18sp"
-                    android:fontFamily="sans-serif-black" />
-                <TextView
-                    android:id="@+id/tvProfileRole"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Professional Caregiver"
-                    android:textColor="@color/med_text_secondary"
-                    android:textSize="14sp" />
-            </LinearLayout>
+                android:text="Your Name"
+                android:textColor="@color/white"
+                android:textSize="26sp"
+                android:fontFamily="sans-serif-black"
+                android:layout_marginTop="16dp"/>
+
+            <!-- Role badge -->
+            <TextView
+                android:id="@+id/tvProfileRole"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PATIENT"
+                android:background="#33FFFFFF"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:fontFamily="sans-serif-black"
+                android:letterSpacing="0.15"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="6dp"
+                android:layout_marginTop="8dp"/>
+
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
 
-    <!-- Settings Options -->
-    <LinearLayout
-        android:id="@+id/btnProfileNotifications"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        android:paddingHorizontal="16dp">
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@android:drawable/ic_popup_reminder"
-            android:tint="@color/med_text_secondary" />
-        <TextView
-            android:layout_width="0dp"
+        <!-- Profile info cards -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="16dp"
-            android:text="Recent Notifications"
-            android:textColor="@color/med_text_primary"
-            android:textSize="14sp"
-            android:fontFamily="sans-serif-medium" />
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@android:drawable/ic_media_next"
-            android:tint="@color/med_text_hint" />
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:layout_marginTop="-32dp">
+
+            <!-- Contact Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CONTACT INFORMATION"
+                        android:textColor="@color/teal_primary"
+                        android:textSize="10sp"
+                        android:fontFamily="sans-serif-black"
+                        android:letterSpacing="0.15"
+                        android:layout_marginBottom="16dp"/>
+
+                    <!-- Email row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="12dp">
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@android:drawable/sym_action_email"
+                            android:background="@color/teal_50"
+                            android:padding="6dp"/>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginStart="12dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="EMAIL"
+                                android:textColor="@color/slate_400"
+                                android:textSize="9sp"
+                                android:fontFamily="sans-serif-black"
+                                android:letterSpacing="0.1"/>
+                            <TextView
+                                android:id="@+id/tvProfileEmail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="user@example.com"
+                                android:textColor="@color/slate_900"
+                                android:textSize="14sp"
+                                android:fontFamily="sans-serif-medium"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Phone row -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@android:drawable/sym_action_call"
+                            android:background="@color/teal_50"
+                            android:padding="6dp"/>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginStart="12dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="PHONE"
+                                android:textColor="@color/slate_400"
+                                android:textSize="9sp"
+                                android:fontFamily="sans-serif-black"
+                                android:letterSpacing="0.1"/>
+                            <TextView
+                                android:id="@+id/tvProfilePhone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="+254 700 000 000"
+                                android:textColor="@color/slate_900"
+                                android:textSize="14sp"
+                                android:fontFamily="sans-serif-medium"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Account Actions -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/white"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSettings"
+                        style="@style/Widget.TrueCare.Button.Secondary"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:text="Account Settings"
+                        android:layout_marginBottom="12dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnNotifications"
+                        style="@style/Widget.TrueCare.Button.Secondary"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:text="Notifications"
+                        android:layout_marginBottom="12dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnLogout"
+                        style="@style/Widget.TrueCare.Button.Danger"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:text="SIGN OUT"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/btnProfileVerification"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        android:paddingHorizontal="16dp">
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@android:drawable/ic_menu_myplaces"
-            android:tint="@color/med_text_secondary" />
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="16dp"
-            android:text="Verification Status"
-            android:textColor="@color/med_text_primary"
-            android:textSize="14sp"
-            android:fontFamily="sans-serif-medium" />
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@android:drawable/ic_media_next"
-            android:tint="@color/med_text_hint" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/med_soft_gray"
-        android:layout_marginVertical="16dp" />
-
-    <LinearLayout
-        android:id="@+id/btnLogout"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        android:paddingHorizontal="16dp">
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
-            android:tint="#EF4444" />
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="16dp"
-            android:text="Sign Out Safely"
-            android:textColor="#EF4444"
-            android:textSize="14sp"
-            android:fontFamily="sans-serif-black" />
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.core.widget.NestedScrollView>

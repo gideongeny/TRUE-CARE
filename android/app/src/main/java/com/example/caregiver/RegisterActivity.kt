@@ -19,7 +19,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class RegisterActivity : AppCompatActivity() {
-    private lateinit var etName: EditText
+    private lateinit var etFirstName: EditText
+    private lateinit var etLastName: EditText
     private lateinit var etEmail: EditText
     private lateinit var etPhone: EditText
     private lateinit var etPassword: EditText
@@ -41,7 +42,8 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_register)
 
         // Initialize views
-        etName = findViewById(R.id.etName)
+        etFirstName = findViewById(R.id.etFirstName)
+        etLastName = findViewById(R.id.etLastName)
         etEmail = findViewById(R.id.etEmail)
         etPhone = findViewById(R.id.etPhone)
         etPassword = findViewById(R.id.etPassword)
@@ -59,15 +61,11 @@ class RegisterActivity : AppCompatActivity() {
         etIdNumber = findViewById(R.id.etIdNumber)
 
         // Handle Role Toggling
-        rbPatient.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
+        findViewById<android.widget.RadioGroup>(R.id.rgRole).setOnCheckedChangeListener { _, checkedId ->
+            if (checkedId == R.id.rbPatient) {
                 llPatientFields.visibility = View.VISIBLE
                 llCaregiverFields.visibility = View.GONE
-            }
-        }
-
-        rbCaregiver.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
+            } else if (checkedId == R.id.rbCaregiver) {
                 llPatientFields.visibility = View.GONE
                 llCaregiverFields.visibility = View.VISIBLE
             }
@@ -87,14 +85,15 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun register() {
-        val name = etName.text.toString().trim()
+        val fName = etFirstName.text.toString().trim()
+        val lName = etLastName.text.toString().trim()
         val email = etEmail.text.toString().trim()
         val phone = etPhone.text.toString().trim()
         val password = etPassword.text.toString()
         val role = if (rbPatient.isChecked) "PATIENT" else "CAREGIVER"
 
-        if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Please fill all required fields", Toast.LENGTH_SHORT).show()
+        if (fName.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Please fill required fields", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -103,10 +102,6 @@ class RegisterActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val nameParts = name.split(" ", limit = 2)
-                val firstName = nameParts.getOrNull(0) ?: name
-                val lastName = nameParts.getOrNull(1) ?: ""
-
                 val profileData = mutableMapOf<String, Any>()
                 if (role == "PATIENT") {
                     profileData["age"] = etAge.text.toString().toIntOrNull() ?: 0
@@ -117,8 +112,8 @@ class RegisterActivity : AppCompatActivity() {
                 }
 
                 val request = RegisterRequest(
-                    firstName = firstName,
-                    lastName = lastName,
+                    firstName = fName,
+                    lastName = lName,
                     email = email,
                     password = password,
                     role = role,
