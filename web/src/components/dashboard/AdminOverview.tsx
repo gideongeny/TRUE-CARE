@@ -50,7 +50,7 @@ export default function AdminOverview() {
     useEffect(() => {
         const fetchDashboardData = async () => {
             try {
-                const [statsRes, analyticsRes, logsRes, usersRes, liveOpsRes] = await Promise.all([
+                const [statsRes, analyticsRes, logsRes, usersRes, liveOpsRes, insightsRes] = await Promise.all([
                     api.get('/admin/stats'),
                     api.get('/admin/analytics/shifts'),
                     api.get('/admin/logs'),
@@ -116,10 +116,10 @@ export default function AdminOverview() {
     };
 
     const cards = [
-        { label: 'Total Patients', value: stats?.patientCount || 0, icon: Users, trend: (stats?.patientTrend || 0) >= 0 ? `+${stats?.patientTrend || 0}%` : `${stats?.patientTrend || 0}%`, up: (stats?.patientTrend || 0) >= 0, color: 'text-blue-600', bg: 'bg-blue-50' },
+        { label: 'Total Patients', value: stats?.patientCount || 0, icon: Users, trend: (stats?.patientTrend || 0) >= 0 ? `+${stats?.patientTrend || 0}%` : `${stats?.patientTrend || 0}%`, up: (stats?.patientTrend || 0) >= 0, color: 'text-teal-600', bg: 'bg-teal-50' },
         { label: 'Pending Payouts', value: insights?.pendingPayouts?.amount || 0, icon: TrendingUp, trend: `${insights?.pendingPayouts?.count || 0} Req`, up: true, color: 'text-rose-600', bg: 'bg-rose-50' },
         { label: 'Clinical Intensity', value: insights?.clinicalActivity?.last24hLogs || 0, icon: Stethoscope, trend: '24HR', up: true, color: 'text-amber-600', bg: 'bg-amber-50' },
-        { label: 'Verification Queue', value: insights?.operational?.verificationQueue || 0, icon: ShieldCheck, trend: 'ACTION', up: false, color: 'text-indigo-600', bg: 'bg-indigo-50' },
+        { label: 'Verification Queue', value: insights?.operational?.verificationQueue || 0, icon: ShieldCheck, trend: 'ACTION', up: false, color: 'text-emerald-600', bg: 'bg-emerald-50' },
     ];
 
     if (loading) return <div className="p-20 text-center font-black text-slate-400 uppercase tracking-widest">Waking Up Neural Engine...</div>;
@@ -159,14 +159,14 @@ export default function AdminOverview() {
             <div className="flex items-center gap-4">
                 <button
                     onClick={() => { setModalRole('PATIENT'); setIsUserModalOpen(true); }}
-                    className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-2xl shadow-xl shadow-blue-500/20 hover:bg-blue-500 transition-all active:scale-95"
+                    className="flex items-center gap-2 px-6 py-3 bg-teal-600 text-white text-xs font-bold uppercase tracking-wider rounded-2xl shadow-xl shadow-teal-500/20 hover:bg-teal-500 transition-all active:scale-95"
                 >
                     <UserPlus className="w-4 h-4" />
                     New Patient Entry
                 </button>
                 <button
                     onClick={() => { setModalRole('CAREGIVER'); setIsUserModalOpen(true); }}
-                    className="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest rounded-2xl hover:bg-slate-800 transition-all active:scale-95"
+                    className="flex items-center gap-2 px-6 py-3 bg-slate-800 text-white text-xs font-bold uppercase tracking-wider rounded-2xl hover:bg-slate-700 transition-all active:scale-95 shadow-lg"
                 >
                     <ShieldCheck className="w-4 h-4" />
                     Onboard Professional
@@ -179,13 +179,13 @@ export default function AdminOverview() {
                 <div className="xl:col-span-2 space-y-8">
                     {/* Hero Illustration */}
                     <div className="relative h-[280px] w-full rounded-[40px] overflow-hidden group">
-                        <div className="absolute inset-0 bg-blue-900" />
-                        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-transparent" />
+                        <div className="absolute inset-0 bg-teal-900" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-teal-600/40 to-transparent" />
                         <div className="relative z-10 p-12 h-full flex flex-col justify-center">
-                            <h4 className="text-white text-3xl font-black tracking-tight leading-tight max-w-md uppercase italic">
-                                Clinical Deployment <br />Command Operations
+                            <h4 className="text-white text-3xl font-extrabold tracking-tight leading-tight max-w-md uppercase">
+                                Clinical Deployment <br />Care Operations
                             </h4>
-                            <p className="text-blue-100/80 text-xs font-bold mt-4 max-w-xs uppercase tracking-widest leading-relaxed">
+                            <p className="text-teal-100/90 text-sm font-semibold mt-4 max-w-sm leading-relaxed">
                                 Orchestrating {stats?.activeShifts || 0} active deployments across the care network with zero-latency synchronization.
                             </p>
                         </div>
@@ -203,23 +203,23 @@ export default function AdminOverview() {
                                         <tr key={patient.id} className="group hover:bg-slate-50/50 transition-colors">
                                             <td className="px-8 py-6">
                                                 <Link href={`/dashboard/patients/${patient.id}`} className="flex items-center gap-4 group/item">
-                                                    <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center font-black transition-transform group-hover/item:scale-110">
+                                                    <div className="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center font-bold transition-transform group-hover/item:scale-110">
                                                         {patient.profile?.firstName?.[0] ?? '?'}{patient.profile?.lastName?.[0] ?? ''}
                                                     </div>
                                                     <div>
-                                                        <p className="text-sm font-black text-slate-900 group-hover/item:text-blue-600 transition-colors">{patient.profile?.firstName} {patient.profile?.lastName}</p>
+                                                        <p className="text-sm font-bold text-slate-900 group-hover/item:text-teal-600 transition-colors">{patient.profile?.firstName} {patient.profile?.lastName}</p>
                                                         <p className="text-[10px] font-bold text-slate-400 uppercase">ID: {patient.id.slice(0, 8)}</p>
                                                     </div>
                                                 </Link>
                                             </td>
                                             <td className="px-8 py-6">
-                                                <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{patient.profile?.ailment || 'Observation'}</span>
+                                                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{patient.profile?.ailment || 'Observation'}</span>
                                             </td>
                                             <td className="px-8 py-6 text-right">
                                                 <div className="flex items-center justify-end gap-3">
                                                     <button
                                                         onClick={() => { setSelectedPatient(patient); setIsAssigning(true); }}
-                                                        className="px-4 py-2 bg-slate-900 text-white text-[9px] font-black uppercase rounded-lg hover:bg-blue-600 transition-all"
+                                                        className="px-4 py-2 bg-slate-800 text-white text-[10px] font-bold uppercase rounded-lg hover:bg-teal-600 transition-all shadow-sm"
                                                     >
                                                         Smart Assign
                                                     </button>
@@ -247,36 +247,36 @@ export default function AdminOverview() {
                 {/* Performance Feed & Personnel Status */}
                 <div className="space-y-8">
                     {/* Live Personnel Oversight */}
-                    <div className="bg-slate-900 rounded-[40px] p-8 text-white shadow-2xl relative overflow-hidden">
+                    <div className="bg-gradient-to-br from-teal-900 to-emerald-900 rounded-[40px] p-8 text-white shadow-2xl relative overflow-hidden">
                         <div className="absolute top-0 right-0 p-8 opacity-10">
-                            <ShieldCheck className="w-16 h-16 text-blue-400" />
+                            <ShieldCheck className="w-16 h-16 text-teal-100" />
                         </div>
-                        <h4 className="font-black text-blue-400 uppercase tracking-widest text-[10px] mb-8">Live Personnel Oversight</h4>
+                        <h4 className="font-bold text-teal-200/80 uppercase tracking-widest text-[10px] mb-8">Live Personnel Oversight</h4>
                         <div className="space-y-6 relative z-10">
                             {caregivers.slice(0, 3).map((cg) => (
                                 <div key={cg.id} className="flex items-center justify-between group">
                                     <Link href={`/dashboard/caregivers/${cg.id}`} className="flex items-center gap-3 group/item">
-                                        <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center font-black text-[10px] border border-white/10 group-hover/item:bg-blue-600 transition-colors">
+                                        <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center font-bold text-[10px] border border-white/10 group-hover/item:bg-teal-500 transition-colors">
                                             {cg.profile?.firstName?.[0]}{cg.profile?.lastName?.[0]}
                                         </div>
                                         <div>
-                                            <p className="text-[11px] font-black uppercase tracking-tight group-hover/item:text-blue-400 transition-colors">{cg.profile?.firstName} {cg.profile?.lastName}</p>
-                                            <p className="text-[9px] font-bold text-slate-500 uppercase">Registered Personnel</p>
+                                            <p className="text-xs font-bold tracking-tight group-hover/item:text-teal-200 transition-colors">{cg.profile?.firstName} {cg.profile?.lastName}</p>
+                                            <p className="text-[9px] font-bold text-teal-100/60 uppercase">Registered Personnel</p>
                                         </div>
                                     </Link>
                                     <div className="flex items-center gap-4">
                                         <div className="flex items-center gap-2">
-                                            <div className={`w-1.5 h-1.5 rounded-full ${cg.profile?.firstName?.includes('Melsa') || cg.profile?.firstName?.includes('John') ? 'bg-blue-400 animate-pulse' : 'bg-white/20'}`} />
-                                            <span className={`text-[9px] font-black uppercase tracking-widest ${cg.profile?.firstName?.includes('Melsa') || cg.profile?.firstName?.includes('John') ? 'text-blue-400' : 'text-slate-500'}`}>
+                                            <div className={`w-1.5 h-1.5 rounded-full bg-white/40 ${cg.profile?.firstName?.includes('Melsa') || cg.profile?.firstName?.includes('John') ? 'bg-teal-300 animate-pulse' : ''}`} />
+                                            <span className={`text-[9px] font-bold uppercase tracking-widest ${cg.profile?.firstName?.includes('Melsa') || cg.profile?.firstName?.includes('John') ? 'text-teal-200' : 'text-teal-100/60'}`}>
                                                 {cg.profile?.firstName?.includes('Melsa') || cg.profile?.firstName?.includes('John') ? 'Live' : 'Ready'}
                                             </span>
                                         </div>
                                         <button
                                             onClick={() => handleImpersonate(cg.id)}
-                                            className="p-2 bg-white/5 border border-white/10 rounded-lg text-slate-500 hover:text-blue-400 hover:bg-white/10 transition-all group/btn"
+                                            className="p-2 bg-white/5 border border-white/10 rounded-lg text-teal-100/60 hover:text-white hover:bg-white/20 transition-all group/btn"
                                             title="Login As Caregiver"
                                         >
-                                            <Zap className="w-3.5 h-3.5 group-hover/btn:fill-blue-400" />
+                                            <Zap className="w-4 h-4" />
                                         </button>
                                     </div>
                                 </div>
@@ -295,15 +295,15 @@ export default function AdminOverview() {
                         </div>
                         <div className="space-y-6">
                             {liveOps.length > 0 ? liveOps.map((op) => (
-                                <div key={op.id} className="flex items-center justify-between p-4 bg-slate-50/50 rounded-2xl border border-slate-100 group hover:border-blue-200 transition-all">
+                                <div key={op.id} className="flex items-center justify-between p-4 bg-slate-50/50 rounded-2xl border border-slate-100 group hover:border-teal-200 hover:shadow-sm transition-all">
                                     <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center font-black text-blue-600">
+                                        <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center font-bold text-teal-600 shadow-sm">
                                             {op.caregiver?.profile?.firstName?.[0]}{op.caregiver?.profile?.lastName?.[0]}
                                         </div>
                                         <div>
-                                            <p className="text-[11px] font-black uppercase text-slate-900">{op.caregiver?.profile?.firstName} (Caregiver)</p>
-                                            <p className="text-[9px] font-bold text-slate-500 uppercase flex items-center gap-1">
-                                                <Activity className="w-3 h-3 text-slate-300" /> W: {op.patient?.profile?.lastName}
+                                            <p className="text-xs font-bold uppercase tracking-wider text-slate-900">{op.caregiver?.profile?.firstName} (Caregiver)</p>
+                                            <p className="text-[10px] font-bold text-slate-500 uppercase flex items-center gap-1">
+                                                <Activity className="w-3 h-3 text-slate-400" /> W: {op.patient?.profile?.lastName}
                                             </p>
                                         </div>
                                     </div>
@@ -329,15 +329,15 @@ export default function AdminOverview() {
                             {liveOps.slice(0, 5).map((shift) => (
                                 <div key={shift.id} className="flex items-center justify-between group border-b border-slate-50 pb-4 last:border-0 last:pb-0">
                                     <div className="flex gap-4">
-                                        <div className="w-2 h-2 bg-blue-600 rounded-full mt-1 shrink-0" />
+                                        <div className="w-2 h-2 bg-teal-500 rounded-full mt-1 shrink-0" />
                                         <div>
-                                            <p className="text-[11px] font-black text-slate-900 uppercase leading-tight">Patient: {shift.patient?.profile?.lastName}</p>
-                                            <p className="text-[9px] font-bold text-slate-400 mt-1 uppercase tracking-widest">Personnel: {shift.caregiver?.profile?.firstName} {shift.caregiver?.profile?.lastName}</p>
+                                            <p className="text-[11px] font-bold text-slate-900 uppercase leading-tight">Patient: {shift.patient?.profile?.lastName}</p>
+                                            <p className="text-[9px] font-bold text-slate-500 mt-1 uppercase tracking-widest">Personnel: {shift.caregiver?.profile?.firstName} {shift.caregiver?.profile?.lastName}</p>
                                         </div>
                                     </div>
                                     <button
                                         onClick={() => setSelectedShift(shift)}
-                                        className="p-2 text-slate-300 hover:text-blue-600 transition-colors"
+                                        className="p-2 text-slate-400 hover:text-teal-600 transition-colors bg-slate-50 rounded-lg hover:bg-teal-50"
                                         title="Manage Shift"
                                     >
                                         <Calendar className="w-4 h-4" />
@@ -354,23 +354,23 @@ export default function AdminOverview() {
                 <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-[100] flex items-center justify-center p-6">
                     <div className="bg-white rounded-[40px] shadow-2xl w-full max-w-lg overflow-hidden">
                         <div className="p-8 border-b border-slate-100 flex items-center justify-between">
-                            <h3 className="font-black text-slate-900 uppercase tracking-widest text-sm">Assign Caregiver: {selectedPatient?.profile?.lastName}</h3>
-                            <button onClick={() => setIsAssigning(false)} className="text-slate-400 hover:text-slate-900 font-black">CLOSE</button>
+                            <h3 className="font-bold text-slate-900 uppercase tracking-widest text-sm">Assign Caregiver: {selectedPatient?.profile?.lastName}</h3>
+                            <button onClick={() => setIsAssigning(false)} className="text-slate-400 hover:text-slate-900 font-bold">CLOSE</button>
                         </div>
                         <div className="p-8 space-y-4 max-h-[400px] overflow-y-auto">
                             {caregivers.map(cg => (
                                 <div
                                     key={cg.id}
                                     onClick={() => handleAssign(cg.id)}
-                                    className="p-4 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-between cursor-pointer hover:bg-blue-50 hover:border-blue-200 transition-all group"
+                                    className="p-4 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-between cursor-pointer hover:bg-teal-50 hover:border-teal-200 transition-all group"
                                 >
                                     <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-black text-xs">
+                                        <div className="w-10 h-10 rounded-xl bg-slate-800 text-white flex items-center justify-center font-bold text-xs shadow-sm">
                                             {cg.profile?.firstName?.[0] ?? '?'}{cg.profile?.lastName?.[0] ?? ''}
                                         </div>
                                         <div>
-                                            <p className="text-xs font-black text-slate-900 uppercase">{cg.profile?.firstName} {cg.profile?.lastName}</p>
-                                            <p className="text-[9px] font-bold text-slate-400 uppercase">Verified Personnel</p>
+                                            <p className="text-xs font-bold text-slate-900 uppercase">{cg.profile?.firstName} {cg.profile?.lastName}</p>
+                                            <p className="text-[9px] font-bold text-slate-500 uppercase">Verified Personnel</p>
                                         </div>
                                     </div>
                                     <div className="w-2 h-2 bg-emerald-500 rounded-full opacity-0 group-hover:opacity-100 transition-all" />

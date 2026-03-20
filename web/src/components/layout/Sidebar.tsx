@@ -110,15 +110,15 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
                                 href={item.href}
                                 onClick={onClose}
                                 className={`
-                                    group flex items-center gap-3.5 px-4 py-3 rounded-xl text-[13px] font-black transition-all duration-300
+                                    group flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-bold transition-all duration-300
                                     ${isActive
-                                        ? 'bg-blue-600 text-white shadow-xl shadow-blue-600/30 translate-x-1'
-                                        : 'text-slate-500 hover:bg-white hover:text-slate-900 hover:shadow-sm'}
+                                        ? 'bg-teal-600 text-white shadow-xl shadow-teal-600/30 translate-x-1'
+                                        : 'text-slate-500 hover:bg-slate-50 hover:text-teal-700 hover:shadow-sm'}
                                 `}
                                 aria-current={isActive ? 'page' : undefined}
                             >
-                                <item.icon className={`w-4 h-4 transition-transform duration-300 group-hover:scale-110 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-blue-600'}`} />
-                                <span className="uppercase tracking-widest">{item.label}</span>
+                                <item.icon className={`w-5 h-5 transition-transform duration-300 group-hover:scale-110 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-teal-600'}`} />
+                                <span className="tracking-wide">{item.label}</span>
                             </Link>
                         </motion.div>
                     );
@@ -127,19 +127,19 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
 
             {/* Premium Clinical Card */}
             <div className="px-6 mb-4 mt-auto">
-                <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-[32px] p-6 overflow-hidden relative group shadow-xl shadow-blue-600/20">
+                <div className="bg-gradient-to-br from-teal-600 to-emerald-700 rounded-[32px] p-6 overflow-hidden relative group shadow-xl shadow-teal-600/20">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl group-hover:scale-110 transition-transform duration-700" />
                     <div className="relative z-10">
                         <div className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center mb-4 border border-white/30">
-                            <Shield className="w-5 h-5 text-white" />
+                            <ShieldCheck className="w-5 h-5 text-white" />
                         </div>
-                        <p className="text-[10px] font-black text-white/60 uppercase tracking-widest opacity-80">Medical Care</p>
-                        <p className="text-[13px] font-black text-white mt-1 leading-tight">Patient Safety & <br />Clinical Oversight</p>
+                        <p className="text-xs font-bold text-white/80 uppercase tracking-widest">Medical Care</p>
+                        <p className="text-sm font-extrabold text-white mt-1 leading-tight">Patient Safety & <br />Quality Assurance</p>
 
                         <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
                             <div className="flex -space-x-2">
                                 {[1, 2, 3].map(i => (
-                                    <div key={i} className="w-6 h-6 rounded-full border-2 border-blue-600 bg-slate-200 overflow-hidden">
+                                    <div key={i} className="w-6 h-6 rounded-full border-2 border-teal-600 bg-slate-200 overflow-hidden">
                                         <img src={`/Raquel.png`} alt="Caregiver" className="w-full h-full object-cover" />
                                     </div>
                                 ))}

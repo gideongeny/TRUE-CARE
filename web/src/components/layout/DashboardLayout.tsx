@@ -27,7 +27,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
     if (!user) return (
         <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-            <div className="w-8 h-8 border-4 border-blue-600/10 border-t-blue-600 rounded-full animate-spin" />
+            <div className="w-8 h-8 border-4 border-teal-600/10 border-t-teal-600 rounded-full animate-spin" />
         </div>
     );
 
@@ -57,18 +57,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             <Menu className="w-5 h-5 text-slate-600" />
                         </button>
                         <div className="relative hidden xl:flex items-center group">
-                            <Search className="absolute left-4 w-4 h-4 text-slate-400 group-focus-within:text-blue-600 transition-colors" />
+                            <Search className="absolute left-4 w-4 h-4 text-slate-400 group-focus-within:text-teal-600 transition-colors" />
                             <input
                                 type="text"
-                                placeholder="Search command..."
-                                className="bg-slate-50 border border-slate-200 rounded-lg pl-11 pr-4 py-2 w-64 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all text-sm font-medium"
+                                placeholder="Search records..."
+                                className="bg-slate-50 border border-slate-200 rounded-lg pl-11 pr-4 py-2 w-64 outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-100 transition-all text-sm font-medium"
                             />
                         </div>
 
                         {/* Real-time Temporal Awareness */}
                         <div className="hidden md:flex items-center gap-4 bg-slate-50 border border-slate-200 px-4 py-1.5 rounded-lg shadow-sm">
                             <div className="flex flex-col">
-                                <span className="text-[10px] font-black uppercase tracking-widest text-blue-600 leading-none mb-1">System Time</span>
+                                <span className="text-[10px] font-bold uppercase tracking-widest text-teal-600 leading-none mb-1">System Time</span>
                                 <span className="text-sm font-black text-slate-900 tabular-nums">
                                     {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                 </span>
@@ -84,7 +84,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     </div>
 
                     <div className="flex items-center gap-4">
-                        <button className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-slate-50 transition-all text-slate-400 hover:text-blue-600 border border-transparent hover:border-slate-200">
+                        <button className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-slate-50 transition-all text-slate-400 hover:text-teal-600 border border-transparent hover:border-slate-200">
                             <Bell className="w-5 h-5" />
                         </button>
 
@@ -92,14 +92,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
                         <button className="flex items-center gap-3 pl-2 group">
                             <div className="text-right hidden lg:block">
-                                <p className="text-sm font-semibold text-slate-900 leading-none">
+                                <p className="text-sm font-bold text-slate-900 leading-none">
                                     {user.firstName} {user.lastName}
                                 </p>
-                                <p className="text-[11px] text-slate-500 font-medium mt-1 uppercase tracking-tight">
+                                <p className="text-[11px] text-slate-500 font-semibold mt-1 uppercase tracking-tight">
                                     {user.role}
                                 </p>
                             </div>
-                            <div className="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-600/20">
+                            <div className="w-10 h-10 rounded-lg bg-teal-600 flex items-center justify-center shadow-lg shadow-teal-600/20">
                                 <User className="w-5 h-5 text-white" />
                             </div>
                         </button>

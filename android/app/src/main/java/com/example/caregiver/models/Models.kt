@@ -1,13 +1,18 @@
 package com.example.caregiver.models
 
 data class LoginRequest(
-    val email: String,
-    val password: String
+    val email: String? = null,
+    val password: String? = null,
+    val userId: String? = null,
+    val token: String? = null,
+    val is2FAAction: Boolean = false
 )
 
 data class LoginResponse(
-    val token: String,
-    val user: User
+    val token: String? = null,
+    val user: User? = null,
+    val require2FA: Boolean? = false,
+    val userId: String? = null
 )
 
 data class RegisterRequest(

@@ -148,7 +148,12 @@ class RegisterActivity : AppCompatActivity() {
                         startActivity(intent)
                         finish()
                     } else {
-                        Toast.makeText(this@RegisterActivity, "Registration failed. Please try again.", Toast.LENGTH_SHORT).show()
+                        val errorMsg = response.errorBody()?.string()?.let {
+                            try {
+                                com.google.gson.JsonParser().parse(it).asJsonObject.get("message").asString
+                            } catch (e: Exception) { "Registration failed" }
+                        } ?: "Registration failed"
+                        Toast.makeText(this@RegisterActivity, errorMsg, Toast.LENGTH_LONG).show()
                     }
                 }
             } catch (e: Exception) {

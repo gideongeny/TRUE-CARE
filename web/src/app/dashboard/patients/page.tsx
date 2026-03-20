@@ -70,29 +70,29 @@ export default function PatientsPage() {
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
                     <div>
-                        <h1 className="text-5xl font-black text-white tracking-tighter italic">Patient Network</h1>
-                        <p className="text-slate-500 text-xs mt-3 font-bold uppercase tracking-widest flex items-center gap-2">
-                            <Activity className="w-4 h-4 text-blue-500" />
-                            Operational Oversight Vector
+                        <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">Patient Network</h1>
+                        <p className="text-slate-500 text-sm mt-2 font-bold flex items-center gap-2">
+                            <Activity className="w-4 h-4 text-teal-600" />
+                            Active Care Oversight
                         </p>
                     </div>
                     <div className="flex items-center gap-4">
                         <div className="relative group">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600 group-focus-within:text-blue-500 transition-colors" />
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-teal-600 transition-colors" />
                             <input
                                 type="text"
                                 placeholder="Search clinical records..."
-                                className="bg-slate-900/50 border border-slate-800 rounded-2xl pl-12 pr-6 py-4 w-96 outline-none focus:border-blue-500/40 focus:bg-slate-900 transition-all text-sm text-white placeholder-slate-600"
+                                className="bg-white border border-slate-200 rounded-2xl pl-12 pr-6 py-3 w-80 outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-100 transition-all text-sm font-medium"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
                         <button
                             onClick={() => setIsModalOpen(true)}
-                            className="bg-blue-600 hover:bg-blue-500 text-white p-4 rounded-2xl shadow-xl shadow-blue-500/20 transition-all active:scale-95 flex items-center gap-2 px-6"
+                            className="bg-teal-600 hover:bg-teal-700 text-white p-3 rounded-2xl shadow-lg shadow-teal-500/20 transition-all active:scale-95 flex items-center gap-2 px-6"
                         >
                             <User className="w-5 h-5" />
-                            <span className="text-[10px] font-black uppercase tracking-widest hidden md:block">Add Patient</span>
+                            <span className="text-sm font-bold hidden md:block">Add Patient</span>
                         </button>
                     </div>
                 </div>
@@ -107,26 +107,26 @@ export default function PatientsPage() {
                                 exit={{ opacity: 0, scale: 0.95 }}
                                 transition={{ delay: idx * 0.05, duration: 0.4 }}
                                 key={patient.id}
-                                className="bg-slate-950 border border-slate-900 p-8 flex flex-col group cursor-pointer rounded-[40px] hover:border-blue-500/30 hover:shadow-[0_0_50px_-12px_rgba(59,130,246,0.15)] transition-all duration-500"
+                                className="bg-white border border-slate-200 p-8 flex flex-col group cursor-pointer rounded-[40px] hover:border-teal-300 hover:shadow-xl hover:shadow-teal-500/10 transition-all duration-500"
                                 onClick={() => window.location.href = `/dashboard/patients/${patient.id}`}
                             >
-                                <div className="flex justify-between items-start mb-10">
-                                    <div className="w-20 h-20 bg-gradient-to-tr from-slate-900 to-slate-800 border border-slate-800 rounded-3xl flex items-center justify-center text-white shadow-2xl transition-transform group-hover:scale-110 group-hover:rotate-3 duration-500">
-                                        <User className="w-8 h-8 opacity-50" />
+                                <div className="flex justify-between items-start mb-8">
+                                    <div className="w-16 h-16 bg-teal-50 text-teal-600 rounded-3xl flex items-center justify-center shadow-sm transition-transform group-hover:scale-110 duration-500 border border-teal-100">
+                                        <User className="w-7 h-7" />
                                     </div>
 
                                     {/* Actions & Status */}
-                                    <div className="flex items-start gap-3">
-                                        <div className={`flex items-center gap-2 px-4 py-2 rounded-full border text-[10px] font-black uppercase tracking-widest ${patient.profile?.paymentStatus === 'PAID'
-                                            ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500'
-                                            : 'bg-amber-500/10 border-amber-500/20 text-amber-500'
+                                    <div className="flex items-start gap-2">
+                                        <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[10px] font-bold uppercase tracking-widest ${patient.profile?.paymentStatus === 'PAID'
+                                            ? 'bg-emerald-50 border-emerald-100 text-emerald-600'
+                                            : 'bg-amber-50 border-amber-100 text-amber-600'
                                             }`}>
                                             {patient.profile?.paymentStatus === 'PAID' ? <Unlock className="w-3 h-3" /> : <Lock className="w-3 h-3" />}
                                             {patient.profile?.paymentStatus === 'PAID' ? 'Unlocked' : 'Locked'}
                                         </div>
                                         <button
                                             onClick={(e) => handleDelete(patient.id, e)}
-                                            className="p-2.5 bg-slate-900 border border-slate-800 rounded-xl text-slate-500 hover:text-rose-500 transition-all opacity-0 group-hover:opacity-100"
+                                            className="p-2 bg-slate-50 hover:bg-rose-50 border border-slate-100 hover:border-rose-200 rounded-xl text-slate-400 hover:text-rose-600 transition-all opacity-0 group-hover:opacity-100"
                                             title="Delete Record"
                                         >
                                             <Trash2 className="w-4 h-4" />
@@ -137,7 +137,7 @@ export default function PatientsPage() {
                                                 setSelectedPatient(patient);
                                                 setIsRequestModalOpen(true);
                                             }}
-                                            className="p-2.5 bg-blue-600 border border-blue-500 rounded-xl text-white hover:bg-blue-500 transition-all opacity-0 group-hover:opacity-100 shadow-lg shadow-blue-500/20"
+                                            className="p-2 bg-teal-600 hover:bg-teal-500 border border-teal-500 rounded-xl text-white transition-all opacity-0 group-hover:opacity-100 shadow-md shadow-teal-500/20"
                                             title="Initiate Care"
                                         >
                                             <PlusCircle className="w-4 h-4" />
@@ -146,34 +146,34 @@ export default function PatientsPage() {
                                 </div>
 
                                 <div className="space-y-1">
-                                    <h3 className="text-2xl font-black text-white group-hover:text-blue-400 transition-colors tracking-tight uppercase leading-none">
+                                    <h3 className="text-xl font-extrabold text-slate-900 group-hover:text-teal-700 transition-colors tracking-tight">
                                         {patient.profile?.firstName} {patient.profile?.lastName}
                                     </h3>
-                                    <p className="text-[10px] text-slate-600 font-black uppercase tracking-[0.2em]">Vector: {patient.id.slice(0, 8)}</p>
+                                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">ID: {patient.id.slice(0, 8)}</p>
                                 </div>
 
                                 <div className="mt-8 space-y-4">
-                                    <div className="flex items-center gap-3 text-xs text-slate-400 font-medium">
-                                        <div className="w-8 h-8 bg-slate-900 rounded-xl flex items-center justify-center border border-slate-800/50">
-                                            <Mail className="w-3 h-3 text-slate-500" />
+                                    <div className="flex items-center gap-3 text-sm text-slate-600 font-medium">
+                                        <div className="w-8 h-8 bg-slate-50 rounded-xl flex items-center justify-center border border-slate-100">
+                                            <Mail className="w-3.5 h-3.5 text-slate-400" />
                                         </div>
                                         {patient.email}
                                     </div>
-                                    <div className="flex items-center gap-3 text-xs text-slate-400 font-medium leading-relaxed">
-                                        <div className="w-8 h-8 bg-slate-900 rounded-xl flex items-center justify-center border border-slate-800/50">
-                                            <MapPin className="w-3 h-3 text-blue-500" />
+                                    <div className="flex items-center gap-3 text-sm text-slate-600 font-medium leading-relaxed">
+                                        <div className="w-8 h-8 bg-teal-50 rounded-xl flex items-center justify-center border border-teal-100">
+                                            <MapPin className="w-3.5 h-3.5 text-teal-600" />
                                         </div>
-                                        {patient.profile?.address || 'Deployment Node Unknown'}
+                                        {patient.profile?.address || 'Location Unknown'}
                                     </div>
                                 </div>
 
-                                <div className="mt-10 pt-8 border-t border-slate-900 flex items-center justify-between">
-                                    <div className="flex items-center gap-2">
-                                        <Clock className="w-3 h-3 text-slate-700" />
-                                        <p className="text-[10px] text-slate-600 font-black uppercase tracking-widest">{new Date(patient.createdAt).getFullYear()}</p>
+                                <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between">
+                                    <div className="flex items-center gap-2 text-slate-400">
+                                        <Clock className="w-4 h-4" />
+                                        <p className="text-xs font-bold uppercase tracking-widest">Added {new Date(patient.createdAt).getFullYear()}</p>
                                     </div>
-                                    <div className="flex items-center gap-2 text-white text-[11px] font-black uppercase tracking-tighter opacity-0 group-hover:opacity-100 group-hover:translate-x-0 -translate-x-4 transition-all duration-500">
-                                        Inspect Data <ChevronRight className="w-4 h-4 text-blue-500" />
+                                    <div className="flex items-center gap-2 text-teal-600 text-xs font-bold uppercase tracking-wider opacity-0 group-hover:opacity-100 group-hover:translate-x-0 -translate-x-4 transition-all duration-500">
+                                        View Data <ChevronRight className="w-4 h-4" />
                                     </div>
                                 </div>
                             </motion.div>
@@ -182,9 +182,11 @@ export default function PatientsPage() {
                 </div>
 
                 {filteredPatients.length === 0 && (
-                    <div className="py-40 text-center bg-slate-950/50 border border-slate-900 border-dashed rounded-[60px]">
-                        <User className="w-16 h-16 text-slate-800 mx-auto mb-6" />
-                        <p className="text-slate-600 font-black uppercase tracking-widest text-sm">Synchronized search yielded zero clinical matches.</p>
+                    <div className="py-32 text-center bg-slate-50 border border-slate-200 border-dashed rounded-[40px]">
+                        <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm border border-slate-100">
+                            <User className="w-8 h-8 text-slate-400" />
+                        </div>
+                        <p className="text-slate-600 font-bold text-sm">No clinical matches found.</p>
                     </div>
                 )}
             </div>

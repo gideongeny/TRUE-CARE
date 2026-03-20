@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="32dp"
+    android:gravity="center"
+    android:background="@color/white">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TWO-FACTOR AUTH"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textColor="#3B82F6"
+        android:letterSpacing="0.2"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Verify Identity"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#111827"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter the 6-digit code from your authenticator app to continue."
+        android:textSize="14sp"
+        android:textColor="#4B5563"
+        android:gravity="center"
+        android:layout_marginBottom="32dp"/>
+
+    <EditText
+        android:id="@+id/etTwoFactorCode"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:hint="000000"
+        android:inputType="number"
+        android:maxLength="6"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.5"
+        android:gravity="center"
+        android:background="@drawable/bg_soft_card"
+        android:layout_marginBottom="24dp"/>
+
+    <Button
+        android:id="@+id/btnVerify2FA"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="Verify &amp; Login"
+        android:backgroundTint="#3B82F6"
+        android:textColor="@color/white"
+        android:textStyle="bold"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:visibility="gone"/>
+
+</LinearLayout>

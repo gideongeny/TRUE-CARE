@@ -10,58 +10,151 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Personnel Node"
+        android:text="Professional Profile"
         android:textColor="@color/med_text_primary"
         android:textSize="24sp"
         android:fontFamily="sans-serif-black"
         android:layout_marginBottom="32dp" />
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/ic_medical_brand"
-        android:padding="16dp"
+    <!-- User Info Card -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="2dp"
+        android:layout_marginBottom="32dp"
+        app:cardBackgroundColor="@color/white">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="24dp"
+            android:gravity="center_vertical">
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivProfileAvatar"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/ic_medical_brand"
+                android:background="@color/med_soft_gray"
+                android:padding="12dp"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.SmallComponent" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="16dp">
+                <TextView
+                    android:id="@+id/tvProfileName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Loading..."
+                    android:textColor="@color/med_text_primary"
+                    android:textSize="18sp"
+                    android:fontFamily="sans-serif-black" />
+                <TextView
+                    android:id="@+id/tvProfileRole"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Professional Caregiver"
+                    android:textColor="@color/med_text_secondary"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Settings Options -->
+    <LinearLayout
+        android:id="@+id/btnProfileNotifications"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingHorizontal="16dp">
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_popup_reminder"
+            android:tint="@color/med_text_secondary" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:text="Recent Notifications"
+            android:textColor="@color/med_text_primary"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-medium" />
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@android:drawable/ic_media_next"
+            android:tint="@color/med_text_hint" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btnProfileVerification"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingHorizontal="16dp">
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_menu_myplaces"
+            android:tint="@color/med_text_secondary" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:text="Verification Status"
+            android:textColor="@color/med_text_primary"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-medium" />
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@android:drawable/ic_media_next"
+            android:tint="@color/med_text_hint" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
         android:background="@color/med_soft_gray"
-        android:layout_marginBottom="16dp"
-        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.LargeComponent" />
+        android:layout_marginVertical="16dp" />
 
-    <TextView
-        android:id="@+id/tvProfileName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Loading..."
-        android:textColor="@color/med_text_primary"
-        android:textSize="20sp"
-        android:fontFamily="sans-serif-black" />
-
-    <TextView
-        android:id="@+id/tvProfileEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="..."
-        android:textColor="@color/med_text_secondary"
-        android:textSize="14sp"
-        android:layout_marginBottom="40dp" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnEditProfile"
-        style="@style/Widget.Material3.Button.TonalButton"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:text="Edit Medical Records"
-        app:cornerRadius="24dp"
-        android:layout_marginBottom="16dp" />
-
-    <com.google.android.material.button.MaterialButton
+    <LinearLayout
         android:id="@+id/btnLogout"
-        style="@style/Widget.Material3.Button.TonalButton"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:text="Terminal Exit (Logout)"
-        app:cornerRadius="24dp"
-        android:textColor="@color/med_rose_error" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingHorizontal="16dp">
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:tint="#EF4444" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:text="Sign Out Safely"
+            android:textColor="#EF4444"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-black" />
+    </LinearLayout>
 
 </LinearLayout>

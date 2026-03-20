@@ -40,8 +40,8 @@ export default function CaregiverSchedule() {
     };
 
     if (loading) return (
-        <div className="p-20 text-center font-black text-slate-400 uppercase tracking-widest animate-pulse">
-            Loading Chronos Engine...
+        <div className="p-20 text-center font-bold text-slate-400 uppercase tracking-widest animate-pulse">
+            Syncing Schedule...
         </div>
     );
 
@@ -50,8 +50,8 @@ export default function CaregiverSchedule() {
         <div className="space-y-10">
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-2xl font-black text-slate-900 tracking-tight uppercase">Mission Timeline</h2>
-                    <p className="text-[11px] text-slate-500 font-bold uppercase tracking-[0.2em] mt-1">Gantt-style deployment visualizer</p>
+                    <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight uppercase">Care Schedule</h2>
+                    <p className="text-[11px] text-slate-500 font-bold uppercase tracking-[0.2em] mt-1">Weekly availability timeline</p>
                 </div>
                 <div className="flex gap-3">
                     <button className="p-3 bg-white border border-slate-200 rounded-2xl hover:bg-slate-50 transition-all shadow-sm">
@@ -68,12 +68,12 @@ export default function CaregiverSchedule() {
                 <div className="flex items-center justify-between mb-10">
                     <div className="flex gap-10">
                         <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 rounded-full bg-blue-600 shadow-[0_0_10px_rgba(37,99,235,0.4)]" />
-                            <span className="text-[10px] font-black text-slate-900 uppercase tracking-widest">Active Shift</span>
+                            <div className="w-3 h-3 rounded-full bg-teal-600 shadow-[0_0_10px_rgba(13,148,136,0.4)]" />
+                            <span className="text-[10px] font-bold text-slate-900 uppercase tracking-widest">Active Shift</span>
                         </div>
                         <div className="flex items-center gap-2">
                             <div className="w-3 h-3 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.4)] animate-pulse" />
-                            <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Live Deployment</span>
+                            <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest">Live Care Active</span>
                         </div>
                     </div>
                 </div>
@@ -112,7 +112,7 @@ export default function CaregiverSchedule() {
                                             return (
                                                 <motion.div
                                                     key={shift.id}
-                                                    className={`absolute h-14 ${shift.status === 'IN_PROGRESS' ? 'bg-gradient-to-r from-emerald-600 to-teal-600 shadow-emerald-200/50' : 'bg-gradient-to-r from-blue-600 to-indigo-600 shadow-blue-200/50'} rounded-2xl shadow-xl flex items-center px-6 z-10 border-2 border-white/20`}
+                                                    className={`absolute h-14 ${shift.status === 'IN_PROGRESS' ? 'bg-gradient-to-r from-emerald-600 to-teal-600 shadow-emerald-200/50' : 'bg-gradient-to-r from-teal-500 to-emerald-600 shadow-teal-200/50'} rounded-2xl shadow-xl flex items-center px-6 z-10 border-2 border-white/20`}
                                                     style={{ left: `${startPct}%`, width: `${widthPct}%` }}
                                                 >
                                                     <div className="flex items-center gap-3 w-full overflow-hidden text-white font-black text-[10px] uppercase">
@@ -134,11 +134,11 @@ export default function CaregiverSchedule() {
                     <div key={shift.id} className="bg-white border border-slate-200 rounded-[32px] p-8 space-y-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-[10px] font-black text-blue-600 uppercase mb-1">Assigned Patient</p>
-                                <h4 className="text-xl font-black text-slate-900">{shift.patient?.profile?.firstName} {shift.patient?.profile?.lastName}</h4>
+                                <p className="text-[10px] font-bold text-teal-600 uppercase mb-1">Assigned Patient</p>
+                                <h4 className="text-xl font-extrabold text-slate-900">{shift.patient?.profile?.firstName} {shift.patient?.profile?.lastName}</h4>
                             </div>
-                            <div className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase ${shift.status === 'IN_PROGRESS' ? 'bg-emerald-50 text-emerald-600' :
-                                    shift.status === 'COMPLETED' ? 'bg-blue-50 text-blue-600' : 'bg-slate-50 text-slate-400'
+                            <div className={`px-4 py-2 rounded-xl text-[10px] font-bold uppercase ${shift.status === 'IN_PROGRESS' ? 'bg-emerald-50 text-emerald-600' :
+                                    shift.status === 'COMPLETED' ? 'bg-teal-50 text-teal-600' : 'bg-slate-50 text-slate-500'
                                 }`}>
                                 {shift.status}
                             </div>
@@ -157,7 +157,7 @@ export default function CaregiverSchedule() {
                             {(shift.status === 'IN_PROGRESS' || shift.status === 'COMPLETED') && (
                                 <button
                                     onClick={() => setSelectedShift(shift)}
-                                    className="flex-1 py-4 bg-slate-900 text-white text-[11px] font-black uppercase tracking-widest rounded-2xl hover:bg-blue-600 transition-all shadow-xl shadow-slate-900/10"
+                                    className="flex-1 py-4 bg-teal-700 text-white text-[11px] font-bold uppercase tracking-widest rounded-2xl hover:bg-teal-600 transition-all shadow-xl shadow-teal-900/10"
                                 >
                                     {shift.status === 'COMPLETED' ? 'Review Report' : 'End Shift & Report'}
                                 </button>

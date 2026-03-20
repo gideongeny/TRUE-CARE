@@ -57,50 +57,50 @@ export default function ReportsPage() {
 
     return (
         <DashboardLayout>
-            <div className="max-w-7xl mx-auto space-y-12 pb-20">
+            <div className="max-w-7xl mx-auto space-y-10 pb-20">
                 {/* Header Section */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
                     <div className="space-y-2">
-                        <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-blue-500">
+                        <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-teal-600">
                             <Shield className="w-4 h-4" />
                             <span>Verified Audit Trail</span>
                         </div>
-                        <h1 className="text-5xl font-black text-white tracking-tighter italic uppercase">Executive Reports</h1>
-                        <p className="text-slate-500 text-xs font-bold uppercase tracking-widest">High-fidelity intelligence for clinical oversight</p>
+                        <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">Executive Reports</h1>
+                        <p className="text-slate-500 text-sm font-medium">High-fidelity intelligence for clinical oversight</p>
                     </div>
-                    <button className="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl flex items-center gap-3 text-xs font-black uppercase tracking-widest transition-all shadow-2xl shadow-blue-500/20 active:scale-95 group">
+                    <button className="px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-xl flex items-center gap-3 text-sm font-bold shadow-lg shadow-teal-600/20 active:scale-95 transition-all group">
                         <Download className="w-5 h-5 group-hover:-translate-y-1 transition-transform" />
                         Initiate Global Export
                     </button>
                 </div>
 
                 {/* Tactical Stats Matrix */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <MetricCard label="Intelligence Generated" value={stats?.generated || 0} icon={<FileCheck className="w-5 h-5" />} />
-                    <MetricCard label="Audit Compliance" value={`${stats?.completionRate || 0}%`} icon={<Shield className="w-5 h-5" />} color="text-emerald-500" />
+                    <MetricCard label="Audit Compliance" value={`${stats?.completionRate || 0}%`} icon={<Shield className="w-5 h-5" />} color="text-emerald-600" />
                     <MetricCard label="Data Throughput" value="1.2 GB" icon={<BarChart3 className="w-5 h-5" />} />
-                    <MetricCard label="System Integrity" value="OPTIMAL" icon={<Activity className="w-5 h-5" />} color="text-blue-400" />
+                    <MetricCard label="System Integrity" value="OPTIMAL" icon={<Activity className="w-5 h-5" />} color="text-teal-600" />
                 </div>
 
                 {/* Main Archive Table */}
-                <div className="bg-slate-950 border border-slate-900 rounded-[40px] overflow-hidden shadow-2xl">
-                    <div className="p-8 border-b border-slate-900 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm">
+                    <div className="p-6 border-b border-slate-200 flex flex-col md:flex-row items-center justify-between gap-6 bg-slate-50/50">
                         <div className="relative group w-full md:w-96">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600 group-focus-within:text-blue-500 transition-colors" />
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-teal-600 transition-colors" />
                             <input
                                 type="text"
                                 placeholder="Search tactical archives..."
-                                className="w-full bg-slate-900 border border-slate-800 rounded-2xl pl-12 pr-6 py-4 text-sm text-white placeholder-slate-600 outline-none focus:border-blue-500/40 focus:ring-4 focus:ring-blue-500/5 transition-all"
+                                className="w-full bg-white border border-slate-200 rounded-xl pl-12 pr-6 py-3 text-sm font-medium focus:border-teal-400 focus:ring-2 focus:ring-teal-100 outline-none transition-all"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
                         <div className="flex items-center gap-4 w-full md:w-auto">
-                            <button className="flex-1 md:flex-none flex items-center justify-center gap-3 px-6 py-4 bg-slate-900 border border-slate-800 rounded-2xl text-xs font-black text-slate-400 uppercase tracking-widest hover:border-slate-700 transition-all">
+                            <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-600 uppercase tracking-widest hover:border-slate-300 transition-all shadow-sm">
                                 <Filter className="w-4 h-4" />
-                                Vector Filter
+                                Filter
                             </button>
-                            <button className="p-4 bg-slate-900 border border-slate-800 rounded-2xl text-slate-500 hover:text-white transition-all">
+                            <button className="p-3 bg-white border border-slate-200 shadow-sm rounded-xl text-slate-400 hover:text-teal-600 transition-all">
                                 <Clock className="w-5 h-5" />
                             </button>
                         </div>
@@ -109,49 +109,55 @@ export default function ReportsPage() {
                     <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse">
                             <thead>
-                                <tr className="bg-slate-900/50 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] border-b border-slate-900">
-                                    <th className="px-10 py-6">Intelligence Specification</th>
-                                    <th className="px-10 py-6">Domain</th>
-                                    <th className="px-10 py-6">Timestamp</th>
-                                    <th className="px-10 py-6 text-right">Operation</th>
+                                <tr className="bg-slate-50 text-[10px] font-bold text-slate-500 uppercase tracking-[0.1em] border-b border-slate-200">
+                                    <th className="px-8 py-5">Intelligence Specification</th>
+                                    <th className="px-8 py-5">Domain</th>
+                                    <th className="px-8 py-5">Timestamp</th>
+                                    <th className="px-8 py-5 text-right">Operation</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-slate-900">
+                            <tbody className="divide-y divide-slate-100">
                                 <AnimatePresence>
-                                    {filteredReports.map((report, idx) => (
+                                    {filteredReports.length === 0 ? (
+                                        <tr>
+                                            <td colSpan={4} className="px-8 py-20 text-center">
+                                                <p className="text-slate-500 font-bold text-sm">No tactical archives found.</p>
+                                            </td>
+                                        </tr>
+                                    ) : filteredReports.map((report, idx) => (
                                         <motion.tr
                                             initial={{ opacity: 0, x: -10 }}
                                             animate={{ opacity: 1, x: 0 }}
                                             transition={{ delay: idx * 0.05 }}
                                             key={report.id}
-                                            className="hover:bg-slate-900/40 transition-all group cursor-pointer"
+                                            className="hover:bg-slate-50 transition-colors group cursor-pointer"
                                             onClick={() => setSelectedReport(report)}
                                         >
-                                            <td className="px-10 py-6">
-                                                <div className="flex items-center gap-5">
-                                                    <div className="w-12 h-12 bg-slate-900 border border-slate-800 rounded-2xl flex items-center justify-center text-slate-500 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-500 transition-all duration-300">
-                                                        <FileText className="w-6 h-6" />
+                                            <td className="px-8 py-5">
+                                                <div className="flex items-center gap-4">
+                                                    <div className="w-10 h-10 bg-teal-50 border border-teal-100 rounded-xl flex items-center justify-center text-teal-600 shadow-sm group-hover:bg-teal-600 group-hover:text-white transition-all duration-300">
+                                                        <FileText className="w-5 h-5" />
                                                     </div>
                                                     <div>
-                                                        <p className="text-sm font-black text-white uppercase tracking-tight group-hover:text-blue-400 transition-colors">{report.name}</p>
-                                                        <p className="text-[9px] text-slate-600 font-bold uppercase tracking-widest mt-0.5">{report.size} &bull; Vector ID: {report.id.slice(0, 8)}</p>
+                                                        <p className="text-sm font-extrabold text-slate-900 group-hover:text-teal-600 transition-colors">{report.name}</p>
+                                                        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-0.5">{report.size} &bull; ID: {report.id.slice(0, 8)}</p>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-10 py-6">
+                                            <td className="px-8 py-5">
                                                 <div className="space-y-1">
-                                                    <p className="text-[10px] font-black text-white uppercase tracking-tight">{report.caregiver}</p>
-                                                    <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest">For: {report.patient}</p>
+                                                    <p className="text-xs font-bold text-slate-900">{report.caregiver}</p>
+                                                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">For: {report.patient}</p>
                                                 </div>
                                             </td>
-                                            <td className="px-10 py-6">
-                                                <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                                                    <CalendarIcon className="w-3.5 h-3.5 text-slate-600" />
+                                            <td className="px-8 py-5">
+                                                <div className="flex items-center gap-2 text-[11px] font-bold text-slate-500 uppercase tracking-widest">
+                                                    <CalendarIcon className="w-4 h-4 text-slate-400" />
                                                     {report.date}
                                                 </div>
                                             </td>
-                                            <td className="px-10 py-6 text-right">
-                                                <button className="px-6 py-2.5 bg-white text-slate-950 hover:bg-blue-600 hover:text-white text-[10px] font-black uppercase tracking-widest rounded-xl transition-all shadow-xl active:scale-95">
+                                            <td className="px-8 py-5 text-right">
+                                                <button className="px-5 py-2 bg-white border border-slate-200 text-slate-700 hover:bg-teal-50 hover:text-teal-700 hover:border-teal-200 text-[10px] font-bold uppercase tracking-widest rounded-lg transition-all shadow-sm active:scale-95">
                                                     Inspect
                                                 </button>
                                             </td>
@@ -166,68 +172,70 @@ export default function ReportsPage() {
                 {/* Report Detail Modal */}
                 <AnimatePresence>
                     {selectedReport && (
-                        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xl z-[100] flex items-center justify-center p-6">
+                        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[100] flex items-center justify-center p-6">
                             <motion.div
-                                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                                initial={{ opacity: 0, scale: 0.95, y: 10 }}
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                                exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                                className="bg-slate-950 border border-slate-900 rounded-[50px] w-full max-w-2xl overflow-hidden shadow-[0_0_100px_rgba(37,99,235,0.1)]"
+                                exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                                className="bg-white border border-slate-200 rounded-3xl w-full max-w-2xl overflow-hidden shadow-2xl"
                             >
-                                <div className="p-10 border-b border-slate-900 flex items-center justify-between bg-slate-900/20">
+                                <div className="p-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
                                     <div className="space-y-1">
-                                        <p className="text-[10px] font-black text-blue-500 uppercase tracking-[0.3em]">Full Clinical Disclosure</p>
-                                        <h3 className="text-2xl font-black text-white tracking-tighter uppercase italic">{selectedReport.name}</h3>
+                                        <p className="text-[10px] font-bold text-teal-600 uppercase tracking-[0.2em]">Full Clinical Disclosure</p>
+                                        <h3 className="text-xl font-extrabold text-slate-900 tracking-tight">{selectedReport.name}</h3>
                                     </div>
                                     <button
                                         onClick={() => setSelectedReport(null)}
-                                        className="w-12 h-12 rounded-2xl bg-slate-900 text-slate-500 hover:text-white flex items-center justify-center font-black transition-all"
+                                        className="w-10 h-10 rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-slate-700 hover:bg-slate-50 flex items-center justify-center transition-all shadow-sm"
                                     >
-                                        ESC
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M13 1L1 13M1 1L13 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                        </svg>
                                     </button>
                                 </div>
-                                <div className="p-10 space-y-8 max-h-[60vh] overflow-y-auto custom-scrollbar">
-                                    <div className="grid grid-cols-2 gap-8">
-                                        <div className="p-6 bg-slate-900/40 border border-slate-900 rounded-3xl">
-                                            <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2">Assigned Caregiver</p>
-                                            <p className="text-sm font-black text-white uppercase">{selectedReport.caregiver}</p>
+                                <div className="p-8 space-y-6 max-h-[60vh] overflow-y-auto custom-scrollbar">
+                                    <div className="grid grid-cols-2 gap-6">
+                                        <div className="p-5 bg-slate-50 border border-slate-100 rounded-2xl">
+                                            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Assigned Caregiver</p>
+                                            <p className="text-sm font-extrabold text-slate-900">{selectedReport.caregiver}</p>
                                         </div>
-                                        <div className="p-6 bg-slate-900/40 border border-slate-900 rounded-3xl">
-                                            <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2">Target Patient</p>
-                                            <p className="text-sm font-black text-white uppercase">{selectedReport.patient}</p>
+                                        <div className="p-5 bg-slate-50 border border-slate-100 rounded-2xl">
+                                            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Target Patient</p>
+                                            <p className="text-sm font-extrabold text-slate-900">{selectedReport.patient}</p>
                                         </div>
                                     </div>
 
-                                    <div className="space-y-4">
-                                        <p className="text-[10px] font-black text-blue-500 uppercase tracking-widest flex items-center gap-2">
-                                            <FileText className="w-3 h-3" />
+                                    <div className="space-y-3">
+                                        <p className="text-[11px] font-bold text-teal-600 uppercase tracking-widest flex items-center gap-2">
+                                            <FileText className="w-3.5 h-3.5" />
                                             Observation Notes
                                         </p>
-                                        <div className="p-8 bg-slate-900/20 border border-slate-900 rounded-[32px] text-slate-300 text-sm leading-relaxed italic">
+                                        <div className="p-6 bg-slate-50 border border-slate-100 rounded-2xl text-slate-600 text-sm leading-relaxed italic">
                                             "{selectedReport.content}"
                                         </div>
                                     </div>
 
                                     {selectedReport.vitals && (
-                                        <div className="space-y-4">
-                                            <p className="text-[10px] font-black text-emerald-500 uppercase tracking-widest flex items-center gap-2">
-                                                <Clock className="w-3 h-3" />
+                                        <div className="space-y-3">
+                                            <p className="text-[11px] font-bold text-emerald-600 uppercase tracking-widest flex items-center gap-2">
+                                                <Clock className="w-3.5 h-3.5" />
                                                 Vital Matrix Observations
                                             </p>
-                                            <div className="grid grid-cols-2 gap-4">
+                                            <div className="grid grid-cols-2 gap-3">
                                                 {Object.entries(typeof selectedReport.vitals === 'string' ? JSON.parse(selectedReport.vitals) : selectedReport.vitals).map(([key, value]: any) => (
-                                                    <div key={key} className="px-6 py-4 bg-slate-900/60 rounded-2xl border border-slate-900 flex justify-between items-center">
-                                                        <span className="text-[10px] font-black text-slate-500 uppercase tracking-tighter">{key}</span>
-                                                        <span className="text-xs font-black text-white uppercase">{value}</span>
+                                                    <div key={key} className="px-5 py-3 bg-white rounded-xl border border-slate-200 shadow-sm flex justify-between items-center">
+                                                        <span className="text-[10px] font-bold text-slate-500 uppercase">{key}</span>
+                                                        <span className="text-xs font-extrabold text-slate-900">{value}</span>
                                                     </div>
                                                 ))}
                                             </div>
                                         </div>
                                     )}
                                 </div>
-                                <div className="p-8 bg-slate-900/30 border-t border-slate-900">
+                                <div className="p-6 bg-slate-50 border-t border-slate-100">
                                     <button
                                         onClick={() => window.print()}
-                                        className="w-full py-4 bg-white text-slate-950 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-blue-600 hover:text-white transition-all active:scale-95"
+                                        className="w-full py-3.5 bg-slate-900 text-white rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-teal-600 transition-all shadow-md active:scale-95"
                                     >
                                         Generate Hard Copy Archive
                                     </button>
@@ -241,16 +249,16 @@ export default function ReportsPage() {
     );
 }
 
-function MetricCard({ label, value, icon, color = "text-white" }: any) {
+function MetricCard({ label, value, icon, color = "text-slate-900" }: any) {
     return (
-        <div className="bg-slate-950 border border-slate-900 rounded-[32px] p-8 shadow-xl hover:border-blue-500/30 transition-all group">
-            <div className="flex items-center justify-between mb-6">
-                <div className="p-3 bg-slate-900 border border-slate-800 rounded-2xl text-slate-500 group-hover:text-blue-500 transition-colors">
+        <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:border-teal-300 hover:shadow-md transition-all group">
+            <div className="flex items-center justify-between mb-4">
+                <div className="p-2.5 bg-slate-50 border border-slate-100 rounded-xl text-slate-400 group-hover:text-teal-600 group-hover:bg-teal-50 group-hover:border-teal-100 transition-colors">
                     {icon}
                 </div>
             </div>
-            <p className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] mb-1">{label}</p>
-            <h3 className={`text-3xl font-black tracking-tighter ${color}`}>{value}</h3>
+            <p className="text-[10px] font-bold uppercase text-slate-500 tracking-wider mb-1">{label}</p>
+            <h3 className={`text-2xl font-extrabold tracking-tight ${color}`}>{value}</h3>
         </div>
     );
 }

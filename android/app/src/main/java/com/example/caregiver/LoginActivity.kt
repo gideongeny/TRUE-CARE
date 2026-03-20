@@ -99,22 +99,38 @@ class LoginActivity : AppCompatActivity() {
 
                     if (response.isSuccessful && response.body() != null) {
                         val loginResponse = response.body()!!
-                        ApiClient.setToken(loginResponse.token)
                         
-                        // Save session
-                        sessionManager.saveToken(loginResponse.token)
-                        sessionManager.saveRole(loginResponse.user.role)
-                        sessionManager.saveUserCredentials(email, password)
-
-                        val intent = if (loginResponse.user.role == "CAREGIVER") {
-                           Intent(this@LoginActivity, CaregiverDashboardActivity::class.java)
-                        } else {
-                           Intent(this@LoginActivity, PatientDashboardActivity::class.java)
+                        if (loginResponse.require2FA == true && loginResponse.userId != null) {
+                            val intent = Intent(this@LoginActivity, TwoFactorActivity::class.java)
+                            intent.putExtra("userId", loginResponse.userId)
+                            startActivity(intent)
+                            return@withContext
                         }
-                        startActivity(intent)
-                        finish()
+
+                        val token = loginResponse.token
+                        val user = loginResponse.user
+
+                        if (token != null && user != null) {
+                            ApiClient.setToken(token)
+                            sessionManager.saveToken(token)
+                            sessionManager.saveRole(user.role)
+                            sessionManager.saveUserCredentials(email, password)
+
+                            val intent = if (user.role == "CAREGIVER") {
+                               Intent(this@LoginActivity, CaregiverDashboardActivity::class.java)
+                            } else {
+                               Intent(this@LoginActivity, PatientDashboardActivity::class.java)
+                            }
+                            startActivity(intent)
+                            finish()
+                        }
                     } else {
-                        Toast.makeText(this@LoginActivity, "Login failed", Toast.LENGTH_SHORT).show()
+                        val errorMsg = response.errorBody()?.string()?.let {
+                            try {
+                                com.google.gson.JsonParser().parse(it).asJsonObject.get("message").asString
+                            } catch (e: Exception) { "Login failed" }
+                        } ?: "Login failed"
+                        Toast.makeText(this@LoginActivity, errorMsg, Toast.LENGTH_LONG).show()
                     }
                 }
             } catch (e: Exception) {
