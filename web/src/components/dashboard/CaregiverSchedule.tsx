@@ -162,6 +162,15 @@ export default function CaregiverSchedule() {
                                     {shift.status === 'COMPLETED' ? 'Review Report' : 'End Shift & Report'}
                                 </button>
                             )}
+
+                            {shift.status === 'IN_PROGRESS' && (
+                                <button
+                                    onClick={() => window.location.href = `/assessment?shiftId=${shift.id}`}
+                                    className="flex-1 py-4 bg-white border-2 border-teal-600 text-teal-700 text-[11px] font-black uppercase tracking-widest rounded-2xl hover:bg-teal-50 transition-all"
+                                >
+                                    Record Clinical Assessment
+                                </button>
+                            )}
                         </div>
                     </div>
                 ))}
