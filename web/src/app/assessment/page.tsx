@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { 
     Activity, 
@@ -16,7 +16,7 @@ import {
 import { useRouter, useSearchParams } from 'next/navigation';
 import api from '@/lib/api';
 
-export default function AssessmentPage() {
+function AssessmentPageContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const shiftId = searchParams.get('shiftId');
@@ -314,5 +314,20 @@ export default function AssessmentPage() {
                 </form>
             </div>
         </div>
+    );
+}
+
+export default function AssessmentPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
+                <div className="bg-white p-8 rounded-3xl shadow-xl text-center max-w-md w-full">
+                    <Loader2 className="w-12 h-12 text-teal-600 animate-spin mx-auto mb-4" />
+                    <p className="text-slate-600 font-bold">Loading Clinical Record...</p>
+                </div>
+            </div>
+        }>
+            <AssessmentPageContent />
+        </Suspense>
     );
 }
