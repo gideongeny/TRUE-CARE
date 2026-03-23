@@ -104,14 +104,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="PERSONAL INFORMATION"
+                    android:text="BASIC INFORMATION"
                     android:textColor="@color/teal_primary"
                     android:textSize="10sp"
                     android:fontFamily="sans-serif-black"
                     android:letterSpacing="0.15"
                     android:layout_marginBottom="16dp"/>
 
-                <!-- First Name -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -126,7 +125,6 @@
                         android:textSize="15sp"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Last Name -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -141,27 +139,140 @@
                         android:textSize="15sp"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Patient Specialized Fields -->
+                <!-- New Common Fields -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.TrueCare.TextInputLayout"
+                    android:layout_marginBottom="16dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etIdNumberCommon"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:hint="Identification Number"
+                        android:inputType="number"
+                        android:textSize="15sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.TrueCare.TextInputLayout"
+                    android:layout_marginBottom="16dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etDob"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:hint="Date of Birth (DD-MM-YYYY)"
+                        android:inputType="date"
+                        android:textSize="15sp"
+                        android:focusable="false"
+                        android:clickable="true"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Patient Specialized Fields (Expanded) -->
                 <LinearLayout
                     android:id="@+id/llPatientFields"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:visibility="visible">
-                    
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="HEALTH ASSESSMENT"
+                        android:textColor="@color/teal_primary"
+                        android:textSize="10sp"
+                        android:fontFamily="sans-serif-black"
+                        android:letterSpacing="0.15"
+                        android:layout_marginBottom="12dp"
+                        android:layout_marginTop="8dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Select Department(s)"
+                        android:textColor="@color/slate_700"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:layout_marginBottom="8dp"/>
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/cgDepartments"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        app:chipSpacingHorizontal="8dp">
+                        <com.google.android.material.chip.Chip
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Nursing"/>
+                        <com.google.android.material.chip.Chip
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Physical Therapy"/>
+                        <com.google.android.material.chip.Chip
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Occupational Therapy"/>
+                        <com.google.android.material.chip.Chip
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Home Health Aide"/>
+                    </com.google.android.material.chip.ChipGroup>
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/Widget.TrueCare.TextInputLayout"
                         android:layout_marginBottom="16dp">
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etAge"
+                            android:id="@+id/etInsuranceNumber"
                             android:layout_width="match_parent"
                             android:layout_height="56dp"
-                            android:hint="Age"
-                            android:inputType="number"
+                            android:hint="Patient Insurance Number"
+                            android:inputType="text"
                             android:textSize="15sp"/>
                     </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="16dp">
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            style="@style/Widget.TrueCare.TextInputLayout"
+                            android:layout_marginEnd="8dp">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etHeight"
+                                android:layout_width="match_parent"
+                                android:layout_height="56dp"
+                                android:hint="Height (cm)"
+                                android:inputType="number"
+                                android:textSize="15sp"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            style="@style/Widget.TrueCare.TextInputLayout">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etWeight"
+                                android:layout_width="match_parent"
+                                android:layout_height="56dp"
+                                android:hint="Weight (kg)"
+                                android:inputType="number"
+                                android:textSize="15sp"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
@@ -172,7 +283,7 @@
                             android:id="@+id/etCondition"
                             android:layout_width="match_parent"
                             android:layout_height="56dp"
-                            android:hint="Medical Condition / Ailment"
+                            android:hint="Primary Health Concerns"
                             android:inputType="text"
                             android:textSize="15sp"/>
                     </com.google.android.material.textfield.TextInputLayout>
@@ -183,37 +294,108 @@
                         style="@style/Widget.TrueCare.TextInputLayout"
                         android:layout_marginBottom="16dp">
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etLocation"
+                            android:id="@+id/etServiceTime"
                             android:layout_width="match_parent"
                             android:layout_height="56dp"
-                            android:hint="Location / Town"
+                            android:hint="Service Time (e.g. Weekdays 7 to 4)"
                             android:inputType="text"
                             android:textSize="15sp"/>
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
-                <!-- Caregiver Specialized Fields -->
+                <!-- Caregiver Specialized Fields (Expanded) -->
                 <LinearLayout
                     android:id="@+id/llCaregiverFields"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:visibility="gone">
-                    
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PROFESSIONAL DETAILS"
+                        android:textColor="@color/teal_primary"
+                        android:textSize="10sp"
+                        android:fontFamily="sans-serif-black"
+                        android:letterSpacing="0.15"
+                        android:layout_marginBottom="12dp"
+                        android:layout_marginTop="8dp"/>
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/Widget.TrueCare.TextInputLayout"
                         android:layout_marginBottom="16dp">
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etIdNumber"
+                            android:id="@+id/etSalary"
                             android:layout_width="match_parent"
                             android:layout_height="56dp"
-                            android:hint="National ID Number"
+                            android:hint="Desired Salary (KSh/Month)"
                             android:inputType="number"
                             android:textSize="15sp"/>
                     </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Availability"
+                        android:textColor="@color/slate_700"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:layout_marginBottom="8dp"/>
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/cgAvailability"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        app:chipSpacingHorizontal="8dp">
+                        <com.google.android.material.chip.Chip
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Daytime"/>
+                        <com.google.android.material.chip.Chip
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Evenings"/>
+                        <com.google.android.material.chip.Chip
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Weekends"/>
+                    </com.google.android.material.chip.ChipGroup>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.TrueCare.TextInputLayout"
+                        android:layout_marginBottom="16dp">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etCertifications"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:hint="Certifications (e.g. CNA, NAR)"
+                            android:inputType="text"
+                            android:textSize="15sp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.TrueCare.TextInputLayout"
+                    android:layout_marginBottom="16dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:hint="Street Address, City, Zip"
+                        android:inputType="text"
+                        android:textSize="15sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Email & Phone -->
                 <com.google.android.material.textfield.TextInputLayout

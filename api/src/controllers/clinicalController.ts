@@ -4,7 +4,19 @@ import prisma from '../utils/prisma';
 
 export const addClinicalLog = async (req: AuthRequest, res: Response) => {
     try {
-        const { shiftId, content, vitals } = req.body;
+        const { 
+            shiftId, 
+            content, 
+            vitals,
+            servicesRendered,
+            pulse,
+            temperature,
+            respiration,
+            bloodPressure,
+            nutritionHydration,
+            eliminationDetails,
+            safetyEnvironment
+        } = req.body;
         const caregiverId = req.user?.userId;
 
         if (!shiftId || !content) {
@@ -26,6 +38,14 @@ export const addClinicalLog = async (req: AuthRequest, res: Response) => {
             data: {
                 shiftId,
                 content,
+                servicesRendered,
+                pulse,
+                temperature,
+                respiration,
+                bloodPressure,
+                nutritionHydration,
+                eliminationDetails,
+                safetyEnvironment,
                 vitals: typeof vitals === 'string' ? vitals : JSON.stringify(vitals)
             }
         });

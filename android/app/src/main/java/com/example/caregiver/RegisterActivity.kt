@@ -24,6 +24,9 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var etEmail: EditText
     private lateinit var etPhone: EditText
     private lateinit var etPassword: EditText
+    private lateinit var etIdNumberCommon: EditText
+    private lateinit var etDob: EditText
+    private lateinit var etLocation: EditText
     private lateinit var rbPatient: RadioButton
     private lateinit var rbCaregiver: RadioButton
     private lateinit var btnRegister: MaterialButton
@@ -31,11 +34,17 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var tvLoginLink: TextView
 
     private lateinit var llPatientFields: View
-    private lateinit var llCaregiverFields: View
-    private lateinit var etAge: EditText
+    private lateinit var cgDepartments: com.google.android.material.chip.ChipGroup
+    private lateinit var etInsuranceNumber: EditText
+    private lateinit var etHeight: EditText
+    private lateinit var etWeight: EditText
     private lateinit var etCondition: EditText
-    private lateinit var etLocation: EditText
-    private lateinit var etIdNumber: EditText
+    private lateinit var etServiceTime: EditText
+
+    private lateinit var llCaregiverFields: View
+    private lateinit var etSalary: EditText
+    private lateinit var cgAvailability: com.google.android.material.chip.ChipGroup
+    private lateinit var etCertifications: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +56,9 @@ class RegisterActivity : AppCompatActivity() {
         etEmail = findViewById(R.id.etEmail)
         etPhone = findViewById(R.id.etPhone)
         etPassword = findViewById(R.id.etPassword)
+        etIdNumberCommon = findViewById(R.id.etIdNumberCommon)
+        etDob = findViewById(R.id.etDob)
+        etLocation = findViewById(R.id.etLocation)
         rbPatient = findViewById(R.id.rbPatient)
         rbCaregiver = findViewById(R.id.rbCaregiver)
         btnRegister = findViewById(R.id.btnRegister)
@@ -54,11 +66,29 @@ class RegisterActivity : AppCompatActivity() {
         tvLoginLink = findViewById(R.id.tvLoginLink)
 
         llPatientFields = findViewById(R.id.llPatientFields)
-        llCaregiverFields = findViewById(R.id.llCaregiverFields)
-        etAge = findViewById(R.id.etAge)
+        cgDepartments = findViewById(R.id.cgDepartments)
+        etInsuranceNumber = findViewById(R.id.etInsuranceNumber)
+        etHeight = findViewById(R.id.etHeight)
+        etWeight = findViewById(R.id.etWeight)
         etCondition = findViewById(R.id.etCondition)
-        etLocation = findViewById(R.id.etLocation)
-        etIdNumber = findViewById(R.id.etIdNumber)
+        etServiceTime = findViewById(R.id.etServiceTime)
+
+        llCaregiverFields = findViewById(R.id.llCaregiverFields)
+        etSalary = findViewById(R.id.etSalary)
+        cgAvailability = findViewById(R.id.cgAvailability)
+        etCertifications = findViewById(R.id.etCertifications)
+
+        // Date Picker for DOB
+        etDob.setOnClickListener {
+            val calendar = java.util.Calendar.getInstance()
+            val year = calendar.get(java.util.Calendar.YEAR) - 20
+            val month = calendar.get(java.util.Calendar.MONTH)
+            val day = calendar.get(java.util.Calendar.DAY_OF_MONTH)
+
+            android.app.DatePickerDialog(this, { _, y, m, d ->
+                etDob.setText(String.format("%02d-%02d-%d", d, m + 1, y))
+            }, year, month, day).show()
+        }
 
         // Handle Role Toggling
         findViewById<android.widget.RadioGroup>(R.id.rgRole).setOnCheckedChangeListener { _, checkedId ->
@@ -103,12 +133,31 @@ class RegisterActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val profileData = mutableMapOf<String, Any>()
+                profileData["idNumber"] = etIdNumberCommon.text.toString()
+                profileData["location"] = etLocation.text.toString()
+                profileData["dob"] = etDob.text.toString()
+
                 if (role == "PATIENT") {
-                    profileData["age"] = etAge.text.toString().toIntOrNull() ?: 0
+                    val selectedDepts = mutableListOf<String>()
+                    for (i in 0 until cgDepartments.childCount) {
+                        val chip = cgDepartments.getChildAt(i) as com.google.android.material.chip.Chip
+                        if (chip.isChecked) selectedDepts.add(chip.text.toString())
+                    }
+                    profileData["targetDepartments"] = selectedDepts.joinToString(", ")
+                    profileData["insuranceNumber"] = etInsuranceNumber.text.toString()
+                    profileData["height"] = etHeight.text.toString().toDoubleOrNull() ?: 0.0
+                    profileData["weight"] = etWeight.text.toString().toDoubleOrNull() ?: 0.0
                     profileData["ailment"] = etCondition.text.toString()
-                    profileData["location"] = etLocation.text.toString()
+                    profileData["servicePreference"] = etServiceTime.text.toString()
                 } else {
-                    profileData["idNumber"] = etIdNumber.text.toString()
+                    profileData["desiredSalary"] = etSalary.text.toString().toDoubleOrNull() ?: 0.0
+                    val availability = mutableMapOf<String, Boolean>()
+                    for (i in 0 until cgAvailability.childCount) {
+                        val chip = cgAvailability.getChildAt(i) as com.google.android.material.chip.Chip
+                        availability[chip.text.toString().lowercase()] = chip.isChecked
+                    }
+                    profileData["availabilityDetails"] = com.google.gson.Gson().toJson(availability)
+                    profileData["certifications"] = etCertifications.text.toString()
                 }
 
                 val request = RegisterRequest(

@@ -44,7 +44,20 @@ data class Profile(
     val balance: Double = 0.0,
     val ailment: String? = null,
     val location: String? = null,
-    val address: String? = null
+    val address: String? = null,
+    val idNumber: String? = null,
+    val dob: String? = null,
+    val gender: String? = null,
+    val age: Int? = null,
+    val insuranceNumber: String? = null,
+    val height: Double? = null,
+    val weight: Double? = null,
+    val targetDepartments: String? = null,
+    val servicePreference: String? = null,
+    val desiredSalary: Double? = null,
+    val availabilityDetails: String? = null,
+    val certifications: String? = null,
+    val bio: String? = null
 )
 
 data class Shift(
@@ -93,10 +106,18 @@ data class PaymentResponse(
     val CheckoutRequestID: String? = null
 )
 
-// Clinical Logging (v2.0)
+// Clinical Logging (v2.0 Expanded)
 data class ClinicalLogRequest(
     val shiftId: String,
     val content: String,
+    val servicesRendered: String? = null,
+    val pulse: String? = null,
+    val temperature: String? = null,
+    val respiration: String? = null,
+    val bloodPressure: String? = null,
+    val nutritionHydration: String? = null,
+    val eliminationDetails: String? = null,
+    val safetyEnvironment: String? = null,
     val vitals: Map<String, String>? = null
 )
 
@@ -104,6 +125,14 @@ data class ClinicalLog(
     val id: String,
     val shiftId: String,
     val content: String,
+    val servicesRendered: String? = null,
+    val pulse: String? = null,
+    val temperature: String? = null,
+    val respiration: String? = null,
+    val bloodPressure: String? = null,
+    val nutritionHydration: String? = null,
+    val eliminationDetails: String? = null,
+    val safetyEnvironment: String? = null,
     val vitals: String?,
     val loggedAt: String
 )

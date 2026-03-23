@@ -26,12 +26,14 @@ class CaregiverHomeFragment : Fragment() {
 
     private lateinit var tvShiftTimer: TextView
     private lateinit var btnClockIn: MaterialButton
+    private lateinit var btnAssessment: MaterialButton
     private lateinit var tvCurrentPatientName: TextView
     private lateinit var tvCurrentPatientAilment: TextView
     private lateinit var rvShifts: RecyclerView
     private lateinit var cvVerification: View
 
     private var isClockedIn = false
+    private var activeShiftId: String? = null
     private var secondsElapsed = 0
     private var handler = Handler(Looper.getMainLooper())
     private var runnable: Runnable? = null
@@ -41,6 +43,7 @@ class CaregiverHomeFragment : Fragment() {
 
         tvShiftTimer = view.findViewById(R.id.tvShiftTimer)
         btnClockIn = view.findViewById(R.id.btnClockIn)
+        btnAssessment = view.findViewById(R.id.btnAssessment)
         tvCurrentPatientName = view.findViewById(R.id.tvCurrentPatientName)
         tvCurrentPatientAilment = view.findViewById(R.id.tvCurrentPatientAilment)
         rvShifts = view.findViewById(R.id.rvShifts)
@@ -52,9 +55,18 @@ class CaregiverHomeFragment : Fragment() {
             toggleClockIn()
         }
 
+        btnAssessment.setOnClickListener {
+            val intent = Intent(context, com.example.caregiver.AssessmentActivity::class.java)
+            intent.putExtra("SHIFT_ID", activeShiftId ?: "demo-shift-id")
+            startActivity(intent)
+        }
+
         cvVerification.setOnClickListener {
             startActivity(Intent(context, VerificationActivity::class.java))
         }
+
+        // Initial state for btnAssessment
+        btnAssessment.visibility = View.GONE
 
         fetchShifts()
         return view
@@ -65,12 +77,15 @@ class CaregiverHomeFragment : Fragment() {
         if (isClockedIn) {
             btnClockIn.text = "CLOCK OUT"
             btnClockIn.backgroundTintList = android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#EF4444"))
+            btnAssessment.visibility = View.VISIBLE
             startTimer()
             tvCurrentPatientName.text = "John Doe"
             tvCurrentPatientAilment.text = "Post-Op Recovery"
+            activeShiftId = "demo-shift-123" // In real app, this comes from API
         } else {
             btnClockIn.text = "CLOCK IN"
             btnClockIn.backgroundTintList = android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#0D9488"))
+            btnAssessment.visibility = View.GONE
             stopTimer()
             tvCurrentPatientName.text = "No Active Session"
             tvCurrentPatientAilment.text = "Standby Mode"

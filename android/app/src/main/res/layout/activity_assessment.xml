@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/slate_50">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@color/teal_primary"
+            android:orientation="vertical"
+            android:gravity="center|start"
+            android:paddingHorizontal="24dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CLINICAL RECORD"
+                android:textColor="#B2F5EA"
+                android:textSize="10sp"
+                android:fontFamily="sans-serif-black"
+                android:letterSpacing="0.2"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Home Health Assessment"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:fontFamily="sans-serif-black"
+                android:layout_marginTop="4dp"/>
+        </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="6dp"
+            android:layout_margin="16dp"
+            android:layout_marginTop="-24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <!-- Services Rendered -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SERVICES RENDERED"
+                    android:textColor="@color/teal_primary"
+                    android:textSize="11sp"
+                    android:fontFamily="sans-serif-black"
+                    android:layout_marginBottom="12dp"/>
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="2"
+                    android:layout_marginBottom="24dp">
+                    <CheckBox android:id="@+id/cbBathing" android:text="Bathing" android:textSize="13sp"/>
+                    <CheckBox android:id="@+id/cbDressing" android:text="Dressing" android:textSize="13sp"/>
+                    <CheckBox android:id="@+id/cbMealPrep" android:text="Meal Preparation" android:textSize="13sp"/>
+                    <CheckBox android:id="@+id/cbLaundry" android:text="Laundry" android:textSize="13sp"/>
+                    <CheckBox android:id="@+id/cbMedication" android:text="Medication Rem." android:textSize="13sp"/>
+                    <CheckBox android:id="@+id/cbHousekeeping" android:text="Housekeeping" android:textSize="13sp"/>
+                </GridLayout>
+
+                <!-- Vitals -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="VITAL SIGNS"
+                    android:textColor="@color/teal_primary"
+                    android:textSize="11sp"
+                    android:fontFamily="sans-serif-black"
+                    android:layout_marginBottom="12dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="12dp">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                        style="@style/Widget.TrueCare.TextInputLayout" android:layout_marginEnd="8dp">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etPulse" android:layout_width="match_parent" android:layout_height="wrap_content"
+                            android:hint="Pulse" android:inputType="number"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                        style="@style/Widget.TrueCare.TextInputLayout">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etTemp" android:layout_width="match_parent" android:layout_height="wrap_content"
+                            android:hint="Temp (°C)" android:inputType="numberDecimal"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="24dp">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                        style="@style/Widget.TrueCare.TextInputLayout" android:layout_marginEnd="8dp">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etResp" android:layout_width="match_parent" android:layout_height="wrap_content"
+                            android:hint="Resp" android:inputType="number"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                        style="@style/Widget.TrueCare.TextInputLayout">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etBP" android:layout_width="match_parent" android:layout_height="wrap_content"
+                            android:hint="BP (e.g. 120/80)" android:inputType="text"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <!-- Nutrition & Hydration -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NUTRITION &amp; HYDRATION"
+                    android:textColor="@color/teal_primary"
+                    android:textSize="11sp"
+                    android:fontFamily="sans-serif-black"
+                    android:layout_marginBottom="12dp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.TrueCare.TextInputLayout"
+                    android:layout_marginBottom="24dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etNutrition"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Intake summary and quality"
+                        android:inputType="textMultiLine"
+                        android:minLines="2"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Elimination -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ELIMINATION"
+                    android:textColor="@color/teal_primary"
+                    android:textSize="11sp"
+                    android:fontFamily="sans-serif-black"
+                    android:layout_marginBottom="12dp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.TrueCare.TextInputLayout"
+                    android:layout_marginBottom="24dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etElimination"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Details on bowel/bladder"
+                        android:inputType="textMultiLine"
+                        android:minLines="2"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Safety -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SAFETY &amp; ENVIRONMENT"
+                    android:textColor="@color/teal_primary"
+                    android:textSize="11sp"
+                    android:fontFamily="sans-serif-black"
+                    android:layout_marginBottom="12dp"/>
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="2"
+                    android:layout_marginBottom="24dp">
+                    <CheckBox android:id="@+id/cbSafetyCall" android:text="Call Light Re." android:textSize="13sp"/>
+                    <CheckBox android:id="@+id/cbSafetyBed" android:text="Bed Rails Sec." android:textSize="13sp"/>
+                    <CheckBox android:id="@+id/cbSafetyFloor" android:text="Floor Clutter-Free" android:textSize="13sp"/>
+                    <CheckBox android:id="@+id/cbSafetyLighting" android:text="Adequate Light" android:textSize="13sp"/>
+                </GridLayout>
+
+                <!-- Final Notes -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.TrueCare.TextInputLayout"
+                    android:layout_marginBottom="32dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etNotes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Special Notes / Observations"
+                        android:inputType="textMultiLine"
+                        android:minLines="3"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSubmitAssessment"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:text="SUBMIT ASSESSMENT"
+                    android:fontFamily="sans-serif-black"
+                    app:cornerRadius="30dp"
+                    app:backgroundTint="@color/teal_primary"/>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</ScrollView>

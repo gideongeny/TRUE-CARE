@@ -3,9 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -65,10 +64,20 @@ model Profile {
   idNumber         String?
   experienceYears  Int?
   availability     String?
+  availabilityDetails String? // JSON: { day: true, evening: false, weekend: true }
   hourlyRate       Decimal?
+  desiredSalary    Decimal?
+  crimeConviction  Boolean  @default(false)
+  certifications   String?
   cvUrl            String?
   certificateUrl   String?
   idCardUrl        String?
+  height           Float?
+  weight           Float?
+  insuranceNumber  String?
+  targetDepartments String? // Comma-separated or JSON
+  serviceLocation  String? // My Own Home, Caregiver's Home, etc.
+  servicePreference String? // In Home of Client, etc.
   paymentStatus    String   @default("PENDING")
   balance          Decimal  @default(0)
   totalBilled      Decimal  @default(0)
@@ -110,12 +119,20 @@ model Shift {
 }
 
 model ClinicalLog {
-  id          String   @id @default(uuid())
-  shiftId     String
-  content     String
-  vitals      String?  // JSON string: { "bp": "120/80", "temp": "37", "spo2": "98" }
-  loggedAt    DateTime @default(now())
-  shift       Shift    @relation(fields: [shiftId], references: [id])
+  id                 String   @id @default(uuid())
+  shiftId            String
+  content            String // General summary
+  servicesRendered   String? // Bathing, dressing, etc.
+  pulse              String?
+  temperature        String?
+  respiration        String?
+  bloodPressure      String?
+  nutritionHydration String?
+  eliminationDetails String?
+  safetyEnvironment  String?
+  vitals             String? // Legacy JSON backup
+  loggedAt           DateTime @default(now())
+  shift              Shift    @relation(fields: [shiftId], references: [id])
 }
 
 model Report {

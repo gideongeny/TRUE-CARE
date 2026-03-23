@@ -48,6 +48,7 @@
         <activity android:name=".TwoFactorActivity" />
         <activity android:name=".AdminDashboardActivity" />
         <activity android:name=".AnalyticsActivity" />
+        <activity android:name=".AssessmentActivity" />
     </application>
 
 </manifest>

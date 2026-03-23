@@ -136,6 +136,21 @@
                             app:cornerRadius="32dp"
                             app:elevation="4dp"/>
 
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnAssessment"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PERFORM ASSESSMENT"
+                            android:textColor="@color/teal_primary"
+                            android:fontFamily="sans-serif-black"
+                            android:textSize="11sp"
+                            android:letterSpacing="0.1"
+                            android:visibility="gone"
+                            android:layout_marginTop="8dp"
+                            app:icon="@android:drawable/ic_menu_edit"
+                            app:iconTint="@color/teal_primary"/>
+
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
