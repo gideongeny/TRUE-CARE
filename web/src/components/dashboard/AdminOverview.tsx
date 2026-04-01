@@ -111,7 +111,7 @@ export default function AdminOverview() {
                     reference: `REQ-${Date.now().toString().slice(-5)}`
                 });
                 
-                const message = `Hello ${patient.profile?.firstName}, please pay KSh ${amount} to I&M Paybill: 05508876433050, Account: 542 542. Thank you!`;
+                const message = `Hello ${patient.profile?.firstName}, please pay KSh ${Number(amount).toLocaleString()} to I&M Paybill: 05508876433050, Account: 542 542. Thank you!`;
                 if (navigator.share) {
                     await navigator.share({ title: 'Payment Request', text: message });
                 } else {
@@ -138,6 +138,26 @@ export default function AdminOverview() {
         }
     };
 
+    const handleShareOnboarding = async (patient: any) => {
+        const message = `TRUE-CARE ACCESS GRANTED\n\nSubject: ${patient.profile?.firstName} ${patient.profile?.lastName}\nRole: ${patient.role}\nEmail: ${patient.email}\nPassword: [System Default or Personal]\n\nDashboard: https://true-care-blond.vercel.app/login\n\nWelcome to the Care Network.`;
+        
+        try {
+            if (navigator.share) {
+                await navigator.share({
+                    title: 'TRUE-CARE ACCESS GRANTED',
+                    text: message
+                });
+            } else {
+                window.open(`https://wa.me/${patient.profile?.phone?.replace(/\+/g, '')}?text=${encodeURIComponent(message)}`, '_blank');
+            }
+        } catch (e) {
+            console.error('Share failed', e);
+            // Fallback for desktop: copy to clipboard
+            navigator.clipboard.writeText(message);
+            alert('Access credentials copied to clipboard.');
+        }
+    };
+
     const handleConfirmPayment = async (paymentId: string) => {
         if (!confirm('Confirm you have received these funds in the I&M Bank account? This action updates the patient balance instantly.')) return;
         try {
@@ -146,6 +166,17 @@ export default function AdminOverview() {
             alert('Payment Verified Successfully.');
         } catch (error) {
             alert('Verification failed.');
+        }
+    };
+
+    const handleRejectPayment = async (paymentId: string) => {
+        if (!confirm('REJECT AND PURGE this payment entry? This should only be done if the receipt is invalid or mistakenly entered.')) return;
+        try {
+            await api.delete(`/admin/payments/${paymentId}`);
+            setPendingPayments(prev => prev.filter(p => p.id !== paymentId));
+            alert('Payment Entry Purged.');
+        } catch (error) {
+            alert('Purge failed.');
         }
     };
 
@@ -355,6 +386,13 @@ export default function AdminOverview() {
                                                         Request Payment
                                                     </button>
                                                     <button
+                                                        onClick={() => handleShareOnboarding(patient)}
+                                                        className="px-4 py-2 bg-blue-100 text-blue-700 text-[10px] font-bold uppercase rounded-lg hover:bg-blue-200 transition-all shadow-sm"
+                                                        title="Share Access Details"
+                                                    >
+                                                        Share
+                                                    </button>
+                                                    <button
                                                         onClick={() => { setSelectedPatient(patient); setIsAssigning(true); }}
                                                         className="px-4 py-2 bg-slate-800 text-white text-[10px] font-bold uppercase rounded-lg hover:bg-teal-600 transition-all shadow-sm"
                                                     >
@@ -506,12 +544,7 @@ export default function AdminOverview() {
                                             <Check className="w-5 h-5" strokeWidth={3} />
                                         </button>
                                         <button
-                                            onClick={async () => {
-                                                if (confirm('Delete this payment request?')) {
-                                                    await api.delete(`/admin/users/${p.id}`); // This is wrong, should be payment delete but I don't have it. I'll just hide it for now.
-                                                    setPendingPayments(prev => prev.filter(item => item.id !== p.id));
-                                                }
-                                            }}
+                                            onClick={() => handleRejectPayment(p.id)}
                                             className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white/30 hover:text-rose-500 transition-colors"
                                         >
                                             <CloseIcon className="w-5 h-5" />

@@ -83,8 +83,10 @@ export const getRequests = async (req: AuthRequest, res: Response) => {
 
 export const adminSetPrice = async (req: AuthRequest, res: Response) => {
     try {
-        const { id } = req.params;
+        const id = req.params.id || req.body.requestId;
         const { price, duration } = req.body;
+
+        if (!id) return res.status(400).json({ message: "Request ID missing" });
 
         const request = await prisma.serviceRequest.update({
             where: { id },
@@ -95,8 +97,6 @@ export const adminSetPrice = async (req: AuthRequest, res: Response) => {
                 status: 'PRICED'
             }
         });
-
-        // Notify patient here
 
         res.json(request);
     } catch (error) {

@@ -54,7 +54,7 @@ export const getAdminInsights = async (req: AuthRequest, res: Response) => {
                 last24hLogs: recentClinicalLogs
             },
             patientCount,
-            patientTrend: 12 // Mock trend
+            patientTrend: 0 
         });
     } catch (error) {
         console.error(error);
@@ -329,7 +329,36 @@ export const getActivityLog = async (req: AuthRequest, res: Response) => {
 export const getAdvancedAnalytics = async (req: AuthRequest, res: Response) => res.json({});
 export const getSystemReports = async (req: AuthRequest, res: Response) => res.json([]);
 export const getClinicalIntelligence = async (req: AuthRequest, res: Response) => res.json({ stabilityRate: "94%" });
-export const getFinancialDashboard = async (req: AuthRequest, res: Response) => res.json({ revenue: 450000 });
+export const getFinancialDashboard = async (req: AuthRequest, res: Response) => {
+    try {
+        const revenue = await prisma.payment.aggregate({
+            where: { status: 'SUCCESS' },
+            _sum: { amount: true }
+        });
+
+        const outstanding = await prisma.profile.aggregate({
+            _sum: { balance: true }
+        });
+
+        const recentTransactions = await prisma.payment.findMany({
+            take: 20,
+            orderBy: { createdAt: 'desc' },
+            include: { user: { include: { profile: true } } }
+        });
+
+        res.json({
+            summary: {
+                totalRevenue: revenue._sum.amount || 0,
+                outstandingInvoices: outstanding._sum.balance || 0,
+                caregiverPayoutsDue: 0 // Implement logic if needed
+            },
+            recentTransactions
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Financial sync failed" });
+    }
+};
 export const getPatientFinancialDetails = async (req: AuthRequest, res: Response) => res.json({});
 export const getPlatformAnalytics = async (req: AuthRequest, res: Response) => res.json({});
 export const updateShiftDetails = async (req: AuthRequest, res: Response) => res.json({});

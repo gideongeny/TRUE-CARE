@@ -317,3 +317,12 @@ export const getPendingManualPayments = async (req: Request, res: Response) => {
         res.status(500).json({ message: "Failed to fetch pending payments" });
     }
 };
+export const adminDeletePayment = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    try {
+        await prisma.payment.delete({ where: { id } });
+        res.json({ message: "Payment request purged" });
+    } catch (error) {
+        res.status(500).json({ message: "Purge failed" });
+    }
+};

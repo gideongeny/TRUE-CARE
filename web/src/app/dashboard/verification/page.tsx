@@ -37,7 +37,7 @@ export default function VerificationPage() {
         setUserRole(user.role);
         try {
             if (user.role === 'ADMIN') {
-                const res = await api.get('/admin/caregivers');
+                const res = await api.get('/admin/verification/queue');
                 setQueue(res.data || []);
             } else if (user.role === 'CAREGIVER') {
                 const res = await api.get('/auth/me'); // Get verification docs from profile
@@ -56,7 +56,7 @@ export default function VerificationPage() {
 
     const handleApprove = async (id: string) => {
         try {
-            await api.post(`/admin/approve-caregiver/${id}`);
+            await api.post(`/admin/verification/approve/${id}`);
             toast.success('Caregiver identity verified.');
             fetchData();
         } catch (error) {

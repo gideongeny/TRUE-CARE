@@ -30,7 +30,7 @@ import {
     ping
 } from '../controllers/adminController';
 import { adminSetPrice, updateRequestStatus, adminCreateRequest } from '../controllers/requestController';
-import { adminPayCaregiver, adminRequestManualPayment, adminConfirmManualPayment, getPendingManualPayments } from '../controllers/paymentController';
+import { adminPayCaregiver, adminRequestManualPayment, adminConfirmManualPayment, getPendingManualPayments, adminDeletePayment } from '../controllers/paymentController';
 import { authenticate, authorize } from '../middleware/auth';
 
 const router = Router();
@@ -43,6 +43,7 @@ router.use(authenticate, authorize(['ADMIN']));
 router.get('/payments/pending', getPendingManualPayments);
 router.post('/payments/manual-request', adminRequestManualPayment);
 router.post('/payments/:id/confirm', adminConfirmManualPayment);
+router.delete('/payments/:id', adminDeletePayment);
 
 // Admin Strategic Monitoring
 router.get('/stats', getGlobalStats);
