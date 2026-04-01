@@ -10,11 +10,20 @@ import {
     Clock,
     ShieldCheck,
     Stethoscope,
-    Activity
+    Activity,
+    Star,
+    Share2,
+    MessageCircle
 } from 'lucide-react';
 import Link from 'next/link';
 
 export default function LandingPage() {
+    const reviews = [
+        { name: "Sarah K.", rating: 5, comment: "Peace of mind at last. I can track mom's vitals real-time while I'm at work." },
+        { name: "David M.", rating: 5, comment: "The caregivers are world-class. Professional, vetted, and compassionate." },
+        { name: "James O.", rating: 5, comment: "Seamless experience. No more guesswork when it comes to healthcare at home." }
+    ];
+
     const features = [
         {
             title: "Trusted Care Professionals",
@@ -39,6 +48,22 @@ export default function LandingPage() {
         }
     ];
 
+    const handleShare = async () => {
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: 'TRUE CARE',
+                    text: 'Connecting families with world-class caregivers. Experience peace of mind with real-time health monitoring.',
+                    url: window.location.href,
+                });
+            } catch (err) {
+                console.error('Share failed', err);
+            }
+        } else {
+            alert('Share not supported on this browser. Copy the URL to share!');
+        }
+    };
+
     return (
         <div className="min-h-screen mesh-gradient selection:bg-teal-600/10">
             {/* Minimalist Navigation */}
@@ -49,7 +74,14 @@ export default function LandingPage() {
                     </div>
                     <span className="font-extrabold text-slate-900 tracking-tight text-xl">TRUE CARE</span>
                 </div>
-                <div className="flex items-center gap-8">
+                <div className="flex items-center gap-4">
+                    <button 
+                        onClick={handleShare}
+                        className="p-3 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all text-slate-400 group"
+                        title="Share TRUE CARE"
+                    >
+                        <Share2 className="w-5 h-5 group-hover:text-teal-600" />
+                    </button>
                     <Link href="/login" className="text-sm font-semibold text-slate-500 hover:text-teal-600 transition-colors">
                         Sign In
                     </Link>
@@ -171,8 +203,43 @@ export default function LandingPage() {
                 </div>
             </main>
 
+            {/* Social Proof & Reviews */}
+            <section className="bg-slate-50 py-32 border-y border-slate-200/60">
+                <div className="max-w-7xl mx-auto px-8">
+                    <div className="text-center mb-20 space-y-4">
+                        <div className="flex items-center justify-center gap-1 text-amber-500">
+                            {[1, 2, 3, 4, 5].map(i => <Star key={i} className="w-5 h-5 fill-current" />)}
+                        </div>
+                        <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight">Trusted by 500+ Families</h2>
+                        <p className="text-slate-500 font-bold max-w-2xl mx-auto">See why TRUE CARE is the leading platform for verified home-based healthcare and compassionate monitoring.</p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+                        {reviews.map((r, i) => (
+                            <motion.div 
+                                key={i}
+                                className="bg-white p-10 rounded-[32px] shadow-sm border border-slate-100 space-y-6 group hover:shadow-xl hover:-translate-y-2 transition-all duration-500"
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: i * 0.1 }}
+                            >
+                                <div className="flex items-center gap-1 text-amber-500">
+                                    {[1, 2, 3, 4, 5].map(j => <Star key={j} className="w-4 h-4 fill-current" />)}
+                                </div>
+                                <p className="text-slate-900 font-bold text-lg italic leading-relaxed">"{r.comment}"</p>
+                                <div className="flex items-center gap-3 pt-6 border-t border-slate-50">
+                                    <div className="w-10 h-10 bg-teal-50 rounded-full flex items-center justify-center font-black text-teal-600 text-xs">{r.name[0]}</div>
+                                    <span className="text-sm font-black text-slate-500 uppercase tracking-widest">{r.name}</span>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
             {/* Features Grid */}
-            <section className="max-w-7xl mx-auto px-8 py-32 border-t border-slate-200/60">
+            <section className="max-w-7xl mx-auto px-8 py-32">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                     {features.map((f, i) => (
                         <motion.div
@@ -207,6 +274,17 @@ export default function LandingPage() {
                     </div>
                 </div>
             </footer>
+            {/* WhatsApp Floating FAB */}
+            <Link 
+                href="https://wa.me/254720317626" 
+                target="_blank"
+                className="fixed bottom-10 right-10 w-16 h-16 bg-emerald-500 rounded-full flex items-center justify-center text-white shadow-2xl hover:bg-emerald-600 transition-all active:scale-90 z-[60] group border-4 border-white"
+            >
+                <div className="absolute -top-12 right-0 bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest py-2 px-4 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap border border-white/10 shadow-lg">
+                    Chat with Admin
+                </div>
+                <MessageCircle className="w-8 h-8" />
+            </Link>
         </div>
     );
 }

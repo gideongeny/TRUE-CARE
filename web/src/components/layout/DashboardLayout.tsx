@@ -19,7 +19,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             return;
         }
         const savedUser = localStorage.getItem('user');
-        if (savedUser) setUser(JSON.parse(savedUser));
+        if (savedUser) {
+            const parsedUser = JSON.parse(savedUser);
+            if (parsedUser.role !== 'ADMIN') {
+                window.location.href = '/mobile-only';
+                return;
+            }
+            setUser(parsedUser);
+        }
 
         const timer = setInterval(() => setCurrentTime(new Date()), 60000);
         return () => clearInterval(timer);
