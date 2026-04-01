@@ -60,10 +60,10 @@ export default function AdminOverview() {
         const fetchDashboardData = async () => {
             try {
                 const fetchStats = api.get('/admin/stats').catch(e => { console.error('Stats fetch failed', e); return { data: null }; });
-                const fetchAnalytics = api.get('/admin/analytics/shifts').catch(e => { console.error('Analytics fetch failed', e); return { data: {} }; });
-                const fetchLogs = api.get('/admin/logs').catch(e => { console.error('Logs fetch failed', e); return { data: [] }; });
+                const fetchAnalytics = api.get('/admin/shifts/analytics').catch(e => { console.error('Analytics fetch failed', e); return { data: {} }; });
+                const fetchLogs = api.get('/admin/activity/log').catch(e => { console.error('Logs fetch failed', e); return { data: [] }; });
                 const fetchUsers = api.get('/admin/users').catch(e => { console.error('Users fetch failed', e); return { data: [] }; });
-                const fetchOps = api.get('/admin/operations/live').catch(e => { console.error('Live Ops fetch failed', e); return { data: [] }; });
+                const fetchOps = api.get('/admin/shifts/analytics').catch(e => { console.error('Live Ops fetch failed', e); return { data: [] }; });
                 const fetchInsights = api.get('/admin/insights').catch(e => { console.error('Insights fetch failed', e); return { data: null }; });
                 const fetchPayments = api.get('/admin/payments/pending').catch(e => { console.error('Pending Payments fetch failed', e); return { data: [] }; });
 
