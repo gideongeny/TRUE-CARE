@@ -22,23 +22,56 @@ export default function UserModal({ isOpen, onClose, onSuccess, role }: UserModa
         phone: '',
         ailment: '',
         experienceYears: '',
-        address: ''
+        address: '',
+        initialAmount: '1500' // Default initial fee
     });
+
+    const handleShare = async (u: any, amount: string) => {
+        const message = `Hello ${u.profile?.firstName}, welcome to TRUE-CARE. Your account has been initialized. Please complete your registration by paying the initial service fee of KSh ${amount} to I&M Paybill: 05508876433050, Account: 542 542. Thank you!`;
+        
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: 'TRUE-CARE Payment Instructions',
+                    text: message,
+                });
+            } catch (err) {
+                console.log('Share failed, copying to clipboard');
+                navigator.clipboard.writeText(message);
+            }
+        } else {
+            const whatsappUrl = `https://wa.me/${u.profile?.phone?.replace(/\+/g, '')}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         try {
-            await api.post('/admin/users', {
+            const res = await api.post('/admin/users', {
                 ...formData,
                 role,
                 experienceYears: role === 'CAREGIVER' ? Number(formData.experienceYears) : undefined
             });
+
+            if (role === 'PATIENT') {
+                // Record the manual payment request in the system
+                await api.post('/admin/payments/manual-request', {
+                    userId: res.data.id,
+                    amount: formData.initialAmount,
+                    reference: `INIT-${res.data.id.slice(0, 5)}`
+                });
+                
+                await handleShare(res.data, formData.initialAmount);
+            }
+
             onSuccess();
             onClose();
             setFormData({
                 email: '', password: '', firstName: '', lastName: '',
-                phone: '', ailment: '', experienceYears: '', address: ''
+                phone: '', ailment: '', experienceYears: '', address: '',
+                initialAmount: '1500'
             });
         } catch (error: any) {
             console.error('Failed to create user', error);
@@ -181,15 +214,29 @@ export default function UserModal({ isOpen, onClose, onSuccess, role }: UserModa
                                 </div>
                                 
                                 {role === 'PATIENT' ? (
-                                    <div className="space-y-2">
-                                        <label className="text-[9px] font-black text-slate-500 uppercase ml-2 tracking-widest">Primary Ailment / Condition</label>
-                                        <div className="relative group">
-                                            <Activity className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-teal-600 transition-colors" />
-                                            <input
-                                                className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-12 pr-6 py-4 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-teal-500/40 focus:ring-4 focus:ring-teal-500/10 transition-all font-bold shadow-sm"
-                                                placeholder="Post-operative observation, Mobility Support..."
-                                                value={formData.ailment} onChange={(e) => setFormData({ ...formData, ailment: e.target.value })}
-                                            />
+                                    <div className="space-y-4">
+                                        <div className="space-y-2">
+                                            <label className="text-[9px] font-black text-slate-500 uppercase ml-2 tracking-widest">Primary Ailment / Condition</label>
+                                            <div className="relative group">
+                                                <Activity className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-teal-600 transition-colors" />
+                                                <input
+                                                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-12 pr-6 py-4 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-teal-500/40 focus:ring-4 focus:ring-teal-500/10 transition-all font-bold shadow-sm"
+                                                    placeholder="Post-operative observation, Mobility Support..."
+                                                    value={formData.ailment} onChange={(e) => setFormData({ ...formData, ailment: e.target.value })}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-[9px] font-black text-slate-500 uppercase ml-2 tracking-widest">Initial Registration Fee (KSh)</label>
+                                            <div className="relative group">
+                                                <Plus className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-teal-600 transition-colors" />
+                                                <input
+                                                    type="number"
+                                                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-12 pr-6 py-4 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-teal-500/40 focus:ring-4 focus:ring-teal-500/10 transition-all font-bold shadow-sm"
+                                                    placeholder="1500"
+                                                    value={formData.initialAmount} onChange={(e) => setFormData({ ...formData, initialAmount: e.target.value })}
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 ) : (

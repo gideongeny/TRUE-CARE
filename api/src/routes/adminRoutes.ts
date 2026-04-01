@@ -23,10 +23,14 @@ import {
     updateShiftDetails,
     getLiveOperations,
     getAdminInsights,
-    adminSetPremium
+    adminSetPremium,
+    adminCancelShift,
+    adminAddClinicalLog,
+    systemReset,
+    ping
 } from '../controllers/adminController';
 import { adminSetPrice, updateRequestStatus, adminCreateRequest } from '../controllers/requestController';
-import { adminPayCaregiver } from '../controllers/paymentController';
+import { adminPayCaregiver, adminRequestManualPayment, adminConfirmManualPayment, getPendingManualPayments } from '../controllers/paymentController';
 import { authenticate, authorize } from '../middleware/auth';
 
 const router = Router();
@@ -70,5 +74,16 @@ router.post('/users', adminCreateUser);
 router.patch('/users/:id', adminUpdateUser);
 router.put('/users/:id/premium', adminSetPremium);
 router.delete('/users/:id', adminDeleteUser);
+
+// Tactical Command Center Extensions
+router.get('/health/ping', ping);
+router.post('/shifts/:id/cancel', adminCancelShift);
+router.post('/clinical/log', adminAddClinicalLog);
+router.post('/system/reset', systemReset);
+
+// Manual Payment Verification
+router.get('/payments/pending', getPendingManualPayments);
+router.post('/payments/manual-request', adminRequestManualPayment);
+router.post('/payments/:id/confirm', adminConfirmManualPayment);
 
 export default router;

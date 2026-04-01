@@ -233,3 +233,80 @@ export const getPaymentHistory = async (req: AuthRequest, res: Response) => {
         res.status(500).json({ error: 'Failed to fetch payment history' });
     }
 };
+
+export const adminRequestManualPayment = async (req: Request, res: Response) => {
+    const { userId, amount, requestId, reference } = req.body;
+    try {
+        const payment = await prisma.payment.create({
+            data: {
+                userId,
+                requestId,
+                amount: Number(amount),
+                phoneNumber: 'N/A', // Bank transfer doesn't require phone verification
+                status: 'PENDING',
+                type: 'IM_BANK_TRANSFER',
+                transactionId: reference || `IM-${Date.now()}`
+            }
+        });
+        res.json(payment);
+    } catch (error) {
+        res.status(500).json({ message: "Failed to record payment request" });
+    }
+};
+
+export const adminConfirmManualPayment = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    try {
+        const payment = await prisma.payment.findUnique({ where: { id } });
+        if (!payment) return res.status(404).json({ message: "Payment not found" });
+
+        const updates: any[] = [
+            prisma.payment.update({
+                where: { id },
+                data: { status: 'SUCCESS', updatedAt: new Date() }
+            }),
+            prisma.profile.update({
+                where: { userId: payment.userId },
+                data: {
+                    totalPaid: { increment: payment.amount },
+                    balance: { decrement: payment.amount }
+                }
+            })
+        ];
+
+        if (payment.requestId) {
+            const request = await prisma.serviceRequest.findUnique({ where: { id: payment.requestId } });
+            if (request) {
+                const newAmountPaid = Number(request.amountPaid || 0) + Number(payment.amount);
+                const newRemainingBalance = Math.max(0, Number(request.price || 0) - newAmountPaid);
+
+                updates.push(prisma.serviceRequest.update({
+                    where: { id: payment.requestId },
+                    data: {
+                        amountPaid: newAmountPaid,
+                        remainingBalance: newRemainingBalance,
+                        status: newRemainingBalance <= 0 ? 'PAID' : 'PRICED'
+                    }
+                }));
+            }
+        }
+
+        await prisma.$transaction(updates);
+        res.json({ message: "Payment confirmed and accounts updated" });
+    } catch (error) {
+        res.status(500).json({ message: "Confirmation failed" });
+    }
+};
+
+export const getPendingManualPayments = async (req: Request, res: Response) => {
+    try {
+        const payments = await prisma.payment.findMany({
+            where: { type: 'IM_BANK_TRANSFER', status: 'PENDING' },
+            include: { user: { include: { profile: true } } },
+            orderBy: { createdAt: 'desc' }
+        });
+        res.json(payments);
+    } catch (error) {
+        res.status(500).json({ message: "Failed to fetch pending payments" });
+    }
+};
