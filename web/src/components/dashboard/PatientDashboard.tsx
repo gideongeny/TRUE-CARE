@@ -41,6 +41,48 @@ export default function PatientDashboard() {
 
     if (loading) return <div className="h-40 bg-slate-100 animate-pulse rounded-2xl" />;
 
+    if (Number(profile?.balance || 0) > 0) {
+        return (
+            <div className="min-h-[70vh] flex flex-col items-center justify-center p-8 bg-slate-50 border border-slate-200 rounded-[40px] shadow-sm relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
+                    <Shield className="w-64 h-64 text-slate-900" />
+                </div>
+                <div className="w-20 h-20 bg-rose-50 rounded-3xl flex items-center justify-center mb-8 border-2 border-rose-100 shadow-sm">
+                    <Clock className="w-10 h-10 text-rose-500 animate-pulse" />
+                </div>
+                <div className="text-center max-w-md space-y-4">
+                    <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tight">Account Restricted</h2>
+                    <p className="text-slate-500 font-bold leading-relaxed">
+                        To access your TRUE-CARE dashboard and scheduled care shifts, please complete your registration payment of <span className="text-slate-900">KSh {Number(profile.balance).toLocaleString()}</span>.
+                    </p>
+                </div>
+
+                <div className="mt-12 w-full max-w-sm bg-slate-900 rounded-[32px] p-8 text-white shadow-2xl space-y-6">
+                    <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                        <p className="text-[10px] font-black text-teal-400 uppercase tracking-[0.2em]">Bank Instructions</p>
+                        <Shield className="w-4 h-4 text-teal-400" />
+                    </div>
+                    <div className="space-y-4">
+                        <div>
+                            <p className="text-[9px] font-black text-white/40 uppercase tracking-widest mb-1">Paybill Number</p>
+                            <p className="text-xl font-black tracking-tight text-teal-400">05508876433050</p>
+                        </div>
+                        <div>
+                            <p className="text-[9px] font-black text-white/40 uppercase tracking-widest mb-1">Account Number</p>
+                            <p className="text-xl font-black tracking-tight text-teal-400">542 542</p>
+                        </div>
+                    </div>
+                    <div className="pt-4 border-t border-white/10">
+                        <p className="text-[10px] font-bold text-white/60 italic">Please share your transaction confirmation with TRUE-CARE Admin via WhatsApp for instant activation.</p>
+                    </div>
+                </div>
+                <button className="mt-8 text-[11px] font-black text-slate-400 uppercase tracking-[0.3em] hover:text-slate-900 transition-colors">
+                    Logout Vector
+                </button>
+            </div>
+        );
+    }
+
     return (
         <div className="space-y-8">
             <div className="flex items-center justify-between">
