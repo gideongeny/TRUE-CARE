@@ -56,14 +56,23 @@ export default function UserModal({ isOpen, onClose, onSuccess, role }: UserModa
             });
 
             if (role === 'PATIENT') {
-                // Record the manual payment request in the system
-                await api.post('/admin/payments/manual-request', {
-                    userId: res.data.id,
-                    amount: formData.initialAmount,
-                    reference: `INIT-${res.data.id.slice(0, 5)}`
-                });
+                try {
+                    // Record the manual payment request in the system
+                    await api.post('/admin/payments/manual-request', {
+                        userId: res.data.id,
+                        amount: formData.initialAmount,
+                        reference: `INIT-${res.data.id.slice(0, 5)}`
+                    });
+                } catch (paymentErr: any) {
+                    console.error('User created, but payment request failed:', paymentErr);
+                    // We don't throw here so the user creation is still considered a success in the UI
+                }
                 
-                await handleShare(res.data, formData.initialAmount);
+                try {
+                    await handleShare(res.data, formData.initialAmount);
+                } catch (shareErr) {
+                    console.error('WhatsApp triggering failed:', shareErr);
+                }
             }
 
             onSuccess();
@@ -272,7 +281,7 @@ export default function UserModal({ isOpen, onClose, onSuccess, role }: UserModa
                                 Cancel
                             </button>
                             <button
-                                onClick={handleSubmit}
+                                type="submit"
                                 disabled={loading}
                                 className={`px-8 py-3 text-white rounded-xl text-xs font-black uppercase tracking-widest transition-all shadow-lg active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2 ${role === 'PATIENT' ? 'bg-teal-600 hover:bg-teal-700 shadow-teal-600/20' : 'bg-slate-800 hover:bg-slate-900 shadow-slate-900/20'}`}
                             >

@@ -173,9 +173,13 @@ export const adminCreateUser = async (req: AuthRequest, res: Response) => {
         });
 
         res.status(201).json(user);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Tactical onboarding failed" });
+    } catch (error: any) {
+        console.error('CRITICAL: adminCreateUser failure:', {
+            errorMessage: error.message,
+            stack: error.stack,
+            body: req.body
+        });
+        res.status(500).json({ message: "Tactical onboarding failed", details: error.message });
     }
 };
 export const adminUpdateUser = async (req: AuthRequest, res: Response) => {
