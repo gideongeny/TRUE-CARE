@@ -331,7 +331,12 @@ export default function AdminOverview() {
                                                 </Link>
                                             </td>
                                             <td className="px-8 py-6">
-                                                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{patient.profile?.ailment || 'Observation'}</span>
+                                                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Condition</p>
+                                                <span className="text-xs font-bold text-slate-900">{patient.profile?.ailment || 'Observation'}</span>
+                                            </td>
+                                            <td className="px-8 py-6">
+                                                <p className="text-[10px] font-black text-rose-500 uppercase tracking-widest mb-1">Balance Due</p>
+                                                <span className="text-sm font-black text-slate-900">KSh {Number(patient.profile?.balance || 0).toLocaleString()}</span>
                                             </td>
                                             <td className="px-8 py-6 text-right">
                                                 <div className="flex items-center justify-end gap-3">

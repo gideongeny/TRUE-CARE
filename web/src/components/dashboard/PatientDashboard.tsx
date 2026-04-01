@@ -16,17 +16,20 @@ import { motion } from 'framer-motion';
 export default function PatientDashboard() {
     const [requests, setRequests] = useState<any[]>([]);
     const [clinicalHistory, setClinicalHistory] = useState<any[]>([]);
+    const [profile, setProfile] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [reqRes, clinRes] = await Promise.all([
+                const [reqRes, clinRes, profileRes] = await Promise.all([
                     api.get('/requests'),
-                    api.get('/clinical/my-history')
+                    api.get('/clinical/my-history'),
+                    api.get('/profile')
                 ]);
                 setRequests(reqRes.data);
                 setClinicalHistory(clinRes.data);
+                setProfile(profileRes.data);
             } catch (error) {
                 console.error('Failed to fetch patient data', error);
             } finally {
@@ -142,20 +145,42 @@ export default function PatientDashboard() {
                     </div>
                 </div>
 
-                {/* Secure Care Note */}
-                <div className="bg-gradient-to-br from-teal-800 to-emerald-900 rounded-3xl p-8 text-white flex flex-col justify-between shadow-xl">
-                    <div>
-                        <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-6 border border-white/10">
-                            <Shield className="w-6 h-6 text-teal-300" />
+                {/* Financial & Security Stack */}
+                <div className="space-y-6">
+                    {Number(profile?.balance || 0) > 0 && (
+                        <div className="bg-slate-900 rounded-3xl p-8 text-white shadow-xl border border-white/5 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-8 opacity-20">
+                                <Activity className="w-12 h-12 text-teal-400" />
+                            </div>
+                            <h4 className="text-[10px] font-black text-teal-400 uppercase tracking-widest mb-2">Financial Status</h4>
+                            <h3 className="text-2xl font-black mb-1">KSh {Number(profile?.balance).toLocaleString()}</h3>
+                            <p className="text-xs font-bold text-slate-400 uppercase tracking-tight mb-6">Current Balance Due</p>
+                            
+                            <div className="p-4 bg-white/5 rounded-2xl border border-white/10 space-y-3">
+                                <div>
+                                    <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1">Bank Instructions</p>
+                                    <p className="text-[11px] font-bold">I&M Paybill: <span className="text-teal-400">05508876433050</span></p>
+                                    <p className="text-[11px] font-bold">Account: <span className="text-teal-400">542 542</span></p>
+                                </div>
+                            </div>
+                            <p className="text-[9px] font-bold text-slate-500 mt-4 uppercase italic">Please confirm with Admin after transfer.</p>
                         </div>
-                        <h3 className="text-xl font-bold mb-4">TrueCare Security</h3>
-                        <p className="text-teal-100/80 text-sm leading-relaxed font-medium">
-                            Every caregiver in our network is fully verified and trained to provide the highest standard of care at home.
-                        </p>
-                    </div>
-                    <div className="mt-8 pt-8 border-t border-white/10">
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-teal-200/60 mb-2">Emergency Service</p>
-                        <p className="text-sm font-bold text-white">Available 24/7 at 1-800-TRUE-CARE</p>
+                    )}
+
+                    <div className="bg-gradient-to-br from-teal-800 to-emerald-900 rounded-3xl p-8 text-white flex flex-col justify-between shadow-xl min-h-[300px]">
+                        <div>
+                            <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-6 border border-white/10">
+                                <Shield className="w-6 h-6 text-teal-300" />
+                            </div>
+                            <h3 className="text-xl font-bold mb-4">TrueCare Security</h3>
+                            <p className="text-teal-100/80 text-sm leading-relaxed font-medium">
+                                Every caregiver in our network is fully verified and trained to provide the highest standard of care at home.
+                            </p>
+                        </div>
+                        <div className="mt-8 pt-8 border-t border-white/10">
+                            <p className="text-[10px] font-bold uppercase tracking-widest text-teal-200/60 mb-2">Emergency Service</p>
+                            <p className="text-sm font-bold text-white">Available 24/7 at 1-800-TRUE-CARE</p>
+                        </div>
                     </div>
                 </div>
             </div>

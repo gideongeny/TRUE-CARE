@@ -248,6 +248,13 @@ export const adminRequestManualPayment = async (req: Request, res: Response) => 
                 transactionId: reference || `IM-${Date.now()}`
             }
         });
+
+        // Track as debt in profile balance
+        await prisma.profile.update({
+            where: { userId },
+            data: { balance: { increment: Number(amount) } }
+        });
+
         res.json(payment);
     } catch (error) {
         res.status(500).json({ message: "Failed to record payment request" });
