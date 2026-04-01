@@ -134,7 +134,7 @@ app.get('/', async (req: Request, res: Response) => {
         dbStatus = `Error: ${e.message}`;
     }
     res.json({
-        message: 'TRUE CARE API is running (Ver: 1.0.5)',
+        message: 'TRUE CARE API is running (Ver: 1.0.7)',
         deployedAt: new Date().toISOString(),
         status: 'Operational',
         database: dbStatus

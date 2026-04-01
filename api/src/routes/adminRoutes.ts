@@ -38,6 +38,12 @@ const router = Router();
 // All routes here are ADMIN ONLY
 router.use(authenticate, authorize(['ADMIN']));
 
+// --- CRITICAL MANIFEST: Priority Routes ---
+// Manual Payment Verification (Must match before generic /users/:id)
+router.get('/payments/pending', getPendingManualPayments);
+router.post('/payments/manual-request', adminRequestManualPayment);
+router.post('/payments/:id/confirm', adminConfirmManualPayment);
+
 // Admin Strategic Monitoring
 router.get('/stats', getGlobalStats);
 router.get('/insights', getAdminInsights);
@@ -81,9 +87,6 @@ router.post('/shifts/:id/cancel', adminCancelShift);
 router.post('/clinical/log', adminAddClinicalLog);
 router.post('/system/reset', systemReset);
 
-// Manual Payment Verification
-router.get('/payments/pending', getPendingManualPayments);
-router.post('/payments/manual-request', adminRequestManualPayment);
-router.post('/payments/:id/confirm', adminConfirmManualPayment);
+// (Manual Payment Verification moved to top)
 
 export default router;

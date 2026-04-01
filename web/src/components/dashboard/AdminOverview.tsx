@@ -59,14 +59,16 @@ export default function AdminOverview() {
     useEffect(() => {
         const fetchDashboardData = async () => {
             try {
+                const fetchStats = api.get('/admin/stats').catch(e => { console.error('Stats fetch failed', e); return { data: null }; });
+                const fetchAnalytics = api.get('/admin/analytics/shifts').catch(e => { console.error('Analytics fetch failed', e); return { data: {} }; });
+                const fetchLogs = api.get('/admin/logs').catch(e => { console.error('Logs fetch failed', e); return { data: [] }; });
+                const fetchUsers = api.get('/admin/users').catch(e => { console.error('Users fetch failed', e); return { data: [] }; });
+                const fetchOps = api.get('/admin/operations/live').catch(e => { console.error('Live Ops fetch failed', e); return { data: [] }; });
+                const fetchInsights = api.get('/admin/insights').catch(e => { console.error('Insights fetch failed', e); return { data: null }; });
+                const fetchPayments = api.get('/admin/payments/pending').catch(e => { console.error('Pending Payments fetch failed', e); return { data: [] }; });
+
                 const [statsRes, analyticsRes, logsRes, usersRes, liveOpsRes, insightsRes, paymentsRes] = await Promise.all([
-                    api.get('/admin/stats'),
-                    api.get('/admin/analytics/shifts'),
-                    api.get('/admin/logs'),
-                    api.get('/admin/users'),
-                    api.get('/admin/operations/live'),
-                    api.get('/admin/insights'),
-                    api.get('/admin/payments/pending')
+                    fetchStats, fetchAnalytics, fetchLogs, fetchUsers, fetchOps, fetchInsights, fetchPayments
                 ]);
 
                 setStats(statsRes.data);
@@ -591,6 +593,11 @@ export default function AdminOverview() {
                     onSuccess={() => window.location.reload()}
                 />
             )}
+            {/* Status Footer */}
+            <div className="pt-10 flex items-center justify-between opacity-30">
+                <p className="text-[9px] font-black uppercase tracking-[0.3em] text-slate-400">TRUE CARE Tactical Command • Node.Admin</p>
+                <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">System Ver: 1.0.7-Alpha</p>
+            </div>
         </div>
     );
 }
