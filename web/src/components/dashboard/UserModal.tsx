@@ -133,7 +133,7 @@ export default function UserModal({ isOpen, onClose, onSuccess, role }: UserModa
 
                     {/* Form Scroll Area */}
                     <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
-                        <form onSubmit={handleSubmit} className="space-y-10 max-w-2xl mx-auto">
+                        <form id="user-onboarding-form" onSubmit={handleSubmit} className="space-y-10 max-w-2xl mx-auto">
                             
                             {/* Section: Credentials */}
                             <div className="space-y-4">
@@ -282,6 +282,7 @@ export default function UserModal({ isOpen, onClose, onSuccess, role }: UserModa
                             </button>
                             <button
                                 type="submit"
+                                form="user-onboarding-form"
                                 disabled={loading}
                                 className={`px-8 py-3 text-white rounded-xl text-xs font-black uppercase tracking-widest transition-all shadow-lg active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2 ${role === 'PATIENT' ? 'bg-teal-600 hover:bg-teal-700 shadow-teal-600/20' : 'bg-slate-800 hover:bg-slate-900 shadow-slate-900/20'}`}
                             >
