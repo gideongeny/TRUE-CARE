@@ -88,6 +88,40 @@ export default function AdminOverview() {
         fetchDashboardData();
     }, []);
 
+    const handleRequestPayment = async (patient: any) => {
+        const amount = prompt(`Enter amount for ${patient.profile?.firstName} to pay:`, "1000");
+        if (!amount || isNaN(Number(amount))) return;
+
+        const phoneNumber = prompt(`Confirm M-Pesa Number for ${patient.profile?.firstName}:`, patient.profile?.phone || "254");
+        if (!phoneNumber) return;
+
+        try {
+            await api.post('/payments/admin/stk-push', {
+                userId: patient.id,
+                amount: Number(amount),
+                phoneNumber
+            });
+            alert('Administrative STK Push Command Transmitted.');
+        } catch (error) {
+            console.error('Payment request failed', error);
+            alert('CRITICAL: Payment Command Failure');
+        }
+    };
+
+    const togglePremium = async (patient: any) => {
+        const newStatus = !patient.profile?.isPremium;
+        if (!confirm(`Switch ${patient.profile?.firstName} to ${newStatus ? 'PREMIUM' : 'BASIC'} mode?`)) return;
+
+        try {
+            await api.put(`/admin/users/${patient.id}/premium`, { isPremium: newStatus });
+            alert(`User access vector reconfigured: ${newStatus ? 'PREMIUM' : 'BASIC'}`);
+            window.location.reload();
+        } catch (error) {
+            console.error('Failed to toggle premium', error);
+            alert('CRITICAL: Access Switch Failure');
+        }
+    };
+
     const handleAssign = async (caregiverId: string) => {
         try {
             await api.post('/shifts', {
@@ -228,6 +262,18 @@ export default function AdminOverview() {
                                             </td>
                                             <td className="px-8 py-6 text-right">
                                                 <div className="flex items-center justify-end gap-3">
+                                                    <button
+                                                        onClick={() => togglePremium(patient)}
+                                                        className={`px-4 py-2 ${patient.profile?.isPremium ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-700'} text-[10px] font-bold uppercase rounded-lg hover:shadow-md transition-all shadow-sm`}
+                                                    >
+                                                        {patient.profile?.isPremium ? 'Premium Active' : 'Set Premium'}
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleRequestPayment(patient)}
+                                                        className="px-4 py-2 bg-emerald-100 text-emerald-700 text-[10px] font-bold uppercase rounded-lg hover:bg-emerald-200 transition-all shadow-sm"
+                                                    >
+                                                        Request Payment
+                                                    </button>
                                                     <button
                                                         onClick={() => { setSelectedPatient(patient); setIsAssigning(true); }}
                                                         className="px-4 py-2 bg-slate-800 text-white text-[10px] font-bold uppercase rounded-lg hover:bg-teal-600 transition-all shadow-sm"

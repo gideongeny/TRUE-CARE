@@ -19,9 +19,13 @@ import {
     Shield,
     Wallet,
     Stethoscope,
-    Activity
+    Activity,
+    Share2,
+    Star,
+    MessageCircle
 } from 'lucide-react';
 import { logout } from '@/lib/api';
+import ReviewSystem from '@/components/ui/ReviewSystem';
 
 type MenuItem = {
     icon: any;
@@ -68,6 +72,25 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
     }, []);
 
     const filteredMenu = menuItems.filter(item => item.roles.includes(userRole));
+    const [isReviewOpen, setIsReviewOpen] = useState(false);
+
+    const handleShare = async () => {
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: 'TrueCare - Compassionate Home Care',
+                    text: 'Experience the future of medical care at home. Join our care network.',
+                    url: window.location.origin
+                });
+            } catch (err) { console.warn('Sharing failed', err); }
+        } else {
+            alert('Share command aborted. Direct URL: ' + window.location.origin);
+        }
+    };
+
+    const contactWhatsApp = () => {
+        window.open(`https://wa.me/254119585623?text=Hello TrueCare, I am ${userRole} ${userId.slice(0, 4)}. I need medical operations assistance.`, '_blank');
+    };
 
     // Add "My Bio" if caregiver
     if (userRole === 'CAREGIVER' && userId) {
@@ -123,6 +146,33 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
                         </motion.div>
                     );
                 })}
+
+                <div className="mt-10 mb-6 px-4">
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1 mb-4 opacity-70">Community Sync</p>
+                    <div className="grid grid-cols-3 gap-2">
+                        <button 
+                            onClick={handleShare}
+                            className="p-4 bg-white border border-slate-100 rounded-2xl flex items-center justify-center text-slate-500 hover:text-teal-600 hover:bg-teal-50 transition-all shadow-sm group"
+                            title="Share Network"
+                        >
+                            <Share2 className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                        </button>
+                        <button 
+                            onClick={() => setIsReviewOpen(true)}
+                            className="p-4 bg-white border border-slate-100 rounded-2xl flex items-center justify-center text-slate-500 hover:text-amber-500 hover:bg-amber-50 transition-all shadow-sm group"
+                            title="Review Ops"
+                        >
+                            <Star className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                        </button>
+                        <button 
+                            onClick={contactWhatsApp}
+                            className="p-4 bg-white border border-slate-100 rounded-2xl flex items-center justify-center text-slate-500 hover:text-emerald-500 hover:bg-emerald-50 transition-all shadow-sm group"
+                            title="WhatsApp Command"
+                        >
+                            <MessageCircle className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                        </button>
+                    </div>
+                </div>
             </nav>
 
             {/* Premium Clinical Card */}
@@ -162,6 +212,11 @@ export default function Sidebar({ isOpen = false, onClose }: SidebarProps) {
                     Sign Out
                 </button>
             </div>
+
+            <ReviewSystem 
+                isOpen={isReviewOpen}
+                onClose={() => setIsReviewOpen(false)}
+            />
         </aside>
     );
 }

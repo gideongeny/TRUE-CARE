@@ -22,7 +22,8 @@ import {
     reassignShift,
     updateShiftDetails,
     getLiveOperations,
-    getAdminInsights
+    getAdminInsights,
+    adminSetPremium
 } from '../controllers/adminController';
 import { adminSetPrice, updateRequestStatus, adminCreateRequest } from '../controllers/requestController';
 import { adminPayCaregiver } from '../controllers/paymentController';
@@ -67,6 +68,7 @@ router.patch('/shifts/:id/details', updateShiftDetails);
 router.get('/operations/live', getLiveOperations);
 router.post('/users', adminCreateUser);
 router.patch('/users/:id', adminUpdateUser);
+router.put('/users/:id/premium', adminSetPremium);
 router.delete('/users/:id', adminDeleteUser);
 
 export default router;

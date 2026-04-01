@@ -13,4 +13,10 @@ router.get('/shift/:shiftId', authenticate, getClinicalLogs);
 // Get all logs for a patient (history)
 router.get('/patient/:patientId', authenticate, getPatientHealthHistory);
 
+// Patient getting their own history
+router.get('/my-history', authenticate, (req: any, res: any) => {
+    req.params.patientId = req.user.userId;
+    return getPatientHealthHistory(req, res);
+});
+
 export default router;

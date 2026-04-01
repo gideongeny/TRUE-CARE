@@ -140,3 +140,19 @@ export const adminDeleteUser = async (req: AuthRequest, res: Response) => res.js
 export const getPlatformAnalytics = async (req: AuthRequest, res: Response) => res.json({});
 export const impersonateUser = async (req: AuthRequest, res: Response) => res.json({});
 export const updateShiftDetails = async (req: AuthRequest, res: Response) => res.json({});
+
+export const adminSetPremium = async (req: AuthRequest, res: Response) => {
+    try {
+        const { id } = req.params;
+        const { isPremium } = req.body;
+
+        await prisma.profile.update({
+            where: { userId: id },
+            data: { isPremium }
+        });
+
+        res.json({ message: `Access level updated to ${isPremium ? 'PREMIUM' : 'BASIC'}` });
+    } catch (error) {
+        res.status(500).json({ message: "Premium update failed" });
+    }
+};

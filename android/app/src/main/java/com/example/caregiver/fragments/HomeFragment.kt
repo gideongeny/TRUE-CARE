@@ -51,6 +51,18 @@ class HomeFragment : Fragment() {
 
         loadDashboardData()
         fetchRequests()
+
+        val session = com.example.caregiver.utils.SessionManager(requireContext())
+        val cvPremiumPromo = view.findViewById<View>(R.id.cvPremiumPromo)
+        val btnPayments = view.findViewById<View>(R.id.btnPayments)
+
+        if (!session.isPremium()) {
+            cvPremiumPromo.visibility = View.VISIBLE
+            btnPayments.visibility = View.GONE
+        } else {
+            cvPremiumPromo.visibility = View.GONE
+            btnPayments.visibility = View.VISIBLE
+        }
         
         return view
     }

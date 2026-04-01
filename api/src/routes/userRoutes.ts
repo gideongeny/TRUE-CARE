@@ -15,4 +15,9 @@ router.put('/:id/verify', authenticate, authorize(['ADMIN']), verifyUser);
 router.get('/meta/notifications', authenticate, getNotifications);
 router.patch('/meta/notifications/:id/read', authenticate, markNotificationRead);
 
+// Reviews (v3.0)
+import { addReview, getReviews } from '../controllers/userController';
+router.post('/reviews', authenticate, addReview);
+router.get('/reviews/public', getReviews);
+
 export default router;

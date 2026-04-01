@@ -15,20 +15,25 @@ import { motion } from 'framer-motion';
 
 export default function PatientDashboard() {
     const [requests, setRequests] = useState<any[]>([]);
+    const [clinicalHistory, setClinicalHistory] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchRequests = async () => {
+        const fetchData = async () => {
             try {
-                const res = await api.get('/requests');
-                setRequests(res.data);
+                const [reqRes, clinRes] = await Promise.all([
+                    api.get('/requests'),
+                    api.get('/clinical/my-history')
+                ]);
+                setRequests(reqRes.data);
+                setClinicalHistory(clinRes.data);
             } catch (error) {
-                console.error('Failed to fetch requests', error);
+                console.error('Failed to fetch patient data', error);
             } finally {
                 setLoading(false);
             }
         };
-        fetchRequests();
+        fetchData();
     }, []);
 
     if (loading) return <div className="h-40 bg-slate-100 animate-pulse rounded-2xl" />;
@@ -84,6 +89,57 @@ export default function PatientDashboard() {
                             <p className="text-xs font-bold uppercase tracking-widest text-slate-400">No active requests</p>
                         </div>
                     )}
+
+                    <h3 className="text-sm font-bold text-slate-900 uppercase tracking-widest mb-4 pt-8">Clinical History</h3>
+                    <div className="space-y-6">
+                        {clinicalHistory.length > 0 ? clinicalHistory.map((log, i) => (
+                            <div key={log.id} className="relative pl-8 border-l-2 border-slate-100 pb-8 last:pb-0">
+                                <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-white border-2 border-teal-500 shadow-sm" />
+                                <div className="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow">
+                                    <div className="flex items-center justify-between mb-3 text-slate-400">
+                                        <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider">
+                                            <Clock className="w-3.5 h-3.5" />
+                                            {new Date(log.loggedAt).toLocaleString()}
+                                        </div>
+                                        <div className="px-2 py-0.5 bg-teal-50 text-teal-600 rounded text-[9px] font-black uppercase">
+                                            {log.shift?.caregiver?.profile?.firstName} (Caregiver)
+                                        </div>
+                                    </div>
+                                    <p className="text-sm text-slate-900 font-bold mb-3">{log.content}</p>
+                                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                        {log.pulse && (
+                                            <div className="p-2 bg-slate-50 rounded-xl border border-slate-100">
+                                                <p className="text-[10px] font-bold text-slate-400 uppercase">Pulse</p>
+                                                <p className="text-xs font-black text-rose-500 underline decoration-rose-200">{log.pulse} bpm</p>
+                                            </div>
+                                        )}
+                                        {log.temperature && (
+                                            <div className="p-2 bg-slate-50 rounded-xl border border-slate-100">
+                                                <p className="text-[10px] font-bold text-slate-400 uppercase">Temp</p>
+                                                <p className="text-xs font-black text-amber-500">{log.temperature}°C</p>
+                                            </div>
+                                        )}
+                                        {log.bloodPressure && (
+                                            <div className="p-2 bg-slate-50 rounded-xl border border-slate-100">
+                                                <p className="text-[10px] font-bold text-slate-400 uppercase">BP</p>
+                                                <p className="text-xs font-black text-slate-700">{log.bloodPressure}</p>
+                                            </div>
+                                        )}
+                                        {log.servicesRendered && (
+                                            <div className="p-2 bg-teal-50/50 rounded-xl border border-teal-100 col-span-1">
+                                                <p className="text-[10px] font-bold text-teal-600 uppercase">Services</p>
+                                                <p className="text-[10px] font-bold text-slate-600 truncate">{log.servicesRendered}</p>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        )) : (
+                            <div className="py-10 text-center text-slate-300 italic text-xs border border-dashed border-slate-200 rounded-3xl">
+                                Clinical logs will be available once your care shifts begin.
+                            </div>
+                        )}
+                    </div>
                 </div>
 
                 {/* Secure Care Note */}

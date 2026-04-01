@@ -57,7 +57,8 @@ data class Profile(
     val desiredSalary: Double? = null,
     val availabilityDetails: String? = null,
     val certifications: String? = null,
-    val bio: String? = null
+    val bio: String? = null,
+    val isPremium: Boolean = false
 )
 
 data class Shift(

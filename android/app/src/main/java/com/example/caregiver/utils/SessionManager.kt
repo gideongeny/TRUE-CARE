@@ -11,8 +11,15 @@ class SessionManager(context: Context) {
         private const val KEY_ROLE = "user_role"
         private const val KEY_BIOMETRIC_ENABLED = "biometric_enabled"
         private const val KEY_EMAIL = "user_email"
-        private const val KEY_PASSWORD = "user_password" // Only for demo/biometric convenience, encrypted in real apps
+        private const val KEY_PASSWORD = "user_password"
+        private const val KEY_PREMIUM = "is_premium"
     }
+
+    fun savePremiumStatus(isPremium: Boolean) {
+        prefs.edit().putBoolean(KEY_PREMIUM, isPremium).apply()
+    }
+
+    fun isPremium(): Boolean = prefs.getBoolean(KEY_PREMIUM, false)
 
     fun saveToken(token: String) {
         prefs.edit().putString(KEY_TOKEN, token).apply()

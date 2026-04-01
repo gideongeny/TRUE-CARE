@@ -17,8 +17,16 @@ class PatientDashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_patient)
 
+        val session = com.example.caregiver.utils.SessionManager(this)
         val navView = findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.bottomNavigation)
         
+        if (!session.isPremium()) {
+            // Hide Schedule and Payments for Basic users
+            navView.menu.findItem(R.id.nav_schedule).isVisible = false
+            navView.menu.findItem(R.id.nav_payments).isVisible = false
+            Toast.makeText(this, "Basic Mode Active - Subscribe to Unlock All Ops", Toast.LENGTH_LONG).show()
+        }
+
         // Default fragment
         if (savedInstanceState == null) {
             loadFragment(HomeFragment())

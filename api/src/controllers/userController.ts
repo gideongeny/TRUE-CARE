@@ -185,3 +185,39 @@ export const markNotificationRead = async (req: AuthRequest, res: Response) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+export const addReview = async (req: AuthRequest, res: Response) => {
+    try {
+        const userId = req.user?.userId;
+        const { rating, comment } = req.body;
+
+        if (!userId) return res.status(401).json({ message: "Unauthorized" });
+
+        const review = await prisma.review.create({
+            data: {
+                userId,
+                rating: Number(rating),
+                comment
+            }
+        });
+
+        res.json(review);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Failed to submit review' });
+    }
+};
+
+export const getReviews = async (req: Request, res: Response) => {
+    try {
+        const reviews = await prisma.review.findMany({
+            include: { user: { include: { profile: true } } },
+            orderBy: { createdAt: 'desc' },
+            take: 10
+        });
+        res.json(reviews);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Failed to fetch reviews' });
+    }
+};

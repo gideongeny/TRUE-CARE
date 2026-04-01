@@ -43,6 +43,45 @@ export const initiateStkPush = async (req: Request, res: Response) => {
     }
 };
 
+export const adminInitiateStkPushForUser = async (req: Request, res: Response) => {
+    const { userId, amount, phoneNumber, requestId } = req.body;
+
+    try {
+        const payment = await prisma.payment.create({
+            data: {
+                userId,
+                requestId,
+                amount,
+                phoneNumber,
+                status: 'PENDING',
+                type: 'STK_PUSH' // Still an STK push, but initiated by admin
+            }
+        });
+
+        const darajaResponse = await DarajaService.initiateStkPush(
+            phoneNumber,
+            amount,
+            `ADM-${payment.id.slice(0, 8)}`
+        );
+
+        await prisma.payment.update({
+            where: { id: payment.id },
+            data: {
+                transactionId: (darajaResponse as any).CheckoutRequestID
+            }
+        });
+
+        res.status(200).json({
+            message: 'Administrative STK Push initiated',
+            checkoutRequestId: (darajaResponse as any).CheckoutRequestID,
+            paymentId: payment.id
+        });
+    } catch (error: any) {
+        console.error('Admin STK Push failed', error);
+        res.status(500).json({ error: error.message || 'Failed to initiate admin payment' });
+    }
+};
+
 export const adminPayCaregiver = async (req: Request, res: Response) => {
     const { shiftId, amount, caregiverId } = req.body;
     // User requested Admin phones: 0119585623, 0708332911

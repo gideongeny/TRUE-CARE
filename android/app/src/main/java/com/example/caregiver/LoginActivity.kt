@@ -114,6 +114,7 @@ class LoginActivity : AppCompatActivity() {
                             ApiClient.setToken(token)
                             sessionManager.saveToken(token)
                             sessionManager.saveRole(user.role)
+                            sessionManager.savePremiumStatus(user.profile?.isPremium ?: false)
                             sessionManager.saveUserCredentials(email, password)
 
                             val intent = if (user.role == "CAREGIVER") {

@@ -25,6 +25,7 @@ model User {
   caregiverShifts    Shift[]             @relation("CaregiverShifts")
   withdrawalRequests WithdrawalRequest[]
   verificationDocs   VerificationDoc[]
+  reviews            Review[]
 
   @@index([role, isDeleted])
 }
@@ -78,6 +79,7 @@ model Profile {
   targetDepartments String? // Comma-separated or JSON
   serviceLocation  String? // My Own Home, Caregiver's Home, etc.
   servicePreference String? // In Home of Client, etc.
+  isPremium        Boolean  @default(false)
   paymentStatus    String   @default("PENDING")
   balance          Decimal  @default(0)
   totalBilled      Decimal  @default(0)
@@ -199,6 +201,15 @@ model Notification {
   message   String
   isRead    Boolean  @default(false)
   type      String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  userId    String
+  rating    Int
+  comment   String?
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id])
 }
