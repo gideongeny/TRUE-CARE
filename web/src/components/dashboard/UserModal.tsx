@@ -20,6 +20,7 @@ export default function UserModal({ isOpen, onClose, onSuccess, role }: UserModa
         firstName: '',
         lastName: '',
         phone: '',
+        nextOfKinPhone: '',
         ailment: '',
         experienceYears: '',
         address: '',
@@ -79,7 +80,7 @@ export default function UserModal({ isOpen, onClose, onSuccess, role }: UserModa
             onClose();
             setFormData({
                 email: '', password: '', firstName: '', lastName: '',
-                phone: '', ailment: '', experienceYears: '', address: '',
+                phone: '', nextOfKinPhone: '', ailment: '', experienceYears: '', address: '',
                 initialAmount: '1500'
             });
         } catch (error: any) {
@@ -236,6 +237,17 @@ export default function UserModal({ isOpen, onClose, onSuccess, role }: UserModa
                                                     className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-12 pr-6 py-4 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-teal-500/40 focus:ring-4 focus:ring-teal-500/10 transition-all font-bold shadow-sm"
                                                     placeholder="Post-operative observation, Mobility Support..."
                                                     value={formData.ailment} onChange={(e) => setFormData({ ...formData, ailment: e.target.value })}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-[9px] font-black text-slate-500 uppercase ml-2 tracking-widest">Next of Kin Contact</label>
+                                            <div className="relative group">
+                                                <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-teal-600 transition-colors" />
+                                                <input
+                                                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-12 pr-6 py-4 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-teal-500/40 focus:ring-4 focus:ring-teal-500/10 transition-all font-bold shadow-sm"
+                                                    placeholder="+254 7..."
+                                                    value={formData.nextOfKinPhone} onChange={(e) => setFormData({ ...formData, nextOfKinPhone: e.target.value })}
                                                 />
                                             </div>
                                         </div>

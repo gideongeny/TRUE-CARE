@@ -139,6 +139,16 @@ export default function AdminOverview() {
         }
     };
 
+    const handleEndShift = async (shiftId: string) => {
+        if (!confirm('⚠️ FORCE TERMINATE this shift? This will clock out the caregiver immediately and allow for new assignments.')) return;
+        try {
+            await api.post(`/admin/shifts/${shiftId}/end`);
+            window.location.reload();
+        } catch (error) {
+            alert('Failed to terminate shift administratively');
+        }
+    };
+
     const handleShareOnboarding = async (patient: any) => {
         const amount = Number(patient.profile?.balance || 0).toLocaleString();
         const message = `💰 *TRUE-CARE PAYMENT REQUIRED*\n\nTo proceed for ${patient.profile?.firstName}, please pay the Commitment Fee:\n\n🏦 Paybill: 05508876433050\n💼 Account No: 542 542\n💳 Amount: KSh ${amount}`;
@@ -352,74 +362,90 @@ export default function AdminOverview() {
                         <div className="overflow-x-auto">
                             <table className="w-full text-left border-collapse">
                                 <tbody className="divide-y divide-slate-50">
-                                    {patients.map((patient) => (
-                                        <tr key={patient.id} className="group hover:bg-slate-50/50 transition-colors">
-                                            <td className="px-8 py-6">
-                                                <Link href={`/dashboard/patients/${patient.id}`} className="flex items-center gap-4 group/item">
-                                                    <div className="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center font-bold transition-transform group-hover/item:scale-110">
-                                                        {patient.profile?.firstName?.[0] ?? '?'}{patient.profile?.lastName?.[0] ?? ''}
-                                                    </div>
-                                                    <div>
-                                                        <p className="text-sm font-bold text-slate-900 group-hover/item:text-teal-600 transition-colors">{patient.profile?.firstName} {patient.profile?.lastName}</p>
-                                                        <p className="text-[10px] font-bold text-slate-400 uppercase">ID: {patient.id.slice(0, 8)}</p>
-                                                    </div>
-                                                </Link>
-                                            </td>
-                                            <td className="px-8 py-6">
-                                                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Condition</p>
-                                                <span className="text-xs font-bold text-slate-900">{patient.profile?.ailment || 'Observation'}</span>
-                                            </td>
-                                            <td className="px-8 py-6">
-                                                <p className="text-[10px] font-black text-rose-500 uppercase tracking-widest mb-1">Balance Due</p>
-                                                <span className="text-sm font-black text-slate-900">KSh {Number(patient.profile?.balance || 0).toLocaleString()}</span>
-                                            </td>
-                                            <td className="px-8 py-6 text-right">
-                                                <div className="flex items-center justify-end gap-3">
-                                                    <button
-                                                        onClick={() => togglePremium(patient)}
-                                                        className={`px-4 py-2 ${patient.profile?.isPremium ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-700'} text-[10px] font-bold uppercase rounded-lg hover:shadow-md transition-all shadow-sm`}
-                                                    >
-                                                        {patient.profile?.isPremium ? 'Premium Active' : 'Set Premium'}
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleRequestPayment(patient)}
-                                                        className="px-4 py-2 bg-emerald-100 text-emerald-700 text-[10px] font-bold uppercase rounded-lg hover:bg-emerald-200 transition-all shadow-sm"
-                                                    >
-                                                        Request Payment
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleShareOnboarding(patient)}
-                                                        className="px-4 py-2 bg-blue-100 text-blue-700 text-[10px] font-bold uppercase rounded-lg hover:bg-blue-200 transition-all shadow-sm"
-                                                        title="Share Access Details"
-                                                    >
-                                                        Share
-                                                    </button>
-                                                    <button
-                                                        onClick={() => { setSelectedPatient(patient); setIsAssigning(true); }}
-                                                        className="px-4 py-2 bg-slate-800 text-white text-[10px] font-bold uppercase rounded-lg hover:bg-teal-600 transition-all shadow-sm"
-                                                    >
-                                                        Smart Assign
-                                                    </button>
-                                                    <button
-                                                        onClick={async () => {
-                                                            if (confirm('⚠️ PERMANENTLY PURGE this account? This action is irreversible and will erase all associated shifts and payments.')) {
-                                                                try {
-                                                                    await api.delete(`/admin/users/${patient.id}`);
-                                                                    setPatients(prev => prev.filter(p => p.id !== patient.id));
-                                                                } catch (err) {
-                                                                    alert('Failed to purge user. Please ensure all active shifts are concluded first.');
+                                    {patients.map((patient) => {
+                                        const activeShift = liveOps.find(op => op.patientId === patient.id);
+                                        return (
+                                            <tr key={patient.id} className="group hover:bg-slate-50/50 transition-colors">
+                                                <td className="px-8 py-6">
+                                                    <Link href={`/dashboard/patients/${patient.id}`} className="flex items-center gap-4 group/item">
+                                                        <div className="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center font-bold transition-transform group-hover/item:scale-110">
+                                                            {patient.profile?.firstName?.[0] ?? '?'}{patient.profile?.lastName?.[0] ?? ''}
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-sm font-bold text-slate-900 group-hover/item:text-teal-600 transition-colors">{patient.profile?.firstName} {patient.profile?.lastName}</p>
+                                                            <p className="text-[10px] font-bold text-slate-400 uppercase">ID: {patient.id.slice(0, 8)}</p>
+                                                        </div>
+                                                    </Link>
+                                                </td>
+                                                <td className="px-8 py-6">
+                                                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Condition</p>
+                                                    <span className="text-xs font-bold text-slate-900">{patient.profile?.ailment || 'Observation'}</span>
+                                                </td>
+                                                <td className="px-8 py-6">
+                                                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Next of Kin</p>
+                                                    <span className="text-xs font-bold text-slate-900">{patient.profile?.nextOfKinPhone || 'Not Set'}</span>
+                                                </td>
+                                                <td className="px-8 py-6">
+                                                    <p className="text-[10px] font-black text-rose-500 uppercase tracking-widest mb-1">Balance Due</p>
+                                                    <span className="text-sm font-black text-slate-900">KSh {Number(patient.profile?.balance || 0).toLocaleString()}</span>
+                                                </td>
+                                                <td className="px-8 py-6 text-right">
+                                                    <div className="flex items-center justify-end gap-3">
+                                                        <button
+                                                            onClick={() => togglePremium(patient)}
+                                                            className={`px-4 py-2 ${patient.profile?.isPremium ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-700'} text-[10px] font-bold uppercase rounded-lg hover:shadow-md transition-all shadow-sm`}
+                                                        >
+                                                            {patient.profile?.isPremium ? 'Premium' : 'Set Premium'}
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleRequestPayment(patient)}
+                                                            className="px-4 py-2 bg-emerald-100 text-emerald-700 text-[10px] font-bold uppercase rounded-lg hover:bg-emerald-200 transition-all shadow-sm"
+                                                        >
+                                                            Request
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleShareOnboarding(patient)}
+                                                            className="px-4 py-2 bg-blue-100 text-blue-700 text-[10px] font-bold uppercase rounded-lg hover:bg-blue-200 transition-all shadow-sm"
+                                                            title="Share Access Details"
+                                                        >
+                                                            Share
+                                                        </button>
+                                                        <button
+                                                            onClick={() => { setSelectedPatient(patient); setIsAssigning(true); }}
+                                                            className="px-4 py-2 bg-slate-800 text-white text-[10px] font-bold uppercase rounded-lg hover:bg-teal-600 transition-all shadow-sm"
+                                                        >
+                                                            Assign
+                                                        </button>
+                                                        {activeShift && (
+                                                            <button
+                                                                onClick={() => handleEndShift(activeShift.id)}
+                                                                className="p-2 text-amber-500 hover:text-rose-600 transition-colors"
+                                                                title="Force Clock Out (End Shift)"
+                                                            >
+                                                                <Clock className="w-5 h-5 transition-transform hover:scale-110" />
+                                                            </button>
+                                                        )}
+                                                        <button
+                                                            onClick={async () => {
+                                                                if (confirm('⚠️ PERMANENTLY PURGE this account? This action is irreversible and will erase all associated shifts and payments.')) {
+                                                                    try {
+                                                                        await api.delete(`/admin/users/${patient.id}`);
+                                                                        setPatients(prev => prev.filter(p => p.id !== patient.id));
+                                                                    } catch (err) {
+                                                                        alert('Failed to purge user. Please ensure all active shifts are concluded first.');
+                                                                    }
                                                                 }
-                                                            }
-                                                        }}
-                                                        className="p-2 text-slate-300 hover:text-rose-600 transition-colors"
-                                                        title="Force Purge Account (Irreversible)"
-                                                    >
-                                                        <Trash2 className="w-4 h-4" />
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                                            }}
+                                                            className="p-2 text-slate-300 hover:text-rose-600 transition-colors"
+                                                            title="Force Purge Account (Irreversible)"
+                                                        >
+                                                            <Trash2 className="w-4 h-4" />
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
                                 </tbody>
                             </table>
                         </div>
@@ -443,7 +469,7 @@ export default function AdminOverview() {
                                         </div>
                                         <div>
                                             <p className="text-xs font-bold tracking-tight text-slate-900 group-hover/item:text-teal-600 transition-colors">{cg.profile?.firstName} {cg.profile?.lastName}</p>
-                                            <p className="text-[9px] font-bold text-slate-500 uppercase">Registered Personnel</p>
+                                            <p className="text-[9px] font-bold text-slate-500 uppercase">{cg.profile?.phone || 'Registered Personnel'}</p>
                                         </div>
                                     </Link>
                                     <div className="flex items-center gap-4">

@@ -25,6 +25,7 @@ import {
     getAdminInsights,
     adminSetPremium,
     adminCancelShift,
+    adminEndShift,
     adminAddClinicalLog,
     systemReset,
     ping
@@ -85,6 +86,7 @@ router.delete('/users/:id', adminDeleteUser);
 // Tactical Command Center Extensions
 router.get('/health/ping', ping);
 router.post('/shifts/:id/cancel', adminCancelShift);
+router.post('/shifts/:id/end', adminEndShift);
 router.post('/clinical/log', adminAddClinicalLog);
 router.post('/system/reset', systemReset);
 

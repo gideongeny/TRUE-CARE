@@ -164,6 +164,7 @@ export const adminCreateUser = async (req: AuthRequest, res: Response) => {
                         phone,
                         ailment,
                         address,
+                        nextOfKinPhone: req.body.nextOfKinPhone,
                         experienceYears: experienceYears ? Number(experienceYears) : undefined,
                         isVerified: role === 'CAREGIVER'
                     }
@@ -192,7 +193,15 @@ export const adminUpdateUser = async (req: AuthRequest, res: Response) => {
 
         await prisma.profile.update({
             where: { userId: id },
-            data: { firstName, lastName, phone, ailment, address, isPremium: Boolean(isPremium) } as any
+            data: { 
+                firstName, 
+                lastName, 
+                phone, 
+                ailment, 
+                address, 
+                nextOfKinPhone: req.body.nextOfKinPhone,
+                isPremium: Boolean(isPremium) 
+            } as any
         });
 
         res.json({ message: "User vector updated" });
@@ -251,6 +260,33 @@ export const impersonateUser = async (req: AuthRequest, res: Response) => {
 
         res.json({ token, user });
     } catch (error) { res.status(500).json({ message: "Impersonation failed" }); }
+};
+
+export const adminEndShift = async (req: AuthRequest, res: Response) => {
+    try {
+        const { id } = req.params;
+        const now = new Date();
+        
+        const shift = await prisma.shift.findUnique({ where: { id } });
+        if (!shift) return res.status(404).json({ message: "Shift not found" });
+
+        const clockIn = shift.clockInTime || shift.startTime;
+        const duration = clockIn ? (now.getTime() - clockIn.getTime()) / (1000 * 60 * 60) : 0;
+
+        const updatedShift = await prisma.shift.update({
+            where: { id },
+            data: {
+                status: 'COMPLETED',
+                clockOutTime: now,
+                actualDuration: Number(duration.toFixed(2))
+            }
+        });
+
+        res.json({ message: "Shift terminated administratively", shift: updatedShift });
+    } catch (error) {
+        console.error('adminEndShift failed:', error);
+        res.status(500).json({ message: "Administrative shift termination failed" });
+    }
 };
 
 export const adminCancelShift = async (req: AuthRequest, res: Response) => {

@@ -86,7 +86,7 @@ model Profile {
   totalPaid        Decimal  @default(0)
   lastLatitude     Float?
   lastLongitude    Float?
-  locationUpdatedAt DateTime?
+  nextOfKinPhone   String?
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
   user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
