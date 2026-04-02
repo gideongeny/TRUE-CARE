@@ -402,13 +402,13 @@ export default function AdminOverview() {
                                                     </button>
                                                     <button
                                                         onClick={async () => {
-                                                            if (confirm('Soft-delete this patient record?')) {
+                                                            if (confirm('⚠️ PERMANENTLY PURGE this account? This action is irreversible and will erase all associated shifts and payments.')) {
                                                                 await api.delete(`/admin/users/${patient.id}`);
                                                                 setPatients(prev => prev.filter(p => p.id !== patient.id));
                                                             }
                                                         }}
                                                         className="p-2 text-slate-300 hover:text-rose-600 transition-colors"
-                                                        title="Soft-Delete Profile"
+                                                        title="Force Purge Account (Irreversible)"
                                                     >
                                                         <Trash2 className="w-4 h-4" />
                                                     </button>
