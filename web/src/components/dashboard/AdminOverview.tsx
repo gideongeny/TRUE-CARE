@@ -403,8 +403,12 @@ export default function AdminOverview() {
                                                     <button
                                                         onClick={async () => {
                                                             if (confirm('⚠️ PERMANENTLY PURGE this account? This action is irreversible and will erase all associated shifts and payments.')) {
-                                                                await api.delete(`/admin/users/${patient.id}`);
-                                                                setPatients(prev => prev.filter(p => p.id !== patient.id));
+                                                                try {
+                                                                    await api.delete(`/admin/users/${patient.id}`);
+                                                                    setPatients(prev => prev.filter(p => p.id !== patient.id));
+                                                                } catch (err) {
+                                                                    alert('Failed to purge user. Please ensure all active shifts are concluded first.');
+                                                                }
                                                             }
                                                         }}
                                                         className="p-2 text-slate-300 hover:text-rose-600 transition-colors"

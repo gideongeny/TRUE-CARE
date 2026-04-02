@@ -202,10 +202,39 @@ export const adminUpdateUser = async (req: AuthRequest, res: Response) => {
 export const adminDeleteUser = async (req: AuthRequest, res: Response) => {
     try {
         const { id } = req.params;
-        // Cascading delete is handled by Prisma usually, but let's be safe
-        await prisma.user.delete({ where: { id } });
-        res.json({ message: "User purged from system" });
-    } catch (error) { res.status(500).json({ message: "Purge failed" }); }
+
+        // Perform a comprehensive purge in a transaction to handle all relationships manually
+        await prisma.$transaction([
+            // 1. Delete notifications
+            prisma.notification.deleteMany({ where: { userId: id } }),
+            // 2. Delete reviews
+            prisma.review.deleteMany({ where: { userId: id } }),
+            // 3. Delete documentation
+            prisma.verificationDoc.deleteMany({ where: { userId: id } }),
+            // 4. Delete withdrawal requests
+            prisma.withdrawalRequest.deleteMany({ where: { caregiverId: id } }),
+            // 5. Delete shifts (and their clinical logs/reports)
+            // Note: Clinical logs and reports are linked to shiftId. Let's find shiftIds first
+            // or just use deleteMany on related tables if that logic is in place.
+            // Since we want a single purge, we'll brute-force clear them based on patient or caregiver ID.
+            prisma.clinicalLog.deleteMany({ where: { shift: { OR: [{ patientId: id }, { caregiverId: id }] } } }),
+            prisma.report.deleteMany({ where: { shift: { OR: [{ patientId: id }, { caregiverId: id }] } } }),
+            prisma.shift.deleteMany({ where: { OR: [{ patientId: id }, { caregiverId: id }] } }),
+            // 6. Delete payments
+            prisma.payment.deleteMany({ where: { userId: id } }),
+            // 7. Delete service requests
+            prisma.serviceRequest.deleteMany({ where: { patientId: id } }),
+            // 8. Delete profile
+            prisma.profile.deleteMany({ where: { userId: id } }),
+            // 9. Finally, delete the User record
+            prisma.user.delete({ where: { id } })
+        ]);
+
+        res.json({ message: "User permanently purged from system" });
+    } catch (error) {
+        console.error('Purge failed:', error);
+        res.status(500).json({ message: "Failed to purge user history" });
+    }
 };
 
 export const impersonateUser = async (req: AuthRequest, res: Response) => {
