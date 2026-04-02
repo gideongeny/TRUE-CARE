@@ -27,7 +27,7 @@ export default function UserModal({ isOpen, onClose, onSuccess, role }: UserModa
     });
 
     const handleShare = async (u: any, amount: string) => {
-        const message = `💰 *TRUE-CARE PAYMENT REQUIRED*\n\nTo activate the account for ${u.profile?.firstName}, please pay the Commitment Fee:\n\n🏦 Paybill: 05508876433050\n💼 Account No: 542 542\n💳 Amount: KSh ${amount}\n\n*Login Details:*\n📧 Email: ${u.email}\n🔑 Password: [Temporary Password]\n\n🔗 https://true-care-blond.vercel.app/login`;
+        const message = `💰 *TRUE-CARE PAYMENT REQUIRED*\n\nTo proceed for ${u.profile?.firstName}, please pay the Commitment Fee:\n\n🏦 Paybill: 05508876433050\n💼 Account No: 542 542\n💳 Amount: KSh ${amount}`;
         
         if (navigator.share) {
             try {

@@ -141,7 +141,7 @@ export default function AdminOverview() {
 
     const handleShareOnboarding = async (patient: any) => {
         const amount = Number(patient.profile?.balance || 0).toLocaleString();
-        const message = `💰 *TRUE-CARE PAYMENT REQUIRED*\n\nTo activate the account for ${patient.profile?.firstName}, please pay the Commitment Fee:\n\n🏦 Paybill: 05508876433050\n💼 Account No: 542 542\n💳 Amount: KSh ${amount}\n\n*Login Details:*\n📧 Email: ${patient.email}\n🔑 Password: [Temporary Password]\n\n🔗 https://true-care-blond.vercel.app/login`;
+        const message = `💰 *TRUE-CARE PAYMENT REQUIRED*\n\nTo proceed for ${patient.profile?.firstName}, please pay the Commitment Fee:\n\n🏦 Paybill: 05508876433050\n💼 Account No: 542 542\n💳 Amount: KSh ${amount}`;
         
         try {
             if (navigator.share) {
