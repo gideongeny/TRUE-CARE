@@ -22,7 +22,7 @@ export default function NotificationDropdown() {
 
     useEffect(() => {
         fetchNotifications();
-        const interval = setInterval(fetchNotifications, 30000); // 30s refresh
+        const interval = setInterval(fetchNotifications, 60000); // 60s refresh
         return () => clearInterval(interval);
     }, []);
 

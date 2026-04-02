@@ -84,7 +84,11 @@ export default function UserModal({ isOpen, onClose, onSuccess, role }: UserModa
             });
         } catch (error: any) {
             console.error('Failed to create user', error);
-            alert(error.response?.data?.message || 'Failed to create user');
+            if (error.response?.status === 429) {
+                alert('Server is temporarily busy (Rate Limit). Please wait 60 seconds and try again.');
+            } else {
+                alert(error.response?.data?.message || 'Failed to create user');
+            }
         } finally {
             setLoading(false);
         }

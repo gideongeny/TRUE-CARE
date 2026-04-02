@@ -174,6 +174,9 @@ export const adminCreateUser = async (req: AuthRequest, res: Response) => {
 
         res.status(201).json(user);
     } catch (error: any) {
+        if (error.code === 'P2002') { // Prisma unique constraint violation
+            return res.status(400).json({ message: "Email already in system" });
+        }
         console.error('CRITICAL: adminCreateUser failure:', {
             errorMessage: error.message,
             stack: error.stack,
