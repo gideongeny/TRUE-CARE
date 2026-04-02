@@ -27,7 +27,7 @@ export default function UserModal({ isOpen, onClose, onSuccess, role }: UserModa
     });
 
     const handleShare = async (u: any, amount: string) => {
-        const message = `Hello ${u.profile?.firstName}, welcome to TRUE-CARE. Your account has been initialized. Please complete your registration by paying the initial service fee of KSh ${amount} to I&M Paybill: 05508876433050, Account: 542 542. Once paid, please reply with your confirmation for instant activation. Thank you!`;
+        const message = `🌟 Welcome to TRUE-CARE, ${u.profile?.firstName}!\n\nYour account has been initialized.\n\n💳 Required Commitment Fee: KSh ${amount}\n🏦 Paybill: 05508876433050\n💼 Account No: 542 542\n\nOnce paid, please reply with your confirmation for instant activation. Thank you!`;
         
         if (navigator.share) {
             try {

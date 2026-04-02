@@ -141,7 +141,7 @@ export default function AdminOverview() {
 
     const handleShareOnboarding = async (patient: any) => {
         const amount = Number(patient.profile?.balance || 0).toLocaleString();
-        const message = `TRUE-CARE ACCESS GRANTED\n\nSubject: ${patient.profile?.firstName} ${patient.profile?.lastName}\nRole: ${patient.role}\nEmail: ${patient.email}\nPassword: [System Default or Personal]\n\nInitial Commitment Fee / Balance Due: KSh ${amount}\n\nDashboard: https://true-care-blond.vercel.app/login\n\nWelcome to the Care Network.`;
+        const message = `🌟 Welcome to TRUE-CARE!\n\nYour account for ${patient.profile?.firstName} ${patient.profile?.lastName} is now active.\n\n📧 Email: ${patient.email}\n🔑 Password: [Temporary Password]\n\n💳 Commitment Fee: KSh ${amount}\n\nLog in here: https://true-care-blond.vercel.app/login\n\nWe are glad to have you with us!`;
         
         try {
             if (navigator.share) {
