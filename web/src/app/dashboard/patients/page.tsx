@@ -31,7 +31,7 @@ export default function PatientsPage() {
     const fetchPatients = async () => {
         setLoading(true);
         try {
-            const response = await api.get('/users');
+            const response = await api.get('/admin/users');
             const data = response.data.filter((u: any) => u.role === 'PATIENT');
             setPatients(data);
         } catch (err) {

@@ -105,15 +105,15 @@ export default function VerificationPage() {
                     </div>
 
                     <div className="divide-y divide-slate-50">
-                        {queue.filter(c => `${c.firstName} ${c.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())).map((item) => (
+                        {queue.filter(c => `${c.profile?.firstName} ${c.profile?.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())).map((item) => (
                             <div key={item.id} className="p-8 flex items-center justify-between hover:bg-slate-50/50 transition-all group">
                                 <div className="flex items-center gap-6">
                                     <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-blue-50 text-blue-600 font-black">
-                                        {item.firstName?.[0]}{item.lastName?.[0]}
+                                        {item.profile?.firstName?.[0]}{item.profile?.lastName?.[0]}
                                     </div>
                                     <div>
                                         <p className="text-base font-black text-slate-900 uppercase tracking-tight">
-                                            {item.firstName} {item.lastName}
+                                            {item.profile?.firstName} {item.profile?.lastName}
                                         </p>
                                         <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{item.email}</p>
                                     </div>
@@ -122,12 +122,12 @@ export default function VerificationPage() {
                                 <div className="flex items-center gap-8">
                                     <div className="text-right">
                                         <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Status</p>
-                                        <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest ${item.isVerified ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'
+                                        <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest ${item.profile?.isVerified ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'
                                             }`}>
-                                            {item.isVerified ? 'Verified' : 'Pending'}
+                                            {item.profile?.isVerified ? 'Verified' : 'Pending'}
                                         </span>
                                     </div>
-                                    {!item.isVerified && (
+                                    {(!item.profile?.isVerified) && (
                                         <button
                                             onClick={() => handleApprove(item.id)}
                                             className="btn-primary py-3 px-6 text-[10px]"

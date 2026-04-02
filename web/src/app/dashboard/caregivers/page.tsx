@@ -28,7 +28,7 @@ export default function CaregiversListPage() {
     const fetchCaregivers = async () => {
         setLoading(true);
         try {
-            const listRes = await api.get('/users');
+            const listRes = await api.get('/admin/users');
             const filtered = listRes.data.filter((u: any) => u.role === 'CAREGIVER');
             setCaregivers(filtered);
         } catch (error) {

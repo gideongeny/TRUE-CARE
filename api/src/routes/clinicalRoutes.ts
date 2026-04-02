@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { addClinicalLog, getClinicalLogs, getPatientHealthHistory } from '../controllers/clinicalController';
+import { addClinicalLog, getClinicalLogs, getPatientHealthHistory, getAllClinicalHistory } from '../controllers/clinicalController';
 import { authenticate, authorize } from '../middleware/auth';
 
 const router = Router();
@@ -18,5 +18,8 @@ router.get('/my-history', authenticate, (req: any, res: any) => {
     req.params.patientId = req.user.userId;
     return getPatientHealthHistory(req, res);
 });
+
+// Global history for admins
+router.get('/history', authenticate, authorize(['ADMIN']), getAllClinicalHistory);
 
 export default router;

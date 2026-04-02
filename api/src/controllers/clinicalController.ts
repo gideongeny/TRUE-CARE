@@ -102,3 +102,23 @@ export const getPatientHealthHistory = async (req: AuthRequest, res: Response) =
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+export const getAllClinicalHistory = async (req: AuthRequest, res: Response) => {
+    try {
+        const logs = await prisma.clinicalLog.findMany({
+            include: {
+                shift: {
+                    include: {
+                        patient: { include: { profile: true } },
+                        caregiver: { include: { profile: true } }
+                    }
+                }
+            },
+            orderBy: { loggedAt: 'desc' }
+        });
+        res.json(logs);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};

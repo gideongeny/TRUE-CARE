@@ -51,7 +51,8 @@ export default function FinancialsPage() {
     }, []);
 
     const filteredTransactions = transactions.filter(tx =>
-        tx.user?.firstName?.toLowerCase().includes(search.toLowerCase()) ||
+        tx.user?.profile?.firstName?.toLowerCase().includes(search.toLowerCase()) ||
+        tx.user?.profile?.lastName?.toLowerCase().includes(search.toLowerCase()) ||
         tx.id.toLowerCase().includes(search.toLowerCase())
     );
 
@@ -127,7 +128,7 @@ export default function FinancialsPage() {
                                     {filteredTransactions.map(tx => (
                                         <tr key={tx.id} className="group hover:bg-slate-900/30 transition-all">
                                             <td className="px-10 py-8">
-                                                <p className="text-sm font-black text-white uppercase tracking-tight">{tx.user?.firstName} {tx.user?.lastName}</p>
+                                                <p className="text-sm font-black text-white uppercase tracking-tight">{tx.user?.profile?.firstName} {tx.user?.profile?.lastName}</p>
                                                 <p className="text-[9px] text-slate-600 font-bold mt-1 uppercase tracking-widest">{tx.id}</p>
                                             </td>
                                             <td className="px-10 py-8">

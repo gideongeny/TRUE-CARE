@@ -64,7 +64,7 @@ export default function AdminOverview() {
                 const fetchAnalytics = api.get('/admin/shifts/analytics').catch(e => { console.error('Analytics fetch failed', e); return { data: {} }; });
                 const fetchLogs = api.get('/admin/activity/log').catch(e => { console.error('Logs fetch failed', e); return { data: [] }; });
                 const fetchUsers = api.get('/admin/users').catch(e => { console.error('Users fetch failed', e); return { data: [] }; });
-                const fetchOps = api.get('/admin/shifts/analytics').catch(e => { console.error('Live Ops fetch failed', e); return { data: [] }; });
+                const fetchOps = api.get('/admin/operations/live').catch(e => { console.error('Live Ops fetch failed', e); return { data: [] }; });
                 const fetchInsights = api.get('/admin/insights').catch(e => { console.error('Insights fetch failed', e); return { data: null }; });
                 const fetchPayments = api.get('/admin/payments/pending').catch(e => { console.error('Pending Payments fetch failed', e); return { data: [] }; });
 
@@ -264,7 +264,7 @@ export default function AdminOverview() {
     };
 
     const cards = [
-        { label: 'Total Patients', value: stats?.patientCount || 0, icon: Users, trend: (stats?.patientTrend || 0) >= 0 ? `+${stats?.patientTrend || 0}%` : `${stats?.patientTrend || 0}%`, up: (stats?.patientTrend || 0) >= 0, color: 'text-teal-600', bg: 'bg-teal-50' },
+        { label: 'Total Patients', value: insights?.patientCount || 0, icon: Users, trend: (stats?.patientTrend || 0) >= 0 ? `+${stats?.patientTrend || 0}%` : `${stats?.patientTrend || 0}%`, up: (stats?.patientTrend || 0) >= 0, color: 'text-teal-600', bg: 'bg-teal-50' },
         { label: 'Pending Payouts', value: insights?.pendingPayouts?.amount || 0, icon: TrendingUp, trend: `${insights?.pendingPayouts?.count || 0} Req`, up: true, color: 'text-rose-600', bg: 'bg-rose-50' },
         { label: 'Clinical Intensity', value: insights?.clinicalActivity?.last24hLogs || 0, icon: Stethoscope, trend: '24HR', up: true, color: 'text-amber-600', bg: 'bg-amber-50' },
         { label: 'Verification Queue', value: insights?.operational?.verificationQueue || 0, icon: ShieldCheck, trend: 'ACTION', up: false, color: 'text-emerald-600', bg: 'bg-emerald-50' },
