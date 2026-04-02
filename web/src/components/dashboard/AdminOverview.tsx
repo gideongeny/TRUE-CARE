@@ -21,7 +21,8 @@ import {
     Sparkles,
     Brain,
     Check,
-    X as CloseIcon
+    X as CloseIcon,
+    Trash2
 } from 'lucide-react';
 import api from '@/lib/api';
 import UserModal from './UserModal';
@@ -139,7 +140,8 @@ export default function AdminOverview() {
     };
 
     const handleShareOnboarding = async (patient: any) => {
-        const message = `TRUE-CARE ACCESS GRANTED\n\nSubject: ${patient.profile?.firstName} ${patient.profile?.lastName}\nRole: ${patient.role}\nEmail: ${patient.email}\nPassword: [System Default or Personal]\n\nDashboard: https://true-care-blond.vercel.app/login\n\nWelcome to the Care Network.`;
+        const amount = Number(patient.profile?.balance || 0).toLocaleString();
+        const message = `TRUE-CARE ACCESS GRANTED\n\nSubject: ${patient.profile?.firstName} ${patient.profile?.lastName}\nRole: ${patient.role}\nEmail: ${patient.email}\nPassword: [System Default or Personal]\n\nInitial Commitment Fee / Balance Due: KSh ${amount}\n\nDashboard: https://true-care-blond.vercel.app/login\n\nWelcome to the Care Network.`;
         
         try {
             if (navigator.share) {
@@ -405,9 +407,10 @@ export default function AdminOverview() {
                                                                 setPatients(prev => prev.filter(p => p.id !== patient.id));
                                                             }
                                                         }}
-                                                        className="p-2 text-slate-300 hover:text-rose-500 transition-colors"
+                                                        className="p-2 text-slate-300 hover:text-rose-600 transition-colors"
+                                                        title="Soft-Delete Profile"
                                                     >
-                                                        <Activity className="w-4 h-4" />
+                                                        <Trash2 className="w-4 h-4" />
                                                     </button>
                                                 </div>
                                             </td>
@@ -539,13 +542,14 @@ export default function AdminOverview() {
                                         <button
                                             onClick={() => handleConfirmPayment(p.id)}
                                             className="w-10 h-10 rounded-xl bg-teal-500 text-slate-900 flex items-center justify-center hover:scale-110 transition-transform shadow-lg shadow-teal-500/20"
-                                            title="Confirm Receipt"
+                                            title="Confirm Manual Payment Receipt"
                                         >
                                             <Check className="w-5 h-5" strokeWidth={3} />
                                         </button>
                                         <button
                                             onClick={() => handleRejectPayment(p.id)}
                                             className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white/30 hover:text-rose-500 transition-colors"
+                                            title="Reject & Purge Payment Request"
                                         >
                                             <CloseIcon className="w-5 h-5" />
                                         </button>

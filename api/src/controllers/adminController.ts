@@ -363,5 +363,40 @@ export const getFinancialDashboard = async (req: AuthRequest, res: Response) => 
     }
 };
 export const getPatientFinancialDetails = async (req: AuthRequest, res: Response) => res.json({});
-export const getPlatformAnalytics = async (req: AuthRequest, res: Response) => res.json({});
+export const getPlatformAnalytics = async (req: AuthRequest, res: Response) => {
+    try {
+        const totalRevenue = await prisma.payment.aggregate({
+            where: { status: 'SUCCESS' },
+            _sum: { amount: true }
+        });
+
+        const patientCount = await prisma.user.count({ where: { role: 'PATIENT' } });
+        const caregiverCount = await prisma.user.count({ where: { role: 'CAREGIVER' } });
+        const requestCount = await prisma.serviceRequest.count();
+
+        // Revenue by day (last 30 days)
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+        
+        const revenueTrend = await prisma.payment.findMany({
+            where: {
+                status: 'SUCCESS',
+                createdAt: { gte: thirtyDaysAgo }
+            },
+            select: { amount: true, createdAt: true }
+        });
+
+        res.json({
+            metrics: {
+                totalRevenue: totalRevenue._sum.amount || 0,
+                activePatients: patientCount,
+                verifiedPersonnel: caregiverCount,
+                totalRequests: requestCount
+            },
+            revenueTrend
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Analytics generation failed" });
+    }
+};
 export const updateShiftDetails = async (req: AuthRequest, res: Response) => res.json({});
